@@ -1,0 +1,77 @@
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+
+# Eclipse-related files #
+#########################
+.metadata/
+bin/
+RemoteSystemsTempFiles/
+.recommenders/
+
+# Custom ignores #
+##################
+
+tomJava/
+.svn/
+sf.eclipse.javacc.prefs
+MatisseOptions.lara
+Matisse.lara
+
+#output/
+.idea/
+### Default folder for executing applications
+**/run/**
+#!**/run/dummy.txt
+!**/run/*.launch
+!**/run/*.deploy
+**/run/*-local.launch
+
+
+### Cache for ivy 
+ivy/
+
+### Ignore Java2Jasmin output
+Kadabra/Java2Jasmin/out
+PerformanceTests/sdvbs-disparity.txt
+
+**/gephi-toolkit-0.9.1-all.jar
+
+### ignore media formats
+*.mp4
+*.wmv
+
+
+# C/C++ Dependencies
+deps/*/*/*
+
+# Build
+**/build/*
+**/build-*/*
+**/cmake-build*/*
+
+
+# Idea IDEs
+**/.idea/misc.xml
+**/.idea/*.iml
+
+# deploy credentials
+*.creds
+
+# deprecated files
+*.deprecated
+
+#debug files
+debug
+debug_
+stderr.txt
+
+# experiments
+/*Experiment/
