@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!-- When changing the joinpoint model, do not forget to update the Clava 
+	document. https://docs.google.com/document/d/1uPrvuVBXHSbjDTfehpEeLDz9hgIr8EuJJJvBc5A70rs/edit#heading=h.hii8b3kunout -->
+<actions>
+
+	<!-- GENERIC ACTIONS FOR ALL JOINPOINTS -->
+
+	<!-- Replaces the current node with the given node -->
+	<action name="replaceWith" return="joinpoint" tooltip="Replaces this node with the given node">
+		<parameter name="node" type="joinpoint" />
+	</action>
+	
+	<action name="replaceWith" return="joinpoint" tooltip="Overload which accepts a string">
+		<parameter name="node" type="String" />
+	</action>
+
+	<!-- Replaces the current node with a list of nodes -->
+	<action name="replaceWith" return="joinpoint" tooltip="Overload which accepts a list of join points">
+		<parameter name="node" type="joinpoint[]" />
+	</action>
+	
+	<action name="replaceWithStrings" return="joinpoint" tooltip="Overload which accepts a list of strings">
+		<parameter name="node" type="String[]" />
+	</action>	
+
+	<!-- Inserts node before the given node -->
+	<action name="insertBefore" return="joinpoint" tooltip="Inserts the given join point before this join point">
+		<parameter name="node" type="joinpoint" />
+	</action>
+
+	<!-- Overload which accepts String -->
+	<action name="insertBefore" return="joinpoint" tooltip="Overload which accepts a string">
+		<parameter name="node" type="String" />
+	</action>
+
+	<!-- Inserts node after the given node -->
+	<action name="insertAfter" return="joinpoint" tooltip="Inserts the given join point after this join point">
+		<parameter name="node" type="joinpoint"/>
+	</action>
+
+	<!-- Overload which accepts String -->
+	<action name="insertAfter" return="joinpoint" tooltip="Overload which accepts a string">
+		<parameter name="code" type="String" />
+	</action>
+
+
+	<!-- Removes node associated to the joinpoint from the AST -->
+	<action name="detach" return="joinpoint" tooltip="Removes the node associated to this joinpoint from the AST"/>
+
+
+</actions>
