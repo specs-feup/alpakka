@@ -26,6 +26,7 @@ public class MethodNode extends SmaliNode {
 		var name = (String) attributes.get("name");
 		var prototype = (MethodPrototype) attributes.get("prototype");
 		var accessList = (ArrayList<String>) attributes.get("accessOrRestrictionList");
+		var registersDirective = (RegistersDirective) attributes.get("registersOrLocals");
 
 		var builder = new StringBuilder();
 		builder.append(".method ");
@@ -33,6 +34,8 @@ public class MethodNode extends SmaliNode {
 		builder.append(name);
 		builder.append(prototype.getCode());
 		builder.append("\n");
+
+		builder.append("\t").append(registersDirective.getCode()).append("\n");
 
 		getChildren().forEach(c -> builder.append("\t").append(c.getCode()).append("\n"));
 

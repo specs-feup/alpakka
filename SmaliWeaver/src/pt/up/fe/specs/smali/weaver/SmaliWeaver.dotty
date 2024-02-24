@@ -11,12 +11,10 @@ edge [fontsize=10]
 "instructionFormat21cField"->"instruction"
 "instructionFormat21cString"->"instruction"
 "instructionFormat35cMethod"->"instruction"
-"localsNode"->"joinpoint"
 "methodNode"->"joinpoint"
 "methodPrototype"->"joinpoint"
 "placeholder"->"joinpoint"
 "primitiveType"->"joinpoint"
 "registerReference"->"joinpoint"
-"registersNode"->"joinpoint"
 "type"->"joinpoint"
 }

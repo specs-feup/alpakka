@@ -24,11 +24,6 @@
 	<!-- REGISTERS REFERENCES -->
 	<joinpoint class="registerReference" tooltip="Register reference"/>
 	
-	<!-- REGISTERS STATEMENTS -->
-	<joinpoint class="registersNode" tooltip="Registers node"/>
-	
-	<joinpoint class="localsNode" tooltip="Locals node"/>
-	
 	<!-- INSTRUCTIONS -->
 	<joinpoint class="instruction" tooltip="Instruction"/>
 	

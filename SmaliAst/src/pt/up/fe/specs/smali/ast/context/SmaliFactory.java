@@ -11,13 +11,12 @@ import pt.up.fe.specs.smali.ast.ClassNode;
 import pt.up.fe.specs.smali.ast.MethodNode;
 import pt.up.fe.specs.smali.ast.Placeholder;
 import pt.up.fe.specs.smali.ast.RegisterReference;
+import pt.up.fe.specs.smali.ast.RegistersDirective;
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.ast.stmt.InstructionFormat10x;
 import pt.up.fe.specs.smali.ast.stmt.InstructionFormat21cField;
 import pt.up.fe.specs.smali.ast.stmt.InstructionFormat21cString;
 import pt.up.fe.specs.smali.ast.stmt.InstructionFormat35cMethod;
-import pt.up.fe.specs.smali.ast.stmt.LocalsNode;
-import pt.up.fe.specs.smali.ast.stmt.RegistersNode;
 import pt.up.fe.specs.smali.ast.type.ArrayType;
 import pt.up.fe.specs.smali.ast.type.ClassType;
 import pt.up.fe.specs.smali.ast.type.MethodPrototype;
@@ -77,18 +76,11 @@ public class SmaliFactory {
 		return new ClassNode(data, children);
 	}
 
-	public RegistersNode registersNode(Integer registers) {
-		var data = newDataStore(RegistersNode.class);
-		data.set(RegistersNode.REGISTERS, registers);
+	public RegistersDirective registersDirective(HashMap<String, Object> attributes) {
+		var data = newDataStore(RegistersDirective.class);
+		data.set(RegistersDirective.ATTRIBUTES, attributes);
 
-		return new RegistersNode(data, null);
-	}
-
-	public LocalsNode localsNode(Integer locals) {
-		var data = newDataStore(LocalsNode.class);
-		data.set(LocalsNode.LOCALS, locals);
-
-		return new LocalsNode(data, null);
+		return new RegistersDirective(data, null);
 	}
 
 	public MethodNode methodNode(HashMap<String, Object> attributes, List<? extends SmaliNode> children) {

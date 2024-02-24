@@ -205,11 +205,11 @@ public class SmaliParser {
 					accessOrRestrictionList.add(node.getChild(i).getChild(j).getText());
 				}
 			}
-			case smaliParser.I_REGISTERS -> {
-				children.add(factory.registersNode(Integer.parseInt(node.getChild(i).getChild(0).getText())));
-			}
-			case smaliParser.I_LOCALS -> {
-				children.add(factory.localsNode(Integer.parseInt(node.getChild(i).getChild(0).getText())));
+			case smaliParser.I_REGISTERS, smaliParser.I_LOCALS -> {
+				var directiveAttributes = new HashMap<String, Object>();
+				directiveAttributes.put("type", parser.getTokenNames()[node.getChild(i).getType()]);
+				directiveAttributes.put("value", Integer.parseInt(node.getChild(i).getChild(0).getText()));
+				methodAttributes.put("registersOrLocals", factory.registersDirective(directiveAttributes));
 			}
 			case smaliParser.I_ORDERED_METHOD_ITEMS -> {
 				for (int j = 0; j < node.getChild(i).getChildCount(); j++) {

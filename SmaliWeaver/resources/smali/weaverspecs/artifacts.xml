@@ -42,11 +42,6 @@
 	
 	<!-- REGISTERS REFERENCES -->
 	<artifact class="registerReference" />
-	
-	<!-- REGISTERS STATEMENTS -->	
-	<artifact class="registersNode" />
-	
-	<artifact class="localsNode" />
 		
 	<!-- INSTRUCTIONS -->
 	<artifact class="instruction" />
