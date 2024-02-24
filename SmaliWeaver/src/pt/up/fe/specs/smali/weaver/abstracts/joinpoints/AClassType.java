@@ -10,36 +10,61 @@ import java.util.stream.Collectors;
 import java.util.Arrays;
 
 /**
- * Auto-Generated class for join point APlaceholder
+ * Auto-Generated class for join point AClassType
  * This class is overwritten by the Weaver Generator.
  * 
- * Placeholder node
+ * Class descriptor
  * @author Lara Weaver Generator
  */
-public abstract class APlaceholder extends ASmaliWeaverJoinPoint {
+public abstract class AClassType extends ASmaliWeaverJoinPoint {
 
     /**
-     * Get value on attribute kind
+     * Get value on attribute className
      * @return the attribute's value
      */
-    public abstract String getKindImpl();
+    public abstract String getClassNameImpl();
 
     /**
-     * Get value on attribute kind
+     * Get value on attribute className
      * @return the attribute's value
      */
-    public final Object getKind() {
+    public final Object getClassName() {
         try {
         	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "kind", Optional.empty());
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "className", Optional.empty());
         	}
-        	String result = this.getKindImpl();
+        	String result = this.getClassNameImpl();
         	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "kind", Optional.ofNullable(result));
+        		eventTrigger().triggerAttribute(Stage.END, this, "className", Optional.ofNullable(result));
         	}
         	return result!=null?result:getUndefinedValue();
         } catch(Exception e) {
-        	throw new AttributeException(get_class(), "kind", e);
+        	throw new AttributeException(get_class(), "className", e);
+        }
+    }
+
+    /**
+     * Get value on attribute packageName
+     * @return the attribute's value
+     */
+    public abstract String getPackageNameImpl();
+
+    /**
+     * Get value on attribute packageName
+     * @return the attribute's value
+     */
+    public final Object getPackageName() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "packageName", Optional.empty());
+        	}
+        	String result = this.getPackageNameImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "packageName", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "packageName", e);
         }
     }
 
@@ -73,7 +98,8 @@ public abstract class APlaceholder extends ASmaliWeaverJoinPoint {
     @Override
     protected final void fillWithAttributes(List<String> attributes) {
         super.fillWithAttributes(attributes);
-        attributes.add("kind");
+        attributes.add("className");
+        attributes.add("packageName");
     }
 
     /**
@@ -98,13 +124,14 @@ public abstract class APlaceholder extends ASmaliWeaverJoinPoint {
      */
     @Override
     public final String get_class() {
-        return "placeholder";
+        return "classType";
     }
     /**
      * 
      */
-    protected enum PlaceholderAttributes {
-        KIND("kind"),
+    protected enum ClassTypeAttributes {
+        CLASSNAME("className"),
+        PACKAGENAME("packageName"),
         ID("id"),
         AST("ast"),
         CODE("code");
@@ -113,13 +140,13 @@ public abstract class APlaceholder extends ASmaliWeaverJoinPoint {
         /**
          * 
          */
-        private PlaceholderAttributes(String name){
+        private ClassTypeAttributes(String name){
             this.name = name;
         }
         /**
          * Return an attribute enumeration item from a given attribute name
          */
-        public static Optional<PlaceholderAttributes> fromString(String name) {
+        public static Optional<ClassTypeAttributes> fromString(String name) {
             return Arrays.asList(values()).stream().filter(attr -> attr.name.equals(name)).findAny();
         }
 
@@ -127,7 +154,7 @@ public abstract class APlaceholder extends ASmaliWeaverJoinPoint {
          * Return a list of attributes in String format
          */
         public static List<String> getNames() {
-            return Arrays.asList(values()).stream().map(PlaceholderAttributes::name).collect(Collectors.toList());
+            return Arrays.asList(values()).stream().map(ClassTypeAttributes::name).collect(Collectors.toList());
         }
 
         /**

@@ -6,20 +6,20 @@ import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.APlaceholder;
 
 public class PlaceholderJp extends APlaceholder {
 
-    private final Placeholder placeholder;
+	private final Placeholder placeholder;
 
-    public PlaceholderJp(Placeholder placeholder) {
-        this.placeholder = placeholder;
-    }
+	public PlaceholderJp(Placeholder placeholder) {
+		this.placeholder = placeholder;
+	}
 
-    @Override
-    public SmaliNode getNode() {
-        return placeholder;
-    }
+	@Override
+	public SmaliNode getNode() {
+		return placeholder;
+	}
 
-    @Override
-    public String getKindImpl() {
-        return placeholder.get(Placeholder.KIND);
-    }
+	@Override
+	public String getKindImpl() {
+		return placeholder.get(Placeholder.KIND);
+	}
 
 }

@@ -1,47 +1,20 @@
 package pt.up.fe.specs.smali.weaver.abstracts.joinpoints;
 
-import org.lara.interpreter.weaver.interf.events.Stage;
-import java.util.Optional;
-import org.lara.interpreter.exception.AttributeException;
 import pt.up.fe.specs.smali.weaver.abstracts.ASmaliWeaverJoinPoint;
 import java.util.List;
 import org.lara.interpreter.weaver.interf.JoinPoint;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.Arrays;
 
 /**
- * Auto-Generated class for join point APlaceholder
+ * Auto-Generated class for join point AMethodPrototype
  * This class is overwritten by the Weaver Generator.
  * 
- * Placeholder node
+ * Method prototype
  * @author Lara Weaver Generator
  */
-public abstract class APlaceholder extends ASmaliWeaverJoinPoint {
-
-    /**
-     * Get value on attribute kind
-     * @return the attribute's value
-     */
-    public abstract String getKindImpl();
-
-    /**
-     * Get value on attribute kind
-     * @return the attribute's value
-     */
-    public final Object getKind() {
-        try {
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "kind", Optional.empty());
-        	}
-        	String result = this.getKindImpl();
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "kind", Optional.ofNullable(result));
-        	}
-        	return result!=null?result:getUndefinedValue();
-        } catch(Exception e) {
-        	throw new AttributeException(get_class(), "kind", e);
-        }
-    }
+public abstract class AMethodPrototype extends ASmaliWeaverJoinPoint {
 
     /**
      * 
@@ -73,7 +46,6 @@ public abstract class APlaceholder extends ASmaliWeaverJoinPoint {
     @Override
     protected final void fillWithAttributes(List<String> attributes) {
         super.fillWithAttributes(attributes);
-        attributes.add("kind");
     }
 
     /**
@@ -98,13 +70,12 @@ public abstract class APlaceholder extends ASmaliWeaverJoinPoint {
      */
     @Override
     public final String get_class() {
-        return "placeholder";
+        return "methodPrototype";
     }
     /**
      * 
      */
-    protected enum PlaceholderAttributes {
-        KIND("kind"),
+    protected enum MethodPrototypeAttributes {
         ID("id"),
         AST("ast"),
         CODE("code");
@@ -113,13 +84,13 @@ public abstract class APlaceholder extends ASmaliWeaverJoinPoint {
         /**
          * 
          */
-        private PlaceholderAttributes(String name){
+        private MethodPrototypeAttributes(String name){
             this.name = name;
         }
         /**
          * Return an attribute enumeration item from a given attribute name
          */
-        public static Optional<PlaceholderAttributes> fromString(String name) {
+        public static Optional<MethodPrototypeAttributes> fromString(String name) {
             return Arrays.asList(values()).stream().filter(attr -> attr.name.equals(name)).findAny();
         }
 
@@ -127,7 +98,7 @@ public abstract class APlaceholder extends ASmaliWeaverJoinPoint {
          * Return a list of attributes in String format
          */
         public static List<String> getNames() {
-            return Arrays.asList(values()).stream().map(PlaceholderAttributes::name).collect(Collectors.toList());
+            return Arrays.asList(values()).stream().map(MethodPrototypeAttributes::name).collect(Collectors.toList());
         }
 
         /**

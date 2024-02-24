@@ -42,6 +42,2539 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "String with the code represented by this node",
+						"children": [
+									{
+										"type": "String",
+										"name": "code"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "The id of the node",
+						"children": [
+									{
+										"type": "String",
+										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "true if the current join point is an instance of the given type",
+						"children": [
+									{
+										"type": "Boolean",
+										"name": "instanceOf"
+									},
+									{
+										"type": "String",
+										"name": "name"
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "insert"
+									},
+									{
+										"type": "[before| after| replace]",
+										"name": "position",
+										"defaultValue": ""
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "def"
+									},
+									{
+										"type": "String",
+										"name": "attribute",
+										"defaultValue": ""
+									},
+									{
+										"type": "Object",
+										"name": "value",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Removes the node associated to this joinpoint from the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "detach"
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point after this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point before this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Replaces this node with the given node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of join points",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of strings",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWithStrings"
+									},
+									{
+										"type": "String[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					}]
+		},
+		{
+			"type": "joinpoint",
+			"name": "arrayType",
+			"extends": "joinpoint"		,
+			"tooltip": "Array descriptor",
+			"children": [
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "attributes"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "selects"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "actions"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String representation of the ast",
+						"children": [
+									{
+										"type": "String",
+										"name": "ast"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String with the code represented by this node",
+						"children": [
+									{
+										"type": "String",
+										"name": "code"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "The id of the node",
+						"children": [
+									{
+										"type": "String",
+										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "true if the current join point is an instance of the given type",
+						"children": [
+									{
+										"type": "Boolean",
+										"name": "instanceOf"
+									},
+									{
+										"type": "String",
+										"name": "name"
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "insert"
+									},
+									{
+										"type": "[before| after| replace]",
+										"name": "position",
+										"defaultValue": ""
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "def"
+									},
+									{
+										"type": "String",
+										"name": "attribute",
+										"defaultValue": ""
+									},
+									{
+										"type": "Object",
+										"name": "value",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Removes the node associated to this joinpoint from the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "detach"
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point after this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point before this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Replaces this node with the given node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of join points",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of strings",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWithStrings"
+									},
+									{
+										"type": "String[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					}]
+		},
+		{
+			"type": "joinpoint",
+			"name": "classNode",
+			"extends": "joinpoint"		,
+			"tooltip": "Class definition",
+			"children": [
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "attributes"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "selects"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "actions"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String representation of the ast",
+						"children": [
+									{
+										"type": "String",
+										"name": "ast"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String with the code represented by this node",
+						"children": [
+									{
+										"type": "String",
+										"name": "code"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "The id of the node",
+						"children": [
+									{
+										"type": "String",
+										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "true if the current join point is an instance of the given type",
+						"children": [
+									{
+										"type": "Boolean",
+										"name": "instanceOf"
+									},
+									{
+										"type": "String",
+										"name": "name"
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "insert"
+									},
+									{
+										"type": "[before| after| replace]",
+										"name": "position",
+										"defaultValue": ""
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "def"
+									},
+									{
+										"type": "String",
+										"name": "attribute",
+										"defaultValue": ""
+									},
+									{
+										"type": "Object",
+										"name": "value",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Removes the node associated to this joinpoint from the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "detach"
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point after this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point before this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Replaces this node with the given node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of join points",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of strings",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWithStrings"
+									},
+									{
+										"type": "String[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					}]
+		},
+		{
+			"type": "joinpoint",
+			"name": "classType",
+			"extends": "joinpoint"		,
+			"tooltip": "Class descriptor",
+			"children": [
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String",
+										"name": "className"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String",
+										"name": "packageName"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "attributes"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "selects"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "actions"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String representation of the ast",
+						"children": [
+									{
+										"type": "String",
+										"name": "ast"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String with the code represented by this node",
+						"children": [
+									{
+										"type": "String",
+										"name": "code"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "The id of the node",
+						"children": [
+									{
+										"type": "String",
+										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "true if the current join point is an instance of the given type",
+						"children": [
+									{
+										"type": "Boolean",
+										"name": "instanceOf"
+									},
+									{
+										"type": "String",
+										"name": "name"
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "insert"
+									},
+									{
+										"type": "[before| after| replace]",
+										"name": "position",
+										"defaultValue": ""
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "def"
+									},
+									{
+										"type": "String",
+										"name": "attribute",
+										"defaultValue": ""
+									},
+									{
+										"type": "Object",
+										"name": "value",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Removes the node associated to this joinpoint from the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "detach"
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point after this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point before this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Replaces this node with the given node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of join points",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of strings",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWithStrings"
+									},
+									{
+										"type": "String[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					}]
+		},
+		{
+			"type": "joinpoint",
+			"name": "instruction",
+			"extends": "joinpoint"		,
+			"tooltip": "Instruction",
+			"children": [
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "attributes"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "selects"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "actions"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String representation of the ast",
+						"children": [
+									{
+										"type": "String",
+										"name": "ast"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String with the code represented by this node",
+						"children": [
+									{
+										"type": "String",
+										"name": "code"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "The id of the node",
+						"children": [
+									{
+										"type": "String",
+										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "true if the current join point is an instance of the given type",
+						"children": [
+									{
+										"type": "Boolean",
+										"name": "instanceOf"
+									},
+									{
+										"type": "String",
+										"name": "name"
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "insert"
+									},
+									{
+										"type": "[before| after| replace]",
+										"name": "position",
+										"defaultValue": ""
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "def"
+									},
+									{
+										"type": "String",
+										"name": "attribute",
+										"defaultValue": ""
+									},
+									{
+										"type": "Object",
+										"name": "value",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Removes the node associated to this joinpoint from the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "detach"
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point after this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point before this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Replaces this node with the given node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of join points",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of strings",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWithStrings"
+									},
+									{
+										"type": "String[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					}]
+		},
+		{
+			"type": "joinpoint",
+			"name": "instructionFormat10x",
+			"extends": "instruction"		,
+			"tooltip": "Instruction format 10x",
+			"children": [
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "attributes"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "selects"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "actions"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String representation of the ast",
+						"children": [
+									{
+										"type": "String",
+										"name": "ast"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String with the code represented by this node",
+						"children": [
+									{
+										"type": "String",
+										"name": "code"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "The id of the node",
+						"children": [
+									{
+										"type": "String",
+										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "true if the current join point is an instance of the given type",
+						"children": [
+									{
+										"type": "Boolean",
+										"name": "instanceOf"
+									},
+									{
+										"type": "String",
+										"name": "name"
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "insert"
+									},
+									{
+										"type": "[before| after| replace]",
+										"name": "position",
+										"defaultValue": ""
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "def"
+									},
+									{
+										"type": "String",
+										"name": "attribute",
+										"defaultValue": ""
+									},
+									{
+										"type": "Object",
+										"name": "value",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Removes the node associated to this joinpoint from the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "detach"
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point after this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point before this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Replaces this node with the given node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of join points",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of strings",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWithStrings"
+									},
+									{
+										"type": "String[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					}]
+		},
+		{
+			"type": "joinpoint",
+			"name": "instructionFormat21cField",
+			"extends": "instruction"		,
+			"tooltip": "Instruction format 21c field",
+			"children": [
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "attributes"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "selects"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "actions"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String representation of the ast",
+						"children": [
+									{
+										"type": "String",
+										"name": "ast"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String with the code represented by this node",
+						"children": [
+									{
+										"type": "String",
+										"name": "code"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "The id of the node",
+						"children": [
+									{
+										"type": "String",
+										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "true if the current join point is an instance of the given type",
+						"children": [
+									{
+										"type": "Boolean",
+										"name": "instanceOf"
+									},
+									{
+										"type": "String",
+										"name": "name"
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "insert"
+									},
+									{
+										"type": "[before| after| replace]",
+										"name": "position",
+										"defaultValue": ""
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "def"
+									},
+									{
+										"type": "String",
+										"name": "attribute",
+										"defaultValue": ""
+									},
+									{
+										"type": "Object",
+										"name": "value",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Removes the node associated to this joinpoint from the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "detach"
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point after this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point before this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Replaces this node with the given node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of join points",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of strings",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWithStrings"
+									},
+									{
+										"type": "String[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					}]
+		},
+		{
+			"type": "joinpoint",
+			"name": "instructionFormat21cString",
+			"extends": "instruction"		,
+			"tooltip": "Instruction format 21c string",
+			"children": [
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "attributes"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "selects"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "actions"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String representation of the ast",
+						"children": [
+									{
+										"type": "String",
+										"name": "ast"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String with the code represented by this node",
+						"children": [
+									{
+										"type": "String",
+										"name": "code"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "The id of the node",
+						"children": [
+									{
+										"type": "String",
+										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "true if the current join point is an instance of the given type",
+						"children": [
+									{
+										"type": "Boolean",
+										"name": "instanceOf"
+									},
+									{
+										"type": "String",
+										"name": "name"
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "insert"
+									},
+									{
+										"type": "[before| after| replace]",
+										"name": "position",
+										"defaultValue": ""
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "def"
+									},
+									{
+										"type": "String",
+										"name": "attribute",
+										"defaultValue": ""
+									},
+									{
+										"type": "Object",
+										"name": "value",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Removes the node associated to this joinpoint from the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "detach"
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point after this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point before this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Replaces this node with the given node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of join points",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of strings",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWithStrings"
+									},
+									{
+										"type": "String[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					}]
+		},
+		{
+			"type": "joinpoint",
+			"name": "instructionFormat35cMethod",
+			"extends": "instruction"		,
+			"tooltip": "Instruction format 35c method",
+			"children": [
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "attributes"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "selects"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "actions"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String representation of the ast",
+						"children": [
+									{
+										"type": "String",
+										"name": "ast"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String with the code represented by this node",
+						"children": [
+									{
+										"type": "String",
+										"name": "code"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "The id of the node",
+						"children": [
+									{
+										"type": "String",
+										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "true if the current join point is an instance of the given type",
+						"children": [
+									{
+										"type": "Boolean",
+										"name": "instanceOf"
+									},
+									{
+										"type": "String",
+										"name": "name"
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "insert"
+									},
+									{
+										"type": "[before| after| replace]",
+										"name": "position",
+										"defaultValue": ""
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "def"
+									},
+									{
+										"type": "String",
+										"name": "attribute",
+										"defaultValue": ""
+									},
+									{
+										"type": "Object",
+										"name": "value",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Removes the node associated to this joinpoint from the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "detach"
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point after this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point before this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Replaces this node with the given node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of join points",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of strings",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWithStrings"
+									},
+									{
+										"type": "String[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					}]
+		},
+		{
+			"type": "joinpoint",
+			"name": "localsNode",
+			"extends": "joinpoint"		,
+			"tooltip": "Locals node",
+			"children": [
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "attributes"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "selects"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "actions"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String representation of the ast",
+						"children": [
+									{
+										"type": "String",
+										"name": "ast"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String with the code represented by this node",
+						"children": [
+									{
+										"type": "String",
+										"name": "code"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "The id of the node",
+						"children": [
+									{
+										"type": "String",
+										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "true if the current join point is an instance of the given type",
+						"children": [
+									{
+										"type": "Boolean",
+										"name": "instanceOf"
+									},
+									{
+										"type": "String",
+										"name": "name"
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "insert"
+									},
+									{
+										"type": "[before| after| replace]",
+										"name": "position",
+										"defaultValue": ""
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "def"
+									},
+									{
+										"type": "String",
+										"name": "attribute",
+										"defaultValue": ""
+									},
+									{
+										"type": "Object",
+										"name": "value",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Removes the node associated to this joinpoint from the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "detach"
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point after this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point before this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Replaces this node with the given node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of join points",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of strings",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWithStrings"
+									},
+									{
+										"type": "String[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					}]
+		},
+		{
+			"type": "joinpoint",
+			"name": "methodNode",
+			"extends": "joinpoint"		,
+			"tooltip": "Method definition",
+			"children": [
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "attributes"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "selects"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "actions"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String representation of the ast",
+						"children": [
+									{
+										"type": "String",
+										"name": "ast"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String with the code represented by this node",
+						"children": [
+									{
+										"type": "String",
+										"name": "code"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "The id of the node",
+						"children": [
+									{
+										"type": "String",
+										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "true if the current join point is an instance of the given type",
+						"children": [
+									{
+										"type": "Boolean",
+										"name": "instanceOf"
+									},
+									{
+										"type": "String",
+										"name": "name"
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "insert"
+									},
+									{
+										"type": "[before| after| replace]",
+										"name": "position",
+										"defaultValue": ""
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "def"
+									},
+									{
+										"type": "String",
+										"name": "attribute",
+										"defaultValue": ""
+									},
+									{
+										"type": "Object",
+										"name": "value",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Removes the node associated to this joinpoint from the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "detach"
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point after this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point before this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Replaces this node with the given node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of join points",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of strings",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWithStrings"
+									},
+									{
+										"type": "String[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					}]
+		},
+		{
+			"type": "joinpoint",
+			"name": "methodPrototype",
+			"extends": "joinpoint"		,
+			"tooltip": "Method prototype",
+			"children": [
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "attributes"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "selects"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "actions"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String representation of the ast",
+						"children": [
+									{
+										"type": "String",
+										"name": "ast"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String with the code represented by this node",
+						"children": [
+									{
+										"type": "String",
+										"name": "code"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "The id of the node",
 						"children": [
 									{
@@ -265,6 +2798,927 @@
 									{
 										"type": "String",
 										"name": "ast"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String with the code represented by this node",
+						"children": [
+									{
+										"type": "String",
+										"name": "code"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "The id of the node",
+						"children": [
+									{
+										"type": "String",
+										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "true if the current join point is an instance of the given type",
+						"children": [
+									{
+										"type": "Boolean",
+										"name": "instanceOf"
+									},
+									{
+										"type": "String",
+										"name": "name"
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "insert"
+									},
+									{
+										"type": "[before| after| replace]",
+										"name": "position",
+										"defaultValue": ""
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "def"
+									},
+									{
+										"type": "String",
+										"name": "attribute",
+										"defaultValue": ""
+									},
+									{
+										"type": "Object",
+										"name": "value",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Removes the node associated to this joinpoint from the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "detach"
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point after this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point before this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Replaces this node with the given node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of join points",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of strings",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWithStrings"
+									},
+									{
+										"type": "String[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					}]
+		},
+		{
+			"type": "joinpoint",
+			"name": "primitiveType",
+			"extends": "joinpoint"		,
+			"tooltip": "Primitive descriptor",
+			"children": [
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "attributes"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "selects"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "actions"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String representation of the ast",
+						"children": [
+									{
+										"type": "String",
+										"name": "ast"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String with the code represented by this node",
+						"children": [
+									{
+										"type": "String",
+										"name": "code"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "The id of the node",
+						"children": [
+									{
+										"type": "String",
+										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "true if the current join point is an instance of the given type",
+						"children": [
+									{
+										"type": "Boolean",
+										"name": "instanceOf"
+									},
+									{
+										"type": "String",
+										"name": "name"
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "insert"
+									},
+									{
+										"type": "[before| after| replace]",
+										"name": "position",
+										"defaultValue": ""
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "def"
+									},
+									{
+										"type": "String",
+										"name": "attribute",
+										"defaultValue": ""
+									},
+									{
+										"type": "Object",
+										"name": "value",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Removes the node associated to this joinpoint from the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "detach"
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point after this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point before this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Replaces this node with the given node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of join points",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of strings",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWithStrings"
+									},
+									{
+										"type": "String[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					}]
+		},
+		{
+			"type": "joinpoint",
+			"name": "registerReference",
+			"extends": "joinpoint"		,
+			"tooltip": "Register reference",
+			"children": [
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "attributes"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "selects"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "actions"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String representation of the ast",
+						"children": [
+									{
+										"type": "String",
+										"name": "ast"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String with the code represented by this node",
+						"children": [
+									{
+										"type": "String",
+										"name": "code"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "The id of the node",
+						"children": [
+									{
+										"type": "String",
+										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "true if the current join point is an instance of the given type",
+						"children": [
+									{
+										"type": "Boolean",
+										"name": "instanceOf"
+									},
+									{
+										"type": "String",
+										"name": "name"
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "insert"
+									},
+									{
+										"type": "[before| after| replace]",
+										"name": "position",
+										"defaultValue": ""
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "def"
+									},
+									{
+										"type": "String",
+										"name": "attribute",
+										"defaultValue": ""
+									},
+									{
+										"type": "Object",
+										"name": "value",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Removes the node associated to this joinpoint from the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "detach"
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point after this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point before this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Replaces this node with the given node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of join points",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of strings",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWithStrings"
+									},
+									{
+										"type": "String[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					}]
+		},
+		{
+			"type": "joinpoint",
+			"name": "registersNode",
+			"extends": "joinpoint"		,
+			"tooltip": "Registers node",
+			"children": [
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "attributes"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "selects"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "actions"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String representation of the ast",
+						"children": [
+									{
+										"type": "String",
+										"name": "ast"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String with the code represented by this node",
+						"children": [
+									{
+										"type": "String",
+										"name": "code"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "The id of the node",
+						"children": [
+									{
+										"type": "String",
+										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "true if the current join point is an instance of the given type",
+						"children": [
+									{
+										"type": "Boolean",
+										"name": "instanceOf"
+									},
+									{
+										"type": "String",
+										"name": "name"
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "insert"
+									},
+									{
+										"type": "[before| after| replace]",
+										"name": "position",
+										"defaultValue": ""
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"children": [
+									{
+										"type": "void",
+										"name": "def"
+									},
+									{
+										"type": "String",
+										"name": "attribute",
+										"defaultValue": ""
+									},
+									{
+										"type": "Object",
+										"name": "value",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Removes the node associated to this joinpoint from the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "detach"
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point after this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertAfter"
+									},
+									{
+										"type": "String",
+										"name": "code",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Inserts the given join point before this join point",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "insertBefore"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Replaces this node with the given node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a string",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "String",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of join points",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWith"
+									},
+									{
+										"type": "joinpoint[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					},
+					{
+						"type": "action",
+						"tooltip": "Overload which accepts a list of strings",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "replaceWithStrings"
+									},
+									{
+										"type": "String[]",
+										"name": "node",
+										"defaultValue": ""
+									}]
+					}]
+		},
+		{
+			"type": "joinpoint",
+			"name": "type",
+			"extends": "joinpoint"		,
+			"tooltip": "Type descriptor",
+			"children": [
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "attributes"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "selects"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String[]",
+										"name": "actions"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String representation of the ast",
+						"children": [
+									{
+										"type": "String",
+										"name": "ast"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "String with the code represented by this node",
+						"children": [
+									{
+										"type": "String",
+										"name": "code"
 									}]
 					},
 					{

@@ -1,6 +1,4 @@
 <?xml version="1.0"?>
-<!-- When changing the joinpoint model, do not forget to update the Clava 
-	document. https://docs.google.com/document/d/1uPrvuVBXHSbjDTfehpEeLDz9hgIr8EuJJJvBc5A70rs/edit#heading=h.hii8b3kunout -->
 <artifacts>
 
 
@@ -8,8 +6,11 @@
 	<!-- Global Joinpoint -->
 	<!-- These properties are shared by all joinpoints -->
 	<global>
-		<attribute name="id" type="String"	tooltip="The id of the node" />
-		<attribute name="ast" type="String"	tooltip="String representation of the ast" />
+		<attribute name="id" type="String" tooltip="The id of the node" />
+		<attribute name="ast" type="String"
+			tooltip="String representation of the ast" />
+		<attribute name="code" type="String"
+			tooltip="String with the code represented by this node" />
 	</global>
 
 
@@ -18,6 +19,45 @@
 	<artifact class="placeholder">
 		<attribute name="kind" type="String" />
 	</artifact>
+	
+	<!-- CLASS_DEF -->
+	<artifact class="classNode" />
+	
+	<!-- METHOD -->
+	<artifact class="methodNode" />
+	
+	<!-- TYPES -->
+	<artifact class="type" />
+	
+	<artifact class="classType">
+		<attribute name="className" type="String" />
+		<attribute name="packageName" type="String" />
+	</artifact>
+
+	<artifact class="arrayType" />
+
+	<artifact class="methodPrototype" />
+	
+	<artifact class="primitiveType" />
+	
+	<!-- REGISTERS REFERENCES -->
+	<artifact class="registerReference" />
+	
+	<!-- REGISTERS STATEMENTS -->	
+	<artifact class="registersNode" />
+	
+	<artifact class="localsNode" />
+		
+	<!-- INSTRUCTIONS -->
+	<artifact class="instruction" />
+	
+	<artifact class="instructionFormat10x" />
+	
+	<artifact class="instructionFormat21cField" />
+	
+	<artifact class="instructionFormat21cString" />
+	
+	<artifact class="instructionFormat35cMethod" />
 
 
 </artifacts>

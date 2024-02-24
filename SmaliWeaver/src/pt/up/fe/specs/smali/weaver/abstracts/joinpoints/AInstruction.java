@@ -1,53 +1,26 @@
 package pt.up.fe.specs.smali.weaver.abstracts.joinpoints;
 
-import org.lara.interpreter.weaver.interf.events.Stage;
-import java.util.Optional;
-import org.lara.interpreter.exception.AttributeException;
 import pt.up.fe.specs.smali.weaver.abstracts.ASmaliWeaverJoinPoint;
 import java.util.List;
 import org.lara.interpreter.weaver.interf.JoinPoint;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.Arrays;
 
 /**
- * Auto-Generated class for join point APlaceholder
+ * Auto-Generated class for join point AInstruction
  * This class is overwritten by the Weaver Generator.
  * 
- * Placeholder node
+ * Instruction
  * @author Lara Weaver Generator
  */
-public abstract class APlaceholder extends ASmaliWeaverJoinPoint {
-
-    /**
-     * Get value on attribute kind
-     * @return the attribute's value
-     */
-    public abstract String getKindImpl();
-
-    /**
-     * Get value on attribute kind
-     * @return the attribute's value
-     */
-    public final Object getKind() {
-        try {
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "kind", Optional.empty());
-        	}
-        	String result = this.getKindImpl();
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "kind", Optional.ofNullable(result));
-        	}
-        	return result!=null?result:getUndefinedValue();
-        } catch(Exception e) {
-        	throw new AttributeException(get_class(), "kind", e);
-        }
-    }
+public abstract class AInstruction extends ASmaliWeaverJoinPoint {
 
     /**
      * 
      */
     @Override
-    public final List<? extends JoinPoint> select(String selectName) {
+    public List<? extends JoinPoint> select(String selectName) {
         List<? extends JoinPoint> joinPointList;
         switch(selectName) {
         	default:
@@ -61,7 +34,7 @@ public abstract class APlaceholder extends ASmaliWeaverJoinPoint {
      * 
      */
     @Override
-    public final void defImpl(String attribute, Object value) {
+    public void defImpl(String attribute, Object value) {
         switch(attribute){
         default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
         }
@@ -71,16 +44,15 @@ public abstract class APlaceholder extends ASmaliWeaverJoinPoint {
      * 
      */
     @Override
-    protected final void fillWithAttributes(List<String> attributes) {
+    protected void fillWithAttributes(List<String> attributes) {
         super.fillWithAttributes(attributes);
-        attributes.add("kind");
     }
 
     /**
      * 
      */
     @Override
-    protected final void fillWithSelects(List<String> selects) {
+    protected void fillWithSelects(List<String> selects) {
         super.fillWithSelects(selects);
     }
 
@@ -88,7 +60,7 @@ public abstract class APlaceholder extends ASmaliWeaverJoinPoint {
      * 
      */
     @Override
-    protected final void fillWithActions(List<String> actions) {
+    protected void fillWithActions(List<String> actions) {
         super.fillWithActions(actions);
     }
 
@@ -97,14 +69,13 @@ public abstract class APlaceholder extends ASmaliWeaverJoinPoint {
      * @return The join point type
      */
     @Override
-    public final String get_class() {
-        return "placeholder";
+    public String get_class() {
+        return "instruction";
     }
     /**
      * 
      */
-    protected enum PlaceholderAttributes {
-        KIND("kind"),
+    protected enum InstructionAttributes {
         ID("id"),
         AST("ast"),
         CODE("code");
@@ -113,13 +84,13 @@ public abstract class APlaceholder extends ASmaliWeaverJoinPoint {
         /**
          * 
          */
-        private PlaceholderAttributes(String name){
+        private InstructionAttributes(String name){
             this.name = name;
         }
         /**
          * Return an attribute enumeration item from a given attribute name
          */
-        public static Optional<PlaceholderAttributes> fromString(String name) {
+        public static Optional<InstructionAttributes> fromString(String name) {
             return Arrays.asList(values()).stream().filter(attr -> attr.name.equals(name)).findAny();
         }
 
@@ -127,7 +98,7 @@ public abstract class APlaceholder extends ASmaliWeaverJoinPoint {
          * Return a list of attributes in String format
          */
         public static List<String> getNames() {
-            return Arrays.asList(values()).stream().map(PlaceholderAttributes::name).collect(Collectors.toList());
+            return Arrays.asList(values()).stream().map(InstructionAttributes::name).collect(Collectors.toList());
         }
 
         /**

@@ -323,6 +323,7 @@ public abstract class AJoinPoint extends JoinPoint {
         //Attributes available for all join points
         attributes.add("id");
         attributes.add("ast");
+        attributes.add("code");
     }
 
     /**
@@ -368,6 +369,29 @@ public abstract class AJoinPoint extends JoinPoint {
         	return result!=null?result:getUndefinedValue();
         } catch(Exception e) {
         	throw new AttributeException(get_class(), "ast", e);
+        }
+    }
+
+    /**
+     * String with the code represented by this node
+     */
+    public abstract String getCodeImpl();
+
+    /**
+     * String with the code represented by this node
+     */
+    public final Object getCode() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "code", Optional.empty());
+        	}
+        	String result = this.getCodeImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "code", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "code", e);
         }
     }
 

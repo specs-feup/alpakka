@@ -1,13 +1,43 @@
 <?xml version="1.0"?>
-<!-- 
-	When changing the joinpoint model, do not forget to update the Clava document.
-	
-	https://docs.google.com/document/d/1uPrvuVBXHSbjDTfehpEeLDz9hgIr8EuJJJvBc5A70rs/edit#heading=h.hii8b3kunout
- -->
 <joinpoints root_class="placeholder">
 	 
 	<!-- PLACEHOLDER -->
-	<joinpoint class="placeholder" tooltip="Placeholder node"/>
+	<joinpoint class="placeholder" tooltip="Placeholder node" />
 	
+	<!-- CLASS_DEF -->
+	<joinpoint class="classNode" tooltip="Class definition" />
+	
+	<!-- METHOD -->
+	<joinpoint class="methodNode" tooltip="Method definition" />
+	
+	<!-- TYPES -->
+	<joinpoint class="type" tooltip="Type descriptor"/>
+	
+	<joinpoint class="classType" tooltip="Class descriptor"/>
+	
+	<joinpoint class="arrayType" tooltip="Array descriptor"/>
+	
+	<joinpoint class="methodPrototype" tooltip="Method prototype"/>
+	
+	<joinpoint class="primitiveType" tooltip="Primitive descriptor"/>
+	
+	<!-- REGISTERS REFERENCES -->
+	<joinpoint class="registerReference" tooltip="Register reference"/>
+	
+	<!-- REGISTERS STATEMENTS -->
+	<joinpoint class="registersNode" tooltip="Registers node"/>
+	
+	<joinpoint class="localsNode" tooltip="Locals node"/>
+	
+	<!-- INSTRUCTIONS -->
+	<joinpoint class="instruction" tooltip="Instruction"/>
+	
+	<joinpoint class="instructionFormat10x" extends="instruction" tooltip="Instruction format 10x"/>
+	
+	<joinpoint class="instructionFormat21cField" extends="instruction"  tooltip="Instruction format 21c field"/>
+	
+	<joinpoint class="instructionFormat21cString" extends="instruction" tooltip="Instruction format 21c string"/>
+	
+	<joinpoint class="instructionFormat35cMethod" extends="instruction" tooltip="Instruction format 35c method"/>
 		 	
 </joinpoints>
