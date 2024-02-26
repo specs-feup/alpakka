@@ -10,9 +10,12 @@ import org.suikasoft.jOptions.storedefinition.StoreDefinitions;
 import pt.up.fe.specs.smali.ast.ClassNode;
 import pt.up.fe.specs.smali.ast.MethodNode;
 import pt.up.fe.specs.smali.ast.Placeholder;
-import pt.up.fe.specs.smali.ast.RegisterReference;
 import pt.up.fe.specs.smali.ast.RegistersDirective;
 import pt.up.fe.specs.smali.ast.SmaliNode;
+import pt.up.fe.specs.smali.ast.expr.FieldReference;
+import pt.up.fe.specs.smali.ast.expr.MethodReference;
+import pt.up.fe.specs.smali.ast.expr.RegisterList;
+import pt.up.fe.specs.smali.ast.expr.RegisterReference;
 import pt.up.fe.specs.smali.ast.stmt.InstructionFormat10x;
 import pt.up.fe.specs.smali.ast.stmt.InstructionFormat21cField;
 import pt.up.fe.specs.smali.ast.stmt.InstructionFormat21cString;
@@ -151,30 +154,27 @@ public class SmaliFactory {
 		return new InstructionFormat10x(data, null);
 	}
 
-	public InstructionFormat21cField instructionFormat21cField(String instruction, HashMap<String, Object> attributes) {
+	public InstructionFormat21cField instructionFormat21cField(String instruction, List<? extends SmaliNode> children) {
 		var data = newDataStore(InstructionFormat21cField.class);
 		data.set(InstructionFormat21cField.INSTRUCTION, instruction);
-		data.set(InstructionFormat21cField.ATTRIBUTES, attributes);
 
-		return new InstructionFormat21cField(data, null);
+		return new InstructionFormat21cField(data, children);
 	}
 
 	public InstructionFormat21cString instructionFormat21cString(String instruction,
-			HashMap<String, Object> attributes) {
-		var data = newDataStore(InstructionFormat21cField.class);
-		data.set(InstructionFormat21cField.INSTRUCTION, instruction);
-		data.set(InstructionFormat21cField.ATTRIBUTES, attributes);
+			List<? extends SmaliNode> children) {
+		var data = newDataStore(InstructionFormat21cString.class);
+		data.set(InstructionFormat21cString.INSTRUCTION, instruction);
 
-		return new InstructionFormat21cString(data, null);
+		return new InstructionFormat21cString(data, children);
 	}
 
 	public InstructionFormat35cMethod instructionFormat35cMethod(String instruction,
-			HashMap<String, Object> attributes) {
+			List<? extends SmaliNode> children) {
 		var data = newDataStore(InstructionFormat35cMethod.class);
 		data.set(InstructionFormat35cMethod.INSTRUCTION, instruction);
-		data.set(InstructionFormat35cMethod.ATTRIBUTES, attributes);
 
-		return new InstructionFormat35cMethod(data, null);
+		return new InstructionFormat35cMethod(data, children);
 	}
 
 	public RegisterReference register(String register) {
@@ -182,6 +182,26 @@ public class SmaliFactory {
 		data.set(RegisterReference.REGISTER, register);
 
 		return new RegisterReference(data, null);
+	}
+
+	public RegisterList registerList(List<? extends SmaliNode> children) {
+		var data = newDataStore(RegisterList.class);
+
+		return new RegisterList(data, children);
+	}
+
+	public FieldReference fieldReference(HashMap<String, Object> attributes) {
+		var data = newDataStore(FieldReference.class);
+		data.set(FieldReference.ATTRIBUTES, attributes);
+
+		return new FieldReference(data, null);
+	}
+
+	public MethodReference methodReference(HashMap<String, Object> attributes) {
+		var data = newDataStore(MethodReference.class);
+		data.set(MethodReference.ATTRIBUTES, attributes);
+
+		return new MethodReference(data, null);
 	}
 
 }

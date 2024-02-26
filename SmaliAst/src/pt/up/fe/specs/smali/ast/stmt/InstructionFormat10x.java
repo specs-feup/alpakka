@@ -12,9 +12,4 @@ public class InstructionFormat10x extends Instruction {
 		super(data, children);
 	}
 
-	@Override
-	public String getCode() {
-		return get(INSTRUCTION);
-	}
-
 }

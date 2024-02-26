@@ -27,6 +27,17 @@ public class ClassType extends Type {
 
 	@Override
 	public String getCode() {
-		return "L" + get(PACKAGE_NAME) + "/" + get(CLASS_NAME) + ";";
+		var sb = new StringBuilder();
+		var packageName = get(PACKAGE_NAME);
+
+		sb.append("L");
+
+		if (!packageName.isEmpty()) {
+			sb.append(packageName).append("/");
+		}
+
+		sb.append(get(CLASS_NAME)).append(";");
+
+		return sb.toString();
 	}
 }

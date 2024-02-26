@@ -33,8 +33,6 @@ public class RegistersDirective extends SmaliNode {
 
 		sb.append(value);
 
-		System.out.println(sb.toString());
-
 		return sb.toString();
 	}
 

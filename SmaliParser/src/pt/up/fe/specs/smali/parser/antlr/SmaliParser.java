@@ -15,36 +15,15 @@ import org.antlr.runtime.tree.Tree;
 import org.jf.smali.smaliFlexLexer;
 import org.jf.smali.smaliParser;
 
-import pt.up.fe.specs.smali.ast.RegisterReference;
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.ast.context.SmaliContext;
+import pt.up.fe.specs.smali.ast.expr.RegisterReference;
 import pt.up.fe.specs.smali.ast.type.ClassType;
 import pt.up.fe.specs.smali.ast.type.MethodPrototype;
 import pt.up.fe.specs.smali.ast.type.Type;
 import pt.up.fe.specs.util.SpecsIo;
 
 public class SmaliParser {
-
-//	enum AccessSpec {
-//		PUBLIC, PRIVATE, PROTECTED, STATIC, FINAL, SYNCHRONIZED, BRIDGE, VARARGS, NATIVE, ABSTRACT, STRICTFP, SYNTHETIC,
-//		CONSTRUCTOR, DECLARED_SYNCHRONIZED, INTERFACE, ENUM, ANNOTATION, VOLATILE, TRANSIENT;
-//
-//		public static AccessSpec fromString(String access) {
-//			if (AccessSpec.valueOf(normalize(access)) != null) {
-//				return AccessSpec.valueOf(normalize(access));
-//			}
-//
-//			return null;
-//		}
-//
-//		private static String normalize(String text) {
-//			return text.toUpperCase().replace('-', '_');
-//		}
-//
-////		public static String toString(AccessSpec access) {
-////			return access.toString().toLowerCase().replace('_', '-');
-////		}
-//	}
 
 	private final smaliFlexLexer lex;
 	private final smaliParser parser;
@@ -237,305 +216,86 @@ public class SmaliParser {
 		var factory = context.get(SmaliContext.FACTORY);
 
 		var instruction = node.getChild(0).getText();
-		var attributes = new HashMap<String, Object>();
 
-		attributes.put("register", factory.register(node.getChild(1).getText()));
+		var children = new ArrayList<SmaliNode>();
+
+		var fieldReferenceAttributes = new HashMap<String, Object>();
+
+		children.add(factory.register(node.getChild(1).getText()));
 
 		int i = 2;
 		if (node.getChild(i).getType() != smaliParser.SIMPLE_NAME) {
 			if (node.getChild(i).getType() == smaliParser.CLASS_DESCRIPTOR) {
-				attributes.put("referenceTypeDescriptor", factory.classType(node.getChild(i).getText()));
+				fieldReferenceAttributes.put("referenceTypeDescriptor", factory.classType(node.getChild(i).getText()));
 			} else {
 				i++;
-				attributes.put("referenceTypeDescriptor", factory.arrayType(node.getChild(i).getText()));
+				fieldReferenceAttributes.put("referenceTypeDescriptor", factory.arrayType(node.getChild(i).getText()));
 			}
 			i++;
 		}
 
-		attributes.put("memberName", node.getChild(i).getText());
+		fieldReferenceAttributes.put("memberName", node.getChild(i).getText());
 		i++;
 
 		if (node.getChild(i).getType() == smaliParser.ARRAY_TYPE_PREFIX) {
 			i++;
-			attributes.put("nonVoidTypeDescriptor", factory.arrayType(node.getChild(i).getText()));
+			fieldReferenceAttributes.put("nonVoidTypeDescriptor", factory.arrayType(node.getChild(i).getText()));
 		} else {
-			attributes.put("nonVoidTypeDescriptor", factory.nonVoidType(node.getChild(i).getText()));
+			fieldReferenceAttributes.put("nonVoidTypeDescriptor", factory.nonVoidType(node.getChild(i).getText()));
 		}
 
-		return factory.instructionFormat21cField(instruction, attributes);
+		children.add(factory.fieldReference(fieldReferenceAttributes));
+
+		return factory.instructionFormat21cField(instruction, children);
 	}
 
 	private SmaliNode convertStatementFormat21cString(Tree node) {
 		var factory = context.get(SmaliContext.FACTORY);
 
 		var instruction = node.getChild(0).getText();
-		var attributes = new HashMap<String, Object>();
+		var children = new ArrayList<SmaliNode>();
 
-		attributes.put("register", factory.register(node.getChild(1).getText()));
-		attributes.put("string", node.getChild(2).getText());
+		children.add(factory.register(node.getChild(1).getText()));
+		System.out.println("TODO: " + parser.getTokenNames()[node.getChild(2).getType()]);
 
-		return factory.instructionFormat21cString(instruction, attributes);
+		return factory.instructionFormat21cString(instruction, children);
 	}
 
 	private SmaliNode convertStatementFormat35cMethod(Tree node) {
 		var factory = context.get(SmaliContext.FACTORY);
 
 		var instruction = node.getChild(0).getText();
-		var attributes = new HashMap<String, Object>();
-		var registerList = new ArrayList<RegisterReference>();
+		var children = new ArrayList<SmaliNode>();
+
+		var registerListChildren = new ArrayList<RegisterReference>();
+		var methodReferenceAttributes = new HashMap<String, Object>();
 
 		var rList = node.getChild(1);
 		for (int i = 0; i < rList.getChildCount(); i++) {
-			registerList.add(factory.register(rList.getChild(i).getText()));
+			registerListChildren.add(factory.register(rList.getChild(i).getText()));
 		}
 
-		attributes.put("registerList", registerList);
+		children.add(factory.registerList(registerListChildren));
 
 		int i = 2;
 		if (node.getChild(i).getType() != smaliParser.SIMPLE_NAME) {
 			if (node.getChild(i).getType() == smaliParser.CLASS_DESCRIPTOR) {
-				attributes.put("referenceTypeDescriptor", factory.classType(node.getChild(i).getText()));
+				methodReferenceAttributes.put("referenceTypeDescriptor", factory.classType(node.getChild(i).getText()));
 			} else {
 				i++;
-				attributes.put("referenceTypeDescriptor", factory.arrayType(node.getChild(i).getText()));
+				methodReferenceAttributes.put("referenceTypeDescriptor", factory.arrayType(node.getChild(i).getText()));
 			}
 			i++;
 		}
 
-		attributes.put("memberName", node.getChild(i).getText());
+		methodReferenceAttributes.put("memberName", node.getChild(i).getText());
 		i++;
 
-		attributes.put("prototype", convertMethodPrototype(node.getChild(i)));
+		methodReferenceAttributes.put("prototype", convertMethodPrototype(node.getChild(i)));
 
-		return factory.instructionFormat35cMethod(instruction, attributes);
+		children.add(factory.methodReference(methodReferenceAttributes));
+
+		return factory.instructionFormat35cMethod(instruction, children);
 	}
 
-	// private static void clean(JmmNode root, List<String> ignoreList) {
-	// var cleanup = new JmmNodeCleanup(ignoreList);
-	// cleanup.visit(root);
-	// }
-	//
-	// public static List<String> getIgnoreList(Parser parser) {
-	// try {
-	//
-	// var fields = Arrays.asList(parser.getClass().getDeclaredFields())
-	// .stream()
-	// .filter(f -> f.getName().equals("ignoreList"))
-	// .findFirst()
-	// .map(f -> {
-	// try {
-	// f.setAccessible(true);
-	// return ((String[]) f.get(parser));
-	// } catch (IllegalAccessException e) {
-	// return new String[] {};
-	// }
-	// }).orElse(new String[] {});
-	//
-	// return Arrays.asList(fields);
-	// // if(root.)
-	// } catch (Exception e) {
-	//
-	// // No list of ignores specified.
-	// return Collections.emptyList();
-	// }
-	// }
-	//
-	// private static JmmNode convert(ParseTree node, Parser parser) {
-	// // Get kind
-	// var kind = getKind(node, parser);
-	//
-	// var jmmNode = new JmmNodeImpl(kind);
-	//
-	// // Get hierarchy
-	// addHierarchy(jmmNode, node, parser);
-	//
-	// // Get attributes
-	// addAttributes(jmmNode, node, parser);
-	//
-	// // Get children
-	// addChildren(jmmNode, node, parser);
-	//
-	// return jmmNode;
-	// }
-	//
-	// @SuppressWarnings("unchecked")
-	// private static void addHierarchy(JmmNodeImpl jmmNode, ParseTree node, Parser
-	// parser) {
-	// // If terminal node, it has no hierarchy
-	// if (node instanceof TerminalNode) {
-	// return;
-	// }
-	//
-	// // If terminal node, it has no hierarchy
-	// if (!(node instanceof ParserRuleContext)) {
-	// System.out.println("Don't know how to handle nodes of this class: " +
-	// node.getClass());
-	// return;
-	// }
-	//
-	// // Get hierarchy
-	// var classes = getNodeClasses(node);
-	//
-	// var hierarchy = classes.stream()
-	// .map(aClass -> getKind((Class<? extends ParserRuleContext>) aClass))
-	// .collect(Collectors.toList());
-	//
-	// jmmNode.setHierarchy(hierarchy);
-	// }
-	//
-	// private static void addChildren(JmmNodeImpl jmmNode, ParseTree node, Parser
-	// parser) {
-	//
-	// for (int i = 0; i < node.getChildCount(); i++) {
-	// var child = node.getChild(i);
-	//
-	// // Ignore terminal nodes that do not have a symbolic name
-	// if (child instanceof TerminalNode) {
-	// continue;
-	// }
-	//
-	// jmmNode.add(convert(child, parser));
-	// }
-	// }
-	//
-	// private static void addAttributes(JmmNodeImpl jmmNode, ParseTree node, Parser
-	// parser) {
-	//
-	// // System.out.println("S NAME: " + parser.getSourceName());
-	// // Add line and column
-	// var startPosition = parser.getTokenStream().get(node.getSourceInterval().a);
-	// var endPosition = parser.getTokenStream().get(node.getSourceInterval().b);
-	//
-	// jmmNode.put(NodePosition.LINE_START.getKey(),
-	// Integer.toString(startPosition.getLine()));
-	// jmmNode.put(NodePosition.COL_START.getKey(),
-	// Integer.toString(startPosition.getCharPositionInLine()));
-	//
-	// jmmNode.put(NodePosition.LINE_END.getKey(),
-	// Integer.toString(endPosition.getLine()));
-	// jmmNode.put(NodePosition.COL_END.getKey(),
-	// Integer.toString(endPosition.getCharPositionInLine()));
-	//
-	// if (node instanceof TerminalNode) {
-	// var token = ((TerminalNode) node).getSymbol();
-	// jmmNode.put("value", token.getText());
-	// return;
-	// }
-	//
-	// SpecsCheck.checkArgument(node instanceof ParserRuleContext,
-	// () -> "Expected node '" + node.getClass() + "' to be an instance of " +
-	// ParserRuleContext.class);
-	//
-	// // Get all classes up to ParserRuleContext
-	// var nodeClasses = getNodeClasses(node);
-	//
-	// var fields = nodeClasses.stream()
-	// // Get declaring fields of node classes
-	// .flatMap(nodeClass -> Arrays.asList(nodeClass.getDeclaredFields()).stream())
-	// // Only those that are public
-	// .filter(field -> Modifier.isPublic(field.getModifiers()))
-	// .collect(Collectors.toList());
-	//
-	// for (var field : fields) {
-	//
-	// var name = field.getName();
-	//
-	// try {
-	// // for (var field : node.getClass().getFields()) {
-	// if (!field.getType().isAssignableFrom(Token.class)) {
-	// var value = processValue(field.get(node));
-	// jmmNode.putObject(name, value);
-	// continue;
-	// }
-	//
-	// var token = (Token) field.get(node);
-	//
-	// // If no token for the given field, skip
-	// if (token == null) {
-	// continue;
-	// }
-	//
-	// var literalValue = token.getText();
-	//
-	// SpecsCheck.checkNotNull(literalValue, () -> "Could not extract value from
-	// token");
-	//
-	// jmmNode.put(name, literalValue);
-	// } catch (IllegalAccessException e) {
-	// throw new RuntimeException("Could not access field '" + name + "' from node "
-	// + node);
-	// }
-	// }
-	//
-	// }
-	//
-	// private static Object processValue(Object value) {
-	// // If Token, convert to String
-	// if (value instanceof Token) {
-	// return ((Token) value).getText();
-	// }
-	//
-	// // If List, convert elements
-	// if (value instanceof List) {
-	// return ((List<?>) value).stream()
-	// .map(element -> processValue(element))
-	// .collect(Collectors.toList());
-	// }
-	//
-	// // Return as-is
-	// return value;
-	// }
-	//
-	// private static List<Class<?>> getNodeClasses(ParseTree node) {
-	// var nodeClasses = new ArrayList<Class<?>>();
-	// Class<?> currentNodeClass = node.getClass();
-	// while (!currentNodeClass.equals(ParserRuleContext.class)) {
-	// nodeClasses.add(currentNodeClass);
-	// currentNodeClass = currentNodeClass.getSuperclass();
-	// }
-	// return nodeClasses;
-	// }
-	//
-	// // private static String extractValue(Token token, Parser parser) {
-	// //
-	// // // We know this is safe to use in this case
-	// // if (token instanceof CommonToken) {
-	// // return token.getText();
-	// // }
-	// //
-	// // // This method was being used
-	// // var literalValue = parser.getVocabulary().getLiteralName(token.getType());
-	// // if (literalValue == null) {
-	// // literalValue = token.getText();
-	// // }
-	// // }
-	//
-	// private static String getKind(ParseTree node, Parser parser) {
-	// // Tokens are terminal nodes
-	// if (node instanceof TerminalNode) {
-	// var token = ((TerminalNode) node).getSymbol();
-	// return parser.getVocabulary().getSymbolicName(token.getType());
-	// }
-	//
-	// if (!(node instanceof ParserRuleContext)) {
-	// throw new RuntimeException("Expected node to be of class '" +
-	// ParserRuleContext.class
-	// + "', but got '" + node.getClass() + "'");
-	// }
-	//
-	// return getKind(((ParserRuleContext) node).getClass());
-	// }
-	//
-	// private static String getKind(Class<? extends ParserRuleContext> nodeClass) {
-	//
-	// String className = nodeClass.getSimpleName();
-	//
-	// // Rules end with context
-	// if (!className.endsWith("Context")) {
-	// throw new RuntimeException("Expected classname to end with 'Context' " +
-	// nodeClass.getSimpleName());
-	// }
-	//
-	// return className.substring(0, className.length() - "Context".length());
-	// }
 }
