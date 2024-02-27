@@ -39,7 +39,7 @@ public class MethodNode extends SmaliNode {
 
 		getChildren().forEach(c -> builder.append("\t").append(c.getCode()).append("\n"));
 
-		builder.append(".end method");
+		builder.append(".end method\n");
 
 		return builder.toString();
 	}

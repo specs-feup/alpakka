@@ -63,18 +63,9 @@ public class SmaliFactory {
 		return new Placeholder(data, children);
 	}
 
-	public ClassNode classNode(ClassType classDescriptor, List<String> accessList, ClassType superClassDescriptor,
-			List<ClassType> implementsDesccriptors, String source, List<? extends SmaliNode> children) {
+	public ClassNode classNode(HashMap<String, Object> attributes, List<? extends SmaliNode> children) {
 		var data = newDataStore(ClassNode.class);
-		data.set(ClassNode.CLASS_DESCRIPTOR, classDescriptor);
-		data.set(ClassNode.ACCESS_LIST, accessList);
-		data.set(ClassNode.IMPLEMENTS_DESCRIPTORS, implementsDesccriptors);
-
-		if (superClassDescriptor != null)
-			data.set(ClassNode.SUPER_CLASS_DESCRIPTOR, superClassDescriptor);
-
-		if (source != null)
-			data.set(ClassNode.SOURCE, source);
+		data.set(ClassNode.ATTRIBUTES, attributes);
 
 		return new ClassNode(data, children);
 	}

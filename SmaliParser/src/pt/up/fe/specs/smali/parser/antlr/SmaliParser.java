@@ -15,6 +15,7 @@ import org.antlr.runtime.tree.Tree;
 import org.jf.smali.smaliFlexLexer;
 import org.jf.smali.smaliParser;
 
+import pt.up.fe.specs.smali.ast.AccessSpec;
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.ast.context.SmaliContext;
 import pt.up.fe.specs.smali.ast.expr.RegisterReference;
@@ -94,32 +95,30 @@ public class SmaliParser {
 	private SmaliNode convertClass(Tree node) {
 		var factory = context.get(SmaliContext.FACTORY);
 
-		ClassType classDescriptor = null;
-		var accessList = new ArrayList<String>();
-		ClassType superClassDescriptor = null;
+		var accessList = new ArrayList<AccessSpec>();
 		var implementsDescriptors = new ArrayList<ClassType>();
-		var source = new String();
 
+		var attributes = new HashMap<String, Object>();
 		var children = new ArrayList<SmaliNode>();
 
 		for (int i = 0; i < node.getChildCount(); i++) {
 			switch (node.getChild(i).getType()) {
 			case smaliParser.CLASS_DESCRIPTOR -> {
-				classDescriptor = factory.classType(node.getChild(i).getText());
+				attributes.put("classDescriptor", factory.classType(node.getChild(i).getText()));
 			}
 			case smaliParser.I_ACCESS_LIST -> {
 				for (int j = 0; j < node.getChild(i).getChildCount(); j++) {
-					accessList.add(node.getChild(i).getChild(j).getText());
+					accessList.add(AccessSpec.getFromLabel(node.getChild(i).getChild(j).getText()));
 				}
 			}
 			case smaliParser.I_SUPER -> {
-				superClassDescriptor = factory.classType(node.getChild(i).getChild(0).getText());
+				attributes.put("superClassDescriptor", factory.classType(node.getChild(i).getChild(0).getText()));
 			}
 			case smaliParser.I_IMPLEMENTS -> {
 				implementsDescriptors.add(factory.classType(node.getChild(i).getChild(0).getText()));
 			}
 			case smaliParser.I_SOURCE -> {
-				source = node.getChild(i).getChild(0).getText();
+				attributes.put("source", node.getChild(i).getChild(0).getText());
 			}
 			case smaliParser.I_METHODS, smaliParser.I_FIELDS -> {
 				for (int j = 0; j < node.getChild(i).getChildCount(); j++) {
@@ -132,8 +131,10 @@ public class SmaliParser {
 			}
 		}
 
-		return factory.classNode(classDescriptor, accessList, superClassDescriptor, implementsDescriptors, source,
-				children);
+		attributes.put("accessList", accessList);
+		attributes.put("implementsDescriptors", implementsDescriptors);
+
+		return factory.classNode(attributes, children);
 	}
 
 	private MethodPrototype convertMethodPrototype(Tree node) {

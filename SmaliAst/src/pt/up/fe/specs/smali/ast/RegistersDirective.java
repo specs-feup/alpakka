@@ -28,7 +28,7 @@ public class RegistersDirective extends SmaliNode {
 		if (type == "I_REGISTERS") {
 			sb.append(".registers ");
 		} else if (type == "I_LOCALS") {
-			sb.append(".param ");
+			sb.append(".locals ");
 		}
 
 		sb.append(value);
