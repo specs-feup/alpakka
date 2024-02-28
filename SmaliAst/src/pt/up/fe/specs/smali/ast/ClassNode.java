@@ -9,6 +9,7 @@ import org.suikasoft.jOptions.Datakey.DataKey;
 import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
+import pt.up.fe.specs.smali.ast.expr.LiteralRef;
 import pt.up.fe.specs.smali.ast.type.ClassType;
 
 public class ClassNode extends SmaliNode {
@@ -27,7 +28,8 @@ public class ClassNode extends SmaliNode {
 		var classDescriptor = (ClassType) attributes.get("classDescriptor");
 		var superClassDescriptor = (ClassType) attributes.get("superClassDescriptor");
 		var implementsDescriptors = (List<ClassType>) attributes.get("implementsDescriptors");
-		var source = (String) attributes.get("source");
+		var source = (LiteralRef) attributes.get("source");
+		var fields = (List<FieldNode>) attributes.get("fieldsList");
 
 		var builder = new StringBuilder();
 		builder.append(".class ");
@@ -52,11 +54,15 @@ public class ClassNode extends SmaliNode {
 
 		if (source != null) {
 			builder.append(".source ");
-			builder.append(source);
+			builder.append(source.getCode());
 			builder.append("\n");
 		}
 
 		builder.append("\n");
+
+		for (var field : fields) {
+			builder.append(field.getCode() + "\n");
+		}
 
 		for (SmaliNode child : getChildren()) {
 			builder.append(child.getCode() + "\n");

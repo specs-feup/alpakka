@@ -8,6 +8,8 @@ import org.suikasoft.jOptions.Datakey.DataKey;
 import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
+import pt.up.fe.specs.smali.ast.expr.LiteralRef;
+
 public class RegistersDirective extends SmaliNode {
 
 	public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
@@ -23,7 +25,7 @@ public class RegistersDirective extends SmaliNode {
 		var attributes = get(ATTRIBUTES);
 
 		var type = (String) attributes.get("type");
-		var value = (Integer) attributes.get("value");
+		var value = (LiteralRef) attributes.get("value");
 
 		if (type == "I_REGISTERS") {
 			sb.append(".registers ");
@@ -31,7 +33,7 @@ public class RegistersDirective extends SmaliNode {
 			sb.append(".locals ");
 		}
 
-		sb.append(value);
+		sb.append(value.getCode());
 
 		return sb.toString();
 	}

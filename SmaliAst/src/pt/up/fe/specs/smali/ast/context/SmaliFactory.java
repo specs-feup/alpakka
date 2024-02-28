@@ -8,11 +8,13 @@ import org.suikasoft.jOptions.Interfaces.DataStore;
 import org.suikasoft.jOptions.storedefinition.StoreDefinitions;
 
 import pt.up.fe.specs.smali.ast.ClassNode;
+import pt.up.fe.specs.smali.ast.FieldNode;
 import pt.up.fe.specs.smali.ast.MethodNode;
 import pt.up.fe.specs.smali.ast.Placeholder;
 import pt.up.fe.specs.smali.ast.RegistersDirective;
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.ast.expr.FieldReference;
+import pt.up.fe.specs.smali.ast.expr.LiteralRef;
 import pt.up.fe.specs.smali.ast.expr.MethodReference;
 import pt.up.fe.specs.smali.ast.expr.RegisterList;
 import pt.up.fe.specs.smali.ast.expr.RegisterReference;
@@ -82,6 +84,13 @@ public class SmaliFactory {
 		data.set(MethodNode.ATTRIBUTES, attributes);
 
 		return new MethodNode(data, children);
+	}
+
+	public FieldNode fieldNode(HashMap<String, Object> attributes, List<? extends SmaliNode> children) {
+		var data = newDataStore(FieldNode.class);
+		data.set(FieldNode.ATTRIBUTES, attributes);
+
+		return new FieldNode(data, children);
 	}
 
 	public MethodPrototype methodPrototype(HashMap<String, Object> attributes) {
@@ -179,6 +188,13 @@ public class SmaliFactory {
 		var data = newDataStore(RegisterList.class);
 
 		return new RegisterList(data, children);
+	}
+
+	public LiteralRef literalRef(HashMap<String, Object> attributes) {
+		var data = newDataStore(LiteralRef.class);
+		data.set(LiteralRef.ATTRIBUTES, attributes);
+
+		return new LiteralRef(data, null);
 	}
 
 	public FieldReference fieldReference(HashMap<String, Object> attributes) {

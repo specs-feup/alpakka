@@ -35,7 +35,9 @@ public class MethodNode extends SmaliNode {
 		builder.append(prototype.getCode());
 		builder.append("\n");
 
-		builder.append("\t").append(registersDirective.getCode()).append("\n");
+		if (registersDirective != null) {
+			builder.append("\t").append(registersDirective.getCode()).append("\n");
+		}
 
 		getChildren().forEach(c -> builder.append("\t").append(c.getCode()).append("\n"));
 
