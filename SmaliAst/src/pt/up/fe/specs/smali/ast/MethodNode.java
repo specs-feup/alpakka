@@ -13,37 +13,37 @@ import pt.up.fe.specs.smali.ast.type.MethodPrototype;
 
 public class MethodNode extends SmaliNode {
 
-	public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-			() -> new HashMap<String, Object>());
+    public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
+            () -> new HashMap<String, Object>());
 
-	public MethodNode(DataStore data, Collection<? extends SmaliNode> children) {
-		super(data, children);
-	}
+    public MethodNode(DataStore data, Collection<? extends SmaliNode> children) {
+        super(data, children);
+    }
 
-	@Override
-	public String getCode() {
-		var attributes = get(ATTRIBUTES);
-		var name = (String) attributes.get("name");
-		var prototype = (MethodPrototype) attributes.get("prototype");
-		var accessList = (ArrayList<String>) attributes.get("accessOrRestrictionList");
-		var registersDirective = (RegistersDirective) attributes.get("registersOrLocals");
+    @Override
+    public String getCode() {
+        var attributes = get(ATTRIBUTES);
+        var name = (String) attributes.get("name");
+        var prototype = (MethodPrototype) attributes.get("prototype");
+        var accessList = (ArrayList<Modifier>) attributes.get("accessOrRestrictionList");
+        var registersDirective = (RegistersDirective) attributes.get("registersOrLocals");
 
-		var builder = new StringBuilder();
-		builder.append(".method ");
-		accessList.forEach(a -> builder.append(a).append(" "));
-		builder.append(name);
-		builder.append(prototype.getCode());
-		builder.append("\n");
+        var builder = new StringBuilder();
+        builder.append(".method ");
+        accessList.forEach(a -> builder.append(a.getLabel()).append(" "));
+        builder.append(name);
+        builder.append(prototype.getCode());
+        builder.append("\n");
 
-		if (registersDirective != null) {
-			builder.append("\t").append(registersDirective.getCode()).append("\n");
-		}
+        if (registersDirective != null) {
+            builder.append("\t").append(registersDirective.getCode()).append("\n");
+        }
 
-		getChildren().forEach(c -> builder.append("\t").append(c.getCode()).append("\n"));
+        getChildren().forEach(c -> builder.append("\t").append(c.getCode()).append("\n"));
 
-		builder.append(".end method\n");
+        builder.append(".end method\n");
 
-		return builder.toString();
-	}
+        return builder.toString();
+    }
 
 }

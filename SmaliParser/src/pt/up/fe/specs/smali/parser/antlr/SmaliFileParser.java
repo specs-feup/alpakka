@@ -182,7 +182,7 @@ public class SmaliFileParser {
         var factory = context.get(SmaliContext.FACTORY);
 
         var methodAttributes = new HashMap<String, Object>();
-        var accessOrRestrictionList = new ArrayList<String>();
+        var accessOrRestrictionList = new ArrayList<Modifier>();
 
         var children = new ArrayList<SmaliNode>();
 
@@ -196,7 +196,7 @@ public class SmaliFileParser {
             }
             case smaliParser.I_ACCESS_OR_RESTRICTION_LIST -> {
                 for (int j = 0; j < node.getChild(i).getChildCount(); j++) {
-                    accessOrRestrictionList.add(node.getChild(i).getChild(j).getText());
+                    accessOrRestrictionList.add(getAccessSpecOrHiddenApiRestriction(node.getChild(i).getChild(j)));
                 }
             }
             case smaliParser.I_REGISTERS, smaliParser.I_LOCALS -> {
@@ -226,7 +226,7 @@ public class SmaliFileParser {
         var factory = context.get(SmaliContext.FACTORY);
 
         var fieldAttributes = new HashMap<String, Object>();
-        var accessOrRestrictionList = new ArrayList<String>();
+        var accessOrRestrictionList = new ArrayList<Modifier>();
 
         // var children = new ArrayList<SmaliNode>();
 
@@ -234,7 +234,7 @@ public class SmaliFileParser {
             switch (node.getChild(i).getType()) {
             case smaliParser.I_ACCESS_OR_RESTRICTION_LIST -> {
                 for (int j = 0; j < node.getChild(i).getChildCount(); j++) {
-                    accessOrRestrictionList.add(node.getChild(i).getChild(j).getText());
+                    accessOrRestrictionList.add(getAccessSpecOrHiddenApiRestriction(node.getChild(i).getChild(j)));
                 }
             }
             case smaliParser.SIMPLE_NAME -> {
@@ -264,6 +264,16 @@ public class SmaliFileParser {
         fieldAttributes.put("accessOrRestrictionList", accessOrRestrictionList);
 
         return factory.fieldNode(fieldAttributes, null);
+    }
+
+    private Modifier getAccessSpecOrHiddenApiRestriction(Tree node) {
+        if (node.getType() == smaliParser.ACCESS_SPEC) {
+            return AccessSpec.getFromLabel(node.getText());
+        } else if (node.getType() == smaliParser.HIDDENAPI_RESTRICTION) {
+            HiddenApiRestriction.getFromLabel(node.getText());
+        }
+
+        return null;
     }
 
     public SmaliNode convertLiteral(Tree node) {

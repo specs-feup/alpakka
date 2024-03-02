@@ -14,36 +14,36 @@ import pt.up.fe.specs.smali.ast.type.Type;
 
 public class FieldNode extends SmaliNode {
 
-	public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-			() -> new HashMap<String, Object>());
+    public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
+            () -> new HashMap<String, Object>());
 
-	public FieldNode(DataStore data, Collection<? extends SmaliNode> children) {
-		super(data, children);
-	}
+    public FieldNode(DataStore data, Collection<? extends SmaliNode> children) {
+        super(data, children);
+    }
 
-	@Override
-	public String getCode() {
-		var sb = new StringBuilder();
-		var attributes = get(ATTRIBUTES);
-		var accessOrRestrictionList = (List<String>) attributes.get("accessOrRestrictionList");
-		var name = (String) attributes.get("memberName");
-		var fieldType = (Type) attributes.get("fieldType");
-		var literal = (LiteralRef) attributes.get("literal");
+    @Override
+    public String getCode() {
+        var sb = new StringBuilder();
+        var attributes = get(ATTRIBUTES);
+        var accessOrRestrictionList = (List<Modifier>) attributes.get("accessOrRestrictionList");
+        var name = (String) attributes.get("memberName");
+        var fieldType = (Type) attributes.get("fieldType");
+        var literal = (LiteralRef) attributes.get("literal");
 
-		sb.append(".field ");
-		accessOrRestrictionList.forEach(a -> sb.append(a).append(" "));
-		sb.append(name);
-		sb.append(":");
-		sb.append(fieldType.getCode());
+        sb.append(".field ");
+        accessOrRestrictionList.forEach(a -> sb.append(a.getLabel()).append(" "));
+        sb.append(name);
+        sb.append(":");
+        sb.append(fieldType.getCode());
 
-		if (literal != null) {
-			sb.append(" = ");
-			sb.append(literal.getCode());
-		}
+        if (literal != null) {
+            sb.append(" = ");
+            sb.append(literal.getCode());
+        }
 
-		sb.append("\n");
+        sb.append("\n");
 
-		return sb.toString();
-	}
+        return sb.toString();
+    }
 
 }

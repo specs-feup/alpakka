@@ -1,43 +1,53 @@
 package pt.up.fe.specs.smali.ast;
 
-public enum AccessSpec {
-	
-	PUBLIC("public"),
-	PRIVATE("private"),
-	PROTECTED("protected"),
-	STATIC("static"),
-	FINAL("final"),
-	SYNCHRONIZED("synchronized"),
-	BRIDGE("bridge"),
-	VARARGS("varargs"),
-	NATIVE("native"),
-	ABSTRACT("abstract"), 
-	STRICTFP("strictfp"),
-	SYNTHETIC("synthetic"),
-	CONSTRUCTOR("constructor"),
-	DECLARED_SYNCHRONIZED("declared-synchronized"),
-	INTERFACE("interface"),
-	ENUM("enum"),
-	ANNOTATION("annotation"),
-	VOLATILE("volatile"),
-	TRANSIENT("transient");
+import java.util.HashMap;
+import java.util.Map;
 
-	private String label;
-	
-	private AccessSpec(String label) {
-		this.label = label;
-	}
-	
-	public String getLabel() {
-		return label;
-	}
-	
-	public static AccessSpec getFromLabel(String label) {
-		for (AccessSpec accessSpec : AccessSpec.values()) {
-			if (accessSpec.getLabel().equals(label)) {
-				return accessSpec;
-			}
-		}
-		return null;
-	}
+public enum AccessSpec implements Modifier {
+
+    PUBLIC,
+    PRIVATE,
+    PROTECTED,
+    STATIC,
+    FINAL,
+    SYNCHRONIZED,
+    BRIDGE,
+    VARARGS,
+    NATIVE,
+    ABSTRACT,
+    STRICTFP,
+    SYNTHETIC,
+    CONSTRUCTOR,
+    DECLARED_SYNCHRONIZED("declared-synchronized"),
+    INTERFACE,
+    ENUM,
+    ANNOTATION,
+    VOLATILE,
+    TRANSIENT;
+
+    private static final Map<String, AccessSpec> BY_LABEL = new HashMap<>();
+
+    static {
+        for (AccessSpec access : AccessSpec.values()) {
+            BY_LABEL.put(access.getLabel(), access);
+        }
+    }
+
+    private String label;
+
+    private AccessSpec(String label) {
+        this.label = label;
+    }
+
+    private AccessSpec() {
+        this.label = name().toLowerCase();
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public static AccessSpec getFromLabel(String label) {
+        return BY_LABEL.get(label);
+    }
 }
