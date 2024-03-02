@@ -18,7 +18,6 @@ import org.jf.smali.smaliParser;
 import pt.up.fe.specs.smali.ast.AccessSpec;
 import pt.up.fe.specs.smali.ast.FieldNode;
 import pt.up.fe.specs.smali.ast.HiddenApiRestriction;
-import pt.up.fe.specs.smali.ast.LiteralType;
 import pt.up.fe.specs.smali.ast.Modifier;
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.ast.context.SmaliContext;
@@ -51,8 +50,11 @@ public class SmaliFileParser {
         converters.put(smaliParser.I_CLASS_DEF, this::convertClass);
         converters.put(smaliParser.I_FIELD, this::convertField);
         converters.put(smaliParser.I_METHOD, this::convertMethod);
+        converters.put(smaliParser.I_STATEMENT_FORMAT11x, this::convertStatementFormat11x);
         converters.put(smaliParser.I_STATEMENT_FORMAT21c_FIELD, this::convertStatementFormat21cField);
         converters.put(smaliParser.I_STATEMENT_FORMAT21c_STRING, this::convertStatementFormat21cString);
+        converters.put(smaliParser.I_STATEMENT_FORMAT21c_TYPE, this::convertStatementFormat21cType);
+        converters.put(smaliParser.I_STATEMENT_FORMAT22c_FIELD, this::convertStatementFormat22cField);
         converters.put(smaliParser.I_STATEMENT_FORMAT35c_METHOD, this::convertStatementFormat35cMethod);
         converters.put(smaliParser.I_STATEMENT_FORMAT10x, this::convertStatementFormat10x);
         converters.put(smaliParser.STRING_LITERAL, this::convertLiteral);
@@ -178,6 +180,16 @@ public class SmaliFileParser {
         return factory.methodPrototype(prototypeAttributes);
     }
 
+    private Modifier getAccessSpecOrHiddenApiRestriction(Tree node) {
+        if (node.getType() == smaliParser.ACCESS_SPEC) {
+            return AccessSpec.getFromLabel(node.getText());
+        } else if (node.getType() == smaliParser.HIDDENAPI_RESTRICTION) {
+            HiddenApiRestriction.getFromLabel(node.getText());
+        }
+
+        return null;
+    }
+
     private SmaliNode convertMethod(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
@@ -266,43 +278,31 @@ public class SmaliFileParser {
         return factory.fieldNode(fieldAttributes, null);
     }
 
-    private Modifier getAccessSpecOrHiddenApiRestriction(Tree node) {
-        if (node.getType() == smaliParser.ACCESS_SPEC) {
-            return AccessSpec.getFromLabel(node.getText());
-        } else if (node.getType() == smaliParser.HIDDENAPI_RESTRICTION) {
-            HiddenApiRestriction.getFromLabel(node.getText());
-        }
-
-        return null;
-    }
-
-    public SmaliNode convertLiteral(Tree node) {
+    private SmaliNode convertLiteral(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
         var literalAttributes = new HashMap<String, Object>();
         literalAttributes.put("value", node.getText());
 
-        return factory.literalRef(literalAttributes);
-        }
+        var literalExpr = factory.literalRef(literalAttributes);
 
-	private SmaliNode convertStatementFormat10x(Tree node) {
-		var factory = context.get(SmaliContext.FACTORY);
+        return literalExpr;
+    }
 
-		return factory.instructionFormat10x(node.getChild(0).getText());
-	}
-
-    private SmaliNode convertStatementFormat21cField(Tree node) {
+    private List<SmaliNode> convertFieldReferenceStatement(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
-
-		var instruction = node.getChild(0).getText();
 
         var children = new ArrayList<SmaliNode>();
 
         var fieldReferenceAttributes = new HashMap<String, Object>();
 
-        children.add(factory.register(node.getChild(1).getText()));
+        var i = 1;
 
-		int i = 2;
+        while (i < node.getChildCount() && node.getChild(i).getType() == smaliParser.REGISTER) {
+            children.add(factory.register(node.getChild(i).getText()));
+            i++;
+        }
+
         if (node.getChild(i).getType() != smaliParser.SIMPLE_NAME) {
             if (node.getChild(i).getType() == smaliParser.CLASS_DESCRIPTOR) {
                 fieldReferenceAttributes.put("referenceTypeDescriptor", factory.classType(node.getChild(i).getText()));
@@ -325,6 +325,38 @@ public class SmaliFileParser {
 
         children.add(factory.fieldReference(fieldReferenceAttributes));
 
+        return children;
+    }
+
+    private SmaliNode convertStatementFormat10x(Tree node) {
+        var factory = context.get(SmaliContext.FACTORY);
+
+        return factory.instructionFormat10x(node.getChild(0).getText());
+    }
+
+    private SmaliNode convertStatementFormat11x(Tree node) {
+        var factory = context.get(SmaliContext.FACTORY);
+
+        var instruction = node.getChild(0).getText();
+        var children = new ArrayList<SmaliNode>();
+
+        var i = 1;
+
+        while (i < node.getChildCount() && node.getChild(i).getType() == smaliParser.REGISTER) {
+            children.add(factory.register(node.getChild(i).getText()));
+            i++;
+        }
+
+        return factory.instructionFormat11x(instruction, children);
+    }
+
+    private SmaliNode convertStatementFormat21cField(Tree node) {
+        var factory = context.get(SmaliContext.FACTORY);
+
+        var instruction = node.getChild(0).getText();
+
+        var children = convertFieldReferenceStatement(node);
+
         return factory.instructionFormat21cField(instruction, children);
     }
 
@@ -342,6 +374,33 @@ public class SmaliFileParser {
         children.add(convert(node.getChild(2)));
 
         return factory.instructionFormat21cString(instruction, children);
+    }
+
+    private SmaliNode convertStatementFormat21cType(Tree node) {
+        var factory = context.get(SmaliContext.FACTORY);
+
+        var instruction = node.getChild(0).getText();
+        var children = new ArrayList<SmaliNode>();
+
+        children.add(factory.register(node.getChild(1).getText()));
+
+        if (node.getChild(2).getType() == smaliParser.ARRAY_TYPE_PREFIX) {
+            children.add(factory.arrayType(node.getChild(3).getText()));
+        } else {
+            children.add(factory.nonVoidType(node.getChild(2).getText()));
+        }
+
+        return factory.instructionFormat21cType(instruction, children);
+    }
+
+    private SmaliNode convertStatementFormat22cField(Tree node) {
+        var factory = context.get(SmaliContext.FACTORY);
+
+        var instruction = node.getChild(0).getText();
+
+        var children = convertFieldReferenceStatement(node);
+
+        return factory.instructionFormat22cField(instruction, children);
     }
 
     private SmaliNode convertStatementFormat35cMethod(Tree node) {
