@@ -8,16 +8,15 @@ import pt.up.fe.specs.util.SpecsIo;
 
 public class Main {
 
-	public static void main(String[] args) {
-		var filesList = new ArrayList<File>();
-		filesList.add(SpecsIo.resourceCopy("pt/up/fe/specs/smali/HelloWorld.smali"));
+    public static void main(String[] args) {
+        var filesList = new ArrayList<File>();
+        filesList.add(SpecsIo.resourceCopy("pt/up/fe/specs/smali/HelloWorld.smali"));
 
-		var antlrParser = new SmaliParser(filesList);
-		var smaliRoot = antlrParser.parse().orElseThrow();
+        var smaliRoot = new SmaliParser().parse(filesList).orElseThrow();
 
-		System.out.println(smaliRoot.toTree());
+        System.out.println(smaliRoot.toTree());
 
-		filesList.forEach(File::delete);
-	}
+        filesList.forEach(File::delete);
+    }
 
 }
