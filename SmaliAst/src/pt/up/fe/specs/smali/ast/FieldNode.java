@@ -9,7 +9,6 @@ import org.suikasoft.jOptions.Datakey.DataKey;
 import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
-import pt.up.fe.specs.smali.ast.expr.LiteralRef;
 import pt.up.fe.specs.smali.ast.type.Type;
 
 public class FieldNode extends SmaliNode {
@@ -28,7 +27,6 @@ public class FieldNode extends SmaliNode {
         var accessOrRestrictionList = (List<Modifier>) attributes.get("accessOrRestrictionList");
         var name = (String) attributes.get("memberName");
         var fieldType = (Type) attributes.get("fieldType");
-        var literal = (LiteralRef) attributes.get("literal");
 
         sb.append(".field ");
         accessOrRestrictionList.forEach(a -> sb.append(a.getLabel()).append(" "));
@@ -36,9 +34,9 @@ public class FieldNode extends SmaliNode {
         sb.append(":");
         sb.append(fieldType.getCode());
 
-        if (literal != null) {
+        if (getChildren().size() > 0) {
             sb.append(" = ");
-            sb.append(literal.getCode());
+            sb.append(getChild(0).getCode());
         }
 
         sb.append("\n");

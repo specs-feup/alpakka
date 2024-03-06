@@ -16,7 +16,6 @@ import org.jf.smali.smaliFlexLexer;
 import org.jf.smali.smaliParser;
 
 import pt.up.fe.specs.smali.ast.AccessSpec;
-import pt.up.fe.specs.smali.ast.FieldNode;
 import pt.up.fe.specs.smali.ast.HiddenApiRestriction;
 import pt.up.fe.specs.smali.ast.Modifier;
 import pt.up.fe.specs.smali.ast.SmaliNode;
@@ -36,8 +35,6 @@ public class SmaliFileParser {
     private final Map<Integer, Function<Tree, SmaliNode>> converters;
 
     public SmaliFileParser(File source, SmaliContext context) {
-        // sources can be a smali file, a folder or APK. Only supporting smali files for
-        // now
         this.lex = new smaliFlexLexer(new StringReader(SpecsIo.read(source)), 10);
         this.parser = new smaliParser(new CommonTokenStream(this.lex));
         this.context = context;
@@ -106,7 +103,6 @@ public class SmaliFileParser {
 
         var accessList = new ArrayList<AccessSpec>();
         var implementsDescriptors = new ArrayList<ClassType>();
-        var fieldsList = new ArrayList<FieldNode>();
 
         var attributes = new HashMap<String, Object>();
         var children = new ArrayList<SmaliNode>();
@@ -130,13 +126,7 @@ public class SmaliFileParser {
             case smaliParser.I_SOURCE -> {
                 attributes.put("source", convert(node.getChild(i).getChild(0)));
             }
-            case smaliParser.I_FIELDS -> {
-                for (int j = 0; j < node.getChild(i).getChildCount(); j++) {
-                    fieldsList.add((FieldNode) convert(node.getChild(i).getChild(j)));
-                }
-                attributes.put("fieldsList", fieldsList);
-            }
-            case smaliParser.I_METHODS -> {
+            case smaliParser.I_METHODS, smaliParser.I_FIELDS -> {
                 for (int j = 0; j < node.getChild(i).getChildCount(); j++) {
                     children.add(convert(node.getChild(i).getChild(j)));
                 }
@@ -161,7 +151,11 @@ public class SmaliFileParser {
         for (int j = 0; j < node.getChildCount(); j++) {
             if (node.getChild(j).getType() == smaliParser.I_METHOD_RETURN_TYPE) {
                 // Type descriptor
-                prototypeAttributes.put("returnType", factory.type(node.getChild(j).getChild(0).getText()));
+                if (node.getChild(j).getChild(0).getType() == smaliParser.ARRAY_TYPE_PREFIX) {
+                    prototypeAttributes.put("returnType", factory.arrayType(node.getChild(j).getChild(1).getText()));
+                } else {
+                    prototypeAttributes.put("returnType", factory.type(node.getChild(j).getChild(0).getText()));
+                }
             } else if (node.getChild(j).getType() == smaliParser.PARAM_LIST_OR_ID_PRIMITIVE_TYPE) {
                 System.out.println("TODO: " + parser.getTokenNames()[node.getChild(j).getType()]);
             } else {
@@ -240,7 +234,7 @@ public class SmaliFileParser {
         var fieldAttributes = new HashMap<String, Object>();
         var accessOrRestrictionList = new ArrayList<Modifier>();
 
-        // var children = new ArrayList<SmaliNode>();
+        var children = new ArrayList<SmaliNode>();
 
         for (int i = 0; i < node.getChildCount(); i++) {
             switch (node.getChild(i).getType()) {
@@ -265,7 +259,7 @@ public class SmaliFileParser {
             }
             case smaliParser.I_FIELD_INITIAL_VALUE -> {
                 // Literal
-                fieldAttributes.put("literal", convert(node.getChild(i).getChild(0)));
+                children.add(convert(node.getChild(i).getChild(0)));
             }
             case smaliParser.I_ANNOTATIONS -> {
                 System.out.println("TODO: " + parser.getTokenNames()[node.getChild(i).getType()]);
@@ -275,7 +269,7 @@ public class SmaliFileParser {
 
         fieldAttributes.put("accessOrRestrictionList", accessOrRestrictionList);
 
-        return factory.fieldNode(fieldAttributes, null);
+        return factory.fieldNode(fieldAttributes, children);
     }
 
     private SmaliNode convertLiteral(Tree node) {
