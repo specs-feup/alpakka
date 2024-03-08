@@ -29,11 +29,11 @@ import pt.up.fe.specs.util.SpecsIo;
 
 public class SmaliParser {
 
-    public Optional<SmaliNode> parse(List<File> sources) {
+    public Optional<SmaliNode> parse(List<File> sources, Integer targetSdkVersion) {
         var context = new SmaliContext();
 
         var classes = sources.stream()
-                .map(file -> parseSingleFile(file, context, 20))
+                .map(file -> parseSingleFile(file, context, targetSdkVersion))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .toList();

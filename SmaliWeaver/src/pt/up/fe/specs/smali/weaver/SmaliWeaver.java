@@ -15,6 +15,8 @@ import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.parser.antlr.SmaliFileParser;
 import pt.up.fe.specs.smali.parser.antlr.SmaliParser;
 import pt.up.fe.specs.smali.weaver.abstracts.weaver.ASmaliWeaver;
+import pt.up.fe.specs.smali.weaver.options.SmaliWeaverOption;
+import pt.up.fe.specs.smali.weaver.options.SmaliWeaverOptions;
 import pt.up.fe.specs.util.providers.ResourceProvider;
 
 /**
@@ -82,7 +84,9 @@ public class SmaliWeaver extends ASmaliWeaver {
         // sources can be a smali file, a folder or APK. Only supporting smali files for
         // now
 
-        root = new SmaliParser().parse(sources).orElseThrow();
+        var targetSdkVersion = args.get(SmaliWeaverOption.TARGET_SDK);
+
+        root = new SmaliParser().parse(sources, targetSdkVersion).orElseThrow();
 
         System.out.println("SOURCES: " + sources);
         System.out.println("ARGS: " + args);
@@ -143,7 +147,9 @@ public class SmaliWeaver extends ASmaliWeaver {
 
     @Override
     public List<WeaverOption> getOptions() {
-        return Collections.emptyList();
+        return SmaliWeaverOption.STORE_DEFINITION.getKeys().stream()
+                .map(SmaliWeaverOptions::getOption)
+                .toList();
     }
 
     @Override

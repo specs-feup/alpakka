@@ -50,7 +50,7 @@ class SmaliAstTest {
 
     void testSmaliFile(File resourceFile) throws Exception {
 
-        var smaliRoot = new SmaliParser().parse(List.of(resourceFile)).orElseThrow();
+        var smaliRoot = new SmaliParser().parse(List.of(resourceFile), 10).orElseThrow();
 
         var directory = SpecsIo.mkdir(SmaliAstTest.OUTPUT_FOLDERNAME + "/outputFirst");
         SpecsIo.write(new File(directory, resourceFile.getName()), smaliRoot.getCode());
@@ -58,7 +58,7 @@ class SmaliAstTest {
         // Parse output again, check if files are the same
         File firstOutput = new File(directory, resourceFile.getName());
 
-        var smaliRoot2 = new SmaliParser().parse(List.of(firstOutput)).orElseThrow();
+        var smaliRoot2 = new SmaliParser().parse(List.of(firstOutput), 10).orElseThrow();
 
         var secondDirectory = SpecsIo.mkdir(SmaliAstTest.OUTPUT_FOLDERNAME + "/outputSecond");
         SpecsIo.write(new File(secondDirectory, resourceFile.getName()), smaliRoot2.getCode());

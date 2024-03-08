@@ -12,7 +12,7 @@ public class Main {
         var filesList = new ArrayList<File>();
         filesList.add(SpecsIo.resourceCopy("pt/up/fe/specs/smali/HelloWorld.smali"));
 
-        var smaliRoot = new SmaliParser().parse(filesList).orElseThrow();
+        var smaliRoot = new SmaliParser().parse(filesList, 10).orElseThrow();
 
         System.out.println(smaliRoot.toTree());
 
