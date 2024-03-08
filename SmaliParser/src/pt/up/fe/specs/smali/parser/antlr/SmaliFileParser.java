@@ -34,8 +34,8 @@ public class SmaliFileParser {
 
     private final Map<Integer, Function<Tree, SmaliNode>> converters;
 
-    public SmaliFileParser(File source, SmaliContext context) {
-        this.lex = new smaliFlexLexer(new StringReader(SpecsIo.read(source)), 10);
+    public SmaliFileParser(File source, SmaliContext context, Integer targetSdkVersion) {
+        this.lex = new smaliFlexLexer(new StringReader(SpecsIo.read(source)), targetSdkVersion);
         this.parser = new smaliParser(new CommonTokenStream(this.lex));
         this.context = context;
         this.converters = buildConverters();

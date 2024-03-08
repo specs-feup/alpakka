@@ -14,11 +14,18 @@
 package pt.up.fe.specs.smali.parser.antlr;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+import org.yaml.snakeyaml.Yaml;
+
+import brut.apktool.Main;
+import brut.common.BrutException;
+import pt.up.fe.specs.smali.ast.App;
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.ast.context.SmaliContext;
+import pt.up.fe.specs.util.SpecsIo;
 
 public class SmaliParser {
 
@@ -26,11 +33,60 @@ public class SmaliParser {
         var context = new SmaliContext();
 
         var classes = sources.stream()
-                .map(file -> new SmaliFileParser(file, context).parse())
+                .map(file -> parseSingleFile(file, context, 20))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .toList();
 
+        if (classes.isEmpty()) {
+            return Optional.empty();
+        }
+
         return Optional.of(classes.get(0));
+    }
+
+    private Optional<SmaliNode> parseSingleFile(File source, SmaliContext context, Integer targetSdkVersion) {
+        return switch (SpecsIo.getExtension(source).toLowerCase()) {
+        case "apk" -> Optional.of(decompileApk(source, context));
+        case "smali" -> new SmaliFileParser(source, context, targetSdkVersion).parse();
+        default -> Optional.empty();
+        };
+    }
+
+    private App decompileApk(File apkFile, SmaliContext context) {
+        var outputFolder = SpecsIo.mkdir(apkFile.getName() + "_decompiled");
+
+        String[] commands = { "d", "-f", apkFile.getAbsolutePath(), "-o", outputFolder.getAbsolutePath() };
+
+        try {
+            Main.main(commands);
+        } catch (BrutException e) {
+            throw new RuntimeException("Error decompiling APK", e);
+        }
+
+        var attributes = getAttributesFromYaml(outputFolder.getAbsolutePath() + "/apktool.yml");
+
+        var targetSdkVersion = (Integer) ((HashMap<String, Object>) attributes.get("sdkInfo")).get("targetSdkVersion");
+
+        var decompiledFiles = SpecsIo.getFilesRecursive(outputFolder);
+
+        var children = decompiledFiles.stream()
+                .map(file -> parseSingleFile(file, context, targetSdkVersion))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .toList();
+
+        SpecsIo.deleteFolder(outputFolder);
+
+        var factory = context.get(SmaliContext.FACTORY);
+
+        return factory.app(attributes, children);
+    }
+
+    private HashMap<String, Object> getAttributesFromYaml(String yamlFilePath) {
+        var yaml = new Yaml();
+        var data = SpecsIo.read(yamlFilePath);
+
+        return yaml.load(data);
     }
 }

@@ -27,5 +27,7 @@
 		
 	<dependencies> 
 		<dependency org="org.smali" name="smali" rev="2.5.2"/>
+		<dependency org="org.apktool" name="apktool-cli" rev="2.9.3"/>
+		<dependency org="org.yaml" name="snakeyaml" rev="2.2"/>
 	</dependencies>			
 </ivy-module>

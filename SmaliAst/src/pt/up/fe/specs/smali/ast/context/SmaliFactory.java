@@ -7,6 +7,7 @@ import java.util.List;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import org.suikasoft.jOptions.storedefinition.StoreDefinitions;
 
+import pt.up.fe.specs.smali.ast.App;
 import pt.up.fe.specs.smali.ast.ClassNode;
 import pt.up.fe.specs.smali.ast.FieldNode;
 import pt.up.fe.specs.smali.ast.MethodNode;
@@ -73,6 +74,13 @@ public class SmaliFactory {
         var number = idCounter;
         idCounter++;
         return "id_" + number;
+    }
+
+    public App app(HashMap<String, Object> attributes, List<? extends SmaliNode> children) {
+        var data = newDataStore(App.class);
+        data.set(App.ATTRIBUTES, attributes);
+
+        return new App(data, children);
     }
 
     public Placeholder placeholder(String kind, List<? extends SmaliNode> children) {
