@@ -9,6 +9,12 @@ import org.suikasoft.jOptions.Datakey.DataKey;
 import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
+import pt.up.fe.specs.smali.ast.stmt.AnnotationDirective;
+import pt.up.fe.specs.smali.ast.stmt.CatchDirective;
+import pt.up.fe.specs.smali.ast.stmt.Instruction;
+import pt.up.fe.specs.smali.ast.stmt.Label;
+import pt.up.fe.specs.smali.ast.stmt.ParameterDirective;
+import pt.up.fe.specs.smali.ast.stmt.RegistersDirective;
 import pt.up.fe.specs.smali.ast.type.MethodPrototype;
 
 public class MethodNode extends SmaliNode {
@@ -28,22 +34,54 @@ public class MethodNode extends SmaliNode {
         var accessList = (ArrayList<Modifier>) attributes.get("accessOrRestrictionList");
         var registersDirective = (RegistersDirective) attributes.get("registersOrLocals");
 
-        var builder = new StringBuilder();
-        builder.append(".method ");
-        accessList.forEach(a -> builder.append(a.getLabel()).append(" "));
-        builder.append(name);
-        builder.append(prototype.getCode());
-        builder.append("\n");
+        var sb = new StringBuilder();
+        sb.append(".method ");
+        accessList.forEach(a -> sb.append(a.getLabel()).append(" "));
+        sb.append(name);
+        sb.append(prototype.getCode());
+        sb.append("\n");
 
         if (registersDirective != null) {
-            builder.append("\t").append(registersDirective.getCode()).append("\n");
+            sb.append(registersDirective.getCode()).append("\n");
         }
 
-        getChildren().forEach(c -> builder.append("\t").append(c.getCode()).append("\n"));
+        getChildren().stream()
+                .filter(c -> c instanceof AnnotationDirective)
+                .forEach(c -> sb.append(c.getCode()));
 
-        builder.append(".end method\n");
+        getChildren().stream()
+                .filter(c -> c instanceof ParameterDirective)
+                .forEach(c -> sb.append(c.getCode()));
 
-        return builder.toString();
+        var methodItems = getChildren().stream()
+                .filter(c -> (c instanceof Instruction || c instanceof Label))
+                .toList();
+
+        for (var child : methodItems) {
+            sb.append("\n").append(child.getCode());
+            if (child instanceof Label) {
+                var label = (Label) child;
+                var catchDirectives = getChildren().stream()
+                        .filter(c -> c instanceof CatchDirective)
+                        .map(c -> (CatchDirective) c)
+                        .filter(c -> c.getEndLabelRef().getLabel().equals(label.getLabel()))
+                        .toList();
+
+                for (var catchDir : catchDirectives) {
+                    sb.append("\n").append(catchDir.getCode());
+                }
+                if (!catchDirectives.isEmpty()) {
+                    sb.append("\n");
+                }
+
+            } else {
+                sb.append("\n");
+            }
+        }
+
+        sb.append(".end method\n");
+
+        return sb.toString();
     }
 
 }

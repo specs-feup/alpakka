@@ -6,29 +6,27 @@ import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
 
-public abstract class Instruction extends Statement {
+public class SparseSwitchDirective extends Instruction {
 
-    public Instruction(DataStore data, Collection<? extends SmaliNode> children) {
+    public SparseSwitchDirective(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
     }
 
     @Override
     public String getCode() {
         var sb = new StringBuilder();
-        var attributes = get(ATTRIBUTES);
 
         sb.append(getLineDirective());
 
-        sb.append("\t" + attributes.get("instruction") + " ");
+        sb.append("\t.sparse-switch\n");
 
         var children = getChildren();
 
         for (var child : children) {
-            sb.append(child.getCode());
-            if (children.indexOf(child) < children.size() - 1) {
-                sb.append(", ");
-            }
+            sb.append("\t\t" + child.getCode() + "\n");
         }
+
+        sb.append("\t.end sparse-switch");
 
         return sb.toString();
     }

@@ -9,6 +9,7 @@ import org.suikasoft.jOptions.Datakey.DataKey;
 import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
+import pt.up.fe.specs.smali.ast.expr.LiteralRef;
 import pt.up.fe.specs.smali.ast.type.Type;
 
 public class FieldNode extends SmaliNode {
@@ -35,8 +36,22 @@ public class FieldNode extends SmaliNode {
         sb.append(fieldType.getCode());
 
         if (getChildren().size() > 0) {
-            sb.append(" = ");
-            sb.append(getChild(0).getCode());
+            var i = 0;
+
+            if (getChild(i) instanceof LiteralRef) {
+                sb.append(" = ");
+                sb.append(getChild(i).getCode());
+                i++;
+            }
+
+            for (; i < getChildren().size(); i++) {
+                sb.append("\n");
+                sb.append(getChild(i).getCode());
+
+                if (i == getChildren().size() - 1) {
+                    sb.append("\n.end field");
+                }
+            }
         }
 
         sb.append("\n");
