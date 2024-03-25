@@ -14,21 +14,21 @@ import java.util.function.Function;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.Tree;
-import org.jf.smali.smaliFlexLexer;
-import org.jf.smali.smaliParser;
+
+import com.android.tools.smali.smali.smaliFlexLexer;
+import com.android.tools.smali.smali.smaliParser;
 
 import pt.up.fe.specs.smali.ast.AccessSpec;
 import pt.up.fe.specs.smali.ast.AnnotationVisibility;
 import pt.up.fe.specs.smali.ast.HiddenApiRestriction;
-import pt.up.fe.specs.smali.ast.LiteralType;
 import pt.up.fe.specs.smali.ast.Modifier;
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.ast.context.SmaliContext;
 import pt.up.fe.specs.smali.ast.expr.MethodReference;
+import pt.up.fe.specs.smali.ast.expr.literal.MethodPrototype;
+import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.ClassType;
+import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.TypeDescriptor;
 import pt.up.fe.specs.smali.ast.stmt.LineDirective;
-import pt.up.fe.specs.smali.ast.type.ClassType;
-import pt.up.fe.specs.smali.ast.type.MethodPrototype;
-import pt.up.fe.specs.smali.ast.type.Type;
 import pt.up.fe.specs.util.SpecsIo;
 
 public class SmaliFileParser {
@@ -43,9 +43,12 @@ public class SmaliFileParser {
 
     private LineDirective lineDirective = null;
 
+    private String dexClass = null;
+
     public SmaliFileParser(File source, SmaliContext context, Integer targetSdkVersion) {
         this.lex = new smaliFlexLexer(new StringReader(SpecsIo.read(source)), targetSdkVersion);
         this.parser = new smaliParser(new CommonTokenStream(this.lex));
+        dexClass = source.getPath().split("\\" + File.separator)[1];
         this.context = context;
         this.converters = buildConverters();
 
@@ -55,6 +58,7 @@ public class SmaliFileParser {
     private Map<Integer, Function<Tree, SmaliNode>> buildConverters() {
         var converters = new HashMap<Integer, Function<Tree, SmaliNode>>();
 
+        converters.put(smaliParser.CLASS_DESCRIPTOR, this::convertClassDescriptor);
         converters.put(smaliParser.I_CLASS_DEF, this::convertClass);
         converters.put(smaliParser.I_FIELD, this::convertField);
         converters.put(smaliParser.I_METHOD, this::convertMethod);
@@ -102,12 +106,19 @@ public class SmaliFileParser {
         converters.put(smaliParser.I_STATEMENT_FORMAT45cc_METHOD, this::convertStatementFormat45ccMethod);
         converters.put(smaliParser.I_STATEMENT_FORMAT4rcc_METHOD, this::convertStatementFormat4rccMethod);
         converters.put(smaliParser.I_STATEMENT_FORMAT51l, this::convertStatementFormat51l);
-        converters.put(smaliParser.STRING_LITERAL, this::convertLiteral);
-        converters.put(smaliParser.INTEGER_LITERAL, this::convertLiteral);
-        converters.put(smaliParser.LONG_LITERAL, this::convertLiteral);
-        converters.put(smaliParser.BYTE_LITERAL, this::convertLiteral);
-        converters.put(smaliParser.BOOL_LITERAL, this::convertLiteral);
-        converters.put(smaliParser.NULL_LITERAL, this::convertLiteral);
+        converters.put(smaliParser.I_ENCODED_ARRAY, this::convertArray);
+        converters.put(smaliParser.I_ENCODED_ENUM, this::convertEnum);
+        converters.put(smaliParser.I_SUBANNOTATION, this::convertSubannotationDirective);
+        converters.put(smaliParser.STRING_LITERAL, this::convertStringLiteral);
+        converters.put(smaliParser.INTEGER_LITERAL, this::convertPrimitiveLiteral);
+        converters.put(smaliParser.SHORT_LITERAL, this::convertPrimitiveLiteral);
+        converters.put(smaliParser.CHAR_LITERAL, this::convertPrimitiveLiteral);
+        converters.put(smaliParser.FLOAT_LITERAL, this::convertPrimitiveLiteral);
+        converters.put(smaliParser.DOUBLE_LITERAL, this::convertPrimitiveLiteral);
+        converters.put(smaliParser.LONG_LITERAL, this::convertPrimitiveLiteral);
+        converters.put(smaliParser.BYTE_LITERAL, this::convertPrimitiveLiteral);
+        converters.put(smaliParser.BOOL_LITERAL, this::convertPrimitiveLiteral);
+        converters.put(smaliParser.NULL_LITERAL, this::convertNullLiteral);
         converters.put(smaliParser.REGISTER, this::convertRegisterReference);
         converters.put(smaliParser.I_REGISTER_LIST, this::convertRegisterList);
         converters.put(smaliParser.I_REGISTER_RANGE, this::convertRegisterRange);
@@ -144,7 +155,7 @@ public class SmaliFileParser {
             return converter.apply(node);
         }
 
-        // System.out.println("Not implemented: " + parser.getTokenNames()[type]);
+        System.out.println("Not implemented: " + parser.getTokenNames()[type]);
 
         var kind = parser.getTokenNames()[type];
 
@@ -156,6 +167,11 @@ public class SmaliFileParser {
         var factory = context.get(SmaliContext.FACTORY);
 
         return factory.placeholder(kind, children);
+    }
+
+    private SmaliNode convertClassDescriptor(Tree node) {
+        var factory = context.get(SmaliContext.FACTORY);
+        return factory.classType(node.getText());
     }
 
     private SmaliNode convertClass(Tree node) {
@@ -170,7 +186,7 @@ public class SmaliFileParser {
         for (int i = 0; i < node.getChildCount(); i++) {
             switch (node.getChild(i).getType()) {
             case smaliParser.CLASS_DESCRIPTOR -> {
-                attributes.put("classDescriptor", factory.classType(node.getChild(i).getText()));
+                attributes.put("classDescriptor", convert(node.getChild(i)));
             }
             case smaliParser.I_ACCESS_LIST -> {
                 for (int j = 0; j < node.getChild(i).getChildCount(); j++) {
@@ -178,22 +194,17 @@ public class SmaliFileParser {
                 }
             }
             case smaliParser.I_SUPER -> {
-                attributes.put("superClassDescriptor", factory.classType(node.getChild(i).getChild(0).getText()));
+                attributes.put("superClassDescriptor", convert(node.getChild(i).getChild(0)));
             }
             case smaliParser.I_IMPLEMENTS -> {
-                implementsDescriptors.add(factory.classType(node.getChild(i).getChild(0).getText()));
+                implementsDescriptors.add((ClassType) convert(node.getChild(i).getChild(0)));
             }
             case smaliParser.I_SOURCE -> {
                 attributes.put("source", convert(node.getChild(i).getChild(0)));
             }
-            case smaliParser.I_METHODS, smaliParser.I_FIELDS -> {
+            case smaliParser.I_METHODS, smaliParser.I_FIELDS, smaliParser.I_ANNOTATIONS -> {
                 for (int j = 0; j < node.getChild(i).getChildCount(); j++) {
                     children.add(convert(node.getChild(i).getChild(j)));
-                }
-            }
-            case smaliParser.I_ANNOTATIONS -> {
-                if (node.getChild(i).getChildCount() > 0) {
-                    todo(parser.getTokenNames()[node.getChild(i).getType()]);
                 }
             }
             }
@@ -201,6 +212,7 @@ public class SmaliFileParser {
 
         attributes.put("accessList", accessList);
         attributes.put("implementsDescriptors", implementsDescriptors);
+        attributes.put("dexClass", dexClass);
 
         return factory.classNode(attributes, children);
     }
@@ -214,7 +226,7 @@ public class SmaliFileParser {
 
     private SmaliNode convertLineDirective(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
-        var attributes = new HashMap<String, Object>();
+        var attributes = getStatementAttributes(null);
 
         attributes.put("line", convert(node.getChild(0)));
 
@@ -234,7 +246,7 @@ public class SmaliFileParser {
         var factory = context.get(SmaliContext.FACTORY);
 
         var prototypeAttributes = new HashMap<String, Object>();
-        var parameters = new ArrayList<Type>();
+        var parameters = new ArrayList<TypeDescriptor>();
         for (int j = 0; j < node.getChildCount(); j++) {
             if (node.getChild(j).getType() == smaliParser.I_METHOD_RETURN_TYPE) {
                 // Type descriptor
@@ -389,13 +401,28 @@ public class SmaliFileParser {
         attributes.put("visibility", AnnotationVisibility.getFromString(node.getChild(0).getText()));
 
         var subannotation = node.getChild(1);
-        attributes.put("classDescriptor", factory.classType(subannotation.getChild(0).getText()));
+        attributes.put("classDescriptor", convert(subannotation.getChild(0)));
 
         for (int i = 1; i < subannotation.getChildCount(); i++) {
             children.add(convert(subannotation.getChild(i)));
         }
 
         return factory.annotationDirective(attributes, children);
+    }
+
+    private SmaliNode convertSubannotationDirective(Tree node) {
+        var factory = context.get(SmaliContext.FACTORY);
+
+        var attributes = new HashMap<String, Object>();
+        var children = new ArrayList<SmaliNode>();
+
+        attributes.put("classDescriptor", convert(node.getChild(0)));
+
+        for (int i = 1; i < node.getChildCount(); i++) {
+            children.add(convert(node.getChild(i)));
+        }
+
+        return factory.subannotationDirective(attributes, children);
     }
 
     private SmaliNode convertAnnotationElement(Tree node) {
@@ -455,15 +482,66 @@ public class SmaliFileParser {
         return factory.fieldNode(fieldAttributes, children);
     }
 
-    private SmaliNode convertLiteral(Tree node) {
+    private SmaliNode convertArray(Tree node) {
+        var factory = context.get(SmaliContext.FACTORY);
+
+        var children = new ArrayList<SmaliNode>();
+
+        for (int i = 0; i < node.getChildCount(); i++) {
+            children.add(convert(node.getChild(i)));
+        }
+
+        return factory.encodedArray(children);
+    }
+
+    private SmaliNode convertEnum(Tree node) {
+        var factory = context.get(SmaliContext.FACTORY);
+
+        var children = new ArrayList<SmaliNode>();
+
+        children.add(convertFieldReference(node, 0));
+
+        return factory.encodedEnum(children);
+    }
+
+    private SmaliNode convertPrimitiveLiteral(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
         var literalAttributes = new HashMap<String, Object>();
         literalAttributes.put("value", node.getText());
 
-        var literalExpr = factory.literalRef(literalAttributes);
-        
+        var literalExpr = factory.primitiveLiteral(literalAttributes);
+
         return literalExpr;
+    }
+
+    private SmaliNode convertStringLiteral(Tree node) {
+        var factory = context.get(SmaliContext.FACTORY);
+
+        var literalAttributes = new HashMap<String, Object>();
+        literalAttributes.put("value",
+                "\"" + escapeString(node.getText().substring(1, node.getText().length() - 1)) + "\"");
+
+        var literalExpr = factory.primitiveLiteral(literalAttributes);
+
+        return literalExpr;
+    }
+
+    private String escapeString(String string) {
+        return string.replace("\\", "\\\\")
+                .replace("\'", "\\\'")
+                .replace("\r", "\\r")
+                .replace("\f", "\\f")
+                .replace("\n", "\\n")
+                .replace("\t", "\\t")
+                .replace("\b", "\\b")
+                .replace("\"", "\\\"");
+    }
+
+    private SmaliNode convertNullLiteral(Tree node) {
+        var factory = context.get(SmaliContext.FACTORY);
+
+        return factory.nullLiteral();
     }
 
     private SmaliNode convertRegisterReference(Tree node) {
@@ -494,11 +572,7 @@ public class SmaliFileParser {
     }
 
     private List<SmaliNode> convertFieldReferenceStatement(Tree node) {
-        var factory = context.get(SmaliContext.FACTORY);
-
         var children = new ArrayList<SmaliNode>();
-
-        var fieldReferenceAttributes = new HashMap<String, Object>();
 
         var i = 1;
 
@@ -507,10 +581,22 @@ public class SmaliFileParser {
             i++;
         }
 
+        children.add(convertFieldReference(node, i));
+
+        return children;
+    }
+
+    private SmaliNode convertFieldReference(Tree node, Integer position) {
+        var factory = context.get(SmaliContext.FACTORY);
+
+        var fieldReferenceAttributes = new HashMap<String, Object>();
+
+        var i = position;
+
         if (node.getChild(i).getType() != smaliParser.SIMPLE_NAME) {
             // Reference type descriptor
             if (node.getChild(i).getType() == smaliParser.CLASS_DESCRIPTOR) {
-                fieldReferenceAttributes.put("referenceTypeDescriptor", factory.classType(node.getChild(i).getText()));
+                fieldReferenceAttributes.put("referenceTypeDescriptor", convert(node.getChild(i)));
             } else {
                 i++;
                 fieldReferenceAttributes.put("referenceTypeDescriptor", factory.arrayType(node.getChild(i).getText()));
@@ -529,9 +615,7 @@ public class SmaliFileParser {
             fieldReferenceAttributes.put("nonVoidTypeDescriptor", factory.nonVoidType(node.getChild(i).getText()));
         }
 
-        children.add(factory.fieldReference(fieldReferenceAttributes));
-
-        return children;
+        return factory.fieldReference(fieldReferenceAttributes);
     }
 
     private List<SmaliNode> convertTypeReferenceStatement(Tree node) {
@@ -886,7 +970,7 @@ public class SmaliFileParser {
         if (node.getChild(i).getType() != smaliParser.SIMPLE_NAME) {
             // Reference type descriptor
             if (node.getChild(i).getType() == smaliParser.CLASS_DESCRIPTOR) {
-                methodReferenceAttributes.put("referenceTypeDescriptor", factory.classType(node.getChild(i).getText()));
+                methodReferenceAttributes.put("referenceTypeDescriptor", convert(node.getChild(i)));
             } else {
                 i++;
                 methodReferenceAttributes.put("referenceTypeDescriptor", factory.arrayType(node.getChild(i).getText()));

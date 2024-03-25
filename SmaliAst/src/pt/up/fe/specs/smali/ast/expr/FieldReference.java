@@ -9,7 +9,7 @@ import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
-import pt.up.fe.specs.smali.ast.type.Type;
+import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.TypeDescriptor;
 
 public class FieldReference extends Expression {
 
@@ -26,9 +26,9 @@ public class FieldReference extends Expression {
 
 		var attributes = get(ATTRIBUTES);
 
-		var referenceTypeDescriptor = (Type) attributes.get("referenceTypeDescriptor");
+		var referenceTypeDescriptor = (TypeDescriptor) attributes.get("referenceTypeDescriptor");
 		var member = attributes.get("memberName");
-		var nonVoidTypeDescriptor = (Type) attributes.get("nonVoidTypeDescriptor");
+		var nonVoidTypeDescriptor = (TypeDescriptor) attributes.get("nonVoidTypeDescriptor");
 
 		if (referenceTypeDescriptor != null) {
 			sb.append(referenceTypeDescriptor.getCode() + "->");

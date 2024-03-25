@@ -1,7 +1,7 @@
 package pt.up.fe.specs.smali.weaver.joinpoints;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat21cString;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat21cString;
 import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.AInstructionFormat21cString;
 
 public class InstructionFormat21cStringJp extends AInstructionFormat21cString {

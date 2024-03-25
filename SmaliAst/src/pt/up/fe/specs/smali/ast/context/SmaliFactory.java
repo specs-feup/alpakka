@@ -12,63 +12,68 @@ import pt.up.fe.specs.smali.ast.ClassNode;
 import pt.up.fe.specs.smali.ast.FieldNode;
 import pt.up.fe.specs.smali.ast.MethodNode;
 import pt.up.fe.specs.smali.ast.Placeholder;
+import pt.up.fe.specs.smali.ast.Resource;
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.ast.expr.AnnotationElement;
 import pt.up.fe.specs.smali.ast.expr.FieldReference;
 import pt.up.fe.specs.smali.ast.expr.LabelRef;
-import pt.up.fe.specs.smali.ast.expr.LiteralRef;
 import pt.up.fe.specs.smali.ast.expr.MethodReference;
 import pt.up.fe.specs.smali.ast.expr.RegisterList;
 import pt.up.fe.specs.smali.ast.expr.RegisterRange;
 import pt.up.fe.specs.smali.ast.expr.RegisterReference;
 import pt.up.fe.specs.smali.ast.expr.SparseSwitchElement;
+import pt.up.fe.specs.smali.ast.expr.literal.EncodedArray;
+import pt.up.fe.specs.smali.ast.expr.literal.EncodedEnum;
+import pt.up.fe.specs.smali.ast.expr.literal.MethodPrototype;
+import pt.up.fe.specs.smali.ast.expr.literal.NullLiteral;
+import pt.up.fe.specs.smali.ast.expr.literal.PrimitiveLiteral;
+import pt.up.fe.specs.smali.ast.expr.literal.SubannotationDirective;
+import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.ArrayType;
+import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.ClassType;
+import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.PrimitiveType;
+import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.TypeDescriptor;
 import pt.up.fe.specs.smali.ast.stmt.AnnotationDirective;
 import pt.up.fe.specs.smali.ast.stmt.ArrayDataDirective;
 import pt.up.fe.specs.smali.ast.stmt.CatchDirective;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat10t;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat10x;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat11n;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat11x;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat12x;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat20t;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat21cField;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat21cMethodType;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat21cString;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat21cType;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat21ih;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat21lh;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat21s;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat21t;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat22b;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat22cField;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat22cType;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat22s;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat22t;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat22x;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat23x;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat30t;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat31c;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat31i;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat31t;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat32x;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat35cMethod;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat35cType;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat3rcMethod;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat3rcType;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat45ccMethod;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat4rccMethod;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat51l;
 import pt.up.fe.specs.smali.ast.stmt.Label;
 import pt.up.fe.specs.smali.ast.stmt.LineDirective;
 import pt.up.fe.specs.smali.ast.stmt.PackedSwitchDirective;
 import pt.up.fe.specs.smali.ast.stmt.ParameterDirective;
 import pt.up.fe.specs.smali.ast.stmt.RegistersDirective;
 import pt.up.fe.specs.smali.ast.stmt.SparseSwitchDirective;
-import pt.up.fe.specs.smali.ast.type.ArrayType;
-import pt.up.fe.specs.smali.ast.type.ClassType;
-import pt.up.fe.specs.smali.ast.type.MethodPrototype;
-import pt.up.fe.specs.smali.ast.type.PrimitiveType;
-import pt.up.fe.specs.smali.ast.type.Type;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat10t;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat10x;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat11n;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat11x;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat12x;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat20t;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat21cField;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat21cMethodType;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat21cString;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat21cType;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat21ih;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat21lh;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat21s;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat21t;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat22b;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat22cField;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat22cType;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat22s;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat22t;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat22x;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat23x;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat30t;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat31c;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat31i;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat31t;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat32x;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat35cMethod;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat35cType;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat3rcMethod;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat3rcType;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat45ccMethod;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat4rccMethod;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat51l;
 
 public class SmaliFactory {
 
@@ -98,6 +103,13 @@ public class SmaliFactory {
         var number = idCounter;
         idCounter++;
         return "id_" + number;
+    }
+
+    public Resource resource(HashMap<String, Object> attributes) {
+        var data = newDataStore(Resource.class);
+        data.set(Resource.ATTRIBUTES, attributes);
+
+        return new Resource(data, null);
     }
 
     public App app(HashMap<String, Object> attributes, List<? extends SmaliNode> children) {
@@ -217,11 +229,11 @@ public class SmaliFactory {
         return new ArrayType(data, children);
     }
 
-    public Type nonVoidType(String type) {
+    public TypeDescriptor nonVoidType(String type) {
         switch (type.charAt(0)) {
         case 'Z', 'B', 'S', 'C', 'I', 'J', 'F', 'D' -> {
             var data = newDataStore(PrimitiveType.class);
-            data.set(PrimitiveType.TYPE, type.substring(0, 1));
+            data.set(PrimitiveType.TYPE_DESCRIPTOR, type.substring(0, 1));
             return new PrimitiveType(data, null);
         }
         case 'L' -> {
@@ -231,10 +243,10 @@ public class SmaliFactory {
         }
     }
 
-    public Type type(String type) {
+    public TypeDescriptor type(String type) {
         if (type.charAt(0) == 'V') {
             var data = newDataStore(PrimitiveType.class);
-            data.set(PrimitiveType.TYPE, "V");
+            data.set(PrimitiveType.TYPE_DESCRIPTOR, "V");
             return new PrimitiveType(data, null);
         } else
             return nonVoidType(type);
@@ -529,11 +541,37 @@ public class SmaliFactory {
         return new RegisterRange(data, children);
     }
 
-    public LiteralRef literalRef(HashMap<String, Object> attributes) {
-        var data = newDataStore(LiteralRef.class);
-        data.set(LiteralRef.ATTRIBUTES, attributes);
+    public EncodedArray encodedArray(List<? extends SmaliNode> children) {
+        var data = newDataStore(EncodedArray.class);
 
-        return new LiteralRef(data, null);
+        return new EncodedArray(data, children);
+    }
+
+    public EncodedEnum encodedEnum(List<? extends SmaliNode> children) {
+        var data = newDataStore(EncodedEnum.class);
+
+        return new EncodedEnum(data, children);
+    }
+
+    public SubannotationDirective subannotationDirective(HashMap<String, Object> attributes,
+            List<? extends SmaliNode> children) {
+        var data = newDataStore(SubannotationDirective.class);
+        data.set(SubannotationDirective.ATTRIBUTES, attributes);
+
+        return new SubannotationDirective(data, children);
+    }
+
+    public PrimitiveLiteral primitiveLiteral(HashMap<String, Object> attributes) {
+        var data = newDataStore(PrimitiveLiteral.class);
+        data.set(PrimitiveLiteral.ATTRIBUTES, attributes);
+
+        return new PrimitiveLiteral(data, null);
+    }
+
+    public NullLiteral nullLiteral() {
+        var data = newDataStore(NullLiteral.class);
+
+        return new NullLiteral(data, null);
     }
 
     public FieldReference fieldReference(HashMap<String, Object> attributes) {

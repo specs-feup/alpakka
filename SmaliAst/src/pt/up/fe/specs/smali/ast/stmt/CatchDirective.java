@@ -19,7 +19,7 @@ import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.ast.expr.LabelRef;
-import pt.up.fe.specs.smali.ast.type.Type;
+import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.TypeDescriptor;
 
 public class CatchDirective extends Statement {
 
@@ -30,14 +30,12 @@ public class CatchDirective extends Statement {
     @Override
     public String getCode() {
         var sb = new StringBuilder();
-        var type = (Type) get(ATTRIBUTES).get("nonVoidTypeDescriptor");
+        var type = (TypeDescriptor) get(ATTRIBUTES).get("nonVoidTypeDescriptor");
         var from = (LabelRef) get(ATTRIBUTES).get("from");
         var to = (LabelRef) get(ATTRIBUTES).get("to");
         var label = (LabelRef) get(ATTRIBUTES).get("label");
 
         sb.append(getLineDirective());
-
-        sb.append("\t");
 
         if (type != null) {
             sb.append(".catch ");

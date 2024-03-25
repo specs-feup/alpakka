@@ -18,7 +18,7 @@ import java.util.Collection;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
-import pt.up.fe.specs.smali.ast.expr.LiteralRef;
+import pt.up.fe.specs.smali.ast.expr.literal.Literal;
 
 public class LineDirective extends Statement {
 
@@ -28,8 +28,15 @@ public class LineDirective extends Statement {
 
     @Override
     public String getCode() {
-        var value = (LiteralRef) get(ATTRIBUTES).get("line");
-        return ".line " + value.getCode();
+        var sb = new StringBuilder();
+        var value = (Literal) get(ATTRIBUTES).get("line");
+
+        sb.append(getLineDirective());
+
+        sb.append(".line ");
+        sb.append(value.getCode());
+
+        return sb.toString();
     }
 
 }

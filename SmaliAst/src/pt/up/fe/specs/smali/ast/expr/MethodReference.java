@@ -9,8 +9,8 @@ import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
-import pt.up.fe.specs.smali.ast.type.MethodPrototype;
-import pt.up.fe.specs.smali.ast.type.Type;
+import pt.up.fe.specs.smali.ast.expr.literal.MethodPrototype;
+import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.TypeDescriptor;
 
 public class MethodReference extends Expression {
 
@@ -25,7 +25,7 @@ public class MethodReference extends Expression {
 	public String getCode() {
 		var attributes = get(ATTRIBUTES);
 
-		var referenceTypeDescriptor = (Type) attributes.get("referenceTypeDescriptor");
+		var referenceTypeDescriptor = (TypeDescriptor) attributes.get("referenceTypeDescriptor");
 		var member = attributes.get("memberName");
 		var prototype = (MethodPrototype) attributes.get("prototype");
 

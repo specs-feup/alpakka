@@ -9,8 +9,8 @@ import org.suikasoft.jOptions.Datakey.DataKey;
 import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
-import pt.up.fe.specs.smali.ast.expr.LiteralRef;
-import pt.up.fe.specs.smali.ast.type.ClassType;
+import pt.up.fe.specs.smali.ast.expr.literal.Literal;
+import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.ClassType;
 
 public class ClassNode extends SmaliNode {
 
@@ -28,7 +28,7 @@ public class ClassNode extends SmaliNode {
         var classDescriptor = (ClassType) attributes.get("classDescriptor");
         var superClassDescriptor = (ClassType) attributes.get("superClassDescriptor");
         var implementsDescriptors = (List<ClassType>) attributes.get("implementsDescriptors");
-        var source = (LiteralRef) attributes.get("source");
+        var source = (Literal) attributes.get("source");
 
         var builder = new StringBuilder();
         builder.append(".class ");
@@ -68,6 +68,14 @@ public class ClassNode extends SmaliNode {
         otherChildren.forEach(c -> builder.append(c.getCode() + "\n"));
 
         return builder.toString();
+    }
+
+    public ClassType getClassDescriptor() {
+        return (ClassType) get(ATTRIBUTES).get("classDescriptor");
+    }
+
+    public String getDexClassName() {
+        return get(ATTRIBUTES).get("dexClass") != null ? (String) get(ATTRIBUTES).get("dexClass") : "";
     }
 
 }

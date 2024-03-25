@@ -9,13 +9,13 @@ import org.suikasoft.jOptions.Datakey.DataKey;
 import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
+import pt.up.fe.specs.smali.ast.expr.literal.MethodPrototype;
 import pt.up.fe.specs.smali.ast.stmt.AnnotationDirective;
 import pt.up.fe.specs.smali.ast.stmt.CatchDirective;
-import pt.up.fe.specs.smali.ast.stmt.Instruction;
 import pt.up.fe.specs.smali.ast.stmt.Label;
 import pt.up.fe.specs.smali.ast.stmt.ParameterDirective;
 import pt.up.fe.specs.smali.ast.stmt.RegistersDirective;
-import pt.up.fe.specs.smali.ast.type.MethodPrototype;
+import pt.up.fe.specs.smali.ast.stmt.instruction.Instruction;
 
 public class MethodNode extends SmaliNode {
 
@@ -42,23 +42,23 @@ public class MethodNode extends SmaliNode {
         sb.append("\n");
 
         if (registersDirective != null) {
-            sb.append(registersDirective.getCode()).append("\n");
+            sb.append(indentCode(registersDirective.getCode())).append("\n");
         }
 
         getChildren().stream()
                 .filter(c -> c instanceof AnnotationDirective)
-                .forEach(c -> sb.append(c.getCode()));
+                .forEach(c -> sb.append(indentCode(c.getCode())));
 
         getChildren().stream()
                 .filter(c -> c instanceof ParameterDirective)
-                .forEach(c -> sb.append(c.getCode()));
+                .forEach(c -> sb.append(indentCode(c.getCode())));
 
         var methodItems = getChildren().stream()
                 .filter(c -> (c instanceof Instruction || c instanceof Label))
                 .toList();
 
         for (var child : methodItems) {
-            sb.append("\n").append(child.getCode());
+            sb.append("\n").append(indentCode(child.getCode()));
             if (child instanceof Label) {
                 var label = (Label) child;
                 var catchDirectives = getChildren().stream()
@@ -68,7 +68,7 @@ public class MethodNode extends SmaliNode {
                         .toList();
 
                 for (var catchDir : catchDirectives) {
-                    sb.append("\n").append(catchDir.getCode());
+                    sb.append("\n").append(indentCode(catchDir.getCode()));
                 }
                 if (!catchDirectives.isEmpty()) {
                     sb.append("\n");

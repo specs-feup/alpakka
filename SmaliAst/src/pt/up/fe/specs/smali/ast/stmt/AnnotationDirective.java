@@ -17,8 +17,9 @@ import java.util.Collection;
 
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
+import pt.up.fe.specs.smali.ast.AnnotationVisibility;
 import pt.up.fe.specs.smali.ast.SmaliNode;
-import pt.up.fe.specs.smali.ast.type.ClassType;
+import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.ClassType;
 
 public class AnnotationDirective extends Statement {
 
@@ -29,18 +30,18 @@ public class AnnotationDirective extends Statement {
     @Override
     public String getCode() {
         var sb = new StringBuilder();
-        var visibility = (String) get(ATTRIBUTES).get("visibility");
+        var visibility = (AnnotationVisibility) get(ATTRIBUTES).get("visibility");
         var classDescriptor = (ClassType) get(ATTRIBUTES).get("classDescriptor");
 
         sb.append(getLineDirective());
 
-        sb.append("\t.annotation " + visibility + " " + classDescriptor.getCode() + "\n");
+        sb.append(".annotation " + visibility.getVisibility() + " " + classDescriptor.getCode() + "\n");
 
         for (var child : getChildren()) {
-            sb.append("\t\t" + child.getCode() + "\n");
+            sb.append(indentCode(child.getCode()) + "\n");
         }
 
-        sb.append("\t.end annotation");
+        sb.append(".end annotation");
 
         return sb.toString();
     }

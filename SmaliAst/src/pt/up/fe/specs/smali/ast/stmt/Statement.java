@@ -23,7 +23,7 @@ public abstract class Statement extends SmaliNode {
         var attributes = get(ATTRIBUTES);
         var lineDirective = (LineDirective) attributes.get("lineDirective");
 
-        return lineDirective != null ? "\t" + lineDirective.getCode() + "\n" : "";
+        return lineDirective != null ? lineDirective.getCode() + "\n" : "";
     }
 
 }

@@ -1,7 +1,7 @@
 package pt.up.fe.specs.smali.weaver.joinpoints;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
-import pt.up.fe.specs.smali.ast.type.MethodPrototype;
+import pt.up.fe.specs.smali.ast.expr.literal.MethodPrototype;
 import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.AMethodPrototype;
 
 public class MethodPrototypeJp extends AMethodPrototype {

@@ -9,6 +9,7 @@ import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
+import pt.up.fe.specs.smali.ast.expr.literal.Literal;
 
 public class AnnotationElement extends Expression {
 
@@ -23,9 +24,9 @@ public class AnnotationElement extends Expression {
     public String getCode() {
         var attributes = get(ATTRIBUTES);
         var name = (String) attributes.get("name");
-        // var value = (LiteralRef) attributes.get("value");
+        var value = (Literal) attributes.get("value");
 
-        return name + " = " + "TODO: Annotation value";
+        return name + " = " + value.getCode();
     }
 
 }

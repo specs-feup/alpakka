@@ -8,8 +8,8 @@ import pt.up.fe.specs.smali.ast.SmaliNode;
 
 public abstract class Expression extends SmaliNode {
 
-	public Expression(DataStore data, Collection<? extends SmaliNode> children) {
-		super(data, children);
-	}
+    public Expression(DataStore data, Collection<? extends SmaliNode> children) {
+        super(data, children);
+    }
 
 }

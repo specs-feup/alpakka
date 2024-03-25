@@ -53,7 +53,7 @@ class SmaliAstTest {
         var smaliRoot = new SmaliParser().parse(List.of(resourceFile), 10).orElseThrow();
 
         var directory = SpecsIo.mkdir(SmaliAstTest.OUTPUT_FOLDERNAME + "/outputFirst");
-        SpecsIo.write(new File(directory, resourceFile.getName()), smaliRoot.getCode());
+        SpecsIo.write(new File(directory, resourceFile.getName()), smaliRoot.getChildren().get(0).getCode());
 
         // Parse output again, check if files are the same
         File firstOutput = new File(directory, resourceFile.getName());
@@ -61,7 +61,7 @@ class SmaliAstTest {
         var smaliRoot2 = new SmaliParser().parse(List.of(firstOutput), 10).orElseThrow();
 
         var secondDirectory = SpecsIo.mkdir(SmaliAstTest.OUTPUT_FOLDERNAME + "/outputSecond");
-        SpecsIo.write(new File(secondDirectory, resourceFile.getName()), smaliRoot2.getCode());
+        SpecsIo.write(new File(secondDirectory, resourceFile.getName()), smaliRoot2.getChildren().get(0).getCode());
 
         Map<String, File> outputFiles1 = SpecsIo.getFiles(new File(SmaliAstTest.OUTPUT_FOLDERNAME + "/outputFirst"))
                 .stream().collect(Collectors.toMap(file -> file.getName(), file -> file));

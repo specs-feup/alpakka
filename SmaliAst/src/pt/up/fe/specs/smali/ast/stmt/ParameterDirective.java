@@ -18,8 +18,8 @@ import java.util.Collection;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
-import pt.up.fe.specs.smali.ast.expr.LiteralRef;
 import pt.up.fe.specs.smali.ast.expr.RegisterReference;
+import pt.up.fe.specs.smali.ast.expr.literal.Literal;
 
 public class ParameterDirective extends Statement {
 
@@ -31,11 +31,11 @@ public class ParameterDirective extends Statement {
     public String getCode() {
         var sb = new StringBuilder();
         var register = (RegisterReference) get(ATTRIBUTES).get("register");
-        var string = (LiteralRef) get(ATTRIBUTES).get("string");
+        var string = (Literal) get(ATTRIBUTES).get("string");
 
         sb.append(getLineDirective());
 
-        sb.append("\t.param " + register.getCode());
+        sb.append(".param " + register.getCode());
 
         if (string != null) {
             sb.append(", " + string.getCode());
@@ -44,10 +44,10 @@ public class ParameterDirective extends Statement {
         sb.append("\n");
 
         for (var child : getChildren()) {
-            sb.append("\t\t" + child.getCode() + "\n");
+            sb.append(indentCode(child.getCode()) + "\n");
         }
 
-        sb.append("\t.end param");
+        sb.append(".end param");
 
         return sb.toString();
     }

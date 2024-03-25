@@ -9,6 +9,7 @@ import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
+import pt.up.fe.specs.smali.ast.expr.literal.Literal;
 
 public class SparseSwitchElement extends Expression {
 
@@ -22,7 +23,7 @@ public class SparseSwitchElement extends Expression {
     @Override
     public String getCode() {
         var attributes = get(ATTRIBUTES);
-        var key = (LiteralRef) attributes.get("key");
+        var key = (Literal) attributes.get("key");
         var label = (LabelRef) attributes.get("label");
 
         return key.getCode() + " -> " + label.getCode();

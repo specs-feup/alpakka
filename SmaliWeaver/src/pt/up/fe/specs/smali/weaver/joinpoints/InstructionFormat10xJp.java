@@ -1,7 +1,7 @@
 package pt.up.fe.specs.smali.weaver.joinpoints;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
-import pt.up.fe.specs.smali.ast.stmt.InstructionFormat10x;
+import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat10x;
 import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.AInstructionFormat10x;
 
 public class InstructionFormat10xJp extends AInstructionFormat10x {

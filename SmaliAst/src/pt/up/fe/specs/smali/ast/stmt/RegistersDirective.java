@@ -5,7 +5,7 @@ import java.util.Collection;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
-import pt.up.fe.specs.smali.ast.expr.LiteralRef;
+import pt.up.fe.specs.smali.ast.expr.literal.Literal;
 
 public class RegistersDirective extends Statement {
 
@@ -19,11 +19,9 @@ public class RegistersDirective extends Statement {
         var attributes = get(ATTRIBUTES);
 
         var type = (String) attributes.get("type");
-        var value = (LiteralRef) attributes.get("value");
+        var value = (Literal) attributes.get("value");
 
         sb.append(getLineDirective());
-
-        sb.append("\t");
 
         if (type == "I_REGISTERS") {
             sb.append(".registers ");

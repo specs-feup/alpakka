@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
+import pt.up.fe.specs.smali.ast.stmt.instruction.Instruction;
 
 public class SparseSwitchDirective extends Instruction {
 
@@ -18,15 +19,15 @@ public class SparseSwitchDirective extends Instruction {
 
         sb.append(getLineDirective());
 
-        sb.append("\t.sparse-switch\n");
+        sb.append(".sparse-switch\n");
 
         var children = getChildren();
 
         for (var child : children) {
-            sb.append("\t\t" + child.getCode() + "\n");
+            sb.append(indentCode(child.getCode()) + "\n");
         }
 
-        sb.append("\t.end sparse-switch");
+        sb.append(".end sparse-switch");
 
         return sb.toString();
     }

@@ -32,7 +32,7 @@ public class Label extends Statement {
 
         sb.append(getLineDirective());
 
-        sb.append("\t").append(":" + name);
+        sb.append(":" + name);
 
         return sb.toString();
     }

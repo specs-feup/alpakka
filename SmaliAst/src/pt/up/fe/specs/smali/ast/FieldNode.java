@@ -9,8 +9,8 @@ import org.suikasoft.jOptions.Datakey.DataKey;
 import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
-import pt.up.fe.specs.smali.ast.expr.LiteralRef;
-import pt.up.fe.specs.smali.ast.type.Type;
+import pt.up.fe.specs.smali.ast.expr.literal.Literal;
+import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.TypeDescriptor;
 
 public class FieldNode extends SmaliNode {
 
@@ -27,7 +27,7 @@ public class FieldNode extends SmaliNode {
         var attributes = get(ATTRIBUTES);
         var accessOrRestrictionList = (List<Modifier>) attributes.get("accessOrRestrictionList");
         var name = (String) attributes.get("memberName");
-        var fieldType = (Type) attributes.get("fieldType");
+        var fieldType = (TypeDescriptor) attributes.get("fieldType");
 
         sb.append(".field ");
         accessOrRestrictionList.forEach(a -> sb.append(a.getLabel()).append(" "));
@@ -38,7 +38,7 @@ public class FieldNode extends SmaliNode {
         if (getChildren().size() > 0) {
             var i = 0;
 
-            if (getChild(i) instanceof LiteralRef) {
+            if (getChild(i) instanceof Literal) {
                 sb.append(" = ");
                 sb.append(getChild(i).getCode());
                 i++;
@@ -46,7 +46,7 @@ public class FieldNode extends SmaliNode {
 
             for (; i < getChildren().size(); i++) {
                 sb.append("\n");
-                sb.append(getChild(i).getCode());
+                sb.append(indentCode(getChild(i).getCode()));
 
                 if (i == getChildren().size() - 1) {
                     sb.append("\n.end field");

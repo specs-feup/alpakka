@@ -5,7 +5,8 @@ import java.util.Collection;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
-import pt.up.fe.specs.smali.ast.expr.LiteralRef;
+import pt.up.fe.specs.smali.ast.expr.literal.Literal;
+import pt.up.fe.specs.smali.ast.stmt.instruction.Instruction;
 
 public class ArrayDataDirective extends Instruction {
 
@@ -19,15 +20,15 @@ public class ArrayDataDirective extends Instruction {
 
         sb.append(getLineDirective());
 
-        var width = (LiteralRef) get(ATTRIBUTES).get("elementWidth");
+        var width = (Literal) get(ATTRIBUTES).get("elementWidth");
 
-        sb.append("\t.array-data " + width.getCode() + "\n");
+        sb.append(".array-data " + width.getCode() + "\n");
 
         for (int i = 0; i < getChildren().size(); i++) {
-            sb.append("\t\t" + getChildren().get(i).getCode() + "\n");
+            sb.append(indentCode(getChildren().get(i).getCode()) + "\n");
         }
 
-        sb.append("\t.end array-data");
+        sb.append(".end array-data");
 
         return sb.toString();
     }

@@ -10,18 +10,18 @@ import org.suikasoft.jOptions.Interfaces.DataStore;
 
 public class Placeholder extends SmaliNode {
 
-    public static final DataKey<String> KIND = KeyFactory.string("kind");
+	public static final DataKey<String> KIND = KeyFactory.string("kind");
 
-    public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-            () -> new HashMap<String, Object>());
+	public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
+			() -> new HashMap<String, Object>());
 
-    public Placeholder(DataStore data, Collection<? extends SmaliNode> children) {
-        super(data, children);
-    }
+	public Placeholder(DataStore data, Collection<? extends SmaliNode> children) {
+		super(data, children);
+	}
 
-    @Override
-    public String getCode() {
-        return "<PLACEHOLDER>";
-    }
+	@Override
+	public String getCode() {
+		return "<PLACEHOLDER> " + get(KIND) + " </PLACEHOLDER>";
+	}
 
 }

@@ -37,4 +37,18 @@ public abstract class SmaliNode extends DataNode<SmaliNode> {
 
     public abstract String getCode();
 
+    protected String indentCode(String code) {
+        var lines = code.split("\n");
+        var sb = new StringBuilder();
+
+        for (int i = 0; i < lines.length; i++) {
+            sb.append("\t" + lines[i]);
+            if (i < lines.length - 1) {
+                sb.append("\n");
+            }
+        }
+
+        return sb.toString();
+    }
+
 }
