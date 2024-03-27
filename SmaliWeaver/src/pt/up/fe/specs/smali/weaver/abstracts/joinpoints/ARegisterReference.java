@@ -1,9 +1,8 @@
 package pt.up.fe.specs.smali.weaver.abstracts.joinpoints;
 
-import pt.up.fe.specs.smali.weaver.abstracts.ASmaliWeaverJoinPoint;
-import java.util.List;
 import org.lara.interpreter.weaver.interf.JoinPoint;
 import java.util.Optional;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Arrays;
 
@@ -14,7 +13,150 @@ import java.util.Arrays;
  * Register reference
  * @author Lara Weaver Generator
  */
-public abstract class ARegisterReference extends ASmaliWeaverJoinPoint {
+public abstract class ARegisterReference extends AExpression {
+
+    protected AExpression aExpression;
+
+    /**
+     * 
+     */
+    public ARegisterReference(AExpression aExpression){
+        this.aExpression = aExpression;
+    }
+    /**
+     * Get value on attribute id
+     * @return the attribute's value
+     */
+    @Override
+    public String getIdImpl() {
+        return this.aExpression.getIdImpl();
+    }
+
+    /**
+     * Get value on attribute ast
+     * @return the attribute's value
+     */
+    @Override
+    public String getAstImpl() {
+        return this.aExpression.getAstImpl();
+    }
+
+    /**
+     * Get value on attribute code
+     * @return the attribute's value
+     */
+    @Override
+    public String getCodeImpl() {
+        return this.aExpression.getCodeImpl();
+    }
+
+    /**
+     * Replaces this node with the given node
+     * @param node 
+     */
+    @Override
+    public AJoinPoint replaceWithImpl(AJoinPoint node) {
+        return this.aExpression.replaceWithImpl(node);
+    }
+
+    /**
+     * Overload which accepts a string
+     * @param node 
+     */
+    @Override
+    public AJoinPoint replaceWithImpl(String node) {
+        return this.aExpression.replaceWithImpl(node);
+    }
+
+    /**
+     * Overload which accepts a list of join points
+     * @param node 
+     */
+    @Override
+    public AJoinPoint replaceWithImpl(AJoinPoint[] node) {
+        return this.aExpression.replaceWithImpl(node);
+    }
+
+    /**
+     * Overload which accepts a list of strings
+     * @param node 
+     */
+    @Override
+    public AJoinPoint replaceWithStringsImpl(String[] node) {
+        return this.aExpression.replaceWithStringsImpl(node);
+    }
+
+    /**
+     * Inserts the given join point before this join point
+     * @param node 
+     */
+    @Override
+    public AJoinPoint insertBeforeImpl(AJoinPoint node) {
+        return this.aExpression.insertBeforeImpl(node);
+    }
+
+    /**
+     * Overload which accepts a string
+     * @param node 
+     */
+    @Override
+    public AJoinPoint insertBeforeImpl(String node) {
+        return this.aExpression.insertBeforeImpl(node);
+    }
+
+    /**
+     * Inserts the given join point after this join point
+     * @param node 
+     */
+    @Override
+    public AJoinPoint insertAfterImpl(AJoinPoint node) {
+        return this.aExpression.insertAfterImpl(node);
+    }
+
+    /**
+     * Overload which accepts a string
+     * @param code 
+     */
+    @Override
+    public AJoinPoint insertAfterImpl(String code) {
+        return this.aExpression.insertAfterImpl(code);
+    }
+
+    /**
+     * Removes the node associated to this joinpoint from the AST
+     */
+    @Override
+    public AJoinPoint detachImpl() {
+        return this.aExpression.detachImpl();
+    }
+
+    /**
+     * 
+     * @param position 
+     * @param code 
+     */
+    @Override
+    public AJoinPoint[] insertImpl(String position, String code) {
+        return this.aExpression.insertImpl(position, code);
+    }
+
+    /**
+     * 
+     * @param position 
+     * @param code 
+     */
+    @Override
+    public AJoinPoint[] insertImpl(String position, JoinPoint code) {
+        return this.aExpression.insertImpl(position, code);
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public Optional<? extends AExpression> getSuper() {
+        return Optional.of(this.aExpression);
+    }
 
     /**
      * 
@@ -24,7 +166,7 @@ public abstract class ARegisterReference extends ASmaliWeaverJoinPoint {
         List<? extends JoinPoint> joinPointList;
         switch(selectName) {
         	default:
-        		joinPointList = super.select(selectName);
+        		joinPointList = this.aExpression.select(selectName);
         		break;
         }
         return joinPointList;
@@ -45,7 +187,7 @@ public abstract class ARegisterReference extends ASmaliWeaverJoinPoint {
      */
     @Override
     protected final void fillWithAttributes(List<String> attributes) {
-        super.fillWithAttributes(attributes);
+        this.aExpression.fillWithAttributes(attributes);
     }
 
     /**
@@ -53,7 +195,7 @@ public abstract class ARegisterReference extends ASmaliWeaverJoinPoint {
      */
     @Override
     protected final void fillWithSelects(List<String> selects) {
-        super.fillWithSelects(selects);
+        this.aExpression.fillWithSelects(selects);
     }
 
     /**
@@ -61,7 +203,7 @@ public abstract class ARegisterReference extends ASmaliWeaverJoinPoint {
      */
     @Override
     protected final void fillWithActions(List<String> actions) {
-        super.fillWithActions(actions);
+        this.aExpression.fillWithActions(actions);
     }
 
     /**
@@ -71,6 +213,19 @@ public abstract class ARegisterReference extends ASmaliWeaverJoinPoint {
     @Override
     public final String get_class() {
         return "registerReference";
+    }
+
+    /**
+     * Defines if this joinpoint is an instanceof a given joinpoint class
+     * @return True if this join point is an instanceof the given class
+     */
+    @Override
+    public final boolean instanceOf(String joinpointClass) {
+        boolean isInstance = get_class().equals(joinpointClass);
+        if(isInstance) {
+        	return true;
+        }
+        return this.aExpression.instanceOf(joinpointClass);
     }
     /**
      * 

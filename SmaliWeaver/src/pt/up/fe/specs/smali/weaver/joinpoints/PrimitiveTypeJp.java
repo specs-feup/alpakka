@@ -6,15 +6,16 @@ import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.APrimitiveType;
 
 public class PrimitiveTypeJp extends APrimitiveType {
 
-	private final PrimitiveType primitiveType;
+    private final PrimitiveType primitiveType;
 
-	public PrimitiveTypeJp(PrimitiveType primitiveType) {
-		this.primitiveType = primitiveType;
-	}
+    public PrimitiveTypeJp(PrimitiveType primitiveType) {
+        super(new TypeDescriptorJp(primitiveType));
+        this.primitiveType = primitiveType;
+    }
 
-	@Override
-	public SmaliNode getNode() {
-		return this.primitiveType;
-	}
+    @Override
+    public SmaliNode getNode() {
+        return this.primitiveType;
+    }
 
 }

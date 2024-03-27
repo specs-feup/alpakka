@@ -21,6 +21,7 @@ public abstract class AInstructionFormat10x extends AInstruction {
      * 
      */
     public AInstructionFormat10x(AInstruction aInstruction){
+        super(aInstruction);
         this.aInstruction = aInstruction;
     }
     /**

@@ -33,14 +33,13 @@ import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.ClassType;
 import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.PrimitiveType;
 import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.TypeDescriptor;
 import pt.up.fe.specs.smali.ast.stmt.AnnotationDirective;
-import pt.up.fe.specs.smali.ast.stmt.ArrayDataDirective;
 import pt.up.fe.specs.smali.ast.stmt.CatchDirective;
 import pt.up.fe.specs.smali.ast.stmt.Label;
 import pt.up.fe.specs.smali.ast.stmt.LineDirective;
-import pt.up.fe.specs.smali.ast.stmt.PackedSwitchDirective;
+import pt.up.fe.specs.smali.ast.stmt.LiteralStatement;
 import pt.up.fe.specs.smali.ast.stmt.ParameterDirective;
 import pt.up.fe.specs.smali.ast.stmt.RegistersDirective;
-import pt.up.fe.specs.smali.ast.stmt.SparseSwitchDirective;
+import pt.up.fe.specs.smali.ast.stmt.instruction.ArrayDataDirective;
 import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat10t;
 import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat10x;
 import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat11n;
@@ -74,6 +73,8 @@ import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat3rcType;
 import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat45ccMethod;
 import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat4rccMethod;
 import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat51l;
+import pt.up.fe.specs.smali.ast.stmt.instruction.PackedSwitchDirective;
+import pt.up.fe.specs.smali.ast.stmt.instruction.SparseSwitchDirective;
 
 public class SmaliFactory {
 
@@ -617,6 +618,15 @@ public class SmaliFactory {
         data.set(SparseSwitchElement.ATTRIBUTES, attributes);
 
         return new SparseSwitchElement(data, null);
+    }
+
+    public LiteralStatement literalStmt(String code) {
+        var attributes = new HashMap<String, Object>();
+        attributes.put("code", code);
+        var data = newDataStore(LiteralStatement.class);
+        data.set(LiteralStatement.ATTRIBUTES, attributes);
+
+        return new LiteralStatement(data, null);
     }
 
 }

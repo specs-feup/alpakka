@@ -1,9 +1,8 @@
 package pt.up.fe.specs.smali.weaver.abstracts.joinpoints;
 
-import pt.up.fe.specs.smali.weaver.abstracts.ASmaliWeaverJoinPoint;
-import java.util.List;
 import org.lara.interpreter.weaver.interf.JoinPoint;
 import java.util.Optional;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Arrays;
 
@@ -14,7 +13,151 @@ import java.util.Arrays;
  * Primitive descriptor
  * @author Lara Weaver Generator
  */
-public abstract class APrimitiveType extends ASmaliWeaverJoinPoint {
+public abstract class APrimitiveType extends ATypeDescriptor {
+
+    protected ATypeDescriptor aTypeDescriptor;
+
+    /**
+     * 
+     */
+    public APrimitiveType(ATypeDescriptor aTypeDescriptor){
+        super(aTypeDescriptor);
+        this.aTypeDescriptor = aTypeDescriptor;
+    }
+    /**
+     * Get value on attribute id
+     * @return the attribute's value
+     */
+    @Override
+    public String getIdImpl() {
+        return this.aTypeDescriptor.getIdImpl();
+    }
+
+    /**
+     * Get value on attribute ast
+     * @return the attribute's value
+     */
+    @Override
+    public String getAstImpl() {
+        return this.aTypeDescriptor.getAstImpl();
+    }
+
+    /**
+     * Get value on attribute code
+     * @return the attribute's value
+     */
+    @Override
+    public String getCodeImpl() {
+        return this.aTypeDescriptor.getCodeImpl();
+    }
+
+    /**
+     * Replaces this node with the given node
+     * @param node 
+     */
+    @Override
+    public AJoinPoint replaceWithImpl(AJoinPoint node) {
+        return this.aTypeDescriptor.replaceWithImpl(node);
+    }
+
+    /**
+     * Overload which accepts a string
+     * @param node 
+     */
+    @Override
+    public AJoinPoint replaceWithImpl(String node) {
+        return this.aTypeDescriptor.replaceWithImpl(node);
+    }
+
+    /**
+     * Overload which accepts a list of join points
+     * @param node 
+     */
+    @Override
+    public AJoinPoint replaceWithImpl(AJoinPoint[] node) {
+        return this.aTypeDescriptor.replaceWithImpl(node);
+    }
+
+    /**
+     * Overload which accepts a list of strings
+     * @param node 
+     */
+    @Override
+    public AJoinPoint replaceWithStringsImpl(String[] node) {
+        return this.aTypeDescriptor.replaceWithStringsImpl(node);
+    }
+
+    /**
+     * Inserts the given join point before this join point
+     * @param node 
+     */
+    @Override
+    public AJoinPoint insertBeforeImpl(AJoinPoint node) {
+        return this.aTypeDescriptor.insertBeforeImpl(node);
+    }
+
+    /**
+     * Overload which accepts a string
+     * @param node 
+     */
+    @Override
+    public AJoinPoint insertBeforeImpl(String node) {
+        return this.aTypeDescriptor.insertBeforeImpl(node);
+    }
+
+    /**
+     * Inserts the given join point after this join point
+     * @param node 
+     */
+    @Override
+    public AJoinPoint insertAfterImpl(AJoinPoint node) {
+        return this.aTypeDescriptor.insertAfterImpl(node);
+    }
+
+    /**
+     * Overload which accepts a string
+     * @param code 
+     */
+    @Override
+    public AJoinPoint insertAfterImpl(String code) {
+        return this.aTypeDescriptor.insertAfterImpl(code);
+    }
+
+    /**
+     * Removes the node associated to this joinpoint from the AST
+     */
+    @Override
+    public AJoinPoint detachImpl() {
+        return this.aTypeDescriptor.detachImpl();
+    }
+
+    /**
+     * 
+     * @param position 
+     * @param code 
+     */
+    @Override
+    public AJoinPoint[] insertImpl(String position, String code) {
+        return this.aTypeDescriptor.insertImpl(position, code);
+    }
+
+    /**
+     * 
+     * @param position 
+     * @param code 
+     */
+    @Override
+    public AJoinPoint[] insertImpl(String position, JoinPoint code) {
+        return this.aTypeDescriptor.insertImpl(position, code);
+    }
+
+    /**
+     * 
+     */
+    @Override
+    public Optional<? extends ATypeDescriptor> getSuper() {
+        return Optional.of(this.aTypeDescriptor);
+    }
 
     /**
      * 
@@ -24,7 +167,7 @@ public abstract class APrimitiveType extends ASmaliWeaverJoinPoint {
         List<? extends JoinPoint> joinPointList;
         switch(selectName) {
         	default:
-        		joinPointList = super.select(selectName);
+        		joinPointList = this.aTypeDescriptor.select(selectName);
         		break;
         }
         return joinPointList;
@@ -45,7 +188,7 @@ public abstract class APrimitiveType extends ASmaliWeaverJoinPoint {
      */
     @Override
     protected final void fillWithAttributes(List<String> attributes) {
-        super.fillWithAttributes(attributes);
+        this.aTypeDescriptor.fillWithAttributes(attributes);
     }
 
     /**
@@ -53,7 +196,7 @@ public abstract class APrimitiveType extends ASmaliWeaverJoinPoint {
      */
     @Override
     protected final void fillWithSelects(List<String> selects) {
-        super.fillWithSelects(selects);
+        this.aTypeDescriptor.fillWithSelects(selects);
     }
 
     /**
@@ -61,7 +204,7 @@ public abstract class APrimitiveType extends ASmaliWeaverJoinPoint {
      */
     @Override
     protected final void fillWithActions(List<String> actions) {
-        super.fillWithActions(actions);
+        this.aTypeDescriptor.fillWithActions(actions);
     }
 
     /**
@@ -71,6 +214,19 @@ public abstract class APrimitiveType extends ASmaliWeaverJoinPoint {
     @Override
     public final String get_class() {
         return "primitiveType";
+    }
+
+    /**
+     * Defines if this joinpoint is an instanceof a given joinpoint class
+     * @return True if this join point is an instanceof the given class
+     */
+    @Override
+    public final boolean instanceOf(String joinpointClass) {
+        boolean isInstance = get_class().equals(joinpointClass);
+        if(isInstance) {
+        	return true;
+        }
+        return this.aTypeDescriptor.instanceOf(joinpointClass);
     }
     /**
      * 

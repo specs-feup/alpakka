@@ -5,14 +5,15 @@ import pt.up.fe.specs.smali.ast.stmt.instruction.Instruction;
 import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.AInstruction;
 
 public class InstructionJp extends AInstruction {
-	private final Instruction instruction;
+    private final Instruction instruction;
 
-	public InstructionJp(Instruction instruction) {
-		this.instruction = instruction;
-	}
+    public InstructionJp(Instruction instruction) {
+        super(new StatementJp(instruction));
+        this.instruction = instruction;
+    }
 
-	@Override
-	public SmaliNode getNode() {
-		return this.instruction;
-	}
+    @Override
+    public SmaliNode getNode() {
+        return this.instruction;
+    }
 }

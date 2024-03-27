@@ -6,15 +6,16 @@ import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.AArrayType;
 
 public class ArrayTypeJp extends AArrayType {
 
-	private final ArrayType arrayType;
+    private final ArrayType arrayType;
 
-	public ArrayTypeJp(ArrayType arrayType) {
-		this.arrayType = arrayType;
-	}
+    public ArrayTypeJp(ArrayType arrayType) {
+        super(new TypeDescriptorJp(arrayType));
+        this.arrayType = arrayType;
+    }
 
-	@Override
-	public SmaliNode getNode() {
-		return this.arrayType;
-	}
+    @Override
+    public SmaliNode getNode() {
+        return this.arrayType;
+    }
 
 }

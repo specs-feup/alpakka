@@ -21,6 +21,7 @@ public abstract class AInstructionFormat21cString extends AInstruction {
      * 
      */
     public AInstructionFormat21cString(AInstruction aInstruction){
+        super(aInstruction);
         this.aInstruction = aInstruction;
     }
     /**

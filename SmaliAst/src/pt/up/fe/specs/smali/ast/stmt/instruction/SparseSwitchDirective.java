@@ -1,11 +1,10 @@
-package pt.up.fe.specs.smali.ast.stmt;
+package pt.up.fe.specs.smali.ast.stmt.instruction;
 
 import java.util.Collection;
 
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
-import pt.up.fe.specs.smali.ast.stmt.instruction.Instruction;
 
 public class SparseSwitchDirective extends Instruction {
 

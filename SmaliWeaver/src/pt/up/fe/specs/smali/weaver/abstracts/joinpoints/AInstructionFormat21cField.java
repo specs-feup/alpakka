@@ -21,6 +21,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      * 
      */
     public AInstructionFormat21cField(AInstruction aInstruction){
+        super(aInstruction);
         this.aInstruction = aInstruction;
     }
     /**

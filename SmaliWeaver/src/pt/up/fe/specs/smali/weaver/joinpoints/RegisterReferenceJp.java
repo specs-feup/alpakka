@@ -6,14 +6,15 @@ import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.ARegisterReference;
 
 public class RegisterReferenceJp extends ARegisterReference {
 
-	private final RegisterReference registerReference;
+    private final RegisterReference registerReference;
 
-	public RegisterReferenceJp(RegisterReference registerReference) {
-		this.registerReference = registerReference;
-	}
+    public RegisterReferenceJp(RegisterReference registerReference) {
+        super(new ExpressionJp(registerReference));
+        this.registerReference = registerReference;
+    }
 
-	@Override
-	public SmaliNode getNode() {
-		return this.registerReference;
-	}
+    @Override
+    public SmaliNode getNode() {
+        return this.registerReference;
+    }
 }

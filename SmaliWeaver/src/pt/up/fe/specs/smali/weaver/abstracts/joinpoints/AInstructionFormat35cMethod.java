@@ -21,6 +21,7 @@ public abstract class AInstructionFormat35cMethod extends AInstruction {
      * 
      */
     public AInstructionFormat35cMethod(AInstruction aInstruction){
+        super(aInstruction);
         this.aInstruction = aInstruction;
     }
     /**

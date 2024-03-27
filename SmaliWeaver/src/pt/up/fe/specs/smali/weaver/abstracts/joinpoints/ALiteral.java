@@ -7,22 +7,21 @@ import java.util.stream.Collectors;
 import java.util.Arrays;
 
 /**
- * Auto-Generated class for join point AMethodPrototype
+ * Auto-Generated class for join point ALiteral
  * This class is overwritten by the Weaver Generator.
  * 
- * Method prototype
+ * Literal
  * @author Lara Weaver Generator
  */
-public abstract class AMethodPrototype extends ALiteral {
+public abstract class ALiteral extends AExpression {
 
-    protected ALiteral aLiteral;
+    protected AExpression aExpression;
 
     /**
      * 
      */
-    public AMethodPrototype(ALiteral aLiteral){
-        super(aLiteral);
-        this.aLiteral = aLiteral;
+    public ALiteral(AExpression aExpression){
+        this.aExpression = aExpression;
     }
     /**
      * Get value on attribute id
@@ -30,7 +29,7 @@ public abstract class AMethodPrototype extends ALiteral {
      */
     @Override
     public String getIdImpl() {
-        return this.aLiteral.getIdImpl();
+        return this.aExpression.getIdImpl();
     }
 
     /**
@@ -39,7 +38,7 @@ public abstract class AMethodPrototype extends ALiteral {
      */
     @Override
     public String getAstImpl() {
-        return this.aLiteral.getAstImpl();
+        return this.aExpression.getAstImpl();
     }
 
     /**
@@ -48,7 +47,7 @@ public abstract class AMethodPrototype extends ALiteral {
      */
     @Override
     public String getCodeImpl() {
-        return this.aLiteral.getCodeImpl();
+        return this.aExpression.getCodeImpl();
     }
 
     /**
@@ -57,7 +56,7 @@ public abstract class AMethodPrototype extends ALiteral {
      */
     @Override
     public AJoinPoint replaceWithImpl(AJoinPoint node) {
-        return this.aLiteral.replaceWithImpl(node);
+        return this.aExpression.replaceWithImpl(node);
     }
 
     /**
@@ -66,7 +65,7 @@ public abstract class AMethodPrototype extends ALiteral {
      */
     @Override
     public AJoinPoint replaceWithImpl(String node) {
-        return this.aLiteral.replaceWithImpl(node);
+        return this.aExpression.replaceWithImpl(node);
     }
 
     /**
@@ -75,7 +74,7 @@ public abstract class AMethodPrototype extends ALiteral {
      */
     @Override
     public AJoinPoint replaceWithImpl(AJoinPoint[] node) {
-        return this.aLiteral.replaceWithImpl(node);
+        return this.aExpression.replaceWithImpl(node);
     }
 
     /**
@@ -84,7 +83,7 @@ public abstract class AMethodPrototype extends ALiteral {
      */
     @Override
     public AJoinPoint replaceWithStringsImpl(String[] node) {
-        return this.aLiteral.replaceWithStringsImpl(node);
+        return this.aExpression.replaceWithStringsImpl(node);
     }
 
     /**
@@ -93,7 +92,7 @@ public abstract class AMethodPrototype extends ALiteral {
      */
     @Override
     public AJoinPoint insertBeforeImpl(AJoinPoint node) {
-        return this.aLiteral.insertBeforeImpl(node);
+        return this.aExpression.insertBeforeImpl(node);
     }
 
     /**
@@ -102,7 +101,7 @@ public abstract class AMethodPrototype extends ALiteral {
      */
     @Override
     public AJoinPoint insertBeforeImpl(String node) {
-        return this.aLiteral.insertBeforeImpl(node);
+        return this.aExpression.insertBeforeImpl(node);
     }
 
     /**
@@ -111,7 +110,7 @@ public abstract class AMethodPrototype extends ALiteral {
      */
     @Override
     public AJoinPoint insertAfterImpl(AJoinPoint node) {
-        return this.aLiteral.insertAfterImpl(node);
+        return this.aExpression.insertAfterImpl(node);
     }
 
     /**
@@ -120,7 +119,7 @@ public abstract class AMethodPrototype extends ALiteral {
      */
     @Override
     public AJoinPoint insertAfterImpl(String code) {
-        return this.aLiteral.insertAfterImpl(code);
+        return this.aExpression.insertAfterImpl(code);
     }
 
     /**
@@ -128,7 +127,7 @@ public abstract class AMethodPrototype extends ALiteral {
      */
     @Override
     public AJoinPoint detachImpl() {
-        return this.aLiteral.detachImpl();
+        return this.aExpression.detachImpl();
     }
 
     /**
@@ -138,7 +137,7 @@ public abstract class AMethodPrototype extends ALiteral {
      */
     @Override
     public AJoinPoint[] insertImpl(String position, String code) {
-        return this.aLiteral.insertImpl(position, code);
+        return this.aExpression.insertImpl(position, code);
     }
 
     /**
@@ -148,26 +147,26 @@ public abstract class AMethodPrototype extends ALiteral {
      */
     @Override
     public AJoinPoint[] insertImpl(String position, JoinPoint code) {
-        return this.aLiteral.insertImpl(position, code);
+        return this.aExpression.insertImpl(position, code);
     }
 
     /**
      * 
      */
     @Override
-    public Optional<? extends ALiteral> getSuper() {
-        return Optional.of(this.aLiteral);
+    public Optional<? extends AExpression> getSuper() {
+        return Optional.of(this.aExpression);
     }
 
     /**
      * 
      */
     @Override
-    public final List<? extends JoinPoint> select(String selectName) {
+    public List<? extends JoinPoint> select(String selectName) {
         List<? extends JoinPoint> joinPointList;
         switch(selectName) {
         	default:
-        		joinPointList = this.aLiteral.select(selectName);
+        		joinPointList = this.aExpression.select(selectName);
         		break;
         }
         return joinPointList;
@@ -177,7 +176,7 @@ public abstract class AMethodPrototype extends ALiteral {
      * 
      */
     @Override
-    public final void defImpl(String attribute, Object value) {
+    public void defImpl(String attribute, Object value) {
         switch(attribute){
         default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
         }
@@ -187,24 +186,24 @@ public abstract class AMethodPrototype extends ALiteral {
      * 
      */
     @Override
-    protected final void fillWithAttributes(List<String> attributes) {
-        this.aLiteral.fillWithAttributes(attributes);
+    protected void fillWithAttributes(List<String> attributes) {
+        this.aExpression.fillWithAttributes(attributes);
     }
 
     /**
      * 
      */
     @Override
-    protected final void fillWithSelects(List<String> selects) {
-        this.aLiteral.fillWithSelects(selects);
+    protected void fillWithSelects(List<String> selects) {
+        this.aExpression.fillWithSelects(selects);
     }
 
     /**
      * 
      */
     @Override
-    protected final void fillWithActions(List<String> actions) {
-        this.aLiteral.fillWithActions(actions);
+    protected void fillWithActions(List<String> actions) {
+        this.aExpression.fillWithActions(actions);
     }
 
     /**
@@ -212,8 +211,8 @@ public abstract class AMethodPrototype extends ALiteral {
      * @return The join point type
      */
     @Override
-    public final String get_class() {
-        return "methodPrototype";
+    public String get_class() {
+        return "literal";
     }
 
     /**
@@ -221,17 +220,17 @@ public abstract class AMethodPrototype extends ALiteral {
      * @return True if this join point is an instanceof the given class
      */
     @Override
-    public final boolean instanceOf(String joinpointClass) {
+    public boolean instanceOf(String joinpointClass) {
         boolean isInstance = get_class().equals(joinpointClass);
         if(isInstance) {
         	return true;
         }
-        return this.aLiteral.instanceOf(joinpointClass);
+        return this.aExpression.instanceOf(joinpointClass);
     }
     /**
      * 
      */
-    protected enum MethodPrototypeAttributes {
+    protected enum LiteralAttributes {
         ID("id"),
         AST("ast"),
         CODE("code");
@@ -240,13 +239,13 @@ public abstract class AMethodPrototype extends ALiteral {
         /**
          * 
          */
-        private MethodPrototypeAttributes(String name){
+        private LiteralAttributes(String name){
             this.name = name;
         }
         /**
          * Return an attribute enumeration item from a given attribute name
          */
-        public static Optional<MethodPrototypeAttributes> fromString(String name) {
+        public static Optional<LiteralAttributes> fromString(String name) {
             return Arrays.asList(values()).stream().filter(attr -> attr.name.equals(name)).findAny();
         }
 
@@ -254,7 +253,7 @@ public abstract class AMethodPrototype extends ALiteral {
          * Return a list of attributes in String format
          */
         public static List<String> getNames() {
-            return Arrays.asList(values()).stream().map(MethodPrototypeAttributes::name).collect(Collectors.toList());
+            return Arrays.asList(values()).stream().map(LiteralAttributes::name).collect(Collectors.toList());
         }
 
         /**

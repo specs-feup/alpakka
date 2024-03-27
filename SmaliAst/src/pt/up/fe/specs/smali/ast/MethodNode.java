@@ -13,6 +13,7 @@ import pt.up.fe.specs.smali.ast.expr.literal.MethodPrototype;
 import pt.up.fe.specs.smali.ast.stmt.AnnotationDirective;
 import pt.up.fe.specs.smali.ast.stmt.CatchDirective;
 import pt.up.fe.specs.smali.ast.stmt.Label;
+import pt.up.fe.specs.smali.ast.stmt.LiteralStatement;
 import pt.up.fe.specs.smali.ast.stmt.ParameterDirective;
 import pt.up.fe.specs.smali.ast.stmt.RegistersDirective;
 import pt.up.fe.specs.smali.ast.stmt.instruction.Instruction;
@@ -53,8 +54,9 @@ public class MethodNode extends SmaliNode {
                 .filter(c -> c instanceof ParameterDirective)
                 .forEach(c -> sb.append(indentCode(c.getCode())));
 
+        // TODO: Change this, the reordering needs to be done at a different time
         var methodItems = getChildren().stream()
-                .filter(c -> (c instanceof Instruction || c instanceof Label))
+                .filter(c -> (c instanceof Instruction || c instanceof Label || c instanceof LiteralStatement))
                 .toList();
 
         for (var child : methodItems) {

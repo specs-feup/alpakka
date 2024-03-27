@@ -20,14 +20,30 @@
 		<attribute name="kind" type="String" />
 	</artifact>
 	
+	<!-- PROGRAM -->
+	<artifact class="program" />
+	
 	<!-- CLASS_DEF -->
 	<artifact class="classNode" />
+	
+	<!-- FIELD -->
+	<artifact class="fieldNode" />
 	
 	<!-- METHOD -->
 	<artifact class="methodNode" />
 	
-	<!-- TYPES -->
-	<artifact class="type" />
+	<!-- EXPRESSIONS -->
+	<artifact class="expression" />
+	
+	<artifact class="registerReference" />
+	
+	<!-- LITERALS -->
+	<artifact class="literal" />
+	
+	<artifact class="methodPrototype" />
+	
+	<!-- TYPE DESCRIPTORS -->
+	<artifact class="typeDescriptor" />
 	
 	<artifact class="classType">
 		<attribute name="className" type="String" />
@@ -35,13 +51,11 @@
 	</artifact>
 
 	<artifact class="arrayType" />
-
-	<artifact class="methodPrototype" />
 	
 	<artifact class="primitiveType" />
 	
-	<!-- REGISTERS REFERENCES -->
-	<artifact class="registerReference" />
+	<!-- STATEMENTS -->
+	<artifact class="statement" />
 		
 	<!-- INSTRUCTIONS -->
 	<artifact class="instruction" />

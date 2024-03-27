@@ -6,15 +6,16 @@ import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.AMethodPrototype;
 
 public class MethodPrototypeJp extends AMethodPrototype {
 
-	private final MethodPrototype methodPrototype;
+    private final MethodPrototype methodPrototype;
 
-	public MethodPrototypeJp(MethodPrototype methodPrototype) {
-		this.methodPrototype = methodPrototype;
-	}
+    public MethodPrototypeJp(MethodPrototype methodPrototype) {
+        super(new LiteralJp(methodPrototype));
+        this.methodPrototype = methodPrototype;
+    }
 
-	@Override
-	public SmaliNode getNode() {
-		return this.methodPrototype;
-	}
+    @Override
+    public SmaliNode getNode() {
+        return this.methodPrototype;
+    }
 
 }

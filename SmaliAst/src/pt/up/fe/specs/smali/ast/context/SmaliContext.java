@@ -14,4 +14,8 @@ public class SmaliContext extends ADataClass<SmaliContext> {
         set(FACTORY, new SmaliFactory(this));
     }
 
+    public SmaliFactory getFactory() {
+        return get(FACTORY);
+    }
+
 }

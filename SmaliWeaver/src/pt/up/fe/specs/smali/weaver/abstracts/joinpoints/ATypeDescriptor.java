@@ -7,20 +7,20 @@ import java.util.stream.Collectors;
 import java.util.Arrays;
 
 /**
- * Auto-Generated class for join point AMethodPrototype
+ * Auto-Generated class for join point ATypeDescriptor
  * This class is overwritten by the Weaver Generator.
  * 
- * Method prototype
+ * Type descriptor
  * @author Lara Weaver Generator
  */
-public abstract class AMethodPrototype extends ALiteral {
+public abstract class ATypeDescriptor extends ALiteral {
 
     protected ALiteral aLiteral;
 
     /**
      * 
      */
-    public AMethodPrototype(ALiteral aLiteral){
+    public ATypeDescriptor(ALiteral aLiteral){
         super(aLiteral);
         this.aLiteral = aLiteral;
     }
@@ -163,7 +163,7 @@ public abstract class AMethodPrototype extends ALiteral {
      * 
      */
     @Override
-    public final List<? extends JoinPoint> select(String selectName) {
+    public List<? extends JoinPoint> select(String selectName) {
         List<? extends JoinPoint> joinPointList;
         switch(selectName) {
         	default:
@@ -177,7 +177,7 @@ public abstract class AMethodPrototype extends ALiteral {
      * 
      */
     @Override
-    public final void defImpl(String attribute, Object value) {
+    public void defImpl(String attribute, Object value) {
         switch(attribute){
         default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
         }
@@ -187,7 +187,7 @@ public abstract class AMethodPrototype extends ALiteral {
      * 
      */
     @Override
-    protected final void fillWithAttributes(List<String> attributes) {
+    protected void fillWithAttributes(List<String> attributes) {
         this.aLiteral.fillWithAttributes(attributes);
     }
 
@@ -195,7 +195,7 @@ public abstract class AMethodPrototype extends ALiteral {
      * 
      */
     @Override
-    protected final void fillWithSelects(List<String> selects) {
+    protected void fillWithSelects(List<String> selects) {
         this.aLiteral.fillWithSelects(selects);
     }
 
@@ -203,7 +203,7 @@ public abstract class AMethodPrototype extends ALiteral {
      * 
      */
     @Override
-    protected final void fillWithActions(List<String> actions) {
+    protected void fillWithActions(List<String> actions) {
         this.aLiteral.fillWithActions(actions);
     }
 
@@ -212,8 +212,8 @@ public abstract class AMethodPrototype extends ALiteral {
      * @return The join point type
      */
     @Override
-    public final String get_class() {
-        return "methodPrototype";
+    public String get_class() {
+        return "typeDescriptor";
     }
 
     /**
@@ -221,7 +221,7 @@ public abstract class AMethodPrototype extends ALiteral {
      * @return True if this join point is an instanceof the given class
      */
     @Override
-    public final boolean instanceOf(String joinpointClass) {
+    public boolean instanceOf(String joinpointClass) {
         boolean isInstance = get_class().equals(joinpointClass);
         if(isInstance) {
         	return true;
@@ -231,7 +231,7 @@ public abstract class AMethodPrototype extends ALiteral {
     /**
      * 
      */
-    protected enum MethodPrototypeAttributes {
+    protected enum TypeDescriptorAttributes {
         ID("id"),
         AST("ast"),
         CODE("code");
@@ -240,13 +240,13 @@ public abstract class AMethodPrototype extends ALiteral {
         /**
          * 
          */
-        private MethodPrototypeAttributes(String name){
+        private TypeDescriptorAttributes(String name){
             this.name = name;
         }
         /**
          * Return an attribute enumeration item from a given attribute name
          */
-        public static Optional<MethodPrototypeAttributes> fromString(String name) {
+        public static Optional<TypeDescriptorAttributes> fromString(String name) {
             return Arrays.asList(values()).stream().filter(attr -> attr.name.equals(name)).findAny();
         }
 
@@ -254,7 +254,7 @@ public abstract class AMethodPrototype extends ALiteral {
          * Return a list of attributes in String format
          */
         public static List<String> getNames() {
-            return Arrays.asList(values()).stream().map(MethodPrototypeAttributes::name).collect(Collectors.toList());
+            return Arrays.asList(values()).stream().map(TypeDescriptorAttributes::name).collect(Collectors.toList());
         }
 
         /**

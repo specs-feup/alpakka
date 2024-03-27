@@ -51,4 +51,8 @@ public abstract class SmaliNode extends DataNode<SmaliNode> {
         return sb.toString();
     }
 
+    public SmaliContext getContext() {
+        return get(CONTEXT);
+    }
+
 }
