@@ -25,6 +25,7 @@ import pt.up.fe.specs.smali.ast.Modifier;
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.ast.context.SmaliContext;
 import pt.up.fe.specs.smali.ast.expr.MethodReference;
+import pt.up.fe.specs.smali.ast.expr.literal.Literal;
 import pt.up.fe.specs.smali.ast.expr.literal.MethodPrototype;
 import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.ClassType;
 import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.TypeDescriptor;
@@ -491,7 +492,11 @@ public class SmaliFileParser {
             children.add(convert(node.getChild(i)));
         }
 
-        return factory.encodedArray(children);
+        var array = factory.encodedArray(children);
+
+        array.setType(factory.arrayType((TypeDescriptor) ((Literal) children.get(0)).getType()));
+
+        return array;
     }
 
     private SmaliNode convertEnum(Tree node) {
@@ -512,6 +517,17 @@ public class SmaliFileParser {
 
         var literalExpr = factory.primitiveLiteral(literalAttributes);
 
+        switch (node.getType()) {
+        case smaliParser.LONG_LITERAL -> literalExpr.setType(factory.type("J"));
+        case smaliParser.INTEGER_LITERAL -> literalExpr.setType(factory.type("I"));
+        case smaliParser.BYTE_LITERAL -> literalExpr.setType(factory.type("B"));
+        case smaliParser.BOOL_LITERAL -> literalExpr.setType(factory.type("Z"));
+        case smaliParser.SHORT_LITERAL -> literalExpr.setType(factory.type("S"));
+        case smaliParser.CHAR_LITERAL -> literalExpr.setType(factory.type("C"));
+        case smaliParser.FLOAT_LITERAL -> literalExpr.setType(factory.type("F"));
+        case smaliParser.DOUBLE_LITERAL -> literalExpr.setType(factory.type("D"));
+        }
+
         return literalExpr;
     }
 
@@ -523,6 +539,8 @@ public class SmaliFileParser {
                 "\"" + escapeString(node.getText().substring(1, node.getText().length() - 1)) + "\"");
 
         var literalExpr = factory.primitiveLiteral(literalAttributes);
+
+        literalExpr.setType(factory.classType("Ljava/lang/String;"));
 
         return literalExpr;
     }

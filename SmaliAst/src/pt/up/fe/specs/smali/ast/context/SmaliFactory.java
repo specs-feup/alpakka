@@ -230,6 +230,15 @@ public class SmaliFactory {
         return new ArrayType(data, children);
     }
 
+    public ArrayType arrayType(TypeDescriptor type) {
+        var data = newDataStore(ArrayType.class);
+
+        var children = new ArrayList<SmaliNode>();
+        children.add(type);
+
+        return new ArrayType(data, children);
+    }
+
     public TypeDescriptor nonVoidType(String type) {
         switch (type.charAt(0)) {
         case 'Z', 'B', 'S', 'C', 'I', 'J', 'F', 'D' -> {
