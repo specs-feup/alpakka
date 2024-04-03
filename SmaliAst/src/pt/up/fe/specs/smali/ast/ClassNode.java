@@ -1,5 +1,6 @@
 package pt.up.fe.specs.smali.ast;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +19,21 @@ public class ClassNode extends SmaliNode {
             () -> new HashMap<String, Object>());
 
     public ClassNode(DataStore data, Collection<? extends SmaliNode> children) {
-        super(data, children);
+        super(data, reorderClassItems(children));
+    }
+
+    private static List<SmaliNode> reorderClassItems(Collection<? extends SmaliNode> children) {
+        List<SmaliNode> reorderedChildren = new ArrayList<>();
+
+        children.stream()
+                .filter(c -> c instanceof FieldNode)
+                .forEach(c -> reorderedChildren.add(c));
+
+        children.stream()
+                .filter(c -> !(c instanceof FieldNode))
+                .forEach(c -> reorderedChildren.add(c));
+
+        return reorderedChildren;
     }
 
     @Override
@@ -59,13 +74,7 @@ public class ClassNode extends SmaliNode {
 
         builder.append("\n");
 
-        var fields = getChildren().stream().filter(c -> c instanceof FieldNode).map(c -> (FieldNode) c);
-
-        fields.forEach(f -> builder.append(f.getCode() + "\n"));
-
-        var otherChildren = getChildren().stream().filter(c -> !(c instanceof FieldNode));
-
-        otherChildren.forEach(c -> builder.append(c.getCode() + "\n"));
+        getChildren().forEach(c -> builder.append(c.getCode() + "\n"));
 
         return builder.toString();
     }

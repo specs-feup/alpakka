@@ -3,6 +3,7 @@ package pt.up.fe.specs.smali.ast;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.suikasoft.jOptions.Datakey.DataKey;
@@ -13,10 +14,8 @@ import pt.up.fe.specs.smali.ast.expr.literal.MethodPrototype;
 import pt.up.fe.specs.smali.ast.stmt.AnnotationDirective;
 import pt.up.fe.specs.smali.ast.stmt.CatchDirective;
 import pt.up.fe.specs.smali.ast.stmt.Label;
-import pt.up.fe.specs.smali.ast.stmt.LiteralStatement;
 import pt.up.fe.specs.smali.ast.stmt.ParameterDirective;
 import pt.up.fe.specs.smali.ast.stmt.RegistersDirective;
-import pt.up.fe.specs.smali.ast.stmt.instruction.Instruction;
 
 public class MethodNode extends SmaliNode {
 
@@ -24,7 +23,25 @@ public class MethodNode extends SmaliNode {
             () -> new HashMap<String, Object>());
 
     public MethodNode(DataStore data, Collection<? extends SmaliNode> children) {
-        super(data, children);
+        super(data, reorderMethodItems(children));
+    }
+
+    private static List<SmaliNode> reorderMethodItems(Collection<? extends SmaliNode> children) {
+        List<SmaliNode> reorderedChildren = new ArrayList<>();
+
+        children.stream()
+                .filter(c -> c instanceof AnnotationDirective)
+                .forEach(c -> reorderedChildren.add(c));
+
+        children.stream()
+                .filter(c -> c instanceof ParameterDirective)
+                .forEach(c -> reorderedChildren.add(c));
+
+        children.stream()
+                .filter(c -> !(c instanceof AnnotationDirective || c instanceof ParameterDirective))
+                .forEach(c -> reorderedChildren.add(c));
+
+        return reorderedChildren;
     }
 
     @Override
@@ -46,20 +63,7 @@ public class MethodNode extends SmaliNode {
             sb.append(indentCode(registersDirective.getCode())).append("\n");
         }
 
-        getChildren().stream()
-                .filter(c -> c instanceof AnnotationDirective)
-                .forEach(c -> sb.append(indentCode(c.getCode())));
-
-        getChildren().stream()
-                .filter(c -> c instanceof ParameterDirective)
-                .forEach(c -> sb.append(indentCode(c.getCode())));
-
-        // TODO: Change this, the reordering needs to be done at a different time
-        var methodItems = getChildren().stream()
-                .filter(c -> (c instanceof Instruction || c instanceof Label || c instanceof LiteralStatement))
-                .toList();
-
-        for (var child : methodItems) {
+        for (var child : getChildren()) {
             sb.append("\n").append(indentCode(child.getCode()));
             if (child instanceof Label) {
                 var label = (Label) child;

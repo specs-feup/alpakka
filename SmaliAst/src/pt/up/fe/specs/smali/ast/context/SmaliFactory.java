@@ -234,7 +234,8 @@ public class SmaliFactory {
         var data = newDataStore(ArrayType.class);
 
         var children = new ArrayList<SmaliNode>();
-        children.add(type);
+        if (type != null)
+            children.add(type);
 
         return new ArrayType(data, children);
     }
