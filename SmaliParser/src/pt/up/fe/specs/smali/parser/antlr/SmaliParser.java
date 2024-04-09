@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -28,9 +29,16 @@ import org.yaml.snakeyaml.Yaml;
 import brut.apktool.Main;
 import brut.common.BrutException;
 import pt.up.fe.specs.smali.ast.App;
+import pt.up.fe.specs.smali.ast.FieldNode;
+import pt.up.fe.specs.smali.ast.MethodNode;
 import pt.up.fe.specs.smali.ast.Resource;
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.ast.context.SmaliContext;
+import pt.up.fe.specs.smali.ast.expr.FieldReference;
+import pt.up.fe.specs.smali.ast.expr.LabelRef;
+import pt.up.fe.specs.smali.ast.expr.MethodReference;
+import pt.up.fe.specs.smali.ast.expr.Reference;
+import pt.up.fe.specs.smali.ast.stmt.Label;
 import pt.up.fe.specs.util.SpecsIo;
 
 public class SmaliParser {
@@ -51,6 +59,10 @@ public class SmaliParser {
         if (classes.isEmpty()) {
             return Optional.empty();
         }
+
+        var declarationsMap = new HashMap<String, Map<String, SmaliNode>>();
+        collectDeclarations(classes.get(0), declarationsMap);
+        replaceReferences(classes.get(0), declarationsMap);
 
         if (classes.size() == 1 && classes.get(0) instanceof App) {
             return Optional.of((App) classes.get(0));
@@ -82,6 +94,36 @@ public class SmaliParser {
             yield Optional.of(newResourceNode(source, context));
         }
         };
+    }
+
+    private void collectDeclarations(SmaliNode node, Map<String, Map<String, SmaliNode>> declarationsMap) {
+        if (node instanceof Label) {
+            declarationsMap.computeIfAbsent(LabelRef.TYPE_LABEL, k -> new HashMap<>())
+                    .put(((Label) node).getLabel(), node);
+        } else if (node instanceof FieldNode) {
+            declarationsMap.computeIfAbsent(FieldReference.TYPE_LABEL, k -> new HashMap<>())
+                    .put(((FieldNode) node).getField(), node);
+        } else if (node instanceof MethodNode) {
+            declarationsMap.computeIfAbsent(MethodReference.TYPE_LABEL, k -> new HashMap<>())
+                    .put(((MethodNode) node).getMethodReferenceName(), node);
+        }
+
+        node.getChildren().forEach(child -> collectDeclarations(child, declarationsMap));
+    }
+
+    private void replaceReferences(SmaliNode node, Map<String, Map<String, SmaliNode>> declarationsMap) {
+        SmaliNode declaration = null;
+
+        if (node instanceof Reference) {
+            declaration = declarationsMap.getOrDefault(((Reference) node).getTypeLabel(), new HashMap<>())
+                    .get(((Reference) node).getName());
+        }
+
+        if (declaration != null) {
+            ((Reference) node).setDeclaration(declaration);
+        }
+
+        node.getChildren().forEach(child -> replaceReferences(child, declarationsMap));
     }
 
     private Resource newResourceNode(File source, SmaliContext context) {

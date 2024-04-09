@@ -84,7 +84,10 @@ public class App extends SmaliNode {
         var sb = new StringBuilder();
 
         for (var child : children) {
-            sb.append(child.getCode());
+            // Only show smali code
+            if (child instanceof ClassNode) {
+                sb.append(((ClassNode) child).getCode());
+            }
         }
 
         return "App: " + sb.toString();

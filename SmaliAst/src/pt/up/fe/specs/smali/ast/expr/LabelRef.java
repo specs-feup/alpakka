@@ -10,7 +10,9 @@ import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
 
-public class LabelRef extends Expression {
+public class LabelRef extends Expression implements Reference {
+
+    public static String TYPE_LABEL = "label";
 
     public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
             () -> new HashMap<String, Object>());
@@ -25,8 +27,24 @@ public class LabelRef extends Expression {
         return ":" + name;
     }
 
-    public String getLabel() {
+    @Override
+    public String getName() {
         return (String) get(ATTRIBUTES).get("label");
+    }
+
+    @Override
+    public void setDeclaration(SmaliNode decl) {
+        set(DECL, decl);
+    }
+
+    @Override
+    public SmaliNode getDeclaration() {
+        return get(DECL);
+    }
+
+    @Override
+    public String getTypeLabel() {
+        return TYPE_LABEL;
     }
 
 }

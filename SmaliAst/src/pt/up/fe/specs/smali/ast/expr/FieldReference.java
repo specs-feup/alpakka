@@ -11,34 +11,57 @@ import org.suikasoft.jOptions.Interfaces.DataStore;
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.TypeDescriptor;
 
-public class FieldReference extends Expression {
+public class FieldReference extends Expression implements Reference {
 
-	public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-			() -> new HashMap<String, Object>());
+    public static String TYPE_LABEL = "field";
 
-	public FieldReference(DataStore data, Collection<? extends SmaliNode> children) {
-		super(data, children);
-	}
+    public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
+            () -> new HashMap<String, Object>());
 
-	@Override
-	public String getCode() {
-		var sb = new StringBuilder();
+    public FieldReference(DataStore data, Collection<? extends SmaliNode> children) {
+        super(data, children);
+    }
 
-		var attributes = get(ATTRIBUTES);
+    @Override
+    public String getCode() {
+        var sb = new StringBuilder();
 
-		var referenceTypeDescriptor = (TypeDescriptor) attributes.get("referenceTypeDescriptor");
-		var member = attributes.get("memberName");
-		var nonVoidTypeDescriptor = (TypeDescriptor) attributes.get("nonVoidTypeDescriptor");
+        var attributes = get(ATTRIBUTES);
 
-		if (referenceTypeDescriptor != null) {
-			sb.append(referenceTypeDescriptor.getCode() + "->");
-		}
+        var referenceTypeDescriptor = (TypeDescriptor) attributes.get("referenceTypeDescriptor");
+        var member = attributes.get("memberName");
+        var nonVoidTypeDescriptor = (TypeDescriptor) attributes.get("nonVoidTypeDescriptor");
 
-		sb.append(member + ":");
+        if (referenceTypeDescriptor != null) {
+            sb.append(referenceTypeDescriptor.getCode() + "->");
+        }
 
-		sb.append(nonVoidTypeDescriptor.getCode());
+        sb.append(member + ":");
 
-		return sb.toString();
-	}
+        sb.append(nonVoidTypeDescriptor.getCode());
+
+        return sb.toString();
+    }
+
+    @Override
+    public String getName() {
+        return (String) get(ATTRIBUTES).get("memberName") + ":"
+                + ((TypeDescriptor) get(ATTRIBUTES).get("nonVoidTypeDescriptor")).getCode();
+    }
+
+    @Override
+    public void setDeclaration(SmaliNode decl) {
+        set(DECL, decl);
+    }
+
+    @Override
+    public SmaliNode getDeclaration() {
+        return get(DECL);
+    }
+
+    @Override
+    public String getTypeLabel() {
+        return TYPE_LABEL;
+    }
 
 }

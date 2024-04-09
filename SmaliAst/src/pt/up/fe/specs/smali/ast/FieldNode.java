@@ -59,4 +59,9 @@ public class FieldNode extends SmaliNode {
         return sb.toString();
     }
 
+    public String getField() {
+        return (String) get(ATTRIBUTES).get("memberName") + ":"
+                + ((TypeDescriptor) get(ATTRIBUTES).get("fieldType")).getCode();
+    }
+
 }

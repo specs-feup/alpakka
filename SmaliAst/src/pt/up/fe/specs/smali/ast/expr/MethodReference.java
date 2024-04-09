@@ -12,34 +12,56 @@ import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.ast.expr.literal.MethodPrototype;
 import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.TypeDescriptor;
 
-public class MethodReference extends Expression {
+public class MethodReference extends Expression implements Reference {
 
-	public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-			() -> new HashMap<String, Object>());
+    public static String TYPE_LABEL = "method";
 
-	public MethodReference(DataStore data, Collection<? extends SmaliNode> children) {
-		super(data, children);
-	}
+    public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
+            () -> new HashMap<String, Object>());
 
-	@Override
-	public String getCode() {
-		var attributes = get(ATTRIBUTES);
+    public MethodReference(DataStore data, Collection<? extends SmaliNode> children) {
+        super(data, children);
+    }
 
-		var referenceTypeDescriptor = (TypeDescriptor) attributes.get("referenceTypeDescriptor");
-		var member = attributes.get("memberName");
-		var prototype = (MethodPrototype) attributes.get("prototype");
+    @Override
+    public String getCode() {
+        var attributes = get(ATTRIBUTES);
 
-		var sb = new StringBuilder();
+        var referenceTypeDescriptor = (TypeDescriptor) attributes.get("referenceTypeDescriptor");
+        var member = attributes.get("memberName");
+        var prototype = (MethodPrototype) attributes.get("prototype");
 
-		if (referenceTypeDescriptor != null) {
-			sb.append(referenceTypeDescriptor.getCode() + "->");
-		}
+        var sb = new StringBuilder();
 
-		sb.append(member);
+        if (referenceTypeDescriptor != null) {
+            sb.append(referenceTypeDescriptor.getCode() + "->");
+        }
 
-		sb.append(prototype.getCode());
+        sb.append(member);
 
-		return sb.toString();
-	}
+        sb.append(prototype.getCode());
+
+        return sb.toString();
+    }
+
+    @Override
+    public void setDeclaration(SmaliNode decl) {
+        set(DECL, decl);
+    }
+
+    @Override
+    public SmaliNode getDeclaration() {
+        return get(DECL);
+    }
+
+    @Override
+    public String getName() {
+        return this.getCode();
+    }
+
+    @Override
+    public String getTypeLabel() {
+        return TYPE_LABEL;
+    }
 
 }

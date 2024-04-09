@@ -70,7 +70,7 @@ public class MethodNode extends SmaliNode {
                 var catchDirectives = getChildren().stream()
                         .filter(c -> c instanceof CatchDirective)
                         .map(c -> (CatchDirective) c)
-                        .filter(c -> c.getEndLabelRef().getLabel().equals(label.getLabel()))
+                        .filter(c -> c.getEndLabelRef().getName().equals(label.getLabel()))
                         .toList();
 
                 for (var catchDir : catchDirectives) {
@@ -86,6 +86,21 @@ public class MethodNode extends SmaliNode {
         }
 
         sb.append(".end method\n");
+
+        return sb.toString();
+    }
+
+    public String getMethodReferenceName() {
+        var sb = new StringBuilder();
+        var parentClassDescriptor = ((ClassNode) getParent()).getClassDescriptor();
+
+        if (parentClassDescriptor != null) {
+            sb.append(parentClassDescriptor.getCode()).append("->");
+        }
+
+        sb.append(get(ATTRIBUTES).get("name"));
+
+        sb.append(((MethodPrototype) get(ATTRIBUTES).get("prototype")).getCode());
 
         return sb.toString();
     }
