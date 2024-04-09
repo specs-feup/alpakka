@@ -1,0 +1,41 @@
+plugins {
+ 	id 'distribution'
+}
+
+// Java project
+apply plugin: 'java'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+// Repositories providers
+repositories {
+    // smali
+    google()
+
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.apktool:apktool-cli:2.9.3"
+    implementation "org.apktool:brut.j.common:2.9.3"
+    implementation "org.yaml:snakeyaml:2.2"
+
+    implementation ":SpecsUtils"
+    implementation ":jOptions"
+}
+
+java {
+	withSourcesJar()
+}
+
+// Project sources
+sourceSets {
+   main {
+      java {
+         srcDir 'src'
+      }
+   }
+}

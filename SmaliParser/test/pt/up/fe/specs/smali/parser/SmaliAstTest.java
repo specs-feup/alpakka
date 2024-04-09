@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import pt.up.fe.specs.smali.parser.antlr.SmaliParser;
@@ -15,40 +15,39 @@ import pt.up.fe.specs.util.SpecsStrings;
 
 class SmaliAstTest {
 
-    private static final String OUTPUT_FOLDERNAME = "temp-smali-ast";
+    static final String OUTPUT_FOLDERNAME = "temp-smali-ast";
 
-    File setUpResource(String resource) throws Exception {
+    File setUpResource(String resource) {
 
         // Copy resources under test
         File outputFolder = SpecsIo.mkdir(SmaliAstTest.OUTPUT_FOLDERNAME);
         File copiedFile = SpecsIo.resourceCopy(resource, outputFolder, false, true);
-        Assert.assertTrue("Could not copy resource '" + resource + "'", copiedFile.isFile());
-
+        Assertions.assertTrue(copiedFile.isFile(), "Could not copy resource '" + resource + "'");
         return copiedFile;
     }
 
     @AfterAll
-    static void clear() throws Exception {
+    static void clear() {
         File outputFolder = SpecsIo.mkdir(SmaliAstTest.OUTPUT_FOLDERNAME);
         SpecsIo.deleteFolderContents(outputFolder);
         outputFolder.delete();
     }
 
     @Test
-    void testHelloWorld() throws Exception {
+    void testHelloWorld() {
         var file = setUpResource("pt/up/fe/specs/smali/HelloWorld.smali");
 
         testSmaliFile(file);
     }
 
     @Test
-    void testBracketedMemberNames() throws Exception {
+    void testBracketedMemberNames() {
         var file = setUpResource("pt/up/fe/specs/smali/BracketedMemberNames.smali");
 
         testSmaliFile(file);
     }
 
-    void testSmaliFile(File resourceFile) throws Exception {
+    void testSmaliFile(File resourceFile) {
 
         var smaliRoot = new SmaliParser().parse(List.of(resourceFile), 10).orElseThrow();
 
@@ -73,7 +72,7 @@ class SmaliAstTest {
             // Get corresponding file in output 2
             File outputFile2 = outputFiles2.get(name);
 
-            Assert.assertNotNull("Could not find second version of file '" + name + "'", outputFile2);
+            Assertions.assertNotNull(outputFile2, "Could not find second version of file '" + name + "'");
 
         }
 
@@ -86,13 +85,13 @@ class SmaliAstTest {
             File generatedFile = outputFiles2.get(resourceFile.getName());
             String generatedFileContents = SpecsStrings.normalizeFileContents(SpecsIo.read(generatedFile), true);
 
-            Assert.assertEquals(txtContents, generatedFileContents);
+            Assertions.assertEquals(txtContents, generatedFileContents);
         }
 
         testIdempotence(outputFiles1, outputFiles2);
     }
 
-    private void testIdempotence(Map<String, File> outputFiles1, Map<String, File> outputFiles2) {
+    void testIdempotence(Map<String, File> outputFiles1, Map<String, File> outputFiles2) {
         for (String name : outputFiles1.keySet()) {
             // Get corresponding file in output 1
             var outputFile1 = outputFiles1.get(name);
@@ -103,7 +102,7 @@ class SmaliAstTest {
             var normalizedFile1 = SpecsStrings.normalizeFileContents(SpecsIo.read(outputFile1), true);
             var normalizedFile2 = SpecsStrings.normalizeFileContents(SpecsIo.read(outputFile2), true);
 
-            Assert.assertEquals(normalizedFile1, normalizedFile2);
+            Assertions.assertEquals(normalizedFile1, normalizedFile2);
         }
     }
 

@@ -1,0 +1,53 @@
+plugins {
+ 	id 'distribution'
+}
+
+// Java project
+apply plugin: 'java'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+// Repositories providers
+repositories {
+    // Gearman
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots"}
+
+    // smali
+    google()
+
+    mavenCentral()
+}
+
+dependencies {
+    implementation ":SpecsUtils"
+    implementation ":jOptions"
+
+    implementation ":LaraFramework"
+    implementation ":LARAI"
+    implementation ":LaraUtils"
+    implementation ":WeaverInterface"
+    implementation ":LanguageSpecification"
+
+    implementation ":SmaliParser"
+    implementation ":SmaliAst"
+}
+
+java {
+	withSourcesJar()
+}
+
+// Project sources
+sourceSets {
+   main {
+      java {
+         srcDir 'src'
+      }
+
+	  resources {
+		srcDir 'resources'
+	  }      
+   }
+}
