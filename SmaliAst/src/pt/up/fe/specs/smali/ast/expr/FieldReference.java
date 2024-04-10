@@ -16,7 +16,7 @@ public class FieldReference extends Expression implements Reference {
     public static String TYPE_LABEL = "field";
 
     public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-            () -> new HashMap<String, Object>());
+            HashMap::new);
 
     public FieldReference(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
@@ -33,19 +33,23 @@ public class FieldReference extends Expression implements Reference {
         var nonVoidTypeDescriptor = (TypeDescriptor) attributes.get("nonVoidTypeDescriptor");
 
         if (referenceTypeDescriptor != null) {
-            sb.append(referenceTypeDescriptor.getCode() + "->");
+            sb.append(referenceTypeDescriptor.getCode()).append("->");
         }
 
-        sb.append(member + ":");
+        sb.append(member).append(":");
 
         sb.append(nonVoidTypeDescriptor.getCode());
 
         return sb.toString();
     }
 
+    public TypeDescriptor getNonVoidTypeDescriptor() {
+        return (TypeDescriptor) get(ATTRIBUTES).get("nonVoidTypeDescriptor");
+    }
+
     @Override
     public String getName() {
-        return (String) get(ATTRIBUTES).get("memberName") + ":"
+        return get(ATTRIBUTES).get("memberName") + ":"
                 + ((TypeDescriptor) get(ATTRIBUTES).get("nonVoidTypeDescriptor")).getCode();
     }
 

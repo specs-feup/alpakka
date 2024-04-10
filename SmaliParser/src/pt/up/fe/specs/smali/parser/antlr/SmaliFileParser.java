@@ -24,6 +24,7 @@ import pt.up.fe.specs.smali.ast.HiddenApiRestriction;
 import pt.up.fe.specs.smali.ast.Modifier;
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.ast.context.SmaliContext;
+import pt.up.fe.specs.smali.ast.expr.FieldReference;
 import pt.up.fe.specs.smali.ast.expr.MethodReference;
 import pt.up.fe.specs.smali.ast.expr.literal.Literal;
 import pt.up.fe.specs.smali.ast.expr.literal.MethodPrototype;
@@ -34,7 +35,6 @@ import pt.up.fe.specs.util.SpecsIo;
 
 public class SmaliFileParser {
 
-    private final smaliFlexLexer lex;
     private final smaliParser parser;
     private final SmaliContext context;
 
@@ -44,11 +44,11 @@ public class SmaliFileParser {
 
     private LineDirective lineDirective = null;
 
-    private String dexClass = null;
+    private final String dexClass;
 
     public SmaliFileParser(File source, SmaliContext context, Integer targetSdkVersion) {
-        this.lex = new smaliFlexLexer(new StringReader(SpecsIo.read(source)), targetSdkVersion);
-        this.parser = new smaliParser(new CommonTokenStream(this.lex));
+        var lex = new smaliFlexLexer(new StringReader(SpecsIo.read(source)), targetSdkVersion);
+        this.parser = new smaliParser(new CommonTokenStream(lex));
         dexClass = source.getPath().split("\\" + File.separator)[1];
         this.context = context;
         this.converters = buildConverters();
@@ -107,6 +107,8 @@ public class SmaliFileParser {
         converters.put(smaliParser.I_STATEMENT_FORMAT45cc_METHOD, this::convertStatementFormat45ccMethod);
         converters.put(smaliParser.I_STATEMENT_FORMAT4rcc_METHOD, this::convertStatementFormat4rccMethod);
         converters.put(smaliParser.I_STATEMENT_FORMAT51l, this::convertStatementFormat51l);
+        converters.put(smaliParser.I_ENCODED_FIELD, this::convertEncodedField);
+        converters.put(smaliParser.I_ENCODED_METHOD, this::convertEncodedMethod);
         converters.put(smaliParser.I_ENCODED_ARRAY, this::convertArray);
         converters.put(smaliParser.I_ENCODED_ENUM, this::convertEnum);
         converters.put(smaliParser.I_SUBANNOTATION, this::convertSubannotationDirective);
@@ -483,6 +485,24 @@ public class SmaliFileParser {
         return factory.fieldNode(fieldAttributes, children);
     }
 
+    private SmaliNode convertEncodedField(Tree node) {
+        var factory = context.get(SmaliContext.FACTORY);
+        var children = new ArrayList<SmaliNode>();
+
+        children.add(convertFieldReference(node, 0));
+
+        return factory.encodedField(children);
+    }
+
+    private SmaliNode convertEncodedMethod(Tree node) {
+        var factory = context.get(SmaliContext.FACTORY);
+        var children = new ArrayList<SmaliNode>();
+
+        children.add(convertMethodReference(node, 0));
+
+        return factory.encodedMethod(children);
+    }
+
     private SmaliNode convertArray(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
@@ -494,7 +514,7 @@ public class SmaliFileParser {
 
         var array = factory.encodedArray(children);
 
-        array.setType(factory.arrayType((TypeDescriptor) ((Literal) children.get(0)).getType()));
+        array.setType(factory.arrayType(((Literal) children.get(0)).getType()));
 
         return array;
     }
@@ -506,7 +526,11 @@ public class SmaliFileParser {
 
         children.add(convertFieldReference(node, 0));
 
-        return factory.encodedEnum(children);
+        var parsedEnum = factory.encodedEnum(children);
+
+        parsedEnum.setType(((FieldReference) children.get(0)).getNonVoidTypeDescriptor());
+
+        return parsedEnum;
     }
 
     private SmaliNode convertPrimitiveLiteral(Tree node) {
@@ -634,6 +658,30 @@ public class SmaliFileParser {
         }
 
         return factory.fieldReference(fieldReferenceAttributes);
+    }
+
+    private MethodReference convertMethodReference(Tree node, Integer position) {
+        var factory = context.get(SmaliContext.FACTORY);
+        var methodReferenceAttributes = new HashMap<String, Object>();
+
+        int i = position;
+        if (node.getChild(i).getType() != smaliParser.SIMPLE_NAME) {
+            // Reference type descriptor
+            if (node.getChild(i).getType() == smaliParser.CLASS_DESCRIPTOR) {
+                methodReferenceAttributes.put("referenceTypeDescriptor", convert(node.getChild(i)));
+            } else {
+                i++;
+                methodReferenceAttributes.put("referenceTypeDescriptor", factory.arrayType(node.getChild(i).getText()));
+            }
+            i++;
+        }
+
+        methodReferenceAttributes.put("memberName", node.getChild(i).getText());
+        i++;
+
+        methodReferenceAttributes.put("prototype", convert(node.getChild(i)));
+
+        return factory.methodReference(methodReferenceAttributes);
     }
 
     private List<SmaliNode> convertTypeReferenceStatement(Tree node) {
@@ -980,30 +1028,6 @@ public class SmaliFileParser {
         return factory.instructionFormat32x(attributes, children);
     }
 
-    private MethodReference convertMethodReferenceInStatement(Tree node) {
-        var factory = context.get(SmaliContext.FACTORY);
-        var methodReferenceAttributes = new HashMap<String, Object>();
-
-        int i = 2;
-        if (node.getChild(i).getType() != smaliParser.SIMPLE_NAME) {
-            // Reference type descriptor
-            if (node.getChild(i).getType() == smaliParser.CLASS_DESCRIPTOR) {
-                methodReferenceAttributes.put("referenceTypeDescriptor", convert(node.getChild(i)));
-            } else {
-                i++;
-                methodReferenceAttributes.put("referenceTypeDescriptor", factory.arrayType(node.getChild(i).getText()));
-            }
-            i++;
-        }
-
-        methodReferenceAttributes.put("memberName", node.getChild(i).getText());
-        i++;
-
-        methodReferenceAttributes.put("prototype", convert(node.getChild(i)));
-
-        return factory.methodReference(methodReferenceAttributes);
-    }
-
     private SmaliNode convertStatementFormat35cType(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
@@ -1021,7 +1045,7 @@ public class SmaliFileParser {
 
         children.add(convert(node.getChild(1)));
 
-        children.add(convertMethodReferenceInStatement(node));
+        children.add(convertMethodReference(node, 2));
 
         return factory.instructionFormat35cMethod(attributes, children);
     }
@@ -1034,7 +1058,7 @@ public class SmaliFileParser {
 
         children.add(convert(node.getChild(1)));
 
-        children.add(convertMethodReferenceInStatement(node));
+        children.add(convertMethodReference(node, 2));
 
         return factory.instructionFormat3rcMethod(attributes, children);
     }
@@ -1056,7 +1080,7 @@ public class SmaliFileParser {
 
         children.add(convert(node.getChild(1)));
 
-        children.add(convertMethodReferenceInStatement(node));
+        children.add(convertMethodReference(node, 2));
 
         children.add(convert(node.getChild(node.getChildCount() - 1)));
 
@@ -1071,7 +1095,7 @@ public class SmaliFileParser {
 
         children.add(convert(node.getChild(1)));
 
-        children.add(convertMethodReferenceInStatement(node));
+        children.add(convertMethodReference(node, 2));
 
         children.add(convert(node.getChild(node.getChildCount() - 1)));
 

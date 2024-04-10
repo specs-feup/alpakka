@@ -22,12 +22,7 @@ import pt.up.fe.specs.smali.ast.expr.RegisterList;
 import pt.up.fe.specs.smali.ast.expr.RegisterRange;
 import pt.up.fe.specs.smali.ast.expr.RegisterReference;
 import pt.up.fe.specs.smali.ast.expr.SparseSwitchElement;
-import pt.up.fe.specs.smali.ast.expr.literal.EncodedArray;
-import pt.up.fe.specs.smali.ast.expr.literal.EncodedEnum;
-import pt.up.fe.specs.smali.ast.expr.literal.MethodPrototype;
-import pt.up.fe.specs.smali.ast.expr.literal.NullLiteral;
-import pt.up.fe.specs.smali.ast.expr.literal.PrimitiveLiteral;
-import pt.up.fe.specs.smali.ast.expr.literal.SubannotationDirective;
+import pt.up.fe.specs.smali.ast.expr.literal.*;
 import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.ArrayType;
 import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.ClassType;
 import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.PrimitiveType;
@@ -583,6 +578,18 @@ public class SmaliFactory {
         var data = newDataStore(NullLiteral.class);
 
         return new NullLiteral(data, null);
+    }
+
+    public EncodedField encodedField(List<? extends SmaliNode> children) {
+        var data = newDataStore(EncodedField.class);
+
+        return new EncodedField(data, children);
+    }
+
+    public EncodedMethod encodedMethod(List<? extends SmaliNode> children) {
+        var data = newDataStore(EncodedMethod.class);
+
+        return new EncodedMethod(data, children);
     }
 
     public FieldReference fieldReference(HashMap<String, Object> attributes) {
