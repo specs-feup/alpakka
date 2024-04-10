@@ -20,7 +20,7 @@ import pt.up.fe.specs.smali.ast.SmaliNode;
 
 public interface Reference {
 
-    public static final DataKey<SmaliNode> DECL = KeyFactory.object("decl", SmaliNode.class);
+    DataKey<SmaliNode> DECL = KeyFactory.object("decl", SmaliNode.class);
 
     void setDeclaration(SmaliNode decl);
 

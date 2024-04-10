@@ -17,7 +17,7 @@ public class MethodReference extends Expression implements Reference {
     public static String TYPE_LABEL = "method";
 
     public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-            () -> new HashMap<String, Object>());
+            HashMap::new);
 
     public MethodReference(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
@@ -34,7 +34,7 @@ public class MethodReference extends Expression implements Reference {
         var sb = new StringBuilder();
 
         if (referenceTypeDescriptor != null) {
-            sb.append(referenceTypeDescriptor.getCode() + "->");
+            sb.append(referenceTypeDescriptor.getCode()).append("->");
         }
 
         sb.append(member);

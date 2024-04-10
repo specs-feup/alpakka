@@ -27,7 +27,7 @@ import pt.up.fe.specs.util.SpecsIo;
 public class Resource extends SmaliNode {
 
     public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-            () -> new HashMap<String, Object>());
+            HashMap::new);
 
     public Resource(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);

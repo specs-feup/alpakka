@@ -48,7 +48,7 @@ public class SmaliWeaver extends ASmaliWeaver {
                 () -> "smali/weaverspecs/artifacts.xml", () -> "smali/weaverspecs/actionModel.xml", true);
     }
 
-    private SmaliFileParser parser;
+    private final SmaliFileParser parser;
     private SmaliNode root;
 
     public SmaliWeaver() {

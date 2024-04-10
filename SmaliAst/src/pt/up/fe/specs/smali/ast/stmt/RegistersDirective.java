@@ -23,9 +23,9 @@ public class RegistersDirective extends Statement {
 
         sb.append(getLineDirective());
 
-        if (type == "I_REGISTERS") {
+        if (type.equals("I_REGISTERS")) {
             sb.append(".registers ");
-        } else if (type == "I_LOCALS") {
+        } else if (type.equals("I_LOCALS")) {
             sb.append(".locals ");
         }
 

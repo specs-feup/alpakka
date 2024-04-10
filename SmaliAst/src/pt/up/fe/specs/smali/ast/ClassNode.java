@@ -16,7 +16,7 @@ import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.ClassType;
 public class ClassNode extends SmaliNode {
 
     public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-            () -> new HashMap<String, Object>());
+            HashMap::new);
 
     public ClassNode(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, reorderClassItems(children));
@@ -27,11 +27,11 @@ public class ClassNode extends SmaliNode {
 
         children.stream()
                 .filter(c -> c instanceof FieldNode)
-                .forEach(c -> reorderedChildren.add(c));
+                .forEach(reorderedChildren::add);
 
         children.stream()
                 .filter(c -> !(c instanceof FieldNode))
-                .forEach(c -> reorderedChildren.add(c));
+                .forEach(reorderedChildren::add);
 
         return reorderedChildren;
     }

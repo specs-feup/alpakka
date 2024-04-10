@@ -18,10 +18,10 @@ public class SubannotationDirective extends Literal {
         var sb = new StringBuilder();
         var classDescriptor = (ClassType) get(ATTRIBUTES).get("classDescriptor");
 
-        sb.append(".subannotation " + classDescriptor.getCode() + "\n");
+        sb.append(".subannotation ").append(classDescriptor.getCode()).append("\n");
 
         for (var child : getChildren()) {
-            sb.append(indentCode(child.getCode()) + "\n");
+            sb.append(indentCode(child.getCode())).append("\n");
         }
 
         sb.append(".end subannotation");

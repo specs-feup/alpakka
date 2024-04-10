@@ -23,13 +23,13 @@ public enum HiddenApiRestriction implements Modifier {
         }
     }
 
-    private String label;
+    private final String label;
 
-    private HiddenApiRestriction(String label) {
+    HiddenApiRestriction(String label) {
         this.label = label;
     }
 
-    private HiddenApiRestriction() {
+    HiddenApiRestriction() {
         this.label = name().toLowerCase();
     }
 

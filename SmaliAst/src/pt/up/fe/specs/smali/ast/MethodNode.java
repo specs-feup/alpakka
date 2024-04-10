@@ -20,7 +20,7 @@ import pt.up.fe.specs.smali.ast.stmt.RegistersDirective;
 public class MethodNode extends SmaliNode {
 
     public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-            () -> new HashMap<String, Object>());
+            HashMap::new);
 
     public MethodNode(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, reorderMethodItems(children));
@@ -31,15 +31,15 @@ public class MethodNode extends SmaliNode {
 
         children.stream()
                 .filter(c -> c instanceof AnnotationDirective)
-                .forEach(c -> reorderedChildren.add(c));
+                .forEach(reorderedChildren::add);
 
         children.stream()
                 .filter(c -> c instanceof ParameterDirective)
-                .forEach(c -> reorderedChildren.add(c));
+                .forEach(reorderedChildren::add);
 
         children.stream()
                 .filter(c -> !(c instanceof AnnotationDirective || c instanceof ParameterDirective))
-                .forEach(c -> reorderedChildren.add(c));
+                .forEach(reorderedChildren::add);
 
         return reorderedChildren;
     }
@@ -65,8 +65,7 @@ public class MethodNode extends SmaliNode {
 
         for (var child : getChildren()) {
             sb.append("\n").append(indentCode(child.getCode()));
-            if (child instanceof Label) {
-                var label = (Label) child;
+            if (child instanceof Label label) {
                 var catchDirectives = getChildren().stream()
                         .filter(c -> c instanceof CatchDirective)
                         .map(c -> (CatchDirective) c)

@@ -32,7 +32,7 @@ import pt.up.fe.specs.util.SpecsLogs;
 public class App extends SmaliNode {
 
     public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-            () -> new HashMap<String, Object>());
+            HashMap::new);
 
     public App(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
@@ -86,11 +86,11 @@ public class App extends SmaliNode {
         for (var child : children) {
             // Only show smali code
             if (child instanceof ClassNode) {
-                sb.append(((ClassNode) child).getCode());
+                sb.append(child.getCode());
             }
         }
 
-        return "App: " + sb.toString();
+        return "App: " + sb;
     }
 
 }

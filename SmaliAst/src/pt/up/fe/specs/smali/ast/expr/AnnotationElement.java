@@ -14,7 +14,7 @@ import pt.up.fe.specs.smali.ast.expr.literal.Literal;
 public class AnnotationElement extends Expression {
 
     public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-            () -> new HashMap<String, Object>());
+            HashMap::new);
 
     public AnnotationElement(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);

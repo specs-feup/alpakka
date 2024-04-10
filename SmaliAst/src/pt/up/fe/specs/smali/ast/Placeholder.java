@@ -13,7 +13,7 @@ public class Placeholder extends SmaliNode {
 	public static final DataKey<String> KIND = KeyFactory.string("kind");
 
 	public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-			() -> new HashMap<String, Object>());
+			HashMap::new);
 
 	public Placeholder(DataStore data, Collection<? extends SmaliNode> children) {
 		super(data, children);

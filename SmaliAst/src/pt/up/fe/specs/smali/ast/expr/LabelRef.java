@@ -15,7 +15,7 @@ public class LabelRef extends Expression implements Reference {
     public static String TYPE_LABEL = "label";
 
     public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-            () -> new HashMap<String, Object>());
+            HashMap::new);
 
     public LabelRef(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);

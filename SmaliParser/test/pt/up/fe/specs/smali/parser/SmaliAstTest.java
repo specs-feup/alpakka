@@ -63,10 +63,10 @@ class SmaliAstTest {
         SpecsIo.write(new File(secondDirectory, resourceFile.getName()), smaliRoot2.getChildren().get(0).getCode());
 
         Map<String, File> outputFiles1 = SpecsIo.getFiles(new File(SmaliAstTest.OUTPUT_FOLDERNAME + "/outputFirst"))
-                .stream().collect(Collectors.toMap(file -> file.getName(), file -> file));
+                .stream().collect(Collectors.toMap(File::getName, file -> file));
 
         Map<String, File> outputFiles2 = SpecsIo.getFiles(new File(SmaliAstTest.OUTPUT_FOLDERNAME + "/outputSecond"))
-                .stream().collect(Collectors.toMap(file -> file.getName(), file -> file));
+                .stream().collect(Collectors.toMap(File::getName, file -> file));
 
         for (String name : outputFiles1.keySet()) {
             // Get corresponding file in output 2

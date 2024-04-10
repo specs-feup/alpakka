@@ -13,7 +13,7 @@ import pt.up.fe.specs.smali.ast.SmaliNode;
 public abstract class Statement extends SmaliNode {
 
     public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-            () -> new HashMap<String, Object>());
+            HashMap::new);
 
     public Statement(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);

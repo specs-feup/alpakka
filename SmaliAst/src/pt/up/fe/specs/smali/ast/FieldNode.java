@@ -15,7 +15,7 @@ import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.TypeDescriptor;
 public class FieldNode extends SmaliNode {
 
     public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-            () -> new HashMap<String, Object>());
+            HashMap::new);
 
     public FieldNode(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
@@ -35,7 +35,7 @@ public class FieldNode extends SmaliNode {
         sb.append(":");
         sb.append(fieldType.getCode());
 
-        if (getChildren().size() > 0) {
+        if (!getChildren().isEmpty()) {
             var i = 0;
 
             if (getChild(i) instanceof Literal) {
@@ -60,7 +60,7 @@ public class FieldNode extends SmaliNode {
     }
 
     public String getField() {
-        return (String) get(ATTRIBUTES).get("memberName") + ":"
+        return get(ATTRIBUTES).get("memberName") + ":"
                 + ((TypeDescriptor) get(ATTRIBUTES).get("fieldType")).getCode();
     }
 

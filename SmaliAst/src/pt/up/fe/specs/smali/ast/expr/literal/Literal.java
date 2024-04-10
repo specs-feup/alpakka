@@ -14,7 +14,7 @@ import pt.up.fe.specs.smali.ast.expr.Expression;
 public abstract class Literal extends Expression {
 
     public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-            () -> new HashMap<String, Object>());
+            HashMap::new);
 
     public Literal(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
@@ -23,9 +23,8 @@ public abstract class Literal extends Expression {
     @Override
     public String getCode() {
         var attributes = get(ATTRIBUTES);
-        var value = (String) attributes.get("value");
 
-        return value;
+        return (String) attributes.get("value");
     }
 
 }

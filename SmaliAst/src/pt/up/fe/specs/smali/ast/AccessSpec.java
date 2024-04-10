@@ -33,9 +33,9 @@ public enum AccessSpec implements Modifier {
         }
     }
 
-    private String label;
+    private final String label;
 
-    private AccessSpec(String label) {
+    AccessSpec(String label) {
         this.label = label;
     }
 

@@ -14,7 +14,7 @@ import pt.up.fe.specs.smali.ast.expr.literal.Literal;
 public class SparseSwitchElement extends Expression {
 
     public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-            () -> new HashMap<String, Object>());
+            HashMap::new);
 
     public SparseSwitchElement(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
