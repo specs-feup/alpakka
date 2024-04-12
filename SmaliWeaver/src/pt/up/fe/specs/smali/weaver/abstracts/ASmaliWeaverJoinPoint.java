@@ -9,6 +9,7 @@ import org.lara.interpreter.weaver.interf.SelectOp;
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.weaver.SmaliJoinpoints;
 import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.AJoinPoint;
+import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.AProgram;
 import pt.up.fe.specs.util.exceptions.NotImplementedException;
 import pt.up.fe.specs.util.treenode.NodeInsertUtils;
 
@@ -44,11 +45,50 @@ public abstract class ASmaliWeaverJoinPoint extends AJoinPoint {
         return getNode().get(SmaliNode.ID);
     }
 
+
+    @Override
+    public AProgram getRootImpl() {
+        return (AProgram) getWeaverEngine().getRootJp();
+    }
+
+    @Override
+    public AJoinPoint getParentImpl() {
+        return null;
+    }
+
+    @Override
+    public AJoinPoint getAncestorImpl(String type) {
+        return null;
+    }
+
+    @Override
+    public AJoinPoint[] getDescendantsArrayImpl() {
+        return getNode().getDescendants().stream().map(SmaliJoinpoints::create).toArray(AJoinPoint[]::new);
+    }
+
+    @Override
+    public AJoinPoint[] getDescendantsArrayImpl(String type) {
+        return getNode().getDescendantsStream().map(SmaliJoinpoints::create)
+                .filter(jp -> jp.instanceOf(type))
+                .toArray(AJoinPoint[]::new);
+    }
+
+    @Override
+    public AJoinPoint[] getDescendantsAndSelfArrayImpl(String type) {
+        return getNode().getDescendantsAndSelfStream().map(SmaliJoinpoints::create).toArray(AJoinPoint[]::new);
+
+    }
+
     @Override
     public Stream<JoinPoint> getJpChildrenStream() {
         return getNode().getChildrenStream().map(node -> SmaliJoinpoints.create(node));
     }
 
+    @Override
+    public AJoinPoint[] getChildrenArrayImpl() {
+    return getNode().getChildrenStream().map(SmaliJoinpoints::create).toArray(AJoinPoint[]::new);
+    }
+    
     @Override
     public String getAstImpl() {
         return getNode().toTree();

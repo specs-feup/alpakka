@@ -24,6 +24,7 @@ repositories {
 dependencies {
     implementation ":SpecsUtils"
     implementation ":jOptions"
+    implementation ":JsEngine"
 
     implementation ":LaraFramework"
     implementation ":LARAI"

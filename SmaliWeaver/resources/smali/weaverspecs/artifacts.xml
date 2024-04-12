@@ -6,6 +6,27 @@
 	<!-- Global Joinpoint -->
 	<!-- These properties are shared by all joinpoints -->
 	<global>
+		<attribute name="root" type="program"
+				   tooltip="Returns the 'program' joinpoint" />
+		<attribute name="parent" type="joinpoint"
+				   tooltip="Returns the parent node in the AST, or undefined if it is the root node" />
+		<attribute name="getAncestor" type="joinpoint"
+				   tooltip="Looks for an ancestor joinpoint name, walking back on the AST">
+			<parameter name="type" type="String" />
+		</attribute>
+		<attribute name="descendants" type="joinpoint[]"
+				   tooltip="Retrieves all descendants of the join point" />
+		<attribute name="getDescendants" type="joinpoint[]"
+				   tooltip="Retrieves the descendants of the given type">
+			<parameter name="type" type="String" />
+		</attribute>
+		<attribute name="getDescendantsAndSelf" type="joinpoint[]"
+				   tooltip="Retrieves the descendants of the given type, including the node itself">
+			<parameter name="type" type="String" />
+		</attribute>
+		<attribute name="children" type="joinpoint[]"
+				   tooltip="Returns an array with the children of the node, ignoring null nodes" />
+
 		<attribute name="id" type="String" tooltip="The id of the node" />
 		<attribute name="ast" type="String"
 			tooltip="String representation of the ast" />

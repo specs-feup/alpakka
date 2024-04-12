@@ -76,9 +76,16 @@ public abstract class AMethodNode extends ASmaliWeaverJoinPoint {
      * 
      */
     protected enum MethodNodeAttributes {
-        ID("id"),
+        PARENT("parent"),
+        GETDESCENDANTS("getDescendants"),
+        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
         AST("ast"),
-        CODE("code");
+        CODE("code"),
+        CHILDREN("children"),
+        ROOT("root"),
+        GETANCESTOR("getAncestor"),
+        ID("id"),
+        DESCENDANTS("descendants");
         private String name;
 
         /**

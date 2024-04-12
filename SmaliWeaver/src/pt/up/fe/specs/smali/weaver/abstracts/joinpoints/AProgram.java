@@ -76,9 +76,16 @@ public abstract class AProgram extends ASmaliWeaverJoinPoint {
      * 
      */
     protected enum ProgramAttributes {
-        ID("id"),
+        PARENT("parent"),
+        GETDESCENDANTS("getDescendants"),
+        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
         AST("ast"),
-        CODE("code");
+        CODE("code"),
+        CHILDREN("children"),
+        ROOT("root"),
+        GETANCESTOR("getAncestor"),
+        ID("id"),
+        DESCENDANTS("descendants");
         private String name;
 
         /**

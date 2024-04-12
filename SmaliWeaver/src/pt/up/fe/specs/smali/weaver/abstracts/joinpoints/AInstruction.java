@@ -24,12 +24,30 @@ public abstract class AInstruction extends AStatement {
         this.aStatement = aStatement;
     }
     /**
-     * Get value on attribute id
+     * Get value on attribute parent
      * @return the attribute's value
      */
     @Override
-    public String getIdImpl() {
-        return this.aStatement.getIdImpl();
+    public AJoinPoint getParentImpl() {
+        return this.aStatement.getParentImpl();
+    }
+
+    /**
+     * Get value on attribute getDescendantsArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getDescendantsArrayImpl(String type) {
+        return this.aStatement.getDescendantsArrayImpl(type);
+    }
+
+    /**
+     * Get value on attribute getDescendantsAndSelfArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getDescendantsAndSelfArrayImpl(String type) {
+        return this.aStatement.getDescendantsAndSelfArrayImpl(type);
     }
 
     /**
@@ -48,6 +66,51 @@ public abstract class AInstruction extends AStatement {
     @Override
     public String getCodeImpl() {
         return this.aStatement.getCodeImpl();
+    }
+
+    /**
+     * Get value on attribute childrenArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getChildrenArrayImpl() {
+        return this.aStatement.getChildrenArrayImpl();
+    }
+
+    /**
+     * Get value on attribute root
+     * @return the attribute's value
+     */
+    @Override
+    public AProgram getRootImpl() {
+        return this.aStatement.getRootImpl();
+    }
+
+    /**
+     * Get value on attribute getAncestor
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint getAncestorImpl(String type) {
+        return this.aStatement.getAncestorImpl(type);
+    }
+
+    /**
+     * Get value on attribute id
+     * @return the attribute's value
+     */
+    @Override
+    public String getIdImpl() {
+        return this.aStatement.getIdImpl();
+    }
+
+    /**
+     * Get value on attribute descendantsArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getDescendantsArrayImpl() {
+        return this.aStatement.getDescendantsArrayImpl();
     }
 
     /**
@@ -231,9 +294,16 @@ public abstract class AInstruction extends AStatement {
      * 
      */
     protected enum InstructionAttributes {
-        ID("id"),
+        PARENT("parent"),
+        GETDESCENDANTS("getDescendants"),
+        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
         AST("ast"),
-        CODE("code");
+        CODE("code"),
+        CHILDREN("children"),
+        ROOT("root"),
+        GETANCESTOR("getAncestor"),
+        ID("id"),
+        DESCENDANTS("descendants");
         private String name;
 
         /**

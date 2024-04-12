@@ -42,6 +42,15 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns an array with the children of the node, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "children"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "String with the code represented by this node",
 						"children": [
 									{
@@ -51,11 +60,77 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Retrieves all descendants of the join point",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "descendants"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Looks for an ancestor joinpoint name, walking back on the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getAncestor"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendants"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type, including the node itself",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendantsAndSelf"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "The id of the node",
 						"children": [
 									{
 										"type": "String",
 										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the parent node in the AST, or undefined if it is the root node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "parent"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the 'program' joinpoint",
+						"children": [
+									{
+										"type": "program",
+										"name": "root"
 									}]
 					},
 					{
@@ -270,6 +345,15 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns an array with the children of the node, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "children"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "String with the code represented by this node",
 						"children": [
 									{
@@ -279,11 +363,77 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Retrieves all descendants of the join point",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "descendants"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Looks for an ancestor joinpoint name, walking back on the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getAncestor"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendants"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type, including the node itself",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendantsAndSelf"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "The id of the node",
 						"children": [
 									{
 										"type": "String",
 										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the parent node in the AST, or undefined if it is the root node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "parent"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the 'program' joinpoint",
+						"children": [
+									{
+										"type": "program",
+										"name": "root"
 									}]
 					},
 					{
@@ -498,6 +648,15 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns an array with the children of the node, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "children"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "String with the code represented by this node",
 						"children": [
 									{
@@ -507,11 +666,77 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Retrieves all descendants of the join point",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "descendants"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Looks for an ancestor joinpoint name, walking back on the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getAncestor"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendants"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type, including the node itself",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendantsAndSelf"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "The id of the node",
 						"children": [
 									{
 										"type": "String",
 										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the parent node in the AST, or undefined if it is the root node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "parent"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the 'program' joinpoint",
+						"children": [
+									{
+										"type": "program",
+										"name": "root"
 									}]
 					},
 					{
@@ -742,6 +967,15 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns an array with the children of the node, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "children"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "String with the code represented by this node",
 						"children": [
 									{
@@ -751,11 +985,77 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Retrieves all descendants of the join point",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "descendants"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Looks for an ancestor joinpoint name, walking back on the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getAncestor"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendants"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type, including the node itself",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendantsAndSelf"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "The id of the node",
 						"children": [
 									{
 										"type": "String",
 										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the parent node in the AST, or undefined if it is the root node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "parent"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the 'program' joinpoint",
+						"children": [
+									{
+										"type": "program",
+										"name": "root"
 									}]
 					},
 					{
@@ -970,6 +1270,15 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns an array with the children of the node, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "children"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "String with the code represented by this node",
 						"children": [
 									{
@@ -979,11 +1288,77 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Retrieves all descendants of the join point",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "descendants"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Looks for an ancestor joinpoint name, walking back on the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getAncestor"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendants"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type, including the node itself",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendantsAndSelf"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "The id of the node",
 						"children": [
 									{
 										"type": "String",
 										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the parent node in the AST, or undefined if it is the root node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "parent"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the 'program' joinpoint",
+						"children": [
+									{
+										"type": "program",
+										"name": "root"
 									}]
 					},
 					{
@@ -1198,6 +1573,15 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns an array with the children of the node, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "children"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "String with the code represented by this node",
 						"children": [
 									{
@@ -1207,11 +1591,77 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Retrieves all descendants of the join point",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "descendants"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Looks for an ancestor joinpoint name, walking back on the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getAncestor"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendants"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type, including the node itself",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendantsAndSelf"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "The id of the node",
 						"children": [
 									{
 										"type": "String",
 										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the parent node in the AST, or undefined if it is the root node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "parent"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the 'program' joinpoint",
+						"children": [
+									{
+										"type": "program",
+										"name": "root"
 									}]
 					},
 					{
@@ -1426,6 +1876,15 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns an array with the children of the node, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "children"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "String with the code represented by this node",
 						"children": [
 									{
@@ -1435,11 +1894,77 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Retrieves all descendants of the join point",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "descendants"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Looks for an ancestor joinpoint name, walking back on the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getAncestor"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendants"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type, including the node itself",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendantsAndSelf"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "The id of the node",
 						"children": [
 									{
 										"type": "String",
 										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the parent node in the AST, or undefined if it is the root node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "parent"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the 'program' joinpoint",
+						"children": [
+									{
+										"type": "program",
+										"name": "root"
 									}]
 					},
 					{
@@ -1654,6 +2179,15 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns an array with the children of the node, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "children"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "String with the code represented by this node",
 						"children": [
 									{
@@ -1663,11 +2197,77 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Retrieves all descendants of the join point",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "descendants"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Looks for an ancestor joinpoint name, walking back on the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getAncestor"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendants"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type, including the node itself",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendantsAndSelf"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "The id of the node",
 						"children": [
 									{
 										"type": "String",
 										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the parent node in the AST, or undefined if it is the root node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "parent"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the 'program' joinpoint",
+						"children": [
+									{
+										"type": "program",
+										"name": "root"
 									}]
 					},
 					{
@@ -1882,6 +2482,15 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns an array with the children of the node, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "children"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "String with the code represented by this node",
 						"children": [
 									{
@@ -1891,11 +2500,77 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Retrieves all descendants of the join point",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "descendants"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Looks for an ancestor joinpoint name, walking back on the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getAncestor"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendants"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type, including the node itself",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendantsAndSelf"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "The id of the node",
 						"children": [
 									{
 										"type": "String",
 										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the parent node in the AST, or undefined if it is the root node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "parent"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the 'program' joinpoint",
+						"children": [
+									{
+										"type": "program",
+										"name": "root"
 									}]
 					},
 					{
@@ -2110,6 +2785,15 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns an array with the children of the node, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "children"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "String with the code represented by this node",
 						"children": [
 									{
@@ -2119,11 +2803,77 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Retrieves all descendants of the join point",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "descendants"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Looks for an ancestor joinpoint name, walking back on the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getAncestor"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendants"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type, including the node itself",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendantsAndSelf"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "The id of the node",
 						"children": [
 									{
 										"type": "String",
 										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the parent node in the AST, or undefined if it is the root node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "parent"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the 'program' joinpoint",
+						"children": [
+									{
+										"type": "program",
+										"name": "root"
 									}]
 					},
 					{
@@ -2338,6 +3088,15 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns an array with the children of the node, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "children"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "String with the code represented by this node",
 						"children": [
 									{
@@ -2347,11 +3106,77 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Retrieves all descendants of the join point",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "descendants"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Looks for an ancestor joinpoint name, walking back on the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getAncestor"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendants"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type, including the node itself",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendantsAndSelf"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "The id of the node",
 						"children": [
 									{
 										"type": "String",
 										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the parent node in the AST, or undefined if it is the root node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "parent"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the 'program' joinpoint",
+						"children": [
+									{
+										"type": "program",
+										"name": "root"
 									}]
 					},
 					{
@@ -2566,6 +3391,15 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns an array with the children of the node, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "children"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "String with the code represented by this node",
 						"children": [
 									{
@@ -2575,11 +3409,77 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Retrieves all descendants of the join point",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "descendants"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Looks for an ancestor joinpoint name, walking back on the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getAncestor"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendants"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type, including the node itself",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendantsAndSelf"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "The id of the node",
 						"children": [
 									{
 										"type": "String",
 										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the parent node in the AST, or undefined if it is the root node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "parent"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the 'program' joinpoint",
+						"children": [
+									{
+										"type": "program",
+										"name": "root"
 									}]
 					},
 					{
@@ -2794,6 +3694,15 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns an array with the children of the node, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "children"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "String with the code represented by this node",
 						"children": [
 									{
@@ -2803,11 +3712,77 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Retrieves all descendants of the join point",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "descendants"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Looks for an ancestor joinpoint name, walking back on the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getAncestor"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendants"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type, including the node itself",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendantsAndSelf"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "The id of the node",
 						"children": [
 									{
 										"type": "String",
 										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the parent node in the AST, or undefined if it is the root node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "parent"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the 'program' joinpoint",
+						"children": [
+									{
+										"type": "program",
+										"name": "root"
 									}]
 					},
 					{
@@ -3022,6 +3997,15 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns an array with the children of the node, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "children"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "String with the code represented by this node",
 						"children": [
 									{
@@ -3031,11 +4015,77 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Retrieves all descendants of the join point",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "descendants"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Looks for an ancestor joinpoint name, walking back on the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getAncestor"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendants"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type, including the node itself",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendantsAndSelf"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "The id of the node",
 						"children": [
 									{
 										"type": "String",
 										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the parent node in the AST, or undefined if it is the root node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "parent"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the 'program' joinpoint",
+						"children": [
+									{
+										"type": "program",
+										"name": "root"
 									}]
 					},
 					{
@@ -3258,6 +4308,15 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns an array with the children of the node, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "children"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "String with the code represented by this node",
 						"children": [
 									{
@@ -3267,11 +4326,77 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Retrieves all descendants of the join point",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "descendants"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Looks for an ancestor joinpoint name, walking back on the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getAncestor"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendants"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type, including the node itself",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendantsAndSelf"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "The id of the node",
 						"children": [
 									{
 										"type": "String",
 										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the parent node in the AST, or undefined if it is the root node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "parent"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the 'program' joinpoint",
+						"children": [
+									{
+										"type": "program",
+										"name": "root"
 									}]
 					},
 					{
@@ -3486,6 +4611,15 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns an array with the children of the node, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "children"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "String with the code represented by this node",
 						"children": [
 									{
@@ -3495,11 +4629,77 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Retrieves all descendants of the join point",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "descendants"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Looks for an ancestor joinpoint name, walking back on the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getAncestor"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendants"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type, including the node itself",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendantsAndSelf"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "The id of the node",
 						"children": [
 									{
 										"type": "String",
 										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the parent node in the AST, or undefined if it is the root node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "parent"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the 'program' joinpoint",
+						"children": [
+									{
+										"type": "program",
+										"name": "root"
 									}]
 					},
 					{
@@ -3714,6 +4914,15 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns an array with the children of the node, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "children"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "String with the code represented by this node",
 						"children": [
 									{
@@ -3723,11 +4932,77 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Retrieves all descendants of the join point",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "descendants"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Looks for an ancestor joinpoint name, walking back on the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getAncestor"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendants"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type, including the node itself",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendantsAndSelf"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "The id of the node",
 						"children": [
 									{
 										"type": "String",
 										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the parent node in the AST, or undefined if it is the root node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "parent"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the 'program' joinpoint",
+						"children": [
+									{
+										"type": "program",
+										"name": "root"
 									}]
 					},
 					{
@@ -3942,6 +5217,15 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns an array with the children of the node, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "children"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "String with the code represented by this node",
 						"children": [
 									{
@@ -3951,11 +5235,77 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Retrieves all descendants of the join point",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "descendants"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Looks for an ancestor joinpoint name, walking back on the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getAncestor"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendants"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type, including the node itself",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendantsAndSelf"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "The id of the node",
 						"children": [
 									{
 										"type": "String",
 										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the parent node in the AST, or undefined if it is the root node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "parent"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the 'program' joinpoint",
+						"children": [
+									{
+										"type": "program",
+										"name": "root"
 									}]
 					},
 					{
@@ -4170,6 +5520,15 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns an array with the children of the node, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "children"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "String with the code represented by this node",
 						"children": [
 									{
@@ -4179,11 +5538,77 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Retrieves all descendants of the join point",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "descendants"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Looks for an ancestor joinpoint name, walking back on the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getAncestor"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendants"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type, including the node itself",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendantsAndSelf"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "The id of the node",
 						"children": [
 									{
 										"type": "String",
 										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the parent node in the AST, or undefined if it is the root node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "parent"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the 'program' joinpoint",
+						"children": [
+									{
+										"type": "program",
+										"name": "root"
 									}]
 					},
 					{
@@ -4398,6 +5823,15 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns an array with the children of the node, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "children"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "String with the code represented by this node",
 						"children": [
 									{
@@ -4407,11 +5841,77 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Retrieves all descendants of the join point",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "descendants"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Looks for an ancestor joinpoint name, walking back on the AST",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getAncestor"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendants"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Retrieves the descendants of the given type, including the node itself",
+						"children": [
+									{
+										"type": "joinpoint[]",
+										"name": "getDescendantsAndSelf"
+									},
+									{
+										"type": "String",
+										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "The id of the node",
 						"children": [
 									{
 										"type": "String",
 										"name": "id"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the parent node in the AST, or undefined if it is the root node",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "parent"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the 'program' joinpoint",
+						"children": [
+									{
+										"type": "program",
+										"name": "root"
 									}]
 					},
 					{

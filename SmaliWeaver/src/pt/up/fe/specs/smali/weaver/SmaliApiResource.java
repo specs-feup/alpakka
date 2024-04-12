@@ -20,8 +20,8 @@ import org.lara.interpreter.weaver.utils.LaraResourceProvider;
  *
  */
 public enum SmaliApiResource implements LaraResourceProvider {
-    JOIN_POINTS("JoinPoints.js");
-
+ //   JOIN_POINTS("JoinPoints.js");
+;
     private final String resource;
 
     private static final String WEAVER_PACKAGE = "smali/";

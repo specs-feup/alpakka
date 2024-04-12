@@ -25,12 +25,30 @@ public abstract class AArrayType extends ATypeDescriptor {
         this.aTypeDescriptor = aTypeDescriptor;
     }
     /**
-     * Get value on attribute id
+     * Get value on attribute parent
      * @return the attribute's value
      */
     @Override
-    public String getIdImpl() {
-        return this.aTypeDescriptor.getIdImpl();
+    public AJoinPoint getParentImpl() {
+        return this.aTypeDescriptor.getParentImpl();
+    }
+
+    /**
+     * Get value on attribute getDescendantsArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getDescendantsArrayImpl(String type) {
+        return this.aTypeDescriptor.getDescendantsArrayImpl(type);
+    }
+
+    /**
+     * Get value on attribute getDescendantsAndSelfArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getDescendantsAndSelfArrayImpl(String type) {
+        return this.aTypeDescriptor.getDescendantsAndSelfArrayImpl(type);
     }
 
     /**
@@ -49,6 +67,51 @@ public abstract class AArrayType extends ATypeDescriptor {
     @Override
     public String getCodeImpl() {
         return this.aTypeDescriptor.getCodeImpl();
+    }
+
+    /**
+     * Get value on attribute childrenArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getChildrenArrayImpl() {
+        return this.aTypeDescriptor.getChildrenArrayImpl();
+    }
+
+    /**
+     * Get value on attribute root
+     * @return the attribute's value
+     */
+    @Override
+    public AProgram getRootImpl() {
+        return this.aTypeDescriptor.getRootImpl();
+    }
+
+    /**
+     * Get value on attribute getAncestor
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint getAncestorImpl(String type) {
+        return this.aTypeDescriptor.getAncestorImpl(type);
+    }
+
+    /**
+     * Get value on attribute id
+     * @return the attribute's value
+     */
+    @Override
+    public String getIdImpl() {
+        return this.aTypeDescriptor.getIdImpl();
+    }
+
+    /**
+     * Get value on attribute descendantsArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getDescendantsArrayImpl() {
+        return this.aTypeDescriptor.getDescendantsArrayImpl();
     }
 
     /**
@@ -232,9 +295,16 @@ public abstract class AArrayType extends ATypeDescriptor {
      * 
      */
     protected enum ArrayTypeAttributes {
-        ID("id"),
+        PARENT("parent"),
+        GETDESCENDANTS("getDescendants"),
+        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
         AST("ast"),
-        CODE("code");
+        CODE("code"),
+        CHILDREN("children"),
+        ROOT("root"),
+        GETANCESTOR("getAncestor"),
+        ID("id"),
+        DESCENDANTS("descendants");
         private String name;
 
         /**

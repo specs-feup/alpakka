@@ -24,12 +24,30 @@ public abstract class ALiteral extends AExpression {
         this.aExpression = aExpression;
     }
     /**
-     * Get value on attribute id
+     * Get value on attribute parent
      * @return the attribute's value
      */
     @Override
-    public String getIdImpl() {
-        return this.aExpression.getIdImpl();
+    public AJoinPoint getParentImpl() {
+        return this.aExpression.getParentImpl();
+    }
+
+    /**
+     * Get value on attribute getDescendantsArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getDescendantsArrayImpl(String type) {
+        return this.aExpression.getDescendantsArrayImpl(type);
+    }
+
+    /**
+     * Get value on attribute getDescendantsAndSelfArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getDescendantsAndSelfArrayImpl(String type) {
+        return this.aExpression.getDescendantsAndSelfArrayImpl(type);
     }
 
     /**
@@ -48,6 +66,51 @@ public abstract class ALiteral extends AExpression {
     @Override
     public String getCodeImpl() {
         return this.aExpression.getCodeImpl();
+    }
+
+    /**
+     * Get value on attribute childrenArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getChildrenArrayImpl() {
+        return this.aExpression.getChildrenArrayImpl();
+    }
+
+    /**
+     * Get value on attribute root
+     * @return the attribute's value
+     */
+    @Override
+    public AProgram getRootImpl() {
+        return this.aExpression.getRootImpl();
+    }
+
+    /**
+     * Get value on attribute getAncestor
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint getAncestorImpl(String type) {
+        return this.aExpression.getAncestorImpl(type);
+    }
+
+    /**
+     * Get value on attribute id
+     * @return the attribute's value
+     */
+    @Override
+    public String getIdImpl() {
+        return this.aExpression.getIdImpl();
+    }
+
+    /**
+     * Get value on attribute descendantsArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getDescendantsArrayImpl() {
+        return this.aExpression.getDescendantsArrayImpl();
     }
 
     /**
@@ -231,9 +294,16 @@ public abstract class ALiteral extends AExpression {
      * 
      */
     protected enum LiteralAttributes {
-        ID("id"),
+        PARENT("parent"),
+        GETDESCENDANTS("getDescendants"),
+        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
         AST("ast"),
-        CODE("code");
+        CODE("code"),
+        CHILDREN("children"),
+        ROOT("root"),
+        GETANCESTOR("getAncestor"),
+        ID("id"),
+        DESCENDANTS("descendants");
         private String name;
 
         /**
