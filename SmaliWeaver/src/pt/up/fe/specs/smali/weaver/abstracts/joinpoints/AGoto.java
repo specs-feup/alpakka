@@ -7,20 +7,20 @@ import java.util.stream.Collectors;
 import java.util.Arrays;
 
 /**
- * Auto-Generated class for join point AInstructionFormat21cString
+ * Auto-Generated class for join point AGoto
  * This class is overwritten by the Weaver Generator.
  * 
- * Instruction format 21c string
+ * Smali instruction formats 10t, 20t, 30t
  * @author Lara Weaver Generator
  */
-public abstract class AInstructionFormat21cString extends AInstruction {
+public abstract class AGoto extends AInstruction {
 
     protected AInstruction aInstruction;
 
     /**
      * 
      */
-    public AInstructionFormat21cString(AInstruction aInstruction){
+    public AGoto(AInstruction aInstruction){
         super(aInstruction);
         this.aInstruction = aInstruction;
     }
@@ -276,7 +276,7 @@ public abstract class AInstructionFormat21cString extends AInstruction {
      */
     @Override
     public final String get_class() {
-        return "instructionFormat21cString";
+        return "goto";
     }
 
     /**
@@ -294,7 +294,7 @@ public abstract class AInstructionFormat21cString extends AInstruction {
     /**
      * 
      */
-    protected enum InstructionFormat21cStringAttributes {
+    protected enum GotoAttributes {
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
@@ -310,13 +310,13 @@ public abstract class AInstructionFormat21cString extends AInstruction {
         /**
          * 
          */
-        private InstructionFormat21cStringAttributes(String name){
+        private GotoAttributes(String name){
             this.name = name;
         }
         /**
          * Return an attribute enumeration item from a given attribute name
          */
-        public static Optional<InstructionFormat21cStringAttributes> fromString(String name) {
+        public static Optional<GotoAttributes> fromString(String name) {
             return Arrays.asList(values()).stream().filter(attr -> attr.name.equals(name)).findAny();
         }
 
@@ -324,7 +324,7 @@ public abstract class AInstructionFormat21cString extends AInstruction {
          * Return a list of attributes in String format
          */
         public static List<String> getNames() {
-            return Arrays.asList(values()).stream().map(InstructionFormat21cStringAttributes::name).collect(Collectors.toList());
+            return Arrays.asList(values()).stream().map(GotoAttributes::name).collect(Collectors.toList());
         }
 
         /**

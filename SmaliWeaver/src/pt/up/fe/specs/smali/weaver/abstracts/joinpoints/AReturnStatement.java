@@ -7,20 +7,20 @@ import java.util.stream.Collectors;
 import java.util.Arrays;
 
 /**
- * Auto-Generated class for join point AInstructionFormat10x
+ * Auto-Generated class for join point AReturnStatement
  * This class is overwritten by the Weaver Generator.
  * 
- * Instruction format 10x
+ * Smali instruction formats 10x, 11x
  * @author Lara Weaver Generator
  */
-public abstract class AInstructionFormat10x extends AInstruction {
+public abstract class AReturnStatement extends AInstruction {
 
     protected AInstruction aInstruction;
 
     /**
      * 
      */
-    public AInstructionFormat10x(AInstruction aInstruction){
+    public AReturnStatement(AInstruction aInstruction){
         super(aInstruction);
         this.aInstruction = aInstruction;
     }
@@ -276,7 +276,7 @@ public abstract class AInstructionFormat10x extends AInstruction {
      */
     @Override
     public final String get_class() {
-        return "instructionFormat10x";
+        return "returnStatement";
     }
 
     /**
@@ -294,7 +294,7 @@ public abstract class AInstructionFormat10x extends AInstruction {
     /**
      * 
      */
-    protected enum InstructionFormat10xAttributes {
+    protected enum ReturnStatementAttributes {
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
@@ -310,13 +310,13 @@ public abstract class AInstructionFormat10x extends AInstruction {
         /**
          * 
          */
-        private InstructionFormat10xAttributes(String name){
+        private ReturnStatementAttributes(String name){
             this.name = name;
         }
         /**
          * Return an attribute enumeration item from a given attribute name
          */
-        public static Optional<InstructionFormat10xAttributes> fromString(String name) {
+        public static Optional<ReturnStatementAttributes> fromString(String name) {
             return Arrays.asList(values()).stream().filter(attr -> attr.name.equals(name)).findAny();
         }
 
@@ -324,7 +324,7 @@ public abstract class AInstructionFormat10x extends AInstruction {
          * Return a list of attributes in String format
          */
         public static List<String> getNames() {
-            return Arrays.asList(values()).stream().map(InstructionFormat10xAttributes::name).collect(Collectors.toList());
+            return Arrays.asList(values()).stream().map(ReturnStatementAttributes::name).collect(Collectors.toList());
         }
 
         /**

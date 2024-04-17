@@ -1,14 +1,14 @@
 package pt.up.fe.specs.smali.ast.stmt.instruction;
 
-import java.util.Collection;
-
 import org.suikasoft.jOptions.Interfaces.DataStore;
-
 import pt.up.fe.specs.smali.ast.SmaliNode;
 
-public class InstructionFormat20t extends Instruction {
+import java.util.Collection;
 
-	public InstructionFormat20t(DataStore data, Collection<? extends SmaliNode> children) {
+public class ReturnStatement extends Instruction {
+
+	public ReturnStatement(DataStore data, Collection<? extends SmaliNode> children) {
 		super(data, children);
 	}
+
 }

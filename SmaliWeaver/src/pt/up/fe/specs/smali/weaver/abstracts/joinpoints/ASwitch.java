@@ -7,20 +7,20 @@ import java.util.stream.Collectors;
 import java.util.Arrays;
 
 /**
- * Auto-Generated class for join point AInstructionFormat35cMethod
+ * Auto-Generated class for join point ASwitch
  * This class is overwritten by the Weaver Generator.
  * 
- * Instruction format 35c method
+ * Smali instruction format 31t
  * @author Lara Weaver Generator
  */
-public abstract class AInstructionFormat35cMethod extends AInstruction {
+public abstract class ASwitch extends AInstruction {
 
     protected AInstruction aInstruction;
 
     /**
      * 
      */
-    public AInstructionFormat35cMethod(AInstruction aInstruction){
+    public ASwitch(AInstruction aInstruction){
         super(aInstruction);
         this.aInstruction = aInstruction;
     }
@@ -276,7 +276,7 @@ public abstract class AInstructionFormat35cMethod extends AInstruction {
      */
     @Override
     public final String get_class() {
-        return "instructionFormat35cMethod";
+        return "switch";
     }
 
     /**
@@ -294,7 +294,7 @@ public abstract class AInstructionFormat35cMethod extends AInstruction {
     /**
      * 
      */
-    protected enum InstructionFormat35cMethodAttributes {
+    protected enum SwitchAttributes {
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
@@ -310,13 +310,13 @@ public abstract class AInstructionFormat35cMethod extends AInstruction {
         /**
          * 
          */
-        private InstructionFormat35cMethodAttributes(String name){
+        private SwitchAttributes(String name){
             this.name = name;
         }
         /**
          * Return an attribute enumeration item from a given attribute name
          */
-        public static Optional<InstructionFormat35cMethodAttributes> fromString(String name) {
+        public static Optional<SwitchAttributes> fromString(String name) {
             return Arrays.asList(values()).stream().filter(attr -> attr.name.equals(name)).findAny();
         }
 
@@ -324,7 +324,7 @@ public abstract class AInstructionFormat35cMethod extends AInstruction {
          * Return a list of attributes in String format
          */
         public static List<String> getNames() {
-            return Arrays.asList(values()).stream().map(InstructionFormat35cMethodAttributes::name).collect(Collectors.toList());
+            return Arrays.asList(values()).stream().map(SwitchAttributes::name).collect(Collectors.toList());
         }
 
         /**

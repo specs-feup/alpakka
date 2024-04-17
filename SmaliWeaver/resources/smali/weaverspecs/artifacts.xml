@@ -2,92 +2,102 @@
 <artifacts>
 
 
+    <!-- Global Joinpoint -->
+    <!-- These properties are shared by all joinpoints -->
+    <global>
+        <attribute name="root" type="program"
+                   tooltip="Returns the 'program' joinpoint"/>
+        <attribute name="parent" type="joinpoint"
+                   tooltip="Returns the parent node in the AST, or undefined if it is the root node"/>
+        <attribute name="getAncestor" type="joinpoint"
+                   tooltip="Looks for an ancestor joinpoint name, walking back on the AST">
+            <parameter name="type" type="String"/>
+        </attribute>
+        <attribute name="descendants" type="joinpoint[]"
+                   tooltip="Retrieves all descendants of the join point"/>
+        <attribute name="getDescendants" type="joinpoint[]"
+                   tooltip="Retrieves the descendants of the given type">
+            <parameter name="type" type="String"/>
+        </attribute>
+        <attribute name="getDescendantsAndSelf" type="joinpoint[]"
+                   tooltip="Retrieves the descendants of the given type, including the node itself">
+            <parameter name="type" type="String"/>
+        </attribute>
+        <attribute name="children" type="joinpoint[]"
+                   tooltip="Returns an array with the children of the node, ignoring null nodes"/>
 
-	<!-- Global Joinpoint -->
-	<!-- These properties are shared by all joinpoints -->
-	<global>
-		<attribute name="root" type="program"
-				   tooltip="Returns the 'program' joinpoint" />
-		<attribute name="parent" type="joinpoint"
-				   tooltip="Returns the parent node in the AST, or undefined if it is the root node" />
-		<attribute name="getAncestor" type="joinpoint"
-				   tooltip="Looks for an ancestor joinpoint name, walking back on the AST">
-			<parameter name="type" type="String" />
-		</attribute>
-		<attribute name="descendants" type="joinpoint[]"
-				   tooltip="Retrieves all descendants of the join point" />
-		<attribute name="getDescendants" type="joinpoint[]"
-				   tooltip="Retrieves the descendants of the given type">
-			<parameter name="type" type="String" />
-		</attribute>
-		<attribute name="getDescendantsAndSelf" type="joinpoint[]"
-				   tooltip="Retrieves the descendants of the given type, including the node itself">
-			<parameter name="type" type="String" />
-		</attribute>
-		<attribute name="children" type="joinpoint[]"
-				   tooltip="Returns an array with the children of the node, ignoring null nodes" />
-
-		<attribute name="id" type="String" tooltip="The id of the node" />
-		<attribute name="ast" type="String"
-			tooltip="String representation of the ast" />
-		<attribute name="code" type="String"
-			tooltip="String with the code represented by this node" />
-	</global>
-
+        <attribute name="id" type="String" tooltip="The id of the node"/>
+        <attribute name="ast" type="String"
+                   tooltip="String representation of the ast"/>
+        <attribute name="code" type="String"
+                   tooltip="String with the code represented by this node"/>
+    </global>
 
 
-	<!-- PLACEHOLDER -->
-	<artifact class="placeholder">
-		<attribute name="kind" type="String" />
-	</artifact>
-	
-	<!-- PROGRAM -->
-	<artifact class="program" />
-	
-	<!-- CLASS_DEF -->
-	<artifact class="classNode" />
-	
-	<!-- FIELD -->
-	<artifact class="fieldNode" />
-	
-	<!-- METHOD -->
-	<artifact class="methodNode" />
-	
-	<!-- EXPRESSIONS -->
-	<artifact class="expression" />
-	
-	<artifact class="registerReference" />
-	
-	<!-- LITERALS -->
-	<artifact class="literal" />
-	
-	<artifact class="methodPrototype" />
-	
-	<!-- TYPE DESCRIPTORS -->
-	<artifact class="typeDescriptor" />
-	
-	<artifact class="classType">
-		<attribute name="className" type="String" />
-		<attribute name="packageName" type="String" />
-	</artifact>
+    <!-- PLACEHOLDER -->
+    <artifact class="placeholder">
+        <attribute name="kind" type="String"/>
+    </artifact>
 
-	<artifact class="arrayType" />
-	
-	<artifact class="primitiveType" />
-	
-	<!-- STATEMENTS -->
-	<artifact class="statement" />
-		
-	<!-- INSTRUCTIONS -->
-	<artifact class="instruction" />
-	
-	<artifact class="instructionFormat10x" />
-	
-	<artifact class="instructionFormat21cField" />
-	
-	<artifact class="instructionFormat21cString" />
-	
-	<artifact class="instructionFormat35cMethod" />
+    <!-- PROGRAM -->
+    <artifact class="program"/>
+
+    <!-- CLASS_DEF -->
+    <artifact class="classNode"/>
+
+    <!-- FIELD -->
+    <artifact class="fieldNode"/>
+
+    <!-- METHOD -->
+    <artifact class="methodNode"/>
+
+    <!-- EXPRESSIONS -->
+    <artifact class="expression"/>
+
+    <artifact class="registerReference"/>
+
+    <artifact class="labelReference"/>
+
+    <artifact class="methodReference"/>
+
+    <artifact class="fieldReference"/>
+
+    <!-- LITERALS -->
+    <artifact class="literal"/>
+
+    <artifact class="methodPrototype"/>
+
+    <!-- TYPE DESCRIPTORS -->
+    <artifact class="typeDescriptor"/>
+
+    <artifact class="classType">
+        <attribute name="className" type="String"/>
+        <attribute name="packageName" type="String"/>
+    </artifact>
+
+    <artifact class="arrayType"/>
+
+    <artifact class="primitiveType"/>
+
+    <!-- STATEMENTS -->
+    <artifact class="statement"/>
+
+    <artifact class="label"/>
+
+    <artifact class="catch"/>
+
+    <!-- INSTRUCTIONS -->
+    <artifact class="instruction"/>
+
+    <artifact class="goto"/>
+
+    <artifact class="ifComparison"/>
+
+    <artifact class="ifComparisonWithZero"/>
+
+    <artifact class="switch"/>
+
+    <artifact class="returnStatement"/>
 
 
 </artifacts>

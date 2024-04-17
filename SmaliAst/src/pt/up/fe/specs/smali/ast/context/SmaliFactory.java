@@ -34,42 +34,7 @@ import pt.up.fe.specs.smali.ast.stmt.LineDirective;
 import pt.up.fe.specs.smali.ast.stmt.LiteralStatement;
 import pt.up.fe.specs.smali.ast.stmt.ParameterDirective;
 import pt.up.fe.specs.smali.ast.stmt.RegistersDirective;
-import pt.up.fe.specs.smali.ast.stmt.instruction.ArrayDataDirective;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat10t;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat10x;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat11n;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat11x;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat12x;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat20t;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat21cField;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat21cMethodType;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat21cString;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat21cType;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat21ih;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat21lh;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat21s;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat21t;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat22b;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat22cField;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat22cType;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat22s;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat22t;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat22x;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat23x;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat30t;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat31c;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat31i;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat31t;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat32x;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat35cMethod;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat35cType;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat3rcMethod;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat3rcType;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat45ccMethod;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat4rccMethod;
-import pt.up.fe.specs.smali.ast.stmt.instruction.InstructionFormat51l;
-import pt.up.fe.specs.smali.ast.stmt.instruction.PackedSwitchDirective;
-import pt.up.fe.specs.smali.ast.stmt.instruction.SparseSwitchDirective;
+import pt.up.fe.specs.smali.ast.stmt.instruction.*;
 
 public class SmaliFactory {
 
@@ -258,19 +223,19 @@ public class SmaliFactory {
             return nonVoidType(type);
     }
 
-    public InstructionFormat10x instructionFormat10x(HashMap<String, Object> attributes) {
-        var data = newDataStore(InstructionFormat10x.class);
-        data.set(InstructionFormat10x.ATTRIBUTES, attributes);
+    public NopStatement nopInstructionFormat(HashMap<String, Object> attributes) {
+        var data = newDataStore(NopStatement.class);
+        data.set(NopStatement.ATTRIBUTES, attributes);
 
-        return new InstructionFormat10x(data, null);
+        return new NopStatement(data, null);
     }
 
-    public InstructionFormat10t instructionFormat10t(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
-        var data = newDataStore(InstructionFormat10t.class);
-        data.set(InstructionFormat10t.ATTRIBUTES, attributes);
+    public GotoStatement gotoInstructionFormat(HashMap<String, Object> attributes,
+                                               List<? extends SmaliNode> children) {
+        var data = newDataStore(GotoStatement.class);
+        data.set(GotoStatement.ATTRIBUTES, attributes);
 
-        return new InstructionFormat10t(data, children);
+        return new GotoStatement(data, children);
     }
 
     public InstructionFormat11x instructionFormat11x(HashMap<String, Object> attributes,
@@ -279,6 +244,14 @@ public class SmaliFactory {
         data.set(InstructionFormat11x.ATTRIBUTES, attributes);
 
         return new InstructionFormat11x(data, children);
+    }
+
+    public ReturnStatement returnInstructionFormat(HashMap<String, Object> attributes,
+                                                   List<? extends SmaliNode> children) {
+        var data = newDataStore(ReturnStatement.class);
+        data.set(ReturnStatement.ATTRIBUTES, attributes);
+
+        return new ReturnStatement(data, children);
     }
 
     public InstructionFormat11n instructionFormat11n(HashMap<String, Object> attributes,
@@ -295,14 +268,6 @@ public class SmaliFactory {
         data.set(InstructionFormat12x.ATTRIBUTES, attributes);
 
         return new InstructionFormat12x(data, children);
-    }
-
-    public InstructionFormat20t instructionFormat20t(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
-        var data = newDataStore(InstructionFormat20t.class);
-        data.set(InstructionFormat20t.ATTRIBUTES, attributes);
-
-        return new InstructionFormat20t(data, children);
     }
 
     public InstructionFormat21ih instructionFormat21ih(HashMap<String, Object> attributes,
@@ -425,14 +390,6 @@ public class SmaliFactory {
         return new InstructionFormat23x(data, children);
     }
 
-    public InstructionFormat30t instructionFormat30t(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
-        var data = newDataStore(InstructionFormat30t.class);
-        data.set(InstructionFormat30t.ATTRIBUTES, attributes);
-
-        return new InstructionFormat30t(data, children);
-    }
-
     public InstructionFormat31c instructionFormat31c(HashMap<String, Object> attributes,
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat31c.class);
@@ -449,12 +406,20 @@ public class SmaliFactory {
         return new InstructionFormat31i(data, children);
     }
 
-    public InstructionFormat31t instructionFormat31t(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
-        var data = newDataStore(InstructionFormat31t.class);
-        data.set(InstructionFormat31t.ATTRIBUTES, attributes);
+    public FillArrayStatement fillArrayInstructionFormat(HashMap<String, Object> attributes,
+                                                         List<? extends SmaliNode> children) {
+        var data = newDataStore(FillArrayStatement.class);
+        data.set(FillArrayStatement.ATTRIBUTES, attributes);
 
-        return new InstructionFormat31t(data, children);
+        return new FillArrayStatement(data, children);
+    }
+
+    public SwitchStatement switchInstructionFormat(HashMap<String, Object> attributes,
+                                                   List<? extends SmaliNode> children) {
+        var data = newDataStore(FillArrayStatement.class);
+        data.set(FillArrayStatement.ATTRIBUTES, attributes);
+
+        return new SwitchStatement(data, children);
     }
 
     public InstructionFormat32x instructionFormat32x(HashMap<String, Object> attributes,

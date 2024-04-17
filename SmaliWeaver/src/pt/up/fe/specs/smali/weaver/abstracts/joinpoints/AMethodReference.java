@@ -7,22 +7,21 @@ import java.util.stream.Collectors;
 import java.util.Arrays;
 
 /**
- * Auto-Generated class for join point AInstructionFormat21cField
+ * Auto-Generated class for join point AMethodReference
  * This class is overwritten by the Weaver Generator.
  * 
- * Instruction format 21c field
+ * Method reference
  * @author Lara Weaver Generator
  */
-public abstract class AInstructionFormat21cField extends AInstruction {
+public abstract class AMethodReference extends AExpression {
 
-    protected AInstruction aInstruction;
+    protected AExpression aExpression;
 
     /**
      * 
      */
-    public AInstructionFormat21cField(AInstruction aInstruction){
-        super(aInstruction);
-        this.aInstruction = aInstruction;
+    public AMethodReference(AExpression aExpression){
+        this.aExpression = aExpression;
     }
     /**
      * Get value on attribute parent
@@ -30,7 +29,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     public AJoinPoint getParentImpl() {
-        return this.aInstruction.getParentImpl();
+        return this.aExpression.getParentImpl();
     }
 
     /**
@@ -39,7 +38,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     public AJoinPoint[] getDescendantsArrayImpl(String type) {
-        return this.aInstruction.getDescendantsArrayImpl(type);
+        return this.aExpression.getDescendantsArrayImpl(type);
     }
 
     /**
@@ -48,7 +47,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     public AJoinPoint[] getDescendantsAndSelfArrayImpl(String type) {
-        return this.aInstruction.getDescendantsAndSelfArrayImpl(type);
+        return this.aExpression.getDescendantsAndSelfArrayImpl(type);
     }
 
     /**
@@ -57,7 +56,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     public String getAstImpl() {
-        return this.aInstruction.getAstImpl();
+        return this.aExpression.getAstImpl();
     }
 
     /**
@@ -66,7 +65,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     public String getCodeImpl() {
-        return this.aInstruction.getCodeImpl();
+        return this.aExpression.getCodeImpl();
     }
 
     /**
@@ -75,7 +74,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     public AJoinPoint[] getChildrenArrayImpl() {
-        return this.aInstruction.getChildrenArrayImpl();
+        return this.aExpression.getChildrenArrayImpl();
     }
 
     /**
@@ -84,7 +83,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     public AProgram getRootImpl() {
-        return this.aInstruction.getRootImpl();
+        return this.aExpression.getRootImpl();
     }
 
     /**
@@ -93,7 +92,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     public AJoinPoint getAncestorImpl(String type) {
-        return this.aInstruction.getAncestorImpl(type);
+        return this.aExpression.getAncestorImpl(type);
     }
 
     /**
@@ -102,7 +101,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     public String getIdImpl() {
-        return this.aInstruction.getIdImpl();
+        return this.aExpression.getIdImpl();
     }
 
     /**
@@ -111,7 +110,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     public AJoinPoint[] getDescendantsArrayImpl() {
-        return this.aInstruction.getDescendantsArrayImpl();
+        return this.aExpression.getDescendantsArrayImpl();
     }
 
     /**
@@ -120,7 +119,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     public AJoinPoint replaceWithImpl(AJoinPoint node) {
-        return this.aInstruction.replaceWithImpl(node);
+        return this.aExpression.replaceWithImpl(node);
     }
 
     /**
@@ -129,7 +128,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     public AJoinPoint replaceWithImpl(String node) {
-        return this.aInstruction.replaceWithImpl(node);
+        return this.aExpression.replaceWithImpl(node);
     }
 
     /**
@@ -138,7 +137,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     public AJoinPoint replaceWithImpl(AJoinPoint[] node) {
-        return this.aInstruction.replaceWithImpl(node);
+        return this.aExpression.replaceWithImpl(node);
     }
 
     /**
@@ -147,7 +146,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     public AJoinPoint replaceWithStringsImpl(String[] node) {
-        return this.aInstruction.replaceWithStringsImpl(node);
+        return this.aExpression.replaceWithStringsImpl(node);
     }
 
     /**
@@ -156,7 +155,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     public AJoinPoint insertBeforeImpl(AJoinPoint node) {
-        return this.aInstruction.insertBeforeImpl(node);
+        return this.aExpression.insertBeforeImpl(node);
     }
 
     /**
@@ -165,7 +164,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     public AJoinPoint insertBeforeImpl(String node) {
-        return this.aInstruction.insertBeforeImpl(node);
+        return this.aExpression.insertBeforeImpl(node);
     }
 
     /**
@@ -174,7 +173,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     public AJoinPoint insertAfterImpl(AJoinPoint node) {
-        return this.aInstruction.insertAfterImpl(node);
+        return this.aExpression.insertAfterImpl(node);
     }
 
     /**
@@ -183,7 +182,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     public AJoinPoint insertAfterImpl(String code) {
-        return this.aInstruction.insertAfterImpl(code);
+        return this.aExpression.insertAfterImpl(code);
     }
 
     /**
@@ -191,7 +190,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     public AJoinPoint detachImpl() {
-        return this.aInstruction.detachImpl();
+        return this.aExpression.detachImpl();
     }
 
     /**
@@ -201,7 +200,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     public AJoinPoint[] insertImpl(String position, String code) {
-        return this.aInstruction.insertImpl(position, code);
+        return this.aExpression.insertImpl(position, code);
     }
 
     /**
@@ -211,15 +210,15 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     public AJoinPoint[] insertImpl(String position, JoinPoint code) {
-        return this.aInstruction.insertImpl(position, code);
+        return this.aExpression.insertImpl(position, code);
     }
 
     /**
      * 
      */
     @Override
-    public Optional<? extends AInstruction> getSuper() {
-        return Optional.of(this.aInstruction);
+    public Optional<? extends AExpression> getSuper() {
+        return Optional.of(this.aExpression);
     }
 
     /**
@@ -230,7 +229,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
         List<? extends JoinPoint> joinPointList;
         switch(selectName) {
         	default:
-        		joinPointList = this.aInstruction.select(selectName);
+        		joinPointList = this.aExpression.select(selectName);
         		break;
         }
         return joinPointList;
@@ -251,7 +250,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     protected final void fillWithAttributes(List<String> attributes) {
-        this.aInstruction.fillWithAttributes(attributes);
+        this.aExpression.fillWithAttributes(attributes);
     }
 
     /**
@@ -259,7 +258,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     protected final void fillWithSelects(List<String> selects) {
-        this.aInstruction.fillWithSelects(selects);
+        this.aExpression.fillWithSelects(selects);
     }
 
     /**
@@ -267,7 +266,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     protected final void fillWithActions(List<String> actions) {
-        this.aInstruction.fillWithActions(actions);
+        this.aExpression.fillWithActions(actions);
     }
 
     /**
@@ -276,7 +275,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
      */
     @Override
     public final String get_class() {
-        return "instructionFormat21cField";
+        return "methodReference";
     }
 
     /**
@@ -289,12 +288,12 @@ public abstract class AInstructionFormat21cField extends AInstruction {
         if(isInstance) {
         	return true;
         }
-        return this.aInstruction.instanceOf(joinpointClass);
+        return this.aExpression.instanceOf(joinpointClass);
     }
     /**
      * 
      */
-    protected enum InstructionFormat21cFieldAttributes {
+    protected enum MethodReferenceAttributes {
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
@@ -310,13 +309,13 @@ public abstract class AInstructionFormat21cField extends AInstruction {
         /**
          * 
          */
-        private InstructionFormat21cFieldAttributes(String name){
+        private MethodReferenceAttributes(String name){
             this.name = name;
         }
         /**
          * Return an attribute enumeration item from a given attribute name
          */
-        public static Optional<InstructionFormat21cFieldAttributes> fromString(String name) {
+        public static Optional<MethodReferenceAttributes> fromString(String name) {
             return Arrays.asList(values()).stream().filter(attr -> attr.name.equals(name)).findAny();
         }
 
@@ -324,7 +323,7 @@ public abstract class AInstructionFormat21cField extends AInstruction {
          * Return a list of attributes in String format
          */
         public static List<String> getNames() {
-            return Arrays.asList(values()).stream().map(InstructionFormat21cFieldAttributes::name).collect(Collectors.toList());
+            return Arrays.asList(values()).stream().map(MethodReferenceAttributes::name).collect(Collectors.toList());
         }
 
         /**

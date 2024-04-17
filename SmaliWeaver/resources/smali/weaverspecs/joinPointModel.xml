@@ -1,52 +1,64 @@
 <?xml version="1.0"?>
 <joinpoints root_class="placeholder">
-	 
-	<!-- PLACEHOLDER -->
-	<joinpoint class="placeholder" tooltip="Placeholder node" />
-	
-	<!-- PROGRAM -->
-	<joinpoint class="program" tooltip="App node" />
-	
-	<!-- CLASS_DEF -->
-	<joinpoint class="classNode" tooltip="Class definition" />
-	
-	<!-- FIELD -->
-	<joinpoint class="fieldNode" tooltip="Field definition" />
-	
-	<!-- METHOD -->
-	<joinpoint class="methodNode" tooltip="Method definition" />
-	
-	<!-- EXPRESSIONS -->
-	<joinpoint class="expression" tooltip="Expression"/>
-	
-	<joinpoint class="registerReference" extends="expression" tooltip="Register reference"/>
-	
-	<!-- LITERALS -->
-	<joinpoint class="literal" extends="expression" tooltip="Literal"/>
-	
-	<joinpoint class="methodPrototype" extends="literal" tooltip="Method prototype"/>
-	
-	<!-- TYPE DESCRIPTORS -->
-	<joinpoint class="typeDescriptor" extends="literal" tooltip="Type descriptor"/>
-	
-	<joinpoint class="classType" extends="typeDescriptor" tooltip="Class descriptor"/>
-	
-	<joinpoint class="arrayType" extends="typeDescriptor" tooltip="Array descriptor"/>
-	
-	<joinpoint class="primitiveType" extends="typeDescriptor" tooltip="Primitive descriptor"/>
-	
-	<!-- STATEMENTS -->
-	<joinpoint class="statement" tooltip="Statement"/>
-	
-	<!-- INSTRUCTIONS -->
-	<joinpoint class="instruction" extends="statement" tooltip="Instruction"/>
-	
-	<joinpoint class="instructionFormat10x" extends="instruction" tooltip="Instruction format 10x"/>
-	
-	<joinpoint class="instructionFormat21cField" extends="instruction"  tooltip="Instruction format 21c field"/>
-	
-	<joinpoint class="instructionFormat21cString" extends="instruction" tooltip="Instruction format 21c string"/>
-	
-	<joinpoint class="instructionFormat35cMethod" extends="instruction" tooltip="Instruction format 35c method"/>
-		 	
+
+    <!-- PLACEHOLDER -->
+    <joinpoint class="placeholder" tooltip="Placeholder node"/>
+
+    <!-- PROGRAM -->
+    <joinpoint class="program" tooltip="App node"/>
+
+    <!-- CLASS_DEF -->
+    <joinpoint class="classNode" tooltip="Class definition"/>
+
+    <!-- FIELD -->
+    <joinpoint class="fieldNode" tooltip="Field definition"/>
+
+    <!-- METHOD -->
+    <joinpoint class="methodNode" tooltip="Method definition"/>
+
+    <!-- EXPRESSIONS -->
+    <joinpoint class="expression" tooltip="Expression"/>
+
+    <joinpoint class="registerReference" extends="expression" tooltip="Register reference"/>
+
+    <joinpoint class="labelReference" extends="expression" tooltip="Label reference"/>
+
+    <joinpoint class="methodReference" extends="expression" tooltip="Method reference"/>
+
+    <joinpoint class="fieldReference" extends="expression" tooltip="Field reference"/>
+
+    <!-- LITERALS -->
+    <joinpoint class="literal" extends="expression" tooltip="Literal"/>
+
+    <joinpoint class="methodPrototype" extends="literal" tooltip="Method prototype"/>
+
+    <!-- TYPE DESCRIPTORS -->
+    <joinpoint class="typeDescriptor" extends="literal" tooltip="Type descriptor"/>
+
+    <joinpoint class="classType" extends="typeDescriptor" tooltip="Class descriptor"/>
+
+    <joinpoint class="arrayType" extends="typeDescriptor" tooltip="Array descriptor"/>
+
+    <joinpoint class="primitiveType" extends="typeDescriptor" tooltip="Primitive descriptor"/>
+
+    <!-- STATEMENTS -->
+    <joinpoint class="statement" tooltip="Statement"/>
+
+    <joinpoint class="label" extends="statement" tooltip="Label declaration"/>
+
+    <joinpoint class="catch" extends="statement" tooltip="Catch directive"/>
+
+    <!-- INSTRUCTIONS -->
+    <joinpoint class="instruction" extends="statement" tooltip="Instruction"/>
+
+    <joinpoint class="ifComparison" extends="instruction" tooltip="Smali instruction format 22t"/>
+
+    <joinpoint class="ifComparisonWithZero" extends="instruction" tooltip="Smali instruction format 21t"/>
+
+    <joinpoint class="goto" extends="instruction" tooltip="Smali instruction formats 10t, 20t, 30t"/>
+
+    <joinpoint class="switch" extends="instruction" tooltip="Smali instruction format 31t"/>
+
+    <joinpoint class="returnStatement" extends="instruction" tooltip="Smali instruction formats 10x, 11x"/>
+
 </joinpoints>

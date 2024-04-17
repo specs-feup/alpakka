@@ -140,6 +140,18 @@ export class FieldNode extends Joinpoint {
 }
 
   /**
+   * Field reference
+   */
+export class FieldReference extends Expression {
+}
+
+  /**
+   * Label reference
+   */
+export class LabelReference extends Expression {
+}
+
+  /**
    * Literal
    */
 export class Literal extends Expression {
@@ -159,6 +171,12 @@ export class MethodNode extends Joinpoint {
    * Method prototype
    */
 export class MethodPrototype extends Literal {
+}
+
+  /**
+   * Method reference
+   */
+export class MethodReference extends Expression {
 }
 
   /**
@@ -211,6 +229,12 @@ export class ArrayType extends TypeDescriptor {
 }
 
   /**
+   * Catch directive
+   */
+export class Catch extends Statement {
+}
+
+  /**
    * Class descriptor
    */
 export class ClassType extends TypeDescriptor {
@@ -225,27 +249,9 @@ export class Instruction extends Statement {
 }
 
   /**
-   * Instruction format 10x
+   * Label declaration
    */
-export class InstructionFormat10x extends Instruction {
-}
-
-  /**
-   * Instruction format 21c field
-   */
-export class InstructionFormat21cField extends Instruction {
-}
-
-  /**
-   * Instruction format 21c string
-   */
-export class InstructionFormat21cString extends Instruction {
-}
-
-  /**
-   * Instruction format 35c method
-   */
-export class InstructionFormat35cMethod extends Instruction {
+export class Label extends Statement {
 }
 
   /**
@@ -254,27 +260,63 @@ export class InstructionFormat35cMethod extends Instruction {
 export class PrimitiveType extends TypeDescriptor {
 }
 
+  /**
+   * Smali instruction formats 10x, 11x
+   */
+export class ReturnStatement extends Instruction {
+}
+
+  /**
+   * Smali instruction format 31t
+   */
+export class Switch extends Instruction {
+}
+
+  /**
+   * Smali instruction formats 10t, 20t, 30t
+   */
+export class Goto extends Instruction {
+}
+
+  /**
+   * Smali instruction format 22t
+   */
+export class IfComparison extends Instruction {
+}
+
+  /**
+   * Smali instruction format 21t
+   */
+export class IfComparisonWithZero extends Instruction {
+}
+
 const JoinpointMapper: JoinpointMapperType = {
   joinpoint: Joinpoint,
   classNode: ClassNode,
   expression: Expression,
   fieldNode: FieldNode,
+  fieldReference: FieldReference,
+  labelReference: LabelReference,
   literal: Literal,
   methodNode: MethodNode,
   methodPrototype: MethodPrototype,
+  methodReference: MethodReference,
   placeholder: Placeholder,
   program: Program,
   registerReference: RegisterReference,
   statement: Statement,
   typeDescriptor: TypeDescriptor,
   arrayType: ArrayType,
+  catch: Catch,
   classType: ClassType,
   instruction: Instruction,
-  instructionFormat10x: InstructionFormat10x,
-  instructionFormat21cField: InstructionFormat21cField,
-  instructionFormat21cString: InstructionFormat21cString,
-  instructionFormat35cMethod: InstructionFormat35cMethod,
+  label: Label,
   primitiveType: PrimitiveType,
+  returnStatement: ReturnStatement,
+  switch: Switch,
+  goto: Goto,
+  ifComparison: IfComparison,
+  ifComparisonWithZero: IfComparisonWithZero,
 };
 
 let registered = false;

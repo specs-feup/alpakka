@@ -6,9 +6,9 @@ import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
 
-public class InstructionFormat31t extends Instruction {
+public class FillArrayStatement extends Instruction {
 
-	public InstructionFormat31t(DataStore data, Collection<? extends SmaliNode> children) {
+	public FillArrayStatement(DataStore data, Collection<? extends SmaliNode> children) {
 		super(data, children);
 	}
 }

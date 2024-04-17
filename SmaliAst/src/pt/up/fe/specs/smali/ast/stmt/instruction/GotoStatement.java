@@ -6,9 +6,9 @@ import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
 
-public class InstructionFormat10t extends Instruction {
+public class GotoStatement extends Instruction {
 
-	public InstructionFormat10t(DataStore data, Collection<? extends SmaliNode> children) {
+	public GotoStatement(DataStore data, Collection<? extends SmaliNode> children) {
 		super(data, children);
 	}
 

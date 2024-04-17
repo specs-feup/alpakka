@@ -6,9 +6,9 @@ import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
 
-public class InstructionFormat10x extends Instruction {
+public class NopStatement extends Instruction {
 
-	public InstructionFormat10x(DataStore data, Collection<? extends SmaliNode> children) {
+	public NopStatement(DataStore data, Collection<? extends SmaliNode> children) {
 		super(data, children);
 	}
 
