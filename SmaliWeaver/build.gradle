@@ -5,6 +5,9 @@ plugins {
 // Java project
 apply plugin: 'java'
 
+// Executable
+apply plugin: 'application'
+
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
@@ -51,4 +54,10 @@ sourceSets {
 		srcDir 'resources'
 	  }      
    }
+}
+
+mainClassName = "pt.up.fe.specs.smali.weaver.SmaliWeaverLauncher"
+
+application {
+    mainClass.set(mainClassName)
 }

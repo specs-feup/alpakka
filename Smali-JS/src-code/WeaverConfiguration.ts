@@ -6,9 +6,9 @@ export const weaverConfig: WeaverConfiguration = {
   weaverName: "smali",
   weaverPrettyName: "Smali",
   weaverFileName: "Weaver.js",
-  jarFilePath: path.join(
+  jarPath: path.join(
     path.dirname(path.dirname(fileURLToPath(import.meta.url))),
-    "./java-binaries/SmaliWeaver.jar",
+    "./java-binaries/",
   ),
   javaWeaverQualifiedName: "pt.up.fe.specs.smali.weaver.SmaliWeaver",
 };

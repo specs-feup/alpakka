@@ -31,6 +31,12 @@ import pt.up.fe.specs.util.providers.ResourceProvider;
  */
 public class SmaliWeaver extends ASmaliWeaver {
 
+    private static final String WOVEN_CODE_FOLDERNAME = "woven_code";
+
+    public static String getWovenCodeFoldername() {
+        return WOVEN_CODE_FOLDERNAME;
+    }
+
     /**
      * Thread-scope WeaverEngine
      */
