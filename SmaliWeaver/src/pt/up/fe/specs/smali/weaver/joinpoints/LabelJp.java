@@ -2,7 +2,9 @@ package pt.up.fe.specs.smali.weaver.joinpoints;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.ast.stmt.Label;
+import pt.up.fe.specs.smali.weaver.SmaliJoinpoints;
 import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.ALabel;
+import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.AStatement;
 
 public class LabelJp extends ALabel {
 
@@ -16,5 +18,10 @@ public class LabelJp extends ALabel {
     @Override
     public SmaliNode getNode() {
         return this.label;
+    }
+
+    @Override
+    public String getNameImpl() {
+        return this.label.getLabel();
     }
 }

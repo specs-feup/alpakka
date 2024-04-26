@@ -84,6 +84,7 @@ public abstract class AProgram extends ASmaliWeaverJoinPoint {
         CHILDREN("children"),
         ROOT("root"),
         GETANCESTOR("getAncestor"),
+        GETCHILD("getChild"),
         ID("id"),
         DESCENDANTS("descendants");
         private String name;

@@ -96,6 +96,15 @@ public abstract class ALiteral extends AExpression {
     }
 
     /**
+     * Get value on attribute getChild
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint getChildImpl(int index) {
+        return this.aExpression.getChildImpl(index);
+    }
+
+    /**
      * Get value on attribute id
      * @return the attribute's value
      */
@@ -302,6 +311,7 @@ public abstract class ALiteral extends AExpression {
         CHILDREN("children"),
         ROOT("root"),
         GETANCESTOR("getAncestor"),
+        GETCHILD("getChild"),
         ID("id"),
         DESCENDANTS("descendants");
         private String name;

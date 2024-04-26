@@ -82,6 +82,19 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "Retrieves the descendants of the given type",
 						"children": [
 									{
@@ -385,6 +398,19 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "Retrieves the descendants of the given type",
 						"children": [
 									{
@@ -617,6 +643,14 @@
 						"type": "attribute",
 						"children": [
 									{
+										"type": "statement",
+										"name": "nextStatement"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
 										"type": "String[]",
 										"name": "attributes"
 									}]
@@ -684,6 +718,19 @@
 									{
 										"type": "String",
 										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
 									}]
 					},
 					{
@@ -987,6 +1034,19 @@
 									{
 										"type": "String",
 										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
 									}]
 					},
 					{
@@ -1310,6 +1370,19 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "Retrieves the descendants of the given type",
 						"children": [
 									{
@@ -1609,6 +1682,19 @@
 									{
 										"type": "String",
 										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
 									}]
 					},
 					{
@@ -1916,6 +2002,19 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "Retrieves the descendants of the given type",
 						"children": [
 									{
@@ -2219,6 +2318,19 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "Retrieves the descendants of the given type",
 						"children": [
 									{
@@ -2451,6 +2563,22 @@
 						"type": "attribute",
 						"children": [
 									{
+										"type": "labelReference",
+										"name": "label"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "statement",
+										"name": "nextStatement"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
 										"type": "String[]",
 										"name": "attributes"
 									}]
@@ -2518,6 +2646,19 @@
 									{
 										"type": "String",
 										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
 									}]
 					},
 					{
@@ -2754,6 +2895,22 @@
 						"type": "attribute",
 						"children": [
 									{
+										"type": "labelReference",
+										"name": "label"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "statement",
+										"name": "nextStatement"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
 										"type": "String[]",
 										"name": "attributes"
 									}]
@@ -2821,6 +2978,19 @@
 									{
 										"type": "String",
 										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
 									}]
 					},
 					{
@@ -3057,6 +3227,22 @@
 						"type": "attribute",
 						"children": [
 									{
+										"type": "labelReference",
+										"name": "label"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "statement",
+										"name": "nextStatement"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
 										"type": "String[]",
 										"name": "attributes"
 									}]
@@ -3124,6 +3310,19 @@
 									{
 										"type": "String",
 										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
 									}]
 					},
 					{
@@ -3360,6 +3559,14 @@
 						"type": "attribute",
 						"children": [
 									{
+										"type": "statement",
+										"name": "nextStatement"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
 										"type": "String[]",
 										"name": "attributes"
 									}]
@@ -3427,6 +3634,19 @@
 									{
 										"type": "String",
 										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
 									}]
 					},
 					{
@@ -3663,6 +3883,22 @@
 						"type": "attribute",
 						"children": [
 									{
+										"type": "String",
+										"name": "name"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "statement",
+										"name": "nextStatement"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
 										"type": "String[]",
 										"name": "attributes"
 									}]
@@ -3730,6 +3966,19 @@
 									{
 										"type": "String",
 										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
 									}]
 					},
 					{
@@ -3966,6 +4215,22 @@
 						"type": "attribute",
 						"children": [
 									{
+										"type": "label",
+										"name": "decl"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "String",
+										"name": "name"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
 										"type": "String[]",
 										"name": "attributes"
 									}]
@@ -4033,6 +4298,19 @@
 									{
 										"type": "String",
 										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
 									}]
 					},
 					{
@@ -4340,6 +4618,19 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "Retrieves the descendants of the given type",
 						"children": [
 									{
@@ -4572,6 +4863,14 @@
 						"type": "attribute",
 						"children": [
 									{
+										"type": "String",
+										"name": "name"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
 										"type": "String[]",
 										"name": "attributes"
 									}]
@@ -4639,6 +4938,19 @@
 									{
 										"type": "String",
 										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
 									}]
 					},
 					{
@@ -4946,6 +5258,19 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "Retrieves the descendants of the given type",
 						"children": [
 									{
@@ -5245,6 +5570,19 @@
 									{
 										"type": "String",
 										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
 									}]
 					},
 					{
@@ -5560,6 +5898,19 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "Retrieves the descendants of the given type",
 						"children": [
 									{
@@ -5859,6 +6210,19 @@
 									{
 										"type": "String",
 										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
 									}]
 					},
 					{
@@ -6166,6 +6530,19 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "Retrieves the descendants of the given type",
 						"children": [
 									{
@@ -6469,6 +6846,19 @@
 					},
 					{
 						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
+									}]
+					},
+					{
+						"type": "attribute",
 						"tooltip": "Retrieves the descendants of the given type",
 						"children": [
 									{
@@ -6701,6 +7091,14 @@
 						"type": "attribute",
 						"children": [
 									{
+										"type": "statement",
+										"name": "nextStatement"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
 										"type": "String[]",
 										"name": "attributes"
 									}]
@@ -6768,6 +7166,19 @@
 									{
 										"type": "String",
 										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
 									}]
 					},
 					{
@@ -7004,6 +7415,14 @@
 						"type": "attribute",
 						"children": [
 									{
+										"type": "statement",
+										"name": "nextStatement"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
 										"type": "String[]",
 										"name": "attributes"
 									}]
@@ -7071,6 +7490,19 @@
 									{
 										"type": "String",
 										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
 									}]
 					},
 					{
@@ -7307,6 +7739,14 @@
 						"type": "attribute",
 						"children": [
 									{
+										"type": "statement",
+										"name": "nextStatement"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
 										"type": "String[]",
 										"name": "attributes"
 									}]
@@ -7374,6 +7814,19 @@
 									{
 										"type": "String",
 										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
 									}]
 					},
 					{
@@ -7677,6 +8130,19 @@
 									{
 										"type": "String",
 										"name": "type"
+									}]
+					},
+					{
+						"type": "attribute",
+						"tooltip": "Returns the child of the node at the given index, ignoring null nodes",
+						"children": [
+									{
+										"type": "joinpoint",
+										"name": "getChild"
+									},
+									{
+										"type": "int",
+										"name": "index"
 									}]
 					},
 					{

@@ -328,6 +328,7 @@ public abstract class AJoinPoint extends JoinPoint {
         attributes.add("getDescendants(String type)");
         attributes.add("getDescendantsAndSelf(String type)");
         attributes.add("children");
+        attributes.add("getChild(int index)");
         attributes.add("id");
         attributes.add("ast");
         attributes.add("code");
@@ -545,6 +546,33 @@ public abstract class AJoinPoint extends JoinPoint {
         	return result!=null?result:getUndefinedValue();
         } catch(Exception e) {
         	throw new AttributeException(get_class(), "children", e);
+        }
+    }
+
+    /**
+     * 
+     * @param index
+     * @return 
+     */
+    public abstract AJoinPoint getChildImpl(int index);
+
+    /**
+     * 
+     * @param index
+     * @return 
+     */
+    public final Object getChild(int index) {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "getChild", Optional.empty(), index);
+        	}
+        	AJoinPoint result = this.getChildImpl(index);
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "getChild", Optional.ofNullable(result), index);
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "getChild", e);
         }
     }
 

@@ -1,7 +1,9 @@
 package pt.up.fe.specs.smali.weaver.abstracts.joinpoints;
 
-import org.lara.interpreter.weaver.interf.JoinPoint;
+import org.lara.interpreter.weaver.interf.events.Stage;
 import java.util.Optional;
+import org.lara.interpreter.exception.AttributeException;
+import org.lara.interpreter.weaver.interf.JoinPoint;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Arrays;
@@ -24,6 +26,54 @@ public abstract class AIfComparison extends AInstruction {
         super(aInstruction);
         this.aInstruction = aInstruction;
     }
+    /**
+     * Get value on attribute label
+     * @return the attribute's value
+     */
+    public abstract ALabelReference getLabelImpl();
+
+    /**
+     * Get value on attribute label
+     * @return the attribute's value
+     */
+    public final Object getLabel() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "label", Optional.empty());
+        	}
+        	ALabelReference result = this.getLabelImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "label", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "label", e);
+        }
+    }
+
+    /**
+     * 
+     */
+    public void defLabelImpl(ALabelReference value) {
+        throw new UnsupportedOperationException("Join point "+get_class()+": Action def label with type ALabelReference not implemented ");
+    }
+
+    /**
+     * Get value on attribute nextStatement
+     * @return the attribute's value
+     */
+    @Override
+    public AStatement getNextStatementImpl() {
+        return this.aInstruction.getNextStatementImpl();
+    }
+
+    /**
+     * 
+     */
+    public void defNextStatementImpl(AStatement value) {
+        this.aInstruction.defNextStatementImpl(value);
+    }
+
     /**
      * Get value on attribute parent
      * @return the attribute's value
@@ -94,6 +144,15 @@ public abstract class AIfComparison extends AInstruction {
     @Override
     public AJoinPoint getAncestorImpl(String type) {
         return this.aInstruction.getAncestorImpl(type);
+    }
+
+    /**
+     * Get value on attribute getChild
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint getChildImpl(int index) {
+        return this.aInstruction.getChildImpl(index);
     }
 
     /**
@@ -242,6 +301,20 @@ public abstract class AIfComparison extends AInstruction {
     @Override
     public final void defImpl(String attribute, Object value) {
         switch(attribute){
+        case "label": {
+        	if(value instanceof ALabelReference){
+        		this.defLabelImpl((ALabelReference)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
+        case "nextStatement": {
+        	if(value instanceof AStatement){
+        		this.defNextStatementImpl((AStatement)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
         default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
         }
     }
@@ -252,6 +325,7 @@ public abstract class AIfComparison extends AInstruction {
     @Override
     protected final void fillWithAttributes(List<String> attributes) {
         this.aInstruction.fillWithAttributes(attributes);
+        attributes.add("label");
     }
 
     /**
@@ -295,6 +369,8 @@ public abstract class AIfComparison extends AInstruction {
      * 
      */
     protected enum IfComparisonAttributes {
+        LABEL("label"),
+        NEXTSTATEMENT("nextStatement"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
@@ -303,6 +379,7 @@ public abstract class AIfComparison extends AInstruction {
         CHILDREN("children"),
         ROOT("root"),
         GETANCESTOR("getAncestor"),
+        GETCHILD("getChild"),
         ID("id"),
         DESCENDANTS("descendants");
         private String name;

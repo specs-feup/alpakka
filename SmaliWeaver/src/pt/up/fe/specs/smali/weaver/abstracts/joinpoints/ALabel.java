@@ -1,7 +1,9 @@
 package pt.up.fe.specs.smali.weaver.abstracts.joinpoints;
 
-import org.lara.interpreter.weaver.interf.JoinPoint;
+import org.lara.interpreter.weaver.interf.events.Stage;
 import java.util.Optional;
+import org.lara.interpreter.exception.AttributeException;
+import org.lara.interpreter.weaver.interf.JoinPoint;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Arrays;
@@ -23,6 +25,47 @@ public abstract class ALabel extends AStatement {
     public ALabel(AStatement aStatement){
         this.aStatement = aStatement;
     }
+    /**
+     * Get value on attribute name
+     * @return the attribute's value
+     */
+    public abstract String getNameImpl();
+
+    /**
+     * Get value on attribute name
+     * @return the attribute's value
+     */
+    public final Object getName() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "name", Optional.empty());
+        	}
+        	String result = this.getNameImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "name", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "name", e);
+        }
+    }
+
+    /**
+     * Get value on attribute nextStatement
+     * @return the attribute's value
+     */
+    @Override
+    public AStatement getNextStatementImpl() {
+        return this.aStatement.getNextStatementImpl();
+    }
+
+    /**
+     * 
+     */
+    public void defNextStatementImpl(AStatement value) {
+        this.aStatement.defNextStatementImpl(value);
+    }
+
     /**
      * Get value on attribute parent
      * @return the attribute's value
@@ -93,6 +136,15 @@ public abstract class ALabel extends AStatement {
     @Override
     public AJoinPoint getAncestorImpl(String type) {
         return this.aStatement.getAncestorImpl(type);
+    }
+
+    /**
+     * Get value on attribute getChild
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint getChildImpl(int index) {
+        return this.aStatement.getChildImpl(index);
     }
 
     /**
@@ -241,6 +293,13 @@ public abstract class ALabel extends AStatement {
     @Override
     public final void defImpl(String attribute, Object value) {
         switch(attribute){
+        case "nextStatement": {
+        	if(value instanceof AStatement){
+        		this.defNextStatementImpl((AStatement)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
         default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
         }
     }
@@ -251,6 +310,7 @@ public abstract class ALabel extends AStatement {
     @Override
     protected final void fillWithAttributes(List<String> attributes) {
         this.aStatement.fillWithAttributes(attributes);
+        attributes.add("name");
     }
 
     /**
@@ -294,6 +354,8 @@ public abstract class ALabel extends AStatement {
      * 
      */
     protected enum LabelAttributes {
+        NAME("name"),
+        NEXTSTATEMENT("nextStatement"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
@@ -302,6 +364,7 @@ public abstract class ALabel extends AStatement {
         CHILDREN("children"),
         ROOT("root"),
         GETANCESTOR("getAncestor"),
+        GETCHILD("getChild"),
         ID("id"),
         DESCENDANTS("descendants");
         private String name;

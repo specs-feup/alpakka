@@ -17,4 +17,8 @@ public class MethodNodeJp extends AMethodNode {
 		return methodNode;
 	}
 
+	@Override
+	public String getNameImpl() {
+		return methodNode.getMethodReferenceName();
+	}
 }

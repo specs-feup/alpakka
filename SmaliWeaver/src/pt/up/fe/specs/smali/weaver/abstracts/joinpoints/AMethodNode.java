@@ -1,9 +1,11 @@
 package pt.up.fe.specs.smali.weaver.abstracts.joinpoints;
 
+import org.lara.interpreter.weaver.interf.events.Stage;
+import java.util.Optional;
+import org.lara.interpreter.exception.AttributeException;
 import pt.up.fe.specs.smali.weaver.abstracts.ASmaliWeaverJoinPoint;
 import java.util.List;
 import org.lara.interpreter.weaver.interf.JoinPoint;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.Arrays;
 
@@ -15,6 +17,31 @@ import java.util.Arrays;
  * @author Lara Weaver Generator
  */
 public abstract class AMethodNode extends ASmaliWeaverJoinPoint {
+
+    /**
+     * Get value on attribute name
+     * @return the attribute's value
+     */
+    public abstract String getNameImpl();
+
+    /**
+     * Get value on attribute name
+     * @return the attribute's value
+     */
+    public final Object getName() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "name", Optional.empty());
+        	}
+        	String result = this.getNameImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "name", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "name", e);
+        }
+    }
 
     /**
      * 
@@ -46,6 +73,7 @@ public abstract class AMethodNode extends ASmaliWeaverJoinPoint {
     @Override
     protected final void fillWithAttributes(List<String> attributes) {
         super.fillWithAttributes(attributes);
+        attributes.add("name");
     }
 
     /**
@@ -76,6 +104,7 @@ public abstract class AMethodNode extends ASmaliWeaverJoinPoint {
      * 
      */
     protected enum MethodNodeAttributes {
+        NAME("name"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
@@ -84,6 +113,7 @@ public abstract class AMethodNode extends ASmaliWeaverJoinPoint {
         CHILDREN("children"),
         ROOT("root"),
         GETANCESTOR("getAncestor"),
+        GETCHILD("getChild"),
         ID("id"),
         DESCENDANTS("descendants");
         private String name;

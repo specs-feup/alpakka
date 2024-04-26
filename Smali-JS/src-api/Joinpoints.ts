@@ -22,47 +22,79 @@ export class Joinpoint extends LaraJoinPoint {
   /**
    * String representation of the ast
    */
-  get ast(): string { return wrapJoinPoint(this._javaObject.getAst()) }
+  get ast(): string {
+    return wrapJoinPoint(this._javaObject.getAst());
+  }
   /**
    * Returns an array with the children of the node, ignoring null nodes
    */
-  get children(): Joinpoint[] { return wrapJoinPoint(this._javaObject.getChildren()) }
+  get children(): Joinpoint[] {
+    return wrapJoinPoint(this._javaObject.getChildren());
+  }
   /**
    * String with the code represented by this node
    */
-  get code(): string { return wrapJoinPoint(this._javaObject.getCode()) }
+  get code(): string {
+    return wrapJoinPoint(this._javaObject.getCode());
+  }
   /**
    * Retrieves all descendants of the join point
    */
-  get descendants(): Joinpoint[] { return wrapJoinPoint(this._javaObject.getDescendants()) }
+  get descendants(): Joinpoint[] {
+    return wrapJoinPoint(this._javaObject.getDescendants());
+  }
   /**
    * The id of the node
    */
-  get id(): string { return wrapJoinPoint(this._javaObject.getId()) }
+  get id(): string {
+    return wrapJoinPoint(this._javaObject.getId());
+  }
   /**
    * Returns the parent node in the AST, or undefined if it is the root node
    */
-  get parent(): Joinpoint { return wrapJoinPoint(this._javaObject.getParent()) }
+  get parent(): Joinpoint {
+    return wrapJoinPoint(this._javaObject.getParent());
+  }
   /**
    * Returns the 'program' joinpoint
    */
-  get root(): Program { return wrapJoinPoint(this._javaObject.getRoot()) }
+  get root(): Program {
+    return wrapJoinPoint(this._javaObject.getRoot());
+  }
   /**
    * Looks for an ancestor joinpoint name, walking back on the AST
    */
-  getAncestor(type: string): Joinpoint { return wrapJoinPoint(this._javaObject.getAncestor(unwrapJoinPoint(type))); }
+  getAncestor(type: string): Joinpoint {
+    return wrapJoinPoint(this._javaObject.getAncestor(unwrapJoinPoint(type)));
+  }
+  /**
+   * Returns the child of the node at the given index, ignoring null nodes
+   */
+  getChild(index: number): Joinpoint {
+    return wrapJoinPoint(this._javaObject.getChild(unwrapJoinPoint(index)));
+  }
   /**
    * Retrieves the descendants of the given type
    */
-  getDescendants(type: string): Joinpoint[] { return wrapJoinPoint(this._javaObject.getDescendants(unwrapJoinPoint(type))); }
+  getDescendants(type: string): Joinpoint[] {
+    return wrapJoinPoint(
+      this._javaObject.getDescendants(unwrapJoinPoint(type)),
+    );
+  }
   /**
    * Retrieves the descendants of the given type, including the node itself
    */
-  getDescendantsAndSelf(type: string): Joinpoint[] { return wrapJoinPoint(this._javaObject.getDescendantsAndSelf(unwrapJoinPoint(type))); }
+  getDescendantsAndSelf(type: string): Joinpoint[] {
+    return wrapJoinPoint(
+      this._javaObject.getDescendantsAndSelf(unwrapJoinPoint(type)),
+    );
+  }
   /**
    * Removes the node associated to this joinpoint from the AST
    */
-  detach(): Joinpoint { return wrapJoinPoint(this._javaObject.detach()); }
+  detach(): Joinpoint {
+    return wrapJoinPoint(this._javaObject.detach());
+  }
   /**
    * Inserts the given join point after this join point
    */
@@ -74,7 +106,9 @@ export class Joinpoint extends LaraJoinPoint {
   /**
    * Inserts the given join point after this join point
    */
-  insertAfter(p1: Joinpoint | string): Joinpoint | Joinpoint { return wrapJoinPoint(this._javaObject.insertAfter(unwrapJoinPoint(p1))); }
+  insertAfter(p1: Joinpoint | string): Joinpoint | Joinpoint {
+    return wrapJoinPoint(this._javaObject.insertAfter(unwrapJoinPoint(p1)));
+  }
   /**
    * Inserts the given join point before this join point
    */
@@ -86,7 +120,9 @@ export class Joinpoint extends LaraJoinPoint {
   /**
    * Inserts the given join point before this join point
    */
-  insertBefore(p1: Joinpoint | string): Joinpoint | Joinpoint { return wrapJoinPoint(this._javaObject.insertBefore(unwrapJoinPoint(p1))); }
+  insertBefore(p1: Joinpoint | string): Joinpoint | Joinpoint {
+    return wrapJoinPoint(this._javaObject.insertBefore(unwrapJoinPoint(p1)));
+  }
   /**
    * Replaces this node with the given node
    */
@@ -102,192 +138,288 @@ export class Joinpoint extends LaraJoinPoint {
   /**
    * Replaces this node with the given node
    */
-  replaceWith(p1: Joinpoint | string | Joinpoint[]): Joinpoint | Joinpoint | Joinpoint { return wrapJoinPoint(this._javaObject.replaceWith(unwrapJoinPoint(p1))); }
+  replaceWith(
+    p1: Joinpoint | string | Joinpoint[],
+  ): Joinpoint | Joinpoint | Joinpoint {
+    return wrapJoinPoint(this._javaObject.replaceWith(unwrapJoinPoint(p1)));
+  }
   /**
    * Overload which accepts a list of strings
    */
-  replaceWithStrings(node: string[]): Joinpoint { return wrapJoinPoint(this._javaObject.replaceWithStrings(unwrapJoinPoint(node))); }
+  replaceWithStrings(node: string[]): Joinpoint {
+    return wrapJoinPoint(
+      this._javaObject.replaceWithStrings(unwrapJoinPoint(node)),
+    );
+  }
 }
 
-  /**
-   * Class definition
-   */
+/**
+ * Class definition
+ */
 export class ClassNode extends Joinpoint {
-  get attributes(): string[] { return wrapJoinPoint(this._javaObject.getAttributes()) }
-  get selects(): string[] { return wrapJoinPoint(this._javaObject.getSelects()) }
-  get actions(): string[] { return wrapJoinPoint(this._javaObject.getActions()) }
-  def(attribute: string, value: object): void { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
+  get attributes(): string[] {
+    return wrapJoinPoint(this._javaObject.getAttributes());
+  }
+  get selects(): string[] {
+    return wrapJoinPoint(this._javaObject.getSelects());
+  }
+  get actions(): string[] {
+    return wrapJoinPoint(this._javaObject.getActions());
+  }
+  def(attribute: string, value: object): void {
+    return wrapJoinPoint(
+      this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value)),
+    );
+  }
 }
 
-  /**
-   * Expression
-   */
+/**
+ * Expression
+ */
 export class Expression extends Joinpoint {
-  get attributes(): string[] { return wrapJoinPoint(this._javaObject.getAttributes()) }
-  get selects(): string[] { return wrapJoinPoint(this._javaObject.getSelects()) }
-  get actions(): string[] { return wrapJoinPoint(this._javaObject.getActions()) }
-  def(attribute: string, value: object): void { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
+  get attributes(): string[] {
+    return wrapJoinPoint(this._javaObject.getAttributes());
+  }
+  get selects(): string[] {
+    return wrapJoinPoint(this._javaObject.getSelects());
+  }
+  get actions(): string[] {
+    return wrapJoinPoint(this._javaObject.getActions());
+  }
+  def(attribute: string, value: object): void {
+    return wrapJoinPoint(
+      this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value)),
+    );
+  }
 }
 
-  /**
-   * Field definition
-   */
+/**
+ * Field definition
+ */
 export class FieldNode extends Joinpoint {
-  get attributes(): string[] { return wrapJoinPoint(this._javaObject.getAttributes()) }
-  get selects(): string[] { return wrapJoinPoint(this._javaObject.getSelects()) }
-  get actions(): string[] { return wrapJoinPoint(this._javaObject.getActions()) }
-  def(attribute: string, value: object): void { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
+  get attributes(): string[] {
+    return wrapJoinPoint(this._javaObject.getAttributes());
+  }
+  get selects(): string[] {
+    return wrapJoinPoint(this._javaObject.getSelects());
+  }
+  get actions(): string[] {
+    return wrapJoinPoint(this._javaObject.getActions());
+  }
+  def(attribute: string, value: object): void {
+    return wrapJoinPoint(
+      this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value)),
+    );
+  }
 }
 
-  /**
-   * Field reference
-   */
-export class FieldReference extends Expression {
-}
+/**
+ * Field reference
+ */
+export class FieldReference extends Expression {}
 
-  /**
-   * Label reference
-   */
+/**
+ * Label reference
+ */
 export class LabelReference extends Expression {
+  get decl(): Label {
+    return wrapJoinPoint(this._javaObject.getDecl());
+  }
+  get name(): string {
+    return wrapJoinPoint(this._javaObject.getName());
+  }
 }
 
-  /**
-   * Literal
-   */
-export class Literal extends Expression {
-}
+/**
+ * Literal
+ */
+export class Literal extends Expression {}
 
-  /**
-   * Method definition
-   */
+/**
+ * Method definition
+ */
 export class MethodNode extends Joinpoint {
-  get attributes(): string[] { return wrapJoinPoint(this._javaObject.getAttributes()) }
-  get selects(): string[] { return wrapJoinPoint(this._javaObject.getSelects()) }
-  get actions(): string[] { return wrapJoinPoint(this._javaObject.getActions()) }
-  def(attribute: string, value: object): void { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
+  get name(): string {
+    return wrapJoinPoint(this._javaObject.getName());
+  }
+  get attributes(): string[] {
+    return wrapJoinPoint(this._javaObject.getAttributes());
+  }
+  get selects(): string[] {
+    return wrapJoinPoint(this._javaObject.getSelects());
+  }
+  get actions(): string[] {
+    return wrapJoinPoint(this._javaObject.getActions());
+  }
+  def(attribute: string, value: object): void {
+    return wrapJoinPoint(
+      this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value)),
+    );
+  }
 }
 
-  /**
-   * Method prototype
-   */
-export class MethodPrototype extends Literal {
-}
+/**
+ * Method prototype
+ */
+export class MethodPrototype extends Literal {}
 
-  /**
-   * Method reference
-   */
-export class MethodReference extends Expression {
-}
+/**
+ * Method reference
+ */
+export class MethodReference extends Expression {}
 
-  /**
-   * Placeholder node
-   */
+/**
+ * Placeholder node
+ */
 export class Placeholder extends Joinpoint {
-  get kind(): string { return wrapJoinPoint(this._javaObject.getKind()) }
-  get attributes(): string[] { return wrapJoinPoint(this._javaObject.getAttributes()) }
-  get selects(): string[] { return wrapJoinPoint(this._javaObject.getSelects()) }
-  get actions(): string[] { return wrapJoinPoint(this._javaObject.getActions()) }
-  def(attribute: string, value: object): void { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
+  get kind(): string {
+    return wrapJoinPoint(this._javaObject.getKind());
+  }
+  get attributes(): string[] {
+    return wrapJoinPoint(this._javaObject.getAttributes());
+  }
+  get selects(): string[] {
+    return wrapJoinPoint(this._javaObject.getSelects());
+  }
+  get actions(): string[] {
+    return wrapJoinPoint(this._javaObject.getActions());
+  }
+  def(attribute: string, value: object): void {
+    return wrapJoinPoint(
+      this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value)),
+    );
+  }
 }
 
-  /**
-   * App node
-   */
+/**
+ * App node
+ */
 export class Program extends Joinpoint {
-  get attributes(): string[] { return wrapJoinPoint(this._javaObject.getAttributes()) }
-  get selects(): string[] { return wrapJoinPoint(this._javaObject.getSelects()) }
-  get actions(): string[] { return wrapJoinPoint(this._javaObject.getActions()) }
-  def(attribute: string, value: object): void { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
+  get attributes(): string[] {
+    return wrapJoinPoint(this._javaObject.getAttributes());
+  }
+  get selects(): string[] {
+    return wrapJoinPoint(this._javaObject.getSelects());
+  }
+  get actions(): string[] {
+    return wrapJoinPoint(this._javaObject.getActions());
+  }
+  def(attribute: string, value: object): void {
+    return wrapJoinPoint(
+      this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value)),
+    );
+  }
 }
 
-  /**
-   * Register reference
-   */
-export class RegisterReference extends Expression {
-}
+/**
+ * Register reference
+ */
+export class RegisterReference extends Expression {}
 
-  /**
-   * Statement
-   */
+/**
+ * Statement
+ */
 export class Statement extends Joinpoint {
-  get attributes(): string[] { return wrapJoinPoint(this._javaObject.getAttributes()) }
-  get selects(): string[] { return wrapJoinPoint(this._javaObject.getSelects()) }
-  get actions(): string[] { return wrapJoinPoint(this._javaObject.getActions()) }
-  def(attribute: string, value: object): void { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
+  get nextStatement(): Statement {
+    return wrapJoinPoint(this._javaObject.getNextStatement());
+  }
+  get attributes(): string[] {
+    return wrapJoinPoint(this._javaObject.getAttributes());
+  }
+  get selects(): string[] {
+    return wrapJoinPoint(this._javaObject.getSelects());
+  }
+  get actions(): string[] {
+    return wrapJoinPoint(this._javaObject.getActions());
+  }
+  def(attribute: string, value: object): void {
+    return wrapJoinPoint(
+      this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value)),
+    );
+  }
 }
 
-  /**
-   * Type descriptor
-   */
-export class TypeDescriptor extends Literal {
-}
+/**
+ * Type descriptor
+ */
+export class TypeDescriptor extends Literal {}
 
-  /**
-   * Array descriptor
-   */
-export class ArrayType extends TypeDescriptor {
-}
+/**
+ * Array descriptor
+ */
+export class ArrayType extends TypeDescriptor {}
 
-  /**
-   * Catch directive
-   */
-export class Catch extends Statement {
-}
+/**
+ * Catch directive
+ */
+export class Catch extends Statement {}
 
-  /**
-   * Class descriptor
-   */
+/**
+ * Class descriptor
+ */
 export class ClassType extends TypeDescriptor {
-  get className(): string { return wrapJoinPoint(this._javaObject.getClassName()) }
-  get packageName(): string { return wrapJoinPoint(this._javaObject.getPackageName()) }
+  get className(): string {
+    return wrapJoinPoint(this._javaObject.getClassName());
+  }
+  get packageName(): string {
+    return wrapJoinPoint(this._javaObject.getPackageName());
+  }
 }
 
-  /**
-   * Instruction
-   */
-export class Instruction extends Statement {
-}
+/**
+ * Instruction
+ */
+export class Instruction extends Statement {}
 
-  /**
-   * Label declaration
-   */
+/**
+ * Label declaration
+ */
 export class Label extends Statement {
+  get name(): string {
+    return wrapJoinPoint(this._javaObject.getName());
+  }
 }
 
-  /**
-   * Primitive descriptor
-   */
-export class PrimitiveType extends TypeDescriptor {
-}
+/**
+ * Primitive descriptor
+ */
+export class PrimitiveType extends TypeDescriptor {}
 
-  /**
-   * Smali instruction formats 10x, 11x
-   */
-export class ReturnStatement extends Instruction {
-}
+/**
+ * Smali instruction formats 10x, 11x
+ */
+export class ReturnStatement extends Instruction {}
 
-  /**
-   * Smali instruction format 31t
-   */
-export class Switch extends Instruction {
-}
+/**
+ * Smali instruction format 31t
+ */
+export class Switch extends Instruction {}
 
-  /**
-   * Smali instruction formats 10t, 20t, 30t
-   */
+/**
+ * Smali instruction formats 10t, 20t, 30t
+ */
 export class Goto extends Instruction {
+  get label(): LabelReference {
+    return wrapJoinPoint(this._javaObject.getLabel());
+  }
 }
 
-  /**
-   * Smali instruction format 22t
-   */
+/**
+ * Smali instruction format 22t
+ */
 export class IfComparison extends Instruction {
+  get label(): LabelReference {
+    return wrapJoinPoint(this._javaObject.getLabel());
+  }
 }
 
-  /**
-   * Smali instruction format 21t
-   */
+/**
+ * Smali instruction format 21t
+ */
 export class IfComparisonWithZero extends Instruction {
+  get label(): LabelReference {
+    return wrapJoinPoint(this._javaObject.getLabel());
+  }
 }
 
 const JoinpointMapper: JoinpointMapperType = {

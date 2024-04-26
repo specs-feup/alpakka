@@ -1,9 +1,11 @@
 package pt.up.fe.specs.smali.weaver.abstracts.joinpoints;
 
+import org.lara.interpreter.weaver.interf.events.Stage;
+import java.util.Optional;
+import org.lara.interpreter.exception.AttributeException;
 import pt.up.fe.specs.smali.weaver.abstracts.ASmaliWeaverJoinPoint;
 import java.util.List;
 import org.lara.interpreter.weaver.interf.JoinPoint;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.Arrays;
 
@@ -15,6 +17,38 @@ import java.util.Arrays;
  * @author Lara Weaver Generator
  */
 public abstract class AStatement extends ASmaliWeaverJoinPoint {
+
+    /**
+     * Get value on attribute nextStatement
+     * @return the attribute's value
+     */
+    public abstract AStatement getNextStatementImpl();
+
+    /**
+     * Get value on attribute nextStatement
+     * @return the attribute's value
+     */
+    public final Object getNextStatement() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "nextStatement", Optional.empty());
+        	}
+        	AStatement result = this.getNextStatementImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "nextStatement", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "nextStatement", e);
+        }
+    }
+
+    /**
+     * 
+     */
+    public void defNextStatementImpl(AStatement value) {
+        throw new UnsupportedOperationException("Join point "+get_class()+": Action def nextStatement with type AStatement not implemented ");
+    }
 
     /**
      * 
@@ -36,6 +70,13 @@ public abstract class AStatement extends ASmaliWeaverJoinPoint {
     @Override
     public void defImpl(String attribute, Object value) {
         switch(attribute){
+        case "nextStatement": {
+        	if(value instanceof AStatement){
+        		this.defNextStatementImpl((AStatement)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
         default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
         }
     }
@@ -46,6 +87,7 @@ public abstract class AStatement extends ASmaliWeaverJoinPoint {
     @Override
     protected void fillWithAttributes(List<String> attributes) {
         super.fillWithAttributes(attributes);
+        attributes.add("nextStatement");
     }
 
     /**
@@ -76,6 +118,7 @@ public abstract class AStatement extends ASmaliWeaverJoinPoint {
      * 
      */
     protected enum StatementAttributes {
+        NEXTSTATEMENT("nextStatement"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
@@ -84,6 +127,7 @@ public abstract class AStatement extends ASmaliWeaverJoinPoint {
         CHILDREN("children"),
         ROOT("root"),
         GETANCESTOR("getAncestor"),
+        GETCHILD("getChild"),
         ID("id"),
         DESCENDANTS("descendants");
         private String name;

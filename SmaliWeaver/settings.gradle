@@ -9,6 +9,8 @@ includeBuild("../../lara-framework/LARAI")
 includeBuild("../../lara-framework/LaraUtils")
 includeBuild("../../lara-framework/WeaverInterface")
 includeBuild("../../lara-framework/LanguageSpecification")
+includeBuild("../../lara-framework/LaraCommonLanguageApi")
 
 includeBuild("../../smali/SmaliParser")
 includeBuild("../../smali/SmaliAst")
+includeBuild("../../smali/SmaliLaraApi")

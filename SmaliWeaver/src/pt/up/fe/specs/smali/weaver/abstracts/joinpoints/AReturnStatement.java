@@ -25,6 +25,22 @@ public abstract class AReturnStatement extends AInstruction {
         this.aInstruction = aInstruction;
     }
     /**
+     * Get value on attribute nextStatement
+     * @return the attribute's value
+     */
+    @Override
+    public AStatement getNextStatementImpl() {
+        return this.aInstruction.getNextStatementImpl();
+    }
+
+    /**
+     * 
+     */
+    public void defNextStatementImpl(AStatement value) {
+        this.aInstruction.defNextStatementImpl(value);
+    }
+
+    /**
      * Get value on attribute parent
      * @return the attribute's value
      */
@@ -94,6 +110,15 @@ public abstract class AReturnStatement extends AInstruction {
     @Override
     public AJoinPoint getAncestorImpl(String type) {
         return this.aInstruction.getAncestorImpl(type);
+    }
+
+    /**
+     * Get value on attribute getChild
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint getChildImpl(int index) {
+        return this.aInstruction.getChildImpl(index);
     }
 
     /**
@@ -242,6 +267,13 @@ public abstract class AReturnStatement extends AInstruction {
     @Override
     public final void defImpl(String attribute, Object value) {
         switch(attribute){
+        case "nextStatement": {
+        	if(value instanceof AStatement){
+        		this.defNextStatementImpl((AStatement)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
         default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
         }
     }
@@ -295,6 +327,7 @@ public abstract class AReturnStatement extends AInstruction {
      * 
      */
     protected enum ReturnStatementAttributes {
+        NEXTSTATEMENT("nextStatement"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
@@ -303,6 +336,7 @@ public abstract class AReturnStatement extends AInstruction {
         CHILDREN("children"),
         ROOT("root"),
         GETANCESTOR("getAncestor"),
+        GETCHILD("getChild"),
         ID("id"),
         DESCENDANTS("descendants");
         private String name;

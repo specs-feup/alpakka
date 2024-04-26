@@ -1,16 +1,21 @@
 package pt.up.fe.specs.smali.weaver;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.lara.interpreter.weaver.ast.AstMethods;
 import org.lara.interpreter.weaver.interf.AGear;
 import org.lara.interpreter.weaver.interf.JoinPoint;
 import org.lara.interpreter.weaver.options.WeaverOption;
+import org.lara.interpreter.weaver.utils.LaraResourceProvider;
 import org.lara.language.specification.LanguageSpecification;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
+import pt.up.fe.specs.lara.lcl.LaraCommonLanguageApis;
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.parser.antlr.SmaliFileParser;
 import pt.up.fe.specs.smali.parser.antlr.SmaliParser;
@@ -54,12 +59,24 @@ public class SmaliWeaver extends ASmaliWeaver {
                 () -> "smali/weaverspecs/artifacts.xml", () -> "smali/weaverspecs/actionModel.xml", true);
     }
 
+    private static final String SMALI_API_NAME = "smali-js";
+    private static final List<ResourceProvider> SMALI_LARA_API = new ArrayList<>();
+    static {
+        SMALI_LARA_API.addAll(LaraCommonLanguageApis.getApis());
+        SMALI_LARA_API.addAll(SmaliLaraApis.getApis());
+    }
+
     private final SmaliFileParser parser;
     private SmaliNode root;
 
     public SmaliWeaver() {
         parser = null;
         root = null;
+    }
+
+    @Override
+    protected void addWeaverApis() {
+        addApis(SMALI_API_NAME, SMALI_LARA_API);
     }
 
     /**
@@ -170,7 +187,15 @@ public class SmaliWeaver extends ASmaliWeaver {
 
     @Override
     public List<ResourceProvider> getAspectsAPI() {
-        return ResourceProvider.getResourcesFromEnum(SmaliApiResource.class);
+        return SMALI_LARA_API;
+    }
+
+    @Override
+    public List<LaraResourceProvider> getNpmResources() {
+        return Stream.concat(
+                        super.getNpmResources().stream(),
+                        Arrays.stream(SmaliApiJsResource.values()))
+                .toList();
     }
 
     @Override

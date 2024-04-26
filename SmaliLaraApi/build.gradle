@@ -1,0 +1,38 @@
+plugins {
+    id 'distribution'
+}
+
+// Java project
+apply plugin: 'java'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenCentral()
+    google()
+}
+
+dependencies {
+    implementation ':SpecsUtils'
+    implementation ':LaraUtils'
+}
+
+java {
+    withSourcesJar()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src-java'
+        }
+
+        resources {
+            srcDir 'src-lara'
+        }
+
+    }
+}

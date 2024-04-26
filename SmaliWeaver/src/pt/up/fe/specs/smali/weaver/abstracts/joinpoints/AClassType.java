@@ -149,6 +149,15 @@ public abstract class AClassType extends ATypeDescriptor {
     }
 
     /**
+     * Get value on attribute getChild
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint getChildImpl(int index) {
+        return this.aTypeDescriptor.getChildImpl(index);
+    }
+
+    /**
      * Get value on attribute id
      * @return the attribute's value
      */
@@ -359,6 +368,7 @@ public abstract class AClassType extends ATypeDescriptor {
         CHILDREN("children"),
         ROOT("root"),
         GETANCESTOR("getAncestor"),
+        GETCHILD("getChild"),
         ID("id"),
         DESCENDANTS("descendants");
         private String name;

@@ -25,6 +25,10 @@
         </attribute>
         <attribute name="children" type="joinpoint[]"
                    tooltip="Returns an array with the children of the node, ignoring null nodes"/>
+        <attribute name="getChild" type="joinpoint"
+                   tooltip="Returns the child of the node at the given index, ignoring null nodes">
+            <parameter name="index" type="int" />
+        </attribute>
 
         <attribute name="id" type="String" tooltip="The id of the node"/>
         <attribute name="ast" type="String"
@@ -49,14 +53,21 @@
     <artifact class="fieldNode"/>
 
     <!-- METHOD -->
-    <artifact class="methodNode"/>
+    <artifact class="methodNode">
+        <attribute name="name" type="String"/>
+    </artifact>
 
     <!-- EXPRESSIONS -->
     <artifact class="expression"/>
 
     <artifact class="registerReference"/>
 
-    <artifact class="labelReference"/>
+    <artifact class="labelReference">
+        <attribute name="name" type="String"/>
+        <attribute name="decl" type="label">
+            <def/>
+        </attribute>
+    </artifact>
 
     <artifact class="methodReference"/>
 
@@ -80,22 +91,44 @@
     <artifact class="primitiveType"/>
 
     <!-- STATEMENTS -->
-    <artifact class="statement"/>
+    <artifact class="statement">
+        <attribute name="nextStatement" type="statement">
+            <def/>
+        </attribute>
+    </artifact>
 
-    <artifact class="label"/>
+    <artifact class="label">
+        <attribute name="name" type="String"/>
+    </artifact>
 
     <artifact class="catch"/>
 
     <!-- INSTRUCTIONS -->
     <artifact class="instruction"/>
 
-    <artifact class="goto"/>
+    <artifact class="goto">
+        <attribute name="label" type="labelReference">
+            <def/>
+        </attribute>
+    </artifact>
 
-    <artifact class="ifComparison"/>
+    <artifact class="ifComparison">
+        <attribute name="label" type="labelReference">
+            <def/>
+        </attribute>
+    </artifact>
 
-    <artifact class="ifComparisonWithZero"/>
+    <artifact class="ifComparisonWithZero">
+        <attribute name="label" type="labelReference">
+            <def/>
+        </attribute>
+    </artifact>
 
     <artifact class="switch"/>
+
+<!--    <artifact class="sparseSwitch"/>-->
+
+<!--    <artifact class="packedSwitch"/>-->
 
     <artifact class="returnStatement"/>
 

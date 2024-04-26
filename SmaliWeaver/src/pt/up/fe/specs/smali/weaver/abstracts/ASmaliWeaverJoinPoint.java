@@ -88,6 +88,15 @@ public abstract class ASmaliWeaverJoinPoint extends AJoinPoint {
     public AJoinPoint[] getChildrenArrayImpl() {
     return getNode().getChildrenStream().map(SmaliJoinpoints::create).toArray(AJoinPoint[]::new);
     }
+
+    @Override
+    public AJoinPoint getChildImpl(int index) {
+        return getNode().getChildren().stream()
+                .skip(index)
+                .findFirst()
+                .map(SmaliJoinpoints::create)
+                .orElse(null);
+    }
     
     @Override
     public String getAstImpl() {

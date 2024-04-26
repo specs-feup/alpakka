@@ -26,4 +26,8 @@ public abstract class Statement extends SmaliNode {
         return lineDirective != null ? lineDirective.getCode() + "\n" : "";
     }
 
+    public Statement getNextStatement() {
+        return (Statement) getParent().getChildren().get(getParent().getChildren().indexOf(this) + 1);
+    }
+
 }

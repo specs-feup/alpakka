@@ -1,0 +1,76 @@
+
+/**
+ * Copyright 2024 SPeCS.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License. under the License.
+ */
+
+package pt.up.fe.specs.smali.weaver;
+
+import org.lara.interpreter.weaver.utils.LaraResourceProvider;
+
+/**
+ * This file has been automatically generated.
+ * 
+ * @author Joao Bispo, Luis Sousa
+ *
+ */
+public enum SmaliApiJsResource implements LaraResourceProvider {
+
+    CORE_JS("core.js"),
+    JOINPOINTS_JS("Joinpoints.js"),
+    DEFAULTDOTFORMATTER_JS("smali/graphs/cfg/dot/DefaultDotFormatter.js"),
+    DEFAULTFLOWGRAPHDOTFORMATTER_JS("smali/graphs/cfg/dot/DefaultFlowGraphDotFormatter.js"),
+    DOTFORMATTER_JS("smali/graphs/cfg/dot/DotFormatter.js"),
+    CONTROLFLOWEDGE_JS("smali/graphs/cfg/flow/edge/ControlFlowEdge.js"),
+    DATAFLOWEDGE_JS("smali/graphs/cfg/flow/edge/DataFlowEdge.js"),
+    FLOWEDGE_JS("smali/graphs/cfg/flow/edge/FlowEdge.js"),
+    FLOWGRAPH_JS("smali/graphs/cfg/flow/FlowGraph.js"),
+    FLOWGRAPHGENERATOR_JS("smali/graphs/cfg/flow/FlowGraphGenerator.js"),
+    CONDITIONNODE_JS("smali/graphs/cfg/flow/node/condition/ConditionNode.js"),
+    FLOWNODE_JS("smali/graphs/cfg/flow/node/FlowNode.js"),
+    EXPRESSIONNODE_JS("smali/graphs/cfg/flow/node/instruction/ExpressionNode.js"),
+    FUNCTIONNODE_JS("smali/graphs/cfg/flow/node/instruction/FunctionNode.js"),
+    GOTOLABELNODE_JS("smali/graphs/cfg/flow/node/instruction/GotoLabelNode.js"),
+    GOTONODE_JS("smali/graphs/cfg/flow/node/instruction/GotoNode.js"),
+    IFTRUEJUMP_JS("smali/graphs/cfg/flow/node/instruction/IfTrueJump.js"),
+    INSTRUCTIONNODE_JS("smali/graphs/cfg/flow/node/instruction/InstructionNode.js"),
+    RETURNNODE_JS("smali/graphs/cfg/flow/node/instruction/ReturnNode.js"),
+    STATEMENTNODE_JS("smali/graphs/cfg/flow/node/instruction/StatementNode.js"),
+    SWITCHNODE_JS("smali/graphs/cfg/flow/node/instruction/SwitchNode.js"),
+    UNKNOWNINSTRUCTIONNODE_JS("smali/graphs/cfg/flow/node/instruction/UnknownInstructionNode.js"),
+    FILTERFLOWNODES_JS("smali/graphs/cfg/flow/transformation/FilterFlowNodes.js"),
+    BASEEDGE_JS("smali/graphs/cfg/graph/BaseEdge.js"),
+    BASEGRAPH_JS("smali/graphs/cfg/graph/BaseGraph.js"),
+    BASENODE_JS("smali/graphs/cfg/graph/BaseNode.js"),
+    EDGE_JS("smali/graphs/cfg/graph/Edge.js"),
+    GRAPH_JS("smali/graphs/cfg/graph/Graph.js"),
+    NODE_JS("smali/graphs/cfg/graph/Node.js");
+
+    private final String resource;
+
+    private static final String WEAVER_PACKAGE = "smali/";
+
+    /**
+     * @param resource
+     */
+    private SmaliApiJsResource (String resource) {
+      this.resource = WEAVER_PACKAGE + getSeparatorChar() + resource;
+    }
+
+    /* (non-Javadoc)
+     * @see org.suikasoft.SharedLibrary.Interfaces.ResourceProvider#getResource()
+     */
+    @Override
+    public String getOriginalResource() {
+        return resource;
+    }
+
+}

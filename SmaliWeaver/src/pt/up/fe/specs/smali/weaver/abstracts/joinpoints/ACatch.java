@@ -24,6 +24,22 @@ public abstract class ACatch extends AStatement {
         this.aStatement = aStatement;
     }
     /**
+     * Get value on attribute nextStatement
+     * @return the attribute's value
+     */
+    @Override
+    public AStatement getNextStatementImpl() {
+        return this.aStatement.getNextStatementImpl();
+    }
+
+    /**
+     * 
+     */
+    public void defNextStatementImpl(AStatement value) {
+        this.aStatement.defNextStatementImpl(value);
+    }
+
+    /**
      * Get value on attribute parent
      * @return the attribute's value
      */
@@ -93,6 +109,15 @@ public abstract class ACatch extends AStatement {
     @Override
     public AJoinPoint getAncestorImpl(String type) {
         return this.aStatement.getAncestorImpl(type);
+    }
+
+    /**
+     * Get value on attribute getChild
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint getChildImpl(int index) {
+        return this.aStatement.getChildImpl(index);
     }
 
     /**
@@ -241,6 +266,13 @@ public abstract class ACatch extends AStatement {
     @Override
     public final void defImpl(String attribute, Object value) {
         switch(attribute){
+        case "nextStatement": {
+        	if(value instanceof AStatement){
+        		this.defNextStatementImpl((AStatement)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
         default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
         }
     }
@@ -294,6 +326,7 @@ public abstract class ACatch extends AStatement {
      * 
      */
     protected enum CatchAttributes {
+        NEXTSTATEMENT("nextStatement"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
@@ -302,6 +335,7 @@ public abstract class ACatch extends AStatement {
         CHILDREN("children"),
         ROOT("root"),
         GETANCESTOR("getAncestor"),
+        GETCHILD("getChild"),
         ID("id"),
         DESCENDANTS("descendants");
         private String name;
