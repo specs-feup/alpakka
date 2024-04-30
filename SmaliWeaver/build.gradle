@@ -34,7 +34,6 @@ dependencies {
     implementation ":LaraUtils"
     implementation ":WeaverInterface"
     implementation ":LanguageSpecification"
-    implementation ":LaraCommonLanguageApi"
 
     implementation ":SmaliParser"
     implementation ":SmaliAst"

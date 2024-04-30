@@ -1,11 +1,9 @@
 package pt.up.fe.specs.smali.weaver;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.lara.interpreter.weaver.ast.AstMethods;
 import org.lara.interpreter.weaver.interf.AGear;
@@ -15,7 +13,7 @@ import org.lara.interpreter.weaver.utils.LaraResourceProvider;
 import org.lara.language.specification.LanguageSpecification;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
-import pt.up.fe.specs.lara.lcl.LaraCommonLanguageApis;
+import pt.up.fe.specs.smali.ast.App;
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.parser.antlr.SmaliFileParser;
 import pt.up.fe.specs.smali.parser.antlr.SmaliParser;
@@ -60,11 +58,10 @@ public class SmaliWeaver extends ASmaliWeaver {
     }
 
     private static final String SMALI_API_NAME = "smali-js";
-    private static final List<ResourceProvider> SMALI_LARA_API = new ArrayList<>();
-    static {
-        SMALI_LARA_API.addAll(LaraCommonLanguageApis.getApis());
-        SMALI_LARA_API.addAll(SmaliLaraApis.getApis());
-    }
+    // private static final List<ResourceProvider> SMALI_LARA_API = new ArrayList<>();
+    // static {
+    // SMALI_LARA_API.addAll(SmaliLaraApis.getApis());
+    // }
 
     private final SmaliFileParser parser;
     private SmaliNode root;
@@ -74,9 +71,14 @@ public class SmaliWeaver extends ASmaliWeaver {
         root = null;
     }
 
+    // @Override
+    // protected void addWeaverApis() {
+    // addApis(SMALI_API_NAME, SMALI_LARA_API);
+    // }
+
     @Override
-    protected void addWeaverApis() {
-        addApis(SMALI_API_NAME, SMALI_LARA_API);
+    public String getWeaverApiName() {
+        return SMALI_API_NAME;
     }
 
     /**
@@ -93,7 +95,7 @@ public class SmaliWeaver extends ASmaliWeaver {
     /**
      * Set a file/folder in the weaver if it is valid file/folder type for the weaver.
      * 
-     * @param source
+     * @param sources
      *            the file with the source code
      * @param outputDir
      *            output directory for the generated file(s)
@@ -109,7 +111,8 @@ public class SmaliWeaver extends ASmaliWeaver {
 
         var targetSdkVersion = args.get(SmaliWeaverOption.TARGET_SDK);
 
-        root = new SmaliParser().parse(sources, targetSdkVersion).orElseThrow();
+        root = new SmaliParser().parse(sources, targetSdkVersion)
+                .orElse(new App(DataStore.newInstance(App.class), List.of()));
 
         System.out.println("SOURCES: " + sources);
         System.out.println("ARGS: " + args);
@@ -185,17 +188,14 @@ public class SmaliWeaver extends ASmaliWeaver {
         return "SmaliWeaver";
     }
 
-    @Override
-    public List<ResourceProvider> getAspectsAPI() {
-        return SMALI_LARA_API;
-    }
+//    @Override
+//    public List<ResourceProvider> getAspectsAPI() {
+//        return SMALI_LARA_API;
+//    }
 
     @Override
-    public List<LaraResourceProvider> getNpmResources() {
-        return Stream.concat(
-                        super.getNpmResources().stream(),
-                        Arrays.stream(SmaliApiJsResource.values()))
-                .toList();
+    protected List<LaraResourceProvider> getCustomNpmResources() {
+        return Arrays.asList(SmaliApiJsResource.values());
     }
 
     @Override
