@@ -4,14 +4,24 @@ import {
   Joinpoint,
   Program,
   Statement,
+  ReturnStatement,
+  Label,
+  Goto,
+  IfComparison,
+  IfComparisonWithZero,
 } from "../../../../Joinpoints.js";
 import Query from "lara-js/api/weaver/Query.js";
 import UnknownInstructionNode from "./node/instruction/UnknownInstructionNode.js";
 import FlowNode from "./node/FlowNode.js";
 import InstructionNode from "./node/instruction/InstructionNode.js";
 import { NodeBuilder } from "../graph/Node.js";
-import FunctionNode from "./node/instruction/FunctionNode.js";
 import StatementNode from "./node/instruction/StatementNode.js";
+import FunctionEntryNode from "./node/instruction/FunctionEntryNode.js";
+import FunctionExitNode from "./node/instruction/FunctionExitNode.js";
+import ReturnNode from "./node/instruction/ReturnNode.js";
+import LabelNode from "./node/instruction/LabelNode.js";
+import GotoNode from "./node/instruction/GotoNode.js";
+import ConditionNode from "./node/condition/ConditionNode.js";
 
 export default class FlowGraphGenerator {
   #$jp: Joinpoint;
@@ -64,7 +74,26 @@ export default class FlowGraphGenerator {
     //         );
     //     }
 
-    if ($jp instanceof Statement) {
+    if (context.preprocessedStatementStack.length > 0) {
+      const [head, tail] = context.preprocessedStatementStack.pop()!;
+      return [head, tail];
+    }
+
+    if ($jp instanceof Label) {
+      return this.#processLabelStmt($jp, context);
+    } else if (
+      $jp instanceof IfComparison ||
+      $jp instanceof IfComparisonWithZero
+    ) {
+      return this.#processIf($jp, context);
+    } else if ($jp instanceof Goto) {
+      return this.#processGoto($jp, context);
+      // } else if ($jp instanceof ReturnStatement) {
+      //   return this.#addOutwardsJump(
+      //       new ReturnNode.Builder($jp),
+      //       context.returnNode!,
+      //   );
+    } else if ($jp instanceof Statement) {
       return this.#addInstruction(new StatementNode.Builder($jp));
     } else {
       console.log($jp.joinPointType);
@@ -117,29 +146,26 @@ export default class FlowGraphGenerator {
     // }
   }
 
-  #processFunction($jp: MethodNode): FunctionNode.Class {
+  #processFunction(
+    $jp: MethodNode,
+  ): [FunctionEntryNode.Class, FunctionExitNode.Class?] {
     const returnNode = this.#createTemporaryNode($jp);
 
-    // const params = $jp.params.map(($p) =>
-    //     this.#graph
-    //         .addNode()
-    //         .init(new VarDeclarationNode.Builder($p))
-    //         .as(VarDeclarationNode.Class),
-    // );
+    const context = {
+      returnNode,
+      labels: new Map(),
+      preprocessedStatementStack: [],
+    };
 
     const body = $jp.children.map((child) => {
-      const [head, tail] = this.#processJp(child, {
-        labels: new Map(),
-        gotos: new Map(),
-        returnNode,
-      });
+      const [head, tail] = this.#processJp(child, context);
       return [head, tail ? [tail] : []] as [
         FlowNode.Class,
         InstructionNode.Class[],
       ];
     });
 
-    for (let i = 0; i < body.length - 2; i++) {
+    for (let i = 0; i < body.length - 1; i++) {
       const [head, tail] = body[i];
       const [nextHead, nextTail] = body[i + 1];
 
@@ -148,26 +174,18 @@ export default class FlowGraphGenerator {
       }
     }
 
-    // const body = this.#processJp($jp.body, {
-    //     labels: new Map(),
-    //     gotos: new Map(),
-    //     returnNode,
-    // });
-
+    let functionTail: InstructionNode.Class[] = [];
     const bodyTail = body[body.length - 1][1];
     if (bodyTail !== undefined) {
-      for (const tailNode of bodyTail) {
-        tailNode.nextNode = returnNode;
-      }
+      returnNode.insertSubgraphBefore(body[body.length - 1][0], bodyTail);
+      functionTail = [returnNode];
+    } else if (returnNode.incomers.length > 0) {
+      functionTail = [returnNode];
     }
 
     const bodyHead = body[0][0];
 
-    return this.#graph.addMethod($jp, bodyHead);
-
-    // const params: VarDeclarationNode.Class[] = [];
-
-    // return this.#graph.addMethod($jp, bodyHead, params);
+    return this.#graph.addFunction($jp, bodyHead, functionTail);
   }
 
   // // #processScope(
@@ -216,54 +234,34 @@ export default class FlowGraphGenerator {
   //     return [head!, tail!];
   // }
 
-  // #processIf(
-  //     $jp: If,
-  //     context: ProcessJpContext,
-  // ): [ConditionNode.Class, InstructionNode.Class?] {
-  //     // const $iftrue = $jp.then as Scope;
-  //     // // Type conversion necessary because the return type of clava is incorrect
-  //     // const $iffalse = $jp.else as Scope | undefined;
+  #processIf(
+    $jp: IfComparison | IfComparisonWithZero,
+    context: ProcessJpContext,
+  ): [ConditionNode.Class, InstructionNode.Class?] {
+    const $iftrue = $jp.label.decl;
+    const $iffalse = $jp.nextStatement;
 
-  //     // const [ifTrueHead, iftrueTail] = this.#processScope($iftrue, context);
+    if (!context.labels.has($iftrue.name)) {
+      this.#processLabelStmt($iftrue, context);
+    }
 
-  //     // let ifFalseHead: FlowNode.Class;
-  //     // let ifFalseTail: InstructionNode.Class | undefined;
-  //     // if ($iffalse !== undefined) {
-  //     //     [ifFalseHead, ifFalseTail] = this.#processScope($iffalse, context);
-  //     // } else {
-  //     //     const falseNode = this.#createTemporaryNode();
-  //     //     [ifFalseHead, ifFalseTail] = [falseNode, falseNode];
-  //     // }
+    let ifTrueHead: FlowNode.Class;
+    const label = context.labels.get($jp.label.name);
+    if (label !== undefined) {
+      ifTrueHead = label;
+    } else {
+      const trueNode = this.#createTemporaryNode();
+      ifTrueHead = trueNode;
+    }
 
-  //     // const node = this.#graph.addCondition($jp, ifTrueHead, ifFalseHead);
+    let ifFalseHead: FlowNode.Class;
+    let ifFalseTail: InstructionNode.Class | undefined;
 
-  //     const $ifLabel = $jp.label as LabelReference;
+    [ifFalseHead, ifFalseTail] = this.#processJp($iffalse, context);
+    context.preprocessedStatementStack.push([ifFalseHead, ifFalseTail]);
 
-  //     const $ifTrue = $ifLabel.decl.nextStatement;
-
-  //     //const $ifFalse = $jp.nextStatement as Statement;
-  //     const $ifFalse = this.#createTemporaryNode();
-
-  //     const $true = this.#addInstruction(new IfTrueJump.Builder($jp));
-
-  //     const node = this.#graph.addCondition($jp, $true[0], $ifFalse);
-
-  //     // if (iftrueTail === undefined && ifFalseTail === undefined) {
-  //     //     return [node];
-  //     // }
-
-  //     // const endIf = this.#createTemporaryNode($jp);
-
-  //     // if (iftrueTail !== undefined) {
-  //     //     iftrueTail.nextNode = endIf;
-  //     // }
-
-  //     // if (ifFalseTail !== undefined) {
-  //     //     ifFalseTail.nextNode = endIf;
-  //     // }
-
-  //     return [node, endIf];
-  // }
+    return [this.#graph.addCondition($jp, ifTrueHead, ifFalseHead)];
+  }
 
   // // #processLoop(
   // //     $jp: Loop,
@@ -418,46 +416,44 @@ export default class FlowGraphGenerator {
   //     return [node, scopeEnd];
   // }
 
-  // #processLabelStmt(
-  //     $jp: Label,
-  //     context: ProcessJpContext,
-  // ): [GotoLabelNode.Class, GotoLabelNode.Class] {
-  //     const node = this.#graph
-  //         .addNode()
-  //         .init(new GotoLabelNode.Builder($jp))
-  //         .as(GotoLabelNode.Class);
+  #processLabelStmt(
+    $jp: Label,
+    context: ProcessJpContext,
+  ): [LabelNode.Class, LabelNode.Class] {
+    if (context.labels.has($jp.name)) {
+      const label = context.labels.get($jp.name);
+      if (label !== undefined) {
+        return [label, label];
+      }
+    }
 
-  //     context.labels.set($jp.name, node);
+    const node = this.#graph
+      .addNode()
+      .init(new LabelNode.Builder($jp))
+      .as(LabelNode.Class);
 
-  //     const gotos = context.gotos.get($jp.name);
-  //     if (gotos !== undefined) {
-  //         for (const goto of gotos) {
-  //             this.#connectArbitraryJump(goto, node);
-  //         }
-  //     }
+    context.labels.set($jp.name, node);
 
-  //     return [node, node];
-  // }
+    return [node, node];
+  }
 
-  // #processGoto($jp: Goto, context: ProcessJpContext): [GotoNode.Class] {
-  //     const node = this.#graph
-  //         .addNode()
-  //         .init(new GotoNode.Builder($jp))
-  //         .as(GotoNode.Class);
+  #processGoto($jp: Goto, context: ProcessJpContext): [GotoNode.Class] {
+    const node = this.#graph
+      .addNode()
+      .init(new GotoNode.Builder($jp))
+      .as(GotoNode.Class);
 
-  //     if (context.gotos.has($jp.label.name)) {
-  //         context.gotos.get($jp.label.name)!.push(node);
-  //     } else {
-  //         context.gotos.set($jp.label.name, [node]);
-  //     }
+    if (!context.labels.has($jp.label.name)) {
+      this.#processLabelStmt($jp.label.decl, context);
+    }
 
-  //     const label = context.labels.get($jp.label.name);
-  //     if (label !== undefined) {
-  //         this.#connectArbitraryJump(node, label);
-  //     }
+    const label = context.labels.get($jp.label.name);
+    if (label !== undefined) {
+      this.#connectArbitraryJump(node, label);
+    }
 
-  //     return [node];
-  // }
+    return [node];
+  }
 
   #createTemporaryNode($jp?: Joinpoint): UnknownInstructionNode.Class {
     const node = this.#graph
@@ -475,76 +471,75 @@ export default class FlowGraphGenerator {
     return [node, node];
   }
 
-  //     #addOutwardsJump(
-  //         builder: NodeBuilder<InstructionNode.Data, InstructionNode.ScratchData>,
-  //         jumpTo: FlowNode.Class,
-  //     ): [InstructionNode.Class] {
-  //         const node = this.#graph.addNode().init(builder).as(InstructionNode.Class);
+  #addOutwardsJump(
+    builder: NodeBuilder<InstructionNode.Data, InstructionNode.ScratchData>,
+    jumpTo: FlowNode.Class,
+  ): [InstructionNode.Class] {
+    const node = this.#graph.addNode().init(builder).as(InstructionNode.Class);
 
-  //         let exitNode: InstructionNode.Class = node;
-  //         let $currentJp = node.jp!;
+    const exitNode: InstructionNode.Class = node;
+    // let $currentJp = node.jp!;
 
-  //         while ($currentJp.astId !== jumpTo.jp!.astId) {
-  //             if ($currentJp instanceof Scope) {
-  //                 const endScope = this.#graph
-  //                     .addNode()
-  //                     .init(new ScopeEndNode.Builder($currentJp))
-  //                     .as(ScopeEndNode.Class);
+    // while ($currentJp.astId !== jumpTo.jp!.astId) {
+    //     if ($currentJp instanceof Scope) {
+    //         const endScope = this.#graph
+    //             .addNode()
+    //             .init(new ScopeEndNode.Builder($currentJp))
+    //             .as(ScopeEndNode.Class);
 
-  //                 exitNode.nextNode = endScope;
-  //                 exitNode = endScope;
-  //             }
+    //         exitNode.nextNode = endScope;
+    //         exitNode = endScope;
+    //     }
 
-  //             $currentJp = $currentJp.parent;
-  //         }
+    //     $currentJp = $currentJp.parent;
+    // }
 
-  //         exitNode.nextNode = jumpTo;
+    exitNode.nextNode = jumpTo;
 
-  //         return [node];
-  //     }
+    return [node];
+  }
 
-  //     #connectArbitraryJump(from: InstructionNode.Class, to: FlowNode.Class) {
-  //         // const fromScopes = this.#getScopeList(from.jp!);
-  //         // const toScopes = this.#getScopeList(to.jp!);
-  //         // let fromScopesIdx = fromScopes.length - 1;
-  //         // let toScopesIdx = toScopes.length - 1;
+  #connectArbitraryJump(from: InstructionNode.Class, to: FlowNode.Class) {
+    // const fromScopes = this.#getScopeList(from.jp!);
+    // const toScopes = this.#getScopeList(to.jp!);
+    // let fromScopesIdx = fromScopes.length - 1;
+    // let toScopesIdx = toScopes.length - 1;
 
-  //         // while (
-  //         //     toScopesIdx >= 0 &&
-  //         //     fromScopesIdx >= 0 &&
-  //         //     toScopes[toScopesIdx].astId === fromScopes[fromScopesIdx].astId
-  //         // ) {
-  //         //     toScopesIdx--;
-  //         //     fromScopesIdx--;
-  //         // }
+    // while (
+    //     toScopesIdx >= 0 &&
+    //     fromScopesIdx >= 0 &&
+    //     toScopes[toScopesIdx].astId === fromScopes[fromScopesIdx].astId
+    // ) {
+    //     toScopesIdx--;
+    //     fromScopesIdx--;
+    // }
 
-  //         // let exitNode: InstructionNode.Class = from;
+    // let exitNode: InstructionNode.Class = from;
 
-  //         // for (let i = 0; i <= fromScopesIdx; i++) {
-  //         //     const endScope = this.#graph
-  //         //         .addNode()
-  //         //         .init(new ScopeEndNode.Builder(fromScopes[i]))
-  //         //         .as(ScopeEndNode.Class);
+    // for (let i = 0; i <= fromScopesIdx; i++) {
+    //     const endScope = this.#graph
+    //         .addNode()
+    //         .init(new ScopeEndNode.Builder(fromScopes[i]))
+    //         .as(ScopeEndNode.Class);
 
-  //         //     exitNode.nextNode = endScope;
-  //         //     exitNode = endScope;
-  //         // }
+    //     exitNode.nextNode = endScope;
+    //     exitNode = endScope;
+    // }
 
-  //         // for (let i = toScopesIdx; i >= 0; i--) {
-  //         //     const startScope = this.#graph
-  //         //         .addNode()
-  //         //         .init(new ScopeStartNode.Builder(toScopes[i]))
-  //         //         .as(ScopeStartNode.Class);
+    // for (let i = toScopesIdx; i >= 0; i--) {
+    //     const startScope = this.#graph
+    //         .addNode()
+    //         .init(new ScopeStartNode.Builder(toScopes[i]))
+    //         .as(ScopeStartNode.Class);
 
-  //         //     exitNode.nextNode = startScope;
-  //         //     exitNode = startScope;
-  //         // }
+    //     exitNode.nextNode = startScope;
+    //     exitNode = startScope;
+    // }
 
-  //         // exitNode.nextNode = to;
+    // exitNode.nextNode = to;
 
-  //         from.nextNode = to;
-
-  //     }
+    from.nextNode = to;
+  }
 
   //     // #getScopeList($jp: Joinpoint): Scope[] {
   //     //     const result: Scope[] = [];
@@ -566,8 +561,8 @@ export default class FlowGraphGenerator {
 
 interface ProcessJpContext {
   returnNode: FlowNode.Class;
-  labels: Map<string, InstructionNode.Class>;
-  gotos: Map<string, InstructionNode.Class[]>;
+  labels: Map<string, LabelNode.Class>;
+  preprocessedStatementStack: Array<[FlowNode.Class, InstructionNode.Class?]>;
   continueNode?: FlowNode.Class;
   breakNode?: FlowNode.Class;
   caseNodes?: UnknownInstructionNode.Class[];

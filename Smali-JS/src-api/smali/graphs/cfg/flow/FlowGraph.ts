@@ -2,58 +2,53 @@ import FlowGraphGenerator from "./FlowGraphGenerator.js";
 import FlowNode from "./node/FlowNode.js";
 import BaseGraph from "../graph/BaseGraph.js";
 import Graph, { GraphBuilder, GraphTypeGuard } from "../graph/Graph.js";
-import { MethodNode, Program } from "../../../../Joinpoints.js";
-import FunctionNode from "./node/instruction/FunctionNode.js";
+import {
+  IfComparison,
+  IfComparisonWithZero,
+  MethodNode,
+  Program,
+  Switch,
+} from "../../../../Joinpoints.js";
+import InstructionNode from "./node/instruction/InstructionNode.js";
+import FunctionEntryNode from "./node/instruction/FunctionEntryNode.js";
+import FunctionExitNode from "./node/instruction/FunctionExitNode.js";
+import ControlFlowEdge from "./edge/ControlFlowEdge.js";
+import ConditionNode from "./node/condition/ConditionNode.js";
 
 namespace FlowGraph {
   export class Class<
     D extends Data = Data,
     S extends ScratchData = ScratchData,
   > extends BaseGraph.Class<D, S> {
-    // addFunction(
-    //     $jp: FunctionJp,
-    //     bodyHead: FlowNode.Class,
-    //     bodyTail: InstructionNode.Class[],
-    //     params: VarDeclarationNode.Class[] = [],
-    // ): [FunctionEntryNode.Class, FunctionExitNode.Class?] {
-    //     const function_entry = this.addNode()
-    //         .init(new FunctionEntryNode.Builder($jp))
-    //         .as(FunctionEntryNode.Class);
-    //     this.data.functions.set($jp.name, function_entry.id);
-
-    //     const function_exit = this.addNode()
-    //         .init(new FunctionExitNode.Builder($jp))
-    //         .as(FunctionExitNode.Class);
-    //     function_exit.insertBefore(function_entry);
-
-    //     for (const param of params) {
-    //         function_exit.insertBefore(param);
-    //     }
-
-    //     function_exit.insertSubgraphBefore(bodyHead, bodyTail);
-
-    //     if (bodyTail.length === 0) {
-    //         function_exit.removeFromFlow();
-    //         function_exit.remove();
-    //         return [function_entry];
-    //     }
-
-    //     return [function_entry, function_exit];
-    // }
-
-    addMethod(
+    addFunction(
       $jp: MethodNode,
-      body: FlowNode.Class,
+      bodyHead: FlowNode.Class,
+      bodyTail: InstructionNode.Class[],
       // params: VarDeclarationNode.Class[] = [],
-    ): FunctionNode.Class {
-      const method = this.addNode()
-        .init(new FunctionNode.Builder($jp))
-        .as(FunctionNode.Class);
-      this.data.functions.set($jp.name, method.id);
+    ): [FunctionEntryNode.Class, FunctionExitNode.Class?] {
+      const function_entry = this.addNode()
+        .init(new FunctionEntryNode.Builder($jp))
+        .as(FunctionEntryNode.Class);
+      this.data.functions.set($jp.name, function_entry.id);
 
-      method.nextNode = body;
+      const function_exit = this.addNode()
+        .init(new FunctionExitNode.Builder($jp))
+        .as(FunctionExitNode.Class);
+      function_exit.insertBefore(function_entry);
 
-      return method;
+      //   for (const param of params) {
+      //     function_exit.insertBefore(param);
+      // }
+
+      function_exit.insertSubgraphBefore(bodyHead, bodyTail);
+
+      if (bodyTail.length === 0) {
+        function_exit.removeFromFlow();
+        function_exit.remove();
+        return [function_entry];
+      }
+
+      return [function_entry, function_exit];
     }
 
     // addScope($jp: Scope, subGraphs: [FlowNode.Class, InstructionNode.Class[]][]): [ScopeStartNode.Class, ScopeEndNode.Class?] {
@@ -85,22 +80,22 @@ namespace FlowGraph {
     //     return [scope_start, scope_end];
     // }
 
-    // addCondition(
-    //     $jp: If | Loop | Case | undefined,
-    //     iftrue: FlowNode.Class,
-    //     iffalse: FlowNode.Class,
-    // ): ConditionNode.Class {
-    //     const ifnode = this.addNode();
-    //     const iftrueEdge = this.addEdge(ifnode, iftrue).init(
-    //         new ControlFlowEdge.Builder(),
-    //     );
-    //     const iffalseEdge = this.addEdge(ifnode, iffalse).init(
-    //         new ControlFlowEdge.Builder(),
-    //     );
-    //     return ifnode
-    //         .init(new ConditionNode.Builder(iftrueEdge, iffalseEdge, $jp))
-    //         .as(ConditionNode.Class);
-    // }
+    addCondition(
+      $jp: IfComparison | IfComparisonWithZero | Switch | undefined,
+      iftrue: FlowNode.Class,
+      iffalse: FlowNode.Class,
+    ): ConditionNode.Class {
+      const ifnode = this.addNode();
+      const iftrueEdge = this.addEdge(ifnode, iftrue).init(
+        new ControlFlowEdge.Builder(),
+      );
+      const iffalseEdge = this.addEdge(ifnode, iffalse).init(
+        new ControlFlowEdge.Builder(),
+      );
+      return ifnode
+        .init(new ConditionNode.Builder(iftrueEdge, iffalseEdge, $jp))
+        .as(ConditionNode.Class);
+    }
 
     // addLoop(
     //     $jp: Loop,

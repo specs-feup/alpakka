@@ -1,8 +1,8 @@
 var _a;
 class DotFormatter {
-    static defaultGraphName = "clava_graph";
+    static defaultGraphName = "smali_graph";
     static #sanitizeDotLabel(label) {
-        return label.replaceAll('"', '\\"');
+        return label.replace(/(?<!\\)"/g, '\\"');
     }
     #formatAttrs(attrs) {
         return attrs

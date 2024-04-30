@@ -1,14 +1,14 @@
-import InstructionNode from "../../node/instruction/InstructionNode.js";
+import InstructionNode from "./InstructionNode.js";
 import BaseNode from "../../../graph/BaseNode.js";
 import { NodeBuilder, NodeTypeGuard } from "../../../graph/Node.js";
-import { MethodNode } from "../../../../../../Joinpoints.js";
+import { Label } from "../../../../../../Joinpoints.js";
 
-namespace FunctionNode {
+namespace LabelNode {
   export class Class<
     D extends Data = Data,
     S extends ScratchData = ScratchData,
   > extends InstructionNode.Class<D, S> {
-    override get jp(): MethodNode {
+    override get jp(): Label {
       return this.scratchData.$jp;
     }
   }
@@ -17,14 +17,14 @@ namespace FunctionNode {
     extends InstructionNode.Builder
     implements NodeBuilder<Data, ScratchData>
   {
-    constructor($jp: MethodNode) {
-      super(InstructionNode.Type.FUNCTION_ENTRY, $jp);
+    constructor($jp: Label) {
+      super(InstructionNode.Type.LABEL, $jp);
     }
 
     buildData(data: BaseNode.Data): Data {
       return {
         ...(super.buildData(data) as InstructionNode.Data & {
-          instructionFlowNodeType: InstructionNode.Type.FUNCTION_ENTRY;
+          instructionFlowNodeType: InstructionNode.Type.LABEL;
         }),
       };
     }
@@ -32,7 +32,7 @@ namespace FunctionNode {
     buildScratchData(scratchData: BaseNode.ScratchData): ScratchData {
       return {
         ...(super.buildScratchData(scratchData) as InstructionNode.Data & {
-          $jp: MethodNode;
+          $jp: Label;
         }),
       };
     }
@@ -42,7 +42,7 @@ namespace FunctionNode {
     isDataCompatible(data: BaseNode.Data): data is Data {
       if (!InstructionNode.TypeGuard.isDataCompatible(data)) return false;
       const d = data as Data;
-      if (d.instructionFlowNodeType !== InstructionNode.Type.FUNCTION_ENTRY)
+      if (d.instructionFlowNodeType !== InstructionNode.Type.LABEL)
         return false;
       return true;
     },
@@ -57,12 +57,12 @@ namespace FunctionNode {
   };
 
   export interface Data extends InstructionNode.Data {
-    instructionFlowNodeType: InstructionNode.Type.FUNCTION_ENTRY;
+    instructionFlowNodeType: InstructionNode.Type.LABEL;
   }
 
   export interface ScratchData extends InstructionNode.ScratchData {
-    $jp: MethodNode;
+    $jp: Label;
   }
 }
 
-export default FunctionNode;
+export default LabelNode;

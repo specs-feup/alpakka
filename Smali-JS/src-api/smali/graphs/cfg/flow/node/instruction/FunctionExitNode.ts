@@ -1,14 +1,14 @@
 import InstructionNode from "../../node/instruction/InstructionNode.js";
 import BaseNode from "../../../graph/BaseNode.js";
 import { NodeBuilder, NodeTypeGuard } from "../../../graph/Node.js";
-import { Label } from "../../../../../../Joinpoints.js";
+import { MethodNode } from "../../../../../../Joinpoints.js";
 
-namespace GotoLabelNode {
+namespace FunctionExitNode {
   export class Class<
     D extends Data = Data,
     S extends ScratchData = ScratchData,
   > extends InstructionNode.Class<D, S> {
-    override get jp(): Label {
+    override get jp(): MethodNode {
       return this.scratchData.$jp;
     }
   }
@@ -17,14 +17,14 @@ namespace GotoLabelNode {
     extends InstructionNode.Builder
     implements NodeBuilder<Data, ScratchData>
   {
-    constructor($jp: Label) {
-      super(InstructionNode.Type.GOTO_LABEL, $jp);
+    constructor($jp: MethodNode) {
+      super(InstructionNode.Type.FUNCTION_EXIT, $jp);
     }
 
     buildData(data: BaseNode.Data): Data {
       return {
         ...(super.buildData(data) as InstructionNode.Data & {
-          instructionFlowNodeType: InstructionNode.Type.GOTO_LABEL;
+          instructionFlowNodeType: InstructionNode.Type.FUNCTION_EXIT;
         }),
       };
     }
@@ -32,7 +32,7 @@ namespace GotoLabelNode {
     buildScratchData(scratchData: BaseNode.ScratchData): ScratchData {
       return {
         ...(super.buildScratchData(scratchData) as InstructionNode.Data & {
-          $jp: Label;
+          $jp: MethodNode;
         }),
       };
     }
@@ -42,7 +42,7 @@ namespace GotoLabelNode {
     isDataCompatible(data: BaseNode.Data): data is Data {
       if (!InstructionNode.TypeGuard.isDataCompatible(data)) return false;
       const d = data as Data;
-      if (d.instructionFlowNodeType !== InstructionNode.Type.GOTO_LABEL)
+      if (d.instructionFlowNodeType !== InstructionNode.Type.FUNCTION_EXIT)
         return false;
       return true;
     },
@@ -57,12 +57,12 @@ namespace GotoLabelNode {
   };
 
   export interface Data extends InstructionNode.Data {
-    instructionFlowNodeType: InstructionNode.Type.GOTO_LABEL;
+    instructionFlowNodeType: InstructionNode.Type.FUNCTION_EXIT;
   }
 
   export interface ScratchData extends InstructionNode.ScratchData {
-    $jp: Label;
+    $jp: MethodNode;
   }
 }
 
-export default GotoLabelNode;
+export default FunctionExitNode;

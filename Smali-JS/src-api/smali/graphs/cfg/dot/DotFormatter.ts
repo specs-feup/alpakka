@@ -3,14 +3,14 @@ import BaseGraph from "../graph/BaseGraph.js";
 import BaseNode from "../graph/BaseNode.js";
 
 abstract class DotFormatter {
-  static defaultGraphName: string = "clava_graph";
+  static defaultGraphName: string = "smali_graph";
 
   abstract formatNode(node: BaseNode.Class): DotFormatter.Node;
 
   abstract formatEdge(edge: BaseEdge.Class): DotFormatter.Edge;
 
   static #sanitizeDotLabel(label: string) {
-    return label.replaceAll('"', '\\"');
+    return label.replace(/(?<!\\)"/g, '\\"');
   }
 
   #formatAttrs(attrs: [string, string][]): string {

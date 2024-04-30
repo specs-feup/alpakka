@@ -128,7 +128,7 @@ namespace InstructionNode {
     RETURN = "return",
     BREAK = "break",
     CONTINUE = "continue",
-    GOTO_LABEL = "label",
+    LABEL = "label",
     GOTO = "goto",
     UNKNOWN = "unknown",
   }

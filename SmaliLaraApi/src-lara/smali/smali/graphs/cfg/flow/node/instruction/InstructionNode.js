@@ -94,7 +94,7 @@ var InstructionNode;
         Type["RETURN"] = "return";
         Type["BREAK"] = "break";
         Type["CONTINUE"] = "continue";
-        Type["GOTO_LABEL"] = "label";
+        Type["LABEL"] = "label";
         Type["GOTO"] = "goto";
         Type["UNKNOWN"] = "unknown";
     })(Type = InstructionNode.Type || (InstructionNode.Type = {}));
