@@ -27,6 +27,8 @@
 
     <joinpoint class="fieldReference" extends="expression" tooltip="Field reference"/>
 
+    <joinpoint class="sparseSwitchElement" extends="expression" tooltip="Sparse switch element"/>
+
     <!-- LITERALS -->
     <joinpoint class="literal" extends="expression" tooltip="Literal"/>
 
@@ -59,9 +61,9 @@
 
     <joinpoint class="switch" extends="instruction" tooltip="Smali instruction format 31t"/>
 
-<!--    <joinpoint class="sparseSwitch" extends="instruction" tooltip="Sparse switch directive"/>-->
+    <joinpoint class="sparseSwitch" extends="instruction" tooltip="Sparse switch directive"/>
 
-<!--    <joinpoint class="packedSwitch" extends="instruction" tooltip="Packed switch directive"/>-->
+    <joinpoint class="packedSwitch" extends="instruction" tooltip="Packed switch directive"/>
 
     <joinpoint class="returnStatement" extends="instruction" tooltip="Smali instruction formats 10x, 11x"/>
 

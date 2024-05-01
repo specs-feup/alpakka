@@ -9,6 +9,7 @@ import FunctionEntryNode from "../flow/node/instruction/FunctionEntryNode.js";
 import FunctionExitNode from "../flow/node/instruction/FunctionExitNode.js";
 import LabelNode from "../flow/node/instruction/LabelNode.js";
 import GotoNode from "../flow/node/instruction/GotoNode.js";
+import SwitchNode from "../flow/node/instruction/SwitchNode.js";
 export default class DefaultFlowGraphDotFormatter extends DotFormatter {
     formatNode(node) {
         let label;
@@ -34,6 +35,9 @@ export default class DefaultFlowGraphDotFormatter extends DotFormatter {
         else if (node.is(StatementNode.TypeGuard)) {
             const stmtNode = node.as(StatementNode.Class);
             label = `Statement: \n${stmtNode.jp.code}`;
+        }
+        else if (node.is(SwitchNode.TypeGuard)) {
+            label = "Switch";
         }
         else if (node.is(ReturnNode.TypeGuard)) {
             const returnNode = node.as(ReturnNode.Class);

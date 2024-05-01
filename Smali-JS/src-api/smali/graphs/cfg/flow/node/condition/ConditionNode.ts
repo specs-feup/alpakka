@@ -6,7 +6,7 @@ import { NodeBuilder, NodeTypeGuard } from "../../../graph/Node.js";
 import {
   IfComparison,
   IfComparisonWithZero,
-  Switch,
+  LabelReference,
 } from "../../../../../../Joinpoints.js";
 
 namespace ConditionNode {
@@ -57,7 +57,7 @@ namespace ConditionNode {
     override get jp():
       | IfComparison
       | IfComparisonWithZero
-      | Switch
+      | LabelReference
       | undefined {
       return this.scratchData.$jp;
     }
@@ -73,7 +73,7 @@ namespace ConditionNode {
     constructor(
       truePath: ControlFlowEdge.Class,
       falsePath: ControlFlowEdge.Class,
-      $jp?: IfComparison | IfComparisonWithZero | Switch,
+      $jp?: IfComparison | IfComparisonWithZero | LabelReference,
     ) {
       super(FlowNode.Type.CONDITION, $jp);
       this.#truePath = truePath;
@@ -93,7 +93,7 @@ namespace ConditionNode {
     buildScratchData(scratchData: BaseNode.ScratchData): ScratchData {
       return {
         ...(super.buildScratchData(scratchData) as FlowNode.ScratchData & {
-          $jp: IfComparison | IfComparisonWithZero | Switch | undefined;
+          $jp: IfComparison | IfComparisonWithZero | LabelReference | undefined;
         }),
       };
     }
@@ -125,7 +125,7 @@ namespace ConditionNode {
   }
 
   export interface ScratchData extends FlowNode.ScratchData {
-    $jp: IfComparison | IfComparisonWithZero | Switch | undefined;
+    $jp: IfComparison | IfComparisonWithZero | LabelReference | undefined;
   }
 }
 

@@ -82,18 +82,9 @@ var InstructionNode;
     (function (Type) {
         Type["FUNCTION_ENTRY"] = "function_entry";
         Type["FUNCTION_EXIT"] = "function_exit";
-        Type["SCOPE_START"] = "scope_start";
-        Type["SCOPE_END"] = "scope_end";
-        Type["COMMENT"] = "comment";
-        Type["PRAGMA"] = "pragma";
-        Type["VAR_DECLARATION"] = "var_declaration";
-        Type["EMPTY_STATEMENT"] = "empty_statement";
-        Type["EXPRESSION"] = "expression";
         Type["STATEMENT"] = "statement";
         Type["SWITCH"] = "switch";
         Type["RETURN"] = "return";
-        Type["BREAK"] = "break";
-        Type["CONTINUE"] = "continue";
         Type["LABEL"] = "label";
         Type["GOTO"] = "goto";
         Type["UNKNOWN"] = "unknown";

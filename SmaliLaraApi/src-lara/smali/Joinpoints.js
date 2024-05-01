@@ -252,6 +252,14 @@ export class Program extends Joinpoint {
 export class RegisterReference extends Expression {
 }
 /**
+ * Sparse switch element
+ */
+export class SparseSwitchElement extends Expression {
+    get label() {
+        return wrapJoinPoint(this._javaObject.getLabel());
+    }
+}
+/**
  * Statement
  */
 export class Statement extends Joinpoint {
@@ -311,6 +319,11 @@ export class Label extends Statement {
     }
 }
 /**
+ * Packed switch directive
+ */
+export class PackedSwitch extends Instruction {
+}
+/**
  * Primitive descriptor
  */
 export class PrimitiveType extends TypeDescriptor {
@@ -319,6 +332,11 @@ export class PrimitiveType extends TypeDescriptor {
  * Smali instruction formats 10x, 11x
  */
 export class ReturnStatement extends Instruction {
+}
+/**
+ * Sparse switch directive
+ */
+export class SparseSwitch extends Instruction {
 }
 /**
  * Smali instruction format 31t
@@ -363,6 +381,7 @@ const JoinpointMapper = {
     placeholder: Placeholder,
     program: Program,
     registerReference: RegisterReference,
+    sparseSwitchElement: SparseSwitchElement,
     statement: Statement,
     typeDescriptor: TypeDescriptor,
     arrayType: ArrayType,
@@ -370,8 +389,10 @@ const JoinpointMapper = {
     classType: ClassType,
     instruction: Instruction,
     label: Label,
+    packedSwitch: PackedSwitch,
     primitiveType: PrimitiveType,
     returnStatement: ReturnStatement,
+    sparseSwitch: SparseSwitch,
     switch: Switch,
     goto: Goto,
     ifComparison: IfComparison,

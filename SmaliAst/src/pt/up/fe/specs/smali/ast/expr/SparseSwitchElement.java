@@ -24,9 +24,13 @@ public class SparseSwitchElement extends Expression {
     public String getCode() {
         var attributes = get(ATTRIBUTES);
         var key = (Literal) attributes.get("key");
-        var label = (LabelRef) attributes.get("label");
+        var label = this.getLabel();
 
         return key.getCode() + " -> " + label.getCode();
+    }
+
+    public LabelRef getLabel() {
+        return (LabelRef) get(ATTRIBUTES).get("label");
     }
 
 }

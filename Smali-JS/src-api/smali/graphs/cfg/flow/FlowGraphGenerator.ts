@@ -9,6 +9,11 @@ import {
   Goto,
   IfComparison,
   IfComparisonWithZero,
+  Switch,
+  LabelReference,
+  PackedSwitch,
+  SparseSwitch,
+  SparseSwitchElement,
 } from "../../../../Joinpoints.js";
 import Query from "lara-js/api/weaver/Query.js";
 import UnknownInstructionNode from "./node/instruction/UnknownInstructionNode.js";
@@ -22,6 +27,7 @@ import ReturnNode from "./node/instruction/ReturnNode.js";
 import LabelNode from "./node/instruction/LabelNode.js";
 import GotoNode from "./node/instruction/GotoNode.js";
 import ConditionNode from "./node/condition/ConditionNode.js";
+import SwitchNode from "./node/instruction/SwitchNode.js";
 
 export default class FlowGraphGenerator {
   #$jp: Joinpoint;
@@ -55,25 +61,6 @@ export default class FlowGraphGenerator {
     $jp: Joinpoint,
     context: ProcessJpContext,
   ): [FlowNode.Class, InstructionNode.Class?] {
-    // if ($jp instanceof MethodNode) {
-    //     return this.#processFunction($jp);
-    // } else if ($jp instanceof Scope) {
-    //     return this.#processScope($jp, context);
-    // } else if ($jp instanceof WrapperStmt) {
-    //     if ($jp.kind === "comment") {
-    //         return this.#addInstruction(
-    //             new CommentNode.Builder($jp.content as Comment),
-    //         );
-    //     } else if ($jp.kind === "pragma") {
-    //         return this.#addInstruction(
-    //             new PragmaNode.Builder($jp.content as Pragma),
-    //         );
-    //     } else {
-    //         throw new Error(
-    //             `Cannot build graph for "${$jp.joinPointType}:${$jp.kind}"`,
-    //         );
-    //     }
-
     if (context.preprocessedStatementStack.length > 0) {
       const [head, tail] = context.preprocessedStatementStack.pop()!;
       return [head, tail];
@@ -81,6 +68,8 @@ export default class FlowGraphGenerator {
 
     if ($jp instanceof Label) {
       return this.#processLabelStmt($jp, context);
+    } else if ($jp instanceof Switch) {
+      return this.#processSwitch($jp, context);
     } else if (
       $jp instanceof IfComparison ||
       $jp instanceof IfComparisonWithZero
@@ -96,54 +85,10 @@ export default class FlowGraphGenerator {
     } else if ($jp instanceof Statement) {
       return this.#addInstruction(new StatementNode.Builder($jp));
     } else {
-      console.log($jp.joinPointType);
       throw new Error(
         `Cannot build graph for joinpoint "${$jp.joinPointType}"`,
       );
     }
-
-    // if ($jp instanceof DeclStmt) {
-    //     return this.#processVarDecl($jp);
-    // } else if ($jp instanceof EmptyStmt) {
-    //     return this.#addInstruction(new EmptyStatementNode.Builder($jp));
-    // } else if ($jp instanceof ExprStmt) {
-    //     return this.#addInstruction(new ExpressionNode.Builder($jp.expr));
-    // } else if ($jp instanceof If) {
-    //     return this.#processIf($jp, context);
-    // // } else if ($jp instanceof Loop) {
-    // //     return this.#processLoop($jp, context);
-    // } else if ($jp instanceof Switch) {
-    //     return this.#processSwitch($jp, context);
-    // } else if ($jp instanceof Case) {
-    //     // Case nodes will be processed by the Switch
-    //     // Marking them as a temporary is enough
-    //     const node = this.#createTemporaryNode($jp);
-    //     if ($jp.isDefault) {
-    //         context.defaultCase = node;
-    //     } else {
-    //         context.caseNodes?.push(node);
-    //     }
-    //     return [node, node];
-    // } else if ($jp instanceof ReturnStmt) {
-    //     return this.#addOutwardsJump(
-    //         new ReturnNode.Builder($jp),
-    //         context.returnNode!,
-    //     );
-    // // } else if ($jp instanceof Break) {
-    // //     return this.#addOutwardsJump(new BreakNode.Builder($jp), context.breakNode!);
-    // // } else if ($jp instanceof Continue) {
-    // //     return this.#addOutwardsJump(
-    // //         new ContinueNode.Builder($jp),
-    // //         context.continueNode!,
-    // //     );
-    // } else if ($jp instanceof Label) {
-    //     return this.#processLabelStmt($jp, context);
-    // } else if ($jp instanceof Goto) {
-    //     return this.#processGoto($jp, context);
-    // } else {
-    //     // TODO maybe be silent when inside recursive calls?
-    //     throw new Error(`Cannot build graph for joinpoint "${$jp.joinPointType}"`);
-    // }
   }
 
   #processFunction(
@@ -188,52 +133,6 @@ export default class FlowGraphGenerator {
     return this.#graph.addFunction($jp, bodyHead, functionTail);
   }
 
-  // // #processScope(
-  // //     $jp: Scope,
-  // //     context: ProcessJpContext,
-  // // ): [ScopeStartNode.Class, ScopeEndNode.Class?] {
-  // //     const subGraphs = $jp.children.map((child) => {
-  // //         const [head, tail] = this.#processJp(child, context);
-  // //         return [head, tail ? [tail] : []] as [
-  // //             FlowNode.Class,
-  // //             InstructionNode.Class[],
-  // //         ];
-  // //     });
-  // //     return this.#graph.addScope($jp, subGraphs);
-  // // }
-
-  // #processVarDecl($jp: DeclStmt): [VarDeclarationNode.Class, VarDeclarationNode.Class] {
-  //     if ($jp.decls.length === 0) {
-  //         throw new Error("Empty declaration statement");
-  //     }
-
-  //     let head: VarDeclarationNode.Class | undefined;
-  //     let tail: VarDeclarationNode.Class | undefined;
-
-  //     for (const $decl of $jp.decls) {
-  //         if ($decl instanceof Vardecl) {
-  //             const node = this.#graph
-  //                 .addNode()
-  //                 .init(new VarDeclarationNode.Builder($decl))
-  //                 .as(VarDeclarationNode.Class);
-
-  //             if (head === undefined) {
-  //                 head = node;
-  //             }
-
-  //             if (tail !== undefined) {
-  //                 tail.nextNode = node;
-  //             }
-
-  //             tail = node;
-  //         } else {
-  //             throw new Error("Unsupported declaration type");
-  //         }
-  //     }
-
-  //     return [head!, tail!];
-  // }
-
   #processIf(
     $jp: IfComparison | IfComparisonWithZero,
     context: ProcessJpContext,
@@ -263,158 +162,99 @@ export default class FlowGraphGenerator {
     return [this.#graph.addCondition($jp, ifTrueHead, ifFalseHead)];
   }
 
-  // // #processLoop(
-  // //     $jp: Loop,
-  // //     context: ProcessJpContext,
-  // // ): [FlowNode.Class, InstructionNode.Class] {
-  // //     const continueNode = this.#createTemporaryNode($jp);
-  // //     const breakNode = this.#createTemporaryNode($jp);
-  // //     const [bodyHead, bodyTail] = this.#processScope($jp.body, {
-  // //         ...context,
-  // //         breakNode,
-  // //         continueNode,
-  // //     });
+  #processSwitch(
+    $jp: Switch,
+    context: ProcessJpContext,
+  ): [SwitchNode.Class, InstructionNode.Class?] {
+    const $labelRef = $jp.getChild(1);
+    if (!($labelRef instanceof LabelReference)) {
+      throw new Error("Switch statement must include a label reference");
+    }
+    const $switchDecl = ($labelRef as LabelReference).decl.nextStatement;
+    const defaultCase = $jp.nextStatement;
 
-  // //     const node = this.#graph.addLoop(
-  // //         $jp,
-  // //         bodyHead,
-  // //         bodyTail ? [bodyTail] : [],
-  // //         breakNode,
-  // //     );
+    const node = this.#graph
+      .addNode()
+      .init(new SwitchNode.Builder($jp))
+      .as(SwitchNode.Class);
 
-  // //     let head: FlowNode.Class;
-  // //     if ($jp.kind === "for") {
-  // //         const [, init] = this.#processJp($jp.init, context);
-  // //         const [, step] = this.#processJp($jp.step, context);
+    const $children = $switchDecl.children;
+    let previousCase: ConditionNode.Class | undefined = undefined;
 
-  // //         if (init === undefined) {
-  // //             throw new Error("Init must be an instruction node");
-  // //         }
+    const childrenRefs: LabelReference[] = [];
 
-  // //         if (step === undefined) {
-  // //             throw new Error("Step must be an instruction node");
-  // //         }
+    if ($switchDecl instanceof PackedSwitch) {
+      for (const childRef of $children) {
+        if (!(childRef instanceof LabelReference)) {
+          throw new Error(
+            "Packed switch directive children must be label references",
+          );
+        }
 
-  // //         continueNode.insertBefore(init);
-  // //         node.insertBefore(step);
+        if (!context.labels.has(childRef.name)) {
+          this.#processLabelStmt(childRef.decl, context);
+        }
 
-  // //         head = init;
-  // //     } else if ($jp.kind == "dowhile") {
-  // //         head = bodyHead;
-  // //     } else if ($jp.kind == "while") {
-  // //         head = continueNode;
-  // //     } else {
-  // //         throw new Error(`Unsupported loop kind "${$jp.kind}"`);
-  // //     }
+        childrenRefs.push(childRef as LabelReference);
+      }
+    } else if ($switchDecl instanceof SparseSwitch) {
+      for (const element of $children) {
+        if (!(element instanceof SparseSwitchElement)) {
+          throw new Error(
+            "Sparse switch directive children must be sparse switch elements",
+          );
+        }
 
-  // //     node.insertBefore(continueNode);
+        const childRef = element.label;
+        if (!(childRef instanceof LabelReference)) {
+          throw new Error(
+            "Sparse switch element must contain a label reference",
+          );
+        }
 
-  // //     return [head, breakNode];
-  // // }
+        if (!context.labels.has(childRef.name)) {
+          this.#processLabelStmt(childRef.decl, context);
+        }
 
-  // #processSwitch(
-  //     $jp: Switch,
-  //     context: ProcessJpContext,
-  // ): [SwitchNode.Class, ScopeEndNode.Class?] {
+        childrenRefs.push(childRef as LabelReference);
+      }
+    }
 
-  //     // We know child 1 is a Label to a switch but we don't know the type sparse or packed
+    for (const child of childrenRefs) {
+      const label = context.labels.get(child.name);
 
-  //     // We also know the default case is the next statement
+      if (label !== undefined) {
+        const currentCase = this.#graph.addCondition(
+          child as LabelReference,
+          label,
+          label, // False node doesn't matter for now, since it will change
+        );
 
-  //     const $labelRef = $jp.getChild(1);
-  //     if (!($labelRef instanceof LabelReference)) {
-  //         throw new Error("Switch statement must include a label reference");
-  //     }
-  //     const $switchDecl = ($labelRef as LabelReference).decl.nextStatement;
-  //     const $defaultCase = $jp.nextStatement;
+        if (previousCase === undefined) {
+          node.nextNode = currentCase;
+        } else {
+          previousCase.falseNode = currentCase;
+        }
 
-  //     if ($switchDecl instanceof PackedSwitch) {
-  //     }
-  //     else if ($switchDecl instanceof SparseSwitch) {
-  //     }
+        // for (const incomer of label.incomers) {
+        //   incomer.target = label;
+        // }
 
-  //     const $body = $jp.getChild(1);
-  //     if (!($body instanceof Scope)) {
-  //         throw new Error("Switch body must be a scope");
-  //     }
-  //     const breakNode = this.#createTemporaryNode($body);
-  //     const caseNodes: UnknownInstructionNode.Class[] = [];
-  //     const innerContext = { ...context, breakNode, caseNodes };
-  //     const [bodyHead, bodyTail] = this.#processScope($body, innerContext);
-  //     const defaultCase = innerContext.defaultCase;
+        previousCase = currentCase;
+      }
+    }
 
-  //     const node = this.#graph
-  //         .addNode()
-  //         .init(new SwitchNode.Builder($jp))
-  //         .as(SwitchNode.Class);
+    const preProcessedStatement = this.#processJp(defaultCase, context);
+    context.preprocessedStatementStack.push(preProcessedStatement);
 
-  //     bodyHead.insertBefore(node);
+    if (previousCase === undefined) {
+      node.nextNode = preProcessedStatement[0];
+    } else {
+      previousCase.falseNode = preProcessedStatement[0];
+    }
 
-  //     let previousCase: ConditionNode.Class | undefined = undefined;
-  //     for (const tempCaseNode of caseNodes) {
-  //         const currentCase = this.#graph.addCondition(
-  //             tempCaseNode.jp as Case,
-  //             tempCaseNode.nextNode!,
-  //             tempCaseNode, // False node doesn't matter for now, since it will change
-  //         );
-
-  //         if (previousCase === undefined) {
-  //             bodyHead.nextNode = currentCase;
-  //         } else {
-  //             previousCase.falseNode = currentCase;
-  //         }
-
-  //         for (const incomer of tempCaseNode.incomers) {
-  //             incomer.target = tempCaseNode.nextNode!;
-  //         }
-
-  //         previousCase = currentCase;
-  //     }
-
-  //     if (defaultCase !== undefined) {
-  //         const currentCase = this.#graph.addCondition(
-  //             defaultCase.jp as Case,
-  //             defaultCase.nextNode!,
-  //             defaultCase, // False node doesn't matter for now, since it will change
-  //         );
-
-  //         if (previousCase === undefined) {
-  //             bodyHead.nextNode = currentCase;
-  //         } else {
-  //             previousCase.falseNode = currentCase;
-  //         }
-
-  //         for (const incomer of defaultCase.incomers) {
-  //             incomer.target = defaultCase.nextNode!;
-  //         }
-
-  //         previousCase = currentCase;
-  //     }
-
-  //     let scopeEnd = bodyTail;
-  //     if (scopeEnd === undefined) {
-  //         if (breakNode.incomers.length === 0) {
-  //             return [node];
-  //         }
-
-  //         scopeEnd = this.#graph
-  //             .addNode()
-  //             .init(new ScopeEndNode.Builder($body))
-  //             .as(ScopeEndNode.Class);
-
-  //         breakNode.nextNode = scopeEnd;
-  //     }
-
-  //     scopeEnd.insertBefore(breakNode);
-
-  //     if (previousCase === undefined) {
-  //         bodyHead.nextNode = scopeEnd;
-  //     } else {
-  //         previousCase.falseNode = scopeEnd;
-  //     }
-
-  //     return [node, scopeEnd];
-  // }
+    return [node];
+  }
 
   #processLabelStmt(
     $jp: Label,
@@ -540,31 +380,10 @@ export default class FlowGraphGenerator {
 
     from.nextNode = to;
   }
-
-  //     // #getScopeList($jp: Joinpoint): Scope[] {
-  //     //     const result: Scope[] = [];
-
-  //     //     while (true) {
-  //     //         if ($jp instanceof Scope) {
-  //     //             result.push($jp);
-  //     //         }
-  //     //         if ($jp.hasParent) {
-  //     //             $jp = $jp.parent;
-  //     //         } else {
-  //     //             break;
-  //     //         }
-  //     //     }
-
-  //     //     return result;
-  //     // }
 }
 
 interface ProcessJpContext {
   returnNode: FlowNode.Class;
   labels: Map<string, LabelNode.Class>;
   preprocessedStatementStack: Array<[FlowNode.Class, InstructionNode.Class?]>;
-  continueNode?: FlowNode.Class;
-  breakNode?: FlowNode.Class;
-  caseNodes?: UnknownInstructionNode.Class[];
-  defaultCase?: UnknownInstructionNode.Class;
 }

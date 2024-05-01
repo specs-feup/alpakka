@@ -73,6 +73,12 @@
 
     <artifact class="fieldReference"/>
 
+    <artifact class="sparseSwitchElement">
+        <attribute name="label" type="labelReference">
+            <def/>
+        </attribute>
+    </artifact>
+
     <!-- LITERALS -->
     <artifact class="literal"/>
 

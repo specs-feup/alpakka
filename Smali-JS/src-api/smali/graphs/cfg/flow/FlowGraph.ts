@@ -5,9 +5,9 @@ import Graph, { GraphBuilder, GraphTypeGuard } from "../graph/Graph.js";
 import {
   IfComparison,
   IfComparisonWithZero,
+  LabelReference,
   MethodNode,
   Program,
-  Switch,
 } from "../../../../Joinpoints.js";
 import InstructionNode from "./node/instruction/InstructionNode.js";
 import FunctionEntryNode from "./node/instruction/FunctionEntryNode.js";
@@ -81,7 +81,7 @@ namespace FlowGraph {
     // }
 
     addCondition(
-      $jp: IfComparison | IfComparisonWithZero | Switch | undefined,
+      $jp: IfComparison | IfComparisonWithZero | LabelReference | undefined,
       iftrue: FlowNode.Class,
       iffalse: FlowNode.Class,
     ): ConditionNode.Class {
