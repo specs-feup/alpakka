@@ -20,7 +20,6 @@ import pt.up.fe.specs.smali.parser.antlr.SmaliParser;
 import pt.up.fe.specs.smali.weaver.abstracts.weaver.ASmaliWeaver;
 import pt.up.fe.specs.smali.weaver.options.SmaliWeaverOption;
 import pt.up.fe.specs.smali.weaver.options.SmaliWeaverOptions;
-import pt.up.fe.specs.util.providers.ResourceProvider;
 
 /**
  * Weaver Implementation for SmaliWeaver<br>

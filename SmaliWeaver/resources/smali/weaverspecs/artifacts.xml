@@ -43,6 +43,9 @@
         <attribute name="kind" type="String"/>
     </artifact>
 
+    <!-- RESOURCE -->
+    <artifact class="resourceNode"/>
+
     <!-- PROGRAM -->
     <artifact class="program"/>
 

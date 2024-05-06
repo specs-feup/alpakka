@@ -13,12 +13,7 @@
 
 package pt.up.fe.specs.smali.weaver;
 
-import pt.up.fe.specs.smali.ast.App;
-import pt.up.fe.specs.smali.ast.ClassNode;
-import pt.up.fe.specs.smali.ast.FieldNode;
-import pt.up.fe.specs.smali.ast.MethodNode;
-import pt.up.fe.specs.smali.ast.Placeholder;
-import pt.up.fe.specs.smali.ast.SmaliNode;
+import pt.up.fe.specs.smali.ast.*;
 import pt.up.fe.specs.smali.ast.expr.*;
 import pt.up.fe.specs.smali.ast.expr.literal.Literal;
 import pt.up.fe.specs.smali.ast.expr.literal.MethodPrototype;
@@ -68,6 +63,7 @@ public class SmaliJoinpoints {
         JOINPOINT_FACTORY.put(CatchDirective.class, CatchJp::new);
         JOINPOINT_FACTORY.put(Label.class, LabelJp::new);
         JOINPOINT_FACTORY.put(Statement.class, StatementJp::new);
+        JOINPOINT_FACTORY.put(Resource.class, ResourceNodeJp::new);
         JOINPOINT_FACTORY.put(Placeholder.class, PlaceholderJp::new);
     }
 

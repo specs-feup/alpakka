@@ -13,26 +13,13 @@
 
 package pt.up.fe.specs.smali.parser.antlr;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
+import brut.androlib.ApkDecoder;
+import brut.androlib.Config;
+import brut.androlib.exceptions.AndrolibException;
+import brut.directory.DirectoryException;
 import org.xml.sax.SAXException;
 import org.yaml.snakeyaml.Yaml;
-
-import brut.apktool.Main;
-import brut.common.BrutException;
-import pt.up.fe.specs.smali.ast.App;
-import pt.up.fe.specs.smali.ast.FieldNode;
-import pt.up.fe.specs.smali.ast.MethodNode;
-import pt.up.fe.specs.smali.ast.Resource;
-import pt.up.fe.specs.smali.ast.SmaliNode;
+import pt.up.fe.specs.smali.ast.*;
 import pt.up.fe.specs.smali.ast.context.SmaliContext;
 import pt.up.fe.specs.smali.ast.expr.FieldReference;
 import pt.up.fe.specs.smali.ast.expr.LabelRef;
@@ -40,6 +27,15 @@ import pt.up.fe.specs.smali.ast.expr.MethodReference;
 import pt.up.fe.specs.smali.ast.expr.Reference;
 import pt.up.fe.specs.smali.ast.stmt.Label;
 import pt.up.fe.specs.util.SpecsIo;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 public class SmaliParser {
 
@@ -60,6 +56,7 @@ public class SmaliParser {
             return Optional.empty();
         }
 
+        // This needs to be changed for multiple files
         var declarationsMap = new HashMap<String, Map<String, SmaliNode>>();
         collectDeclarations(classes.get(0), declarationsMap);
         replaceReferences(classes.get(0), declarationsMap);
@@ -136,11 +133,14 @@ public class SmaliParser {
     private App decompileApk(File apkFile, SmaliContext context) {
         var outputFolder = SpecsIo.mkdir(DECOMPILATION_FOLDERNAME);
 
-        String[] commands = { "d", "-f", apkFile.getAbsolutePath(), "-o", outputFolder.getAbsolutePath() };
+        var config = Config.getDefaultConfig();
+        config.forceDelete = true;
+
+        var decoder = new ApkDecoder(config, apkFile);
 
         try {
-            Main.main(commands);
-        } catch (BrutException e) {
+            decoder.decode(outputFolder);
+        } catch (AndrolibException | IOException | DirectoryException e) {
             throw new RuntimeException("Error decompiling APK", e);
         }
 

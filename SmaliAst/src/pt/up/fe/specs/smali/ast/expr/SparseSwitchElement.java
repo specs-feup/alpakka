@@ -22,15 +22,14 @@ public class SparseSwitchElement extends Expression {
 
     @Override
     public String getCode() {
-        var attributes = get(ATTRIBUTES);
-        var key = (Literal) attributes.get("key");
+        var key = (Literal) getChild(0);
         var label = this.getLabel();
 
         return key.getCode() + " -> " + label.getCode();
     }
 
     public LabelRef getLabel() {
-        return (LabelRef) get(ATTRIBUTES).get("label");
+        return (LabelRef) getChild(1);
     }
 
 }

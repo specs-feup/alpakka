@@ -25,6 +25,7 @@ edge [fontsize=10]
 "primitiveType"->"typeDescriptor"
 "program"->"joinpoint"
 "registerReference"->"expression"
+"resourceNode"->"joinpoint"
 "returnStatement"->"instruction"
 "sparseSwitch"->"instruction"
 "sparseSwitchElement"->"expression"

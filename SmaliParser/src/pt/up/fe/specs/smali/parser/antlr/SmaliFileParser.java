@@ -50,7 +50,10 @@ public class SmaliFileParser {
     public SmaliFileParser(File source, SmaliContext context, Integer targetSdkVersion) {
         var lex = new smaliFlexLexer(new StringReader(SpecsIo.read(source)), targetSdkVersion);
         this.parser = new smaliParser(new CommonTokenStream(lex));
-        dexClass = source.getPath().split("\\" + File.separator)[1];
+        if (source.getPath().contains(File.separator))
+            dexClass = source.getPath().split("\\" + File.separator)[1];
+        else
+            dexClass = "";
         this.context = context;
         this.converters = buildConverters();
 
@@ -1165,15 +1168,16 @@ public class SmaliFileParser {
         var sparseSwitchElements = node.getChild(0);
 
         for (int i = 0; i < sparseSwitchElements.getChildCount(); i += 2) {
-            var elementAttributes = new HashMap<String, Object>();
-            elementAttributes.put("key", convert(sparseSwitchElements.getChild(i)));
+            var elementChildren = new ArrayList<SmaliNode>();
+
+            elementChildren.add(convert(sparseSwitchElements.getChild(i)));
 
             var labelRefAttributes = new HashMap<String, Object>();
             labelRefAttributes.put("label", sparseSwitchElements.getChild(i + 1).getText());
 
-            elementAttributes.put("label", factory.labelRef(labelRefAttributes));
+            elementChildren.add(factory.labelRef(labelRefAttributes));
 
-            children.add(factory.sparseSwitchElement(elementAttributes));
+            children.add(factory.sparseSwitchElement(elementChildren));
         }
 
         return factory.sparseSwitchDirective(attributes, children);

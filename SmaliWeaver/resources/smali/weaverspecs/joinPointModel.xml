@@ -4,6 +4,9 @@
     <!-- PLACEHOLDER -->
     <joinpoint class="placeholder" tooltip="Placeholder node"/>
 
+    <!-- RESOURCE -->
+    <joinpoint class="resourceNode" tooltip="Resource nodes, like xml files are not being handled for now"/>
+
     <!-- PROGRAM -->
     <joinpoint class="program" tooltip="App node"/>
 

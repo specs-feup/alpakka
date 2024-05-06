@@ -13,21 +13,21 @@
 
 package pt.up.fe.specs.smali.ast;
 
-import java.io.File;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
+import brut.androlib.ApkBuilder;
+import brut.androlib.Config;
+import brut.common.BrutException;
+import brut.directory.ExtFile;
 import org.suikasoft.jOptions.Datakey.DataKey;
 import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
-
-import brut.apktool.Main;
-import brut.common.BrutException;
 import pt.up.fe.specs.util.SpecsIo;
-import pt.up.fe.specs.util.SpecsLogs;
+
+import java.io.File;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class App extends SmaliNode {
 
@@ -65,12 +65,13 @@ public class App extends SmaliNode {
         var apktoolYml = new File(outputFolder, "apktool.yml");
         SpecsIo.write(apktoolYml, yaml.dump(attributes));
 
-        String[] commands = { "b", outputFolder.getAbsolutePath(), "-o", "output.apk" };
+        var config = Config.getDefaultConfig();
+        var outputFile = new File("output.apk");
 
         try {
-            Main.main(commands);
+            new ApkBuilder(config, new ExtFile(outputFolder)).build(outputFile);
         } catch (BrutException e) {
-            SpecsLogs.warn("Could not build apk: " + e.getMessage());
+            throw new RuntimeException("Could not build apk", e);
         }
 
         SpecsIo.deleteFolder(outputFolder);

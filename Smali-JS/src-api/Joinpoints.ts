@@ -317,6 +317,26 @@ export class Program extends Joinpoint {
 export class RegisterReference extends Expression {}
 
 /**
+ * Resource nodes, like xml files are not being handled for now
+ */
+export class ResourceNode extends Joinpoint {
+  get attributes(): string[] {
+    return wrapJoinPoint(this._javaObject.getAttributes());
+  }
+  get selects(): string[] {
+    return wrapJoinPoint(this._javaObject.getSelects());
+  }
+  get actions(): string[] {
+    return wrapJoinPoint(this._javaObject.getActions());
+  }
+  def(attribute: string, value: object): void {
+    return wrapJoinPoint(
+      this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value)),
+    );
+  }
+}
+
+/**
  * Sparse switch element
  */
 export class SparseSwitchElement extends Expression {
@@ -455,6 +475,7 @@ const JoinpointMapper: JoinpointMapperType = {
   placeholder: Placeholder,
   program: Program,
   registerReference: RegisterReference,
+  resourceNode: ResourceNode,
   sparseSwitchElement: SparseSwitchElement,
   statement: Statement,
   typeDescriptor: TypeDescriptor,

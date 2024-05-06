@@ -19,8 +19,7 @@ repositories {
 }
 
 dependencies {
-    implementation "org.apktool:apktool-cli:2.9.3"
-    implementation "org.apktool:brut.j.common:2.9.3"
+    implementation "org.apktool:apktool-lib:2.9.3"
     implementation "org.yaml:snakeyaml:2.2"
 
     implementation ":SpecsUtils"

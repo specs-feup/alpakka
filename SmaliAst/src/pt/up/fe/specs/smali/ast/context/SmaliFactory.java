@@ -595,11 +595,10 @@ public class SmaliFactory {
         return new SparseSwitchDirective(data, children);
     }
 
-    public SparseSwitchElement sparseSwitchElement(HashMap<String, Object> attributes) {
+    public SparseSwitchElement sparseSwitchElement(List<? extends SmaliNode> children) {
         var data = newDataStore(SparseSwitchElement.class);
-        data.set(SparseSwitchElement.ATTRIBUTES, attributes);
 
-        return new SparseSwitchElement(data, null);
+        return new SparseSwitchElement(data, children);
     }
 
     public LiteralStatement literalStmt(String code) {
