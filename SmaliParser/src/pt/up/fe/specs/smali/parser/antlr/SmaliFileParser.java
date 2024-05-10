@@ -778,6 +778,8 @@ public class SmaliFileParser {
                 opcode.equals(Opcode.RETURN_WIDE.name) ||
                 opcode.equals(Opcode.RETURN.name)) {
             return factory.returnInstructionFormat(attributes, children);
+        } else if (opcode.equals(Opcode.THROW.name)) {
+            return factory.throwInstructionFormat(attributes, children);
         }
 
         return factory.instructionFormat11x(attributes, children);

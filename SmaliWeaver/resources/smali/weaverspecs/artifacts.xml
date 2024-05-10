@@ -135,11 +135,13 @@
 
     <artifact class="switch"/>
 
-<!--    <artifact class="sparseSwitch"/>-->
+    <artifact class="sparseSwitch"/>
 
-<!--    <artifact class="packedSwitch"/>-->
+    <artifact class="packedSwitch"/>
 
     <artifact class="returnStatement"/>
+
+    <artifact class="throwStatement"/>
 
 
 </artifacts>

@@ -44,6 +44,7 @@ public enum SmaliApiJsResource implements LaraResourceProvider {
     RETURNNODE_JS("smali/graphs/cfg/flow/node/instruction/ReturnNode.js"),
     STATEMENTNODE_JS("smali/graphs/cfg/flow/node/instruction/StatementNode.js"),
     SWITCHNODE_JS("smali/graphs/cfg/flow/node/instruction/SwitchNode.js"),
+    THROWNODE_JS("smali/graphs/cfg/flow/node/instruction/ThrowNode.js"),
     UNKNOWNINSTRUCTIONNODE_JS("smali/graphs/cfg/flow/node/instruction/UnknownInstructionNode.js"),
     FILTERFLOWNODES_JS("smali/graphs/cfg/flow/transformation/FilterFlowNodes.js"),
     BASEEDGE_JS("smali/graphs/cfg/graph/BaseEdge.js"),

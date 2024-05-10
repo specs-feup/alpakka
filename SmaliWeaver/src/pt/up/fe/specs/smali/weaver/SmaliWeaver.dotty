@@ -31,5 +31,6 @@ edge [fontsize=10]
 "sparseSwitchElement"->"expression"
 "statement"->"joinpoint"
 "switch"->"instruction"
+"throwStatement"->"instruction"
 "typeDescriptor"->"literal"
 }

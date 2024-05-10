@@ -119,6 +119,7 @@ namespace InstructionNode {
     STATEMENT = "statement",
     SWITCH = "switch",
     RETURN = "return",
+    THROW = "throw",
     LABEL = "label",
     GOTO = "goto",
     UNKNOWN = "unknown",

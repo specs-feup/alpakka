@@ -28,28 +28,6 @@ var FlowGraph;
             }
             return [function_entry, function_exit];
         }
-        // addScope($jp: Scope, subGraphs: [FlowNode.Class, InstructionNode.Class[]][]): [ScopeStartNode.Class, ScopeEndNode.Class?] {
-        //     const scope_start = this.addNode()
-        //         .init(new ScopeStartNode.Builder($jp))
-        //         .as(ScopeStartNode.Class);
-        //     let current_tail: InstructionNode.Class[] = [scope_start];
-        //     for (const [head, tail] of subGraphs) {
-        //         for (const tailNode of current_tail) {
-        //             tailNode.nextNode = head;
-        //         }
-        //         current_tail = tail;
-        //     }
-        //     if (current_tail.length === 0) {
-        //         return [scope_start];
-        //     }
-        //     const scope_end = this.addNode()
-        //         .init(new ScopeEndNode.Builder($jp))
-        //         .as(ScopeEndNode.Class);
-        //     for (const tailNode of current_tail) {
-        //         tailNode.nextNode = scope_end;
-        //     }
-        //     return [scope_start, scope_end];
-        // }
         addCondition($jp, iftrue, iffalse) {
             const ifnode = this.addNode();
             const iftrueEdge = this.addEdge(ifnode, iftrue).init(new ControlFlowEdge.Builder());

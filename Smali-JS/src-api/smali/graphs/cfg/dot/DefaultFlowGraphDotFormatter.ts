@@ -12,6 +12,7 @@ import FunctionExitNode from "../flow/node/instruction/FunctionExitNode.js";
 import LabelNode from "../flow/node/instruction/LabelNode.js";
 import GotoNode from "../flow/node/instruction/GotoNode.js";
 import SwitchNode from "../flow/node/instruction/SwitchNode.js";
+import ThrowNode from "../flow/node/instruction/ThrowNode.js";
 
 export default class DefaultFlowGraphDotFormatter extends DotFormatter {
   override formatNode(node: BaseNode.Class): DotFormatter.Node {
@@ -21,11 +22,7 @@ export default class DefaultFlowGraphDotFormatter extends DotFormatter {
     if (node.is(ConditionNode.TypeGuard)) {
       const conditionNode = node.as(ConditionNode.Class);
       shape = "diamond";
-      if (conditionNode.jp !== undefined) {
-        label = `Condition:\n${conditionNode.jp.code}`;
-      } else {
-        label = `Condition (no jp)`;
-      }
+      label = `Condition:\n${conditionNode.jp.code}`;
     } else if (node.is(FunctionEntryNode.TypeGuard)) {
       const functionEntryNode = node.as(FunctionEntryNode.Class);
       label = `Function Entry \n(${functionEntryNode.jp.name})`;
@@ -36,13 +33,17 @@ export default class DefaultFlowGraphDotFormatter extends DotFormatter {
       const stmtNode = node.as(StatementNode.Class);
       label = `Statement: \n${stmtNode.jp.code}`;
     } else if (node.is(SwitchNode.TypeGuard)) {
-      label = "Switch";
+      const switchNode = node.as(SwitchNode.Class);
+      label = `Switch Stmt: \n${switchNode.jp.code}`;
     } else if (node.is(ReturnNode.TypeGuard)) {
       const returnNode = node.as(ReturnNode.Class);
-      label = `Return: \n${returnNode.jp.code}`;
+      label = `Return Stmt: \n${returnNode.jp.code}`;
+    } else if (node.is(ThrowNode.TypeGuard)) {
+      const throwNode = node.as(ThrowNode.Class);
+      label = `Throw Stmt: \n${throwNode.jp.code}`;
     } else if (node.is(LabelNode.TypeGuard)) {
-      const gotoLabelNode = node.as(LabelNode.Class);
-      label = `Label: \n${gotoLabelNode.jp.name}`;
+      const labelNode = node.as(LabelNode.Class);
+      label = `Label: \n${labelNode.jp.name}`;
     } else if (node.is(GotoNode.TypeGuard)) {
       const gotoNode = node.as(GotoNode.Class);
       label = `Goto: \n${gotoNode.jp.label.name}`;

@@ -54,11 +54,7 @@ namespace ConditionNode {
       this.falseEdge.target = node;
     }
 
-    override get jp():
-      | IfComparison
-      | IfComparisonWithZero
-      | LabelReference
-      | undefined {
+    override get jp(): IfComparison | IfComparisonWithZero | LabelReference {
       return this.scratchData.$jp;
     }
   }
@@ -93,7 +89,7 @@ namespace ConditionNode {
     buildScratchData(scratchData: BaseNode.ScratchData): ScratchData {
       return {
         ...(super.buildScratchData(scratchData) as FlowNode.ScratchData & {
-          $jp: IfComparison | IfComparisonWithZero | LabelReference | undefined;
+          $jp: IfComparison | IfComparisonWithZero | LabelReference;
         }),
       };
     }
@@ -125,7 +121,7 @@ namespace ConditionNode {
   }
 
   export interface ScratchData extends FlowNode.ScratchData {
-    $jp: IfComparison | IfComparisonWithZero | LabelReference | undefined;
+    $jp: IfComparison | IfComparisonWithZero | LabelReference;
   }
 }
 

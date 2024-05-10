@@ -14,6 +14,7 @@ import {
   PackedSwitch,
   SparseSwitch,
   SparseSwitchElement,
+  ThrowStatement,
 } from "../../../../Joinpoints.js";
 import Query from "lara-js/api/weaver/Query.js";
 import UnknownInstructionNode from "./node/instruction/UnknownInstructionNode.js";
@@ -28,6 +29,7 @@ import LabelNode from "./node/instruction/LabelNode.js";
 import GotoNode from "./node/instruction/GotoNode.js";
 import ConditionNode from "./node/condition/ConditionNode.js";
 import SwitchNode from "./node/instruction/SwitchNode.js";
+import ThrowNode from "./node/instruction/ThrowNode.js";
 
 export default class FlowGraphGenerator {
   #$jp: Joinpoint;
@@ -77,11 +79,10 @@ export default class FlowGraphGenerator {
       return this.#processIf($jp, context);
     } else if ($jp instanceof Goto) {
       return this.#processGoto($jp, context);
-      // } else if ($jp instanceof ReturnStatement) {
-      //   return this.#addOutwardsJump(
-      //       new ReturnNode.Builder($jp),
-      //       context.returnNode!,
-      //   );
+    } else if ($jp instanceof ReturnStatement) {
+      return this.#addReturnStmt(new ReturnNode.Builder($jp));
+    } else if ($jp instanceof ThrowStatement) {
+      return this.#addThrowStmt(new ThrowNode.Builder($jp));
     } else if ($jp instanceof Statement) {
       return this.#addInstruction(new StatementNode.Builder($jp));
     } else {
@@ -94,10 +95,7 @@ export default class FlowGraphGenerator {
   #processFunction(
     $jp: MethodNode,
   ): [FunctionEntryNode.Class, FunctionExitNode.Class?] {
-    const returnNode = this.#createTemporaryNode($jp);
-
     const context = {
-      returnNode,
       labels: new Map(),
       preprocessedStatementStack: [],
     };
@@ -110,22 +108,31 @@ export default class FlowGraphGenerator {
       ];
     });
 
+    const functionTail: InstructionNode.Class[] = [];
+
     for (let i = 0; i < body.length - 1; i++) {
       const [head, tail] = body[i];
-      const [nextHead, nextTail] = body[i + 1];
+      const [nextHead] = body[i + 1];
+
+      if (
+        tail.length === 0 &&
+        (head instanceof ReturnNode.Class || head instanceof ThrowNode.Class)
+      ) {
+        functionTail.push(head);
+      }
 
       for (const tailNode of tail) {
         tailNode.nextNode = nextHead;
       }
     }
 
-    let functionTail: InstructionNode.Class[] = [];
-    const bodyTail = body[body.length - 1][1];
-    if (bodyTail !== undefined) {
-      returnNode.insertSubgraphBefore(body[body.length - 1][0], bodyTail);
-      functionTail = [returnNode];
-    } else if (returnNode.incomers.length > 0) {
-      functionTail = [returnNode];
+    const [lastHead, lastTail] = body[body.length - 1];
+    if (
+      lastTail.length === 0 &&
+      (lastHead instanceof ReturnNode.Class ||
+        lastHead instanceof ThrowNode.Class)
+    ) {
+      functionTail.push(lastHead);
     }
 
     const bodyHead = body[0][0];
@@ -236,10 +243,6 @@ export default class FlowGraphGenerator {
           previousCase.falseNode = currentCase;
         }
 
-        // for (const incomer of label.incomers) {
-        //   incomer.target = label;
-        // }
-
         previousCase = currentCase;
       }
     }
@@ -311,79 +314,26 @@ export default class FlowGraphGenerator {
     return [node, node];
   }
 
-  #addOutwardsJump(
-    builder: NodeBuilder<InstructionNode.Data, InstructionNode.ScratchData>,
-    jumpTo: FlowNode.Class,
-  ): [InstructionNode.Class] {
-    const node = this.#graph.addNode().init(builder).as(InstructionNode.Class);
+  #addReturnStmt(
+    builder: NodeBuilder<ReturnNode.Data, ReturnNode.ScratchData>,
+  ): [ReturnNode.Class] {
+    const node = this.#graph.addNode().init(builder).as(ReturnNode.Class);
+    return [node];
+  }
 
-    const exitNode: InstructionNode.Class = node;
-    // let $currentJp = node.jp!;
-
-    // while ($currentJp.astId !== jumpTo.jp!.astId) {
-    //     if ($currentJp instanceof Scope) {
-    //         const endScope = this.#graph
-    //             .addNode()
-    //             .init(new ScopeEndNode.Builder($currentJp))
-    //             .as(ScopeEndNode.Class);
-
-    //         exitNode.nextNode = endScope;
-    //         exitNode = endScope;
-    //     }
-
-    //     $currentJp = $currentJp.parent;
-    // }
-
-    exitNode.nextNode = jumpTo;
-
+  #addThrowStmt(
+    builder: NodeBuilder<ThrowNode.Data, ThrowNode.ScratchData>,
+  ): [ThrowNode.Class] {
+    const node = this.#graph.addNode().init(builder).as(ThrowNode.Class);
     return [node];
   }
 
   #connectArbitraryJump(from: InstructionNode.Class, to: FlowNode.Class) {
-    // const fromScopes = this.#getScopeList(from.jp!);
-    // const toScopes = this.#getScopeList(to.jp!);
-    // let fromScopesIdx = fromScopes.length - 1;
-    // let toScopesIdx = toScopes.length - 1;
-
-    // while (
-    //     toScopesIdx >= 0 &&
-    //     fromScopesIdx >= 0 &&
-    //     toScopes[toScopesIdx].astId === fromScopes[fromScopesIdx].astId
-    // ) {
-    //     toScopesIdx--;
-    //     fromScopesIdx--;
-    // }
-
-    // let exitNode: InstructionNode.Class = from;
-
-    // for (let i = 0; i <= fromScopesIdx; i++) {
-    //     const endScope = this.#graph
-    //         .addNode()
-    //         .init(new ScopeEndNode.Builder(fromScopes[i]))
-    //         .as(ScopeEndNode.Class);
-
-    //     exitNode.nextNode = endScope;
-    //     exitNode = endScope;
-    // }
-
-    // for (let i = toScopesIdx; i >= 0; i--) {
-    //     const startScope = this.#graph
-    //         .addNode()
-    //         .init(new ScopeStartNode.Builder(toScopes[i]))
-    //         .as(ScopeStartNode.Class);
-
-    //     exitNode.nextNode = startScope;
-    //     exitNode = startScope;
-    // }
-
-    // exitNode.nextNode = to;
-
     from.nextNode = to;
   }
 }
 
 interface ProcessJpContext {
-  returnNode: FlowNode.Class;
   labels: Map<string, LabelNode.Class>;
   preprocessedStatementStack: Array<[FlowNode.Class, InstructionNode.Class?]>;
 }

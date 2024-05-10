@@ -254,6 +254,14 @@ public class SmaliFactory {
         return new ReturnStatement(data, children);
     }
 
+    public ThrowStatement throwInstructionFormat(HashMap<String, Object> attributes,
+                                                   List<? extends SmaliNode> children) {
+        var data = newDataStore(ThrowStatement.class);
+        data.set(ThrowStatement.ATTRIBUTES, attributes);
+
+        return new ThrowStatement(data, children);
+    }
+
     public InstructionFormat11n instructionFormat11n(HashMap<String, Object> attributes,
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat11n.class);

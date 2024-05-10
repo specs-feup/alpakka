@@ -435,6 +435,11 @@ export class SparseSwitch extends Instruction {}
 export class Switch extends Instruction {}
 
 /**
+ * Smali instruction format 11x
+ */
+export class ThrowStatement extends Instruction {}
+
+/**
  * Smali instruction formats 10t, 20t, 30t
  */
 export class Goto extends Instruction {
@@ -489,6 +494,7 @@ const JoinpointMapper: JoinpointMapperType = {
   returnStatement: ReturnStatement,
   sparseSwitch: SparseSwitch,
   switch: Switch,
+  throwStatement: ThrowStatement,
   goto: Goto,
   ifComparison: IfComparison,
   ifComparisonWithZero: IfComparisonWithZero,

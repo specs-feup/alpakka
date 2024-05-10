@@ -55,6 +55,7 @@ public class SmaliJoinpoints {
         JOINPOINT_FACTORY.put(PackedSwitchDirective.class, PackedSwitchJp::new);
         JOINPOINT_FACTORY.put(SparseSwitchDirective.class, SparseSwitchJp::new);
         JOINPOINT_FACTORY.put(ReturnStatement.class, ReturnStatementJp::new);
+        JOINPOINT_FACTORY.put(ThrowStatement.class, ThrowStatementJp::new);
         JOINPOINT_FACTORY.put(SwitchStatement.class, SwitchJp::new);
         JOINPOINT_FACTORY.put(GotoStatement.class, GotoJp::new);
         JOINPOINT_FACTORY.put(InstructionFormat21t.class, IfComparisonWithZeroJp::new);

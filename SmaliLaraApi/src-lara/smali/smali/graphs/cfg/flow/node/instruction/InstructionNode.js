@@ -85,6 +85,7 @@ var InstructionNode;
         Type["STATEMENT"] = "statement";
         Type["SWITCH"] = "switch";
         Type["RETURN"] = "return";
+        Type["THROW"] = "throw";
         Type["LABEL"] = "label";
         Type["GOTO"] = "goto";
         Type["UNKNOWN"] = "unknown";

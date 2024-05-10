@@ -70,4 +70,6 @@
 
     <joinpoint class="returnStatement" extends="instruction" tooltip="Smali instruction formats 10x, 11x"/>
 
+    <joinpoint class="throwStatement" extends="instruction" tooltip="Smali instruction format 11x"/>
+
 </joinpoints>
