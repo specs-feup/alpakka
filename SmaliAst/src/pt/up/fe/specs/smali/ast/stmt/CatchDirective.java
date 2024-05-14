@@ -30,10 +30,10 @@ public class CatchDirective extends Statement {
     @Override
     public String getCode() {
         var sb = new StringBuilder();
-        var type = (TypeDescriptor) get(ATTRIBUTES).get("nonVoidTypeDescriptor");
-        var from = (LabelRef) get(ATTRIBUTES).get("from");
-        var to = (LabelRef) get(ATTRIBUTES).get("to");
-        var label = (LabelRef) get(ATTRIBUTES).get("label");
+        var type = (TypeDescriptor) getExceptionTypeDescriptor();
+        var from = (LabelRef) getTryStartLabelRef();
+        var to = (LabelRef) getTryEndLabelRef();
+        var label = (LabelRef) getCatchLabelRef();
 
         sb.append(getLineDirective());
 
@@ -55,8 +55,20 @@ public class CatchDirective extends Statement {
         return sb.toString();
     }
 
-    public LabelRef getEndLabelRef() {
+    public TypeDescriptor getExceptionTypeDescriptor() {
+        return (TypeDescriptor) get(ATTRIBUTES).get("nonVoidTypeDescriptor");
+    }
+
+    public LabelRef getTryStartLabelRef() {
+        return (LabelRef) get(ATTRIBUTES).get("from");
+    }
+
+    public LabelRef getTryEndLabelRef() {
         return (LabelRef) get(ATTRIBUTES).get("to");
+    }
+
+    public LabelRef getCatchLabelRef() {
+        return (LabelRef) get(ATTRIBUTES).get("label");
     }
 
 }

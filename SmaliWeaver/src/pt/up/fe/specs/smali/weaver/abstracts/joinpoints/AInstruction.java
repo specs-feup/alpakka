@@ -1,7 +1,9 @@
 package pt.up.fe.specs.smali.weaver.abstracts.joinpoints;
 
-import org.lara.interpreter.weaver.interf.JoinPoint;
+import org.lara.interpreter.weaver.interf.events.Stage;
 import java.util.Optional;
+import org.lara.interpreter.exception.AttributeException;
+import org.lara.interpreter.weaver.interf.JoinPoint;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Arrays;
@@ -23,6 +25,31 @@ public abstract class AInstruction extends AStatement {
     public AInstruction(AStatement aStatement){
         this.aStatement = aStatement;
     }
+    /**
+     * Get value on attribute canThrow
+     * @return the attribute's value
+     */
+    public abstract Boolean getCanThrowImpl();
+
+    /**
+     * Get value on attribute canThrow
+     * @return the attribute's value
+     */
+    public final Object getCanThrow() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "canThrow", Optional.empty());
+        	}
+        	Boolean result = this.getCanThrowImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "canThrow", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "canThrow", e);
+        }
+    }
+
     /**
      * Get value on attribute nextStatement
      * @return the attribute's value
@@ -283,6 +310,7 @@ public abstract class AInstruction extends AStatement {
     @Override
     protected void fillWithAttributes(List<String> attributes) {
         this.aStatement.fillWithAttributes(attributes);
+        attributes.add("canThrow");
     }
 
     /**
@@ -326,6 +354,7 @@ public abstract class AInstruction extends AStatement {
      * 
      */
     protected enum InstructionAttributes {
+        CANTHROW("canThrow"),
         NEXTSTATEMENT("nextStatement"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),

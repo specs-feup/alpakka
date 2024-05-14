@@ -643,6 +643,38 @@
 						"type": "attribute",
 						"children": [
 									{
+										"type": "labelReference",
+										"name": "catch"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "typeDescriptor",
+										"name": "exception"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "labelReference",
+										"name": "tryEnd"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "labelReference",
+										"name": "tryStart"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
 										"type": "statement",
 										"name": "nextStatement"
 									}]
@@ -2571,6 +2603,14 @@
 						"type": "attribute",
 						"children": [
 									{
+										"type": "boolean",
+										"name": "canThrow"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
 										"type": "statement",
 										"name": "nextStatement"
 									}]
@@ -2897,6 +2937,14 @@
 									{
 										"type": "labelReference",
 										"name": "label"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "boolean",
+										"name": "canThrow"
 									}]
 					},
 					{
@@ -3235,6 +3283,14 @@
 						"type": "attribute",
 						"children": [
 									{
+										"type": "boolean",
+										"name": "canThrow"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
 										"type": "statement",
 										"name": "nextStatement"
 									}]
@@ -3555,6 +3611,14 @@
 			"extends": "statement"		,
 			"tooltip": "Instruction",
 			"children": [
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "boolean",
+										"name": "canThrow"
+									}]
+					},
 					{
 						"type": "attribute",
 						"children": [
@@ -5819,6 +5883,14 @@
 						"type": "attribute",
 						"children": [
 									{
+										"type": "boolean",
+										"name": "canThrow"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
 										"type": "statement",
 										"name": "nextStatement"
 									}]
@@ -7731,6 +7803,14 @@
 						"type": "attribute",
 						"children": [
 									{
+										"type": "boolean",
+										"name": "canThrow"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
 										"type": "statement",
 										"name": "nextStatement"
 									}]
@@ -8051,6 +8131,14 @@
 			"extends": "instruction"		,
 			"tooltip": "Sparse switch directive",
 			"children": [
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "boolean",
+										"name": "canThrow"
+									}]
+					},
 					{
 						"type": "attribute",
 						"children": [
@@ -9027,6 +9115,14 @@
 						"type": "attribute",
 						"children": [
 									{
+										"type": "boolean",
+										"name": "canThrow"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
 										"type": "statement",
 										"name": "nextStatement"
 									}]
@@ -9347,6 +9443,14 @@
 			"extends": "instruction"		,
 			"tooltip": "Smali instruction format 11x",
 			"children": [
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "boolean",
+										"name": "canThrow"
+									}]
+					},
 					{
 						"type": "attribute",
 						"children": [

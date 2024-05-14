@@ -1,7 +1,9 @@
 package pt.up.fe.specs.smali.weaver.abstracts.joinpoints;
 
-import org.lara.interpreter.weaver.interf.JoinPoint;
+import org.lara.interpreter.weaver.interf.events.Stage;
 import java.util.Optional;
+import org.lara.interpreter.exception.AttributeException;
+import org.lara.interpreter.weaver.interf.JoinPoint;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Arrays;
@@ -23,6 +25,134 @@ public abstract class ACatch extends AStatement {
     public ACatch(AStatement aStatement){
         this.aStatement = aStatement;
     }
+    /**
+     * Get value on attribute exception
+     * @return the attribute's value
+     */
+    public abstract ATypeDescriptor getExceptionImpl();
+
+    /**
+     * Get value on attribute exception
+     * @return the attribute's value
+     */
+    public final Object getException() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "exception", Optional.empty());
+        	}
+        	ATypeDescriptor result = this.getExceptionImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "exception", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "exception", e);
+        }
+    }
+
+    /**
+     * 
+     */
+    public void defExceptionImpl(ATypeDescriptor value) {
+        throw new UnsupportedOperationException("Join point "+get_class()+": Action def exception with type ATypeDescriptor not implemented ");
+    }
+
+    /**
+     * Get value on attribute tryStart
+     * @return the attribute's value
+     */
+    public abstract ALabelReference getTryStartImpl();
+
+    /**
+     * Get value on attribute tryStart
+     * @return the attribute's value
+     */
+    public final Object getTryStart() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "tryStart", Optional.empty());
+        	}
+        	ALabelReference result = this.getTryStartImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "tryStart", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "tryStart", e);
+        }
+    }
+
+    /**
+     * 
+     */
+    public void defTryStartImpl(ALabelReference value) {
+        throw new UnsupportedOperationException("Join point "+get_class()+": Action def tryStart with type ALabelReference not implemented ");
+    }
+
+    /**
+     * Get value on attribute tryEnd
+     * @return the attribute's value
+     */
+    public abstract ALabelReference getTryEndImpl();
+
+    /**
+     * Get value on attribute tryEnd
+     * @return the attribute's value
+     */
+    public final Object getTryEnd() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "tryEnd", Optional.empty());
+        	}
+        	ALabelReference result = this.getTryEndImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "tryEnd", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "tryEnd", e);
+        }
+    }
+
+    /**
+     * 
+     */
+    public void defTryEndImpl(ALabelReference value) {
+        throw new UnsupportedOperationException("Join point "+get_class()+": Action def tryEnd with type ALabelReference not implemented ");
+    }
+
+    /**
+     * Get value on attribute _catch
+     * @return the attribute's value
+     */
+    public abstract ALabelReference getCatchImpl();
+
+    /**
+     * Get value on attribute _catch
+     * @return the attribute's value
+     */
+    public final Object getCatch() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "catch", Optional.empty());
+        	}
+        	ALabelReference result = this.getCatchImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "catch", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "catch", e);
+        }
+    }
+
+    /**
+     * 
+     */
+    public void defCatchImpl(ALabelReference value) {
+        throw new UnsupportedOperationException("Join point "+get_class()+": Action def catch with type ALabelReference not implemented ");
+    }
+
     /**
      * Get value on attribute nextStatement
      * @return the attribute's value
@@ -266,6 +396,34 @@ public abstract class ACatch extends AStatement {
     @Override
     public final void defImpl(String attribute, Object value) {
         switch(attribute){
+        case "exception": {
+        	if(value instanceof ATypeDescriptor){
+        		this.defExceptionImpl((ATypeDescriptor)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
+        case "tryStart": {
+        	if(value instanceof ALabelReference){
+        		this.defTryStartImpl((ALabelReference)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
+        case "tryEnd": {
+        	if(value instanceof ALabelReference){
+        		this.defTryEndImpl((ALabelReference)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
+        case "catch": {
+        	if(value instanceof ALabelReference){
+        		this.defCatchImpl((ALabelReference)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
         case "nextStatement": {
         	if(value instanceof AStatement){
         		this.defNextStatementImpl((AStatement)value);
@@ -283,6 +441,10 @@ public abstract class ACatch extends AStatement {
     @Override
     protected final void fillWithAttributes(List<String> attributes) {
         this.aStatement.fillWithAttributes(attributes);
+        attributes.add("exception");
+        attributes.add("tryStart");
+        attributes.add("tryEnd");
+        attributes.add("catch");
     }
 
     /**
@@ -326,6 +488,10 @@ public abstract class ACatch extends AStatement {
      * 
      */
     protected enum CatchAttributes {
+        EXCEPTION("exception"),
+        TRYSTART("tryStart"),
+        TRYEND("tryEnd"),
+        CATCH("catch"),
         NEXTSTATEMENT("nextStatement"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),

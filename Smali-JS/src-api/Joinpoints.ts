@@ -381,7 +381,20 @@ export class ArrayType extends TypeDescriptor {}
 /**
  * Catch directive
  */
-export class Catch extends Statement {}
+export class Catch extends Statement {
+  get catch(): LabelReference {
+    return wrapJoinPoint(this._javaObject.getCatch());
+  }
+  get exception(): TypeDescriptor {
+    return wrapJoinPoint(this._javaObject.getException());
+  }
+  get tryEnd(): LabelReference {
+    return wrapJoinPoint(this._javaObject.getTryEnd());
+  }
+  get tryStart(): LabelReference {
+    return wrapJoinPoint(this._javaObject.getTryStart());
+  }
+}
 
 /**
  * Class descriptor
@@ -398,7 +411,11 @@ export class ClassType extends TypeDescriptor {
 /**
  * Instruction
  */
-export class Instruction extends Statement {}
+export class Instruction extends Statement {
+  get canThrow(): boolean {
+    return wrapJoinPoint(this._javaObject.getCanThrow());
+  }
+}
 
 /**
  * Label declaration

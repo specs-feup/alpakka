@@ -2,6 +2,8 @@ package pt.up.fe.specs.smali.ast.stmt.instruction;
 
 import java.util.Collection;
 
+import com.android.tools.smali.dexlib2.Opcode;
+import com.android.tools.smali.dexlib2.Opcodes;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
@@ -32,6 +34,16 @@ public abstract class Instruction extends Statement {
         }
 
         return sb.toString();
+    }
+
+    public boolean canThrow() {
+        var instruction = get(ATTRIBUTES).get("instruction");
+
+        // TODO: Specify the sdk version
+        var opcodes = Opcodes.getDefault();
+        var opcode = opcodes.getOpcodeByName(instruction.toString());
+
+        return opcode != null && opcode.canThrow();
     }
 
 }

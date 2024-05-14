@@ -25,6 +25,15 @@ public abstract class AReturnStatement extends AInstruction {
         this.aInstruction = aInstruction;
     }
     /**
+     * Get value on attribute canThrow
+     * @return the attribute's value
+     */
+    @Override
+    public Boolean getCanThrowImpl() {
+        return this.aInstruction.getCanThrowImpl();
+    }
+
+    /**
      * Get value on attribute nextStatement
      * @return the attribute's value
      */
@@ -327,6 +336,7 @@ public abstract class AReturnStatement extends AInstruction {
      * 
      */
     protected enum ReturnStatementAttributes {
+        CANTHROW("canThrow"),
         NEXTSTATEMENT("nextStatement"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),

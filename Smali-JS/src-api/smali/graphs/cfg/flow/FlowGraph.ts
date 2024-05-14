@@ -5,6 +5,7 @@ import Graph, { GraphBuilder, GraphTypeGuard } from "../graph/Graph.js";
 import {
   IfComparison,
   IfComparisonWithZero,
+  Instruction,
   LabelReference,
   MethodNode,
   Program,
@@ -13,7 +14,9 @@ import InstructionNode from "./node/instruction/InstructionNode.js";
 import FunctionEntryNode from "./node/instruction/FunctionEntryNode.js";
 import FunctionExitNode from "./node/instruction/FunctionExitNode.js";
 import ControlFlowEdge from "./edge/ControlFlowEdge.js";
-import ConditionNode from "./node/condition/ConditionNode.js";
+import IfComparisonNode from "./node/condition/IfComparisonNode.js";
+import TryCatchNode from "./node/condition/TryCatchNode.js";
+import CaseNode from "./node/condition/CaseNode.js";
 
 namespace FlowGraph {
   export class Class<
@@ -52,10 +55,10 @@ namespace FlowGraph {
     }
 
     addCondition(
-      $jp: IfComparison | IfComparisonWithZero | LabelReference,
+      $jp: IfComparison | IfComparisonWithZero,
       iftrue: FlowNode.Class,
       iffalse: FlowNode.Class,
-    ): ConditionNode.Class {
+    ): IfComparisonNode.Class {
       const ifnode = this.addNode();
       const iftrueEdge = this.addEdge(ifnode, iftrue).init(
         new ControlFlowEdge.Builder(),
@@ -64,8 +67,42 @@ namespace FlowGraph {
         new ControlFlowEdge.Builder(),
       );
       return ifnode
-        .init(new ConditionNode.Builder(iftrueEdge, iffalseEdge, $jp))
-        .as(ConditionNode.Class);
+        .init(new IfComparisonNode.Builder(iftrueEdge, iffalseEdge, $jp))
+        .as(IfComparisonNode.Class);
+    }
+
+    addSwitchCase(
+      $jp: LabelReference,
+      iftrue: FlowNode.Class,
+      iffalse: FlowNode.Class,
+    ): CaseNode.Class {
+      const caseNode = this.addNode();
+      const iftrueEdge = this.addEdge(caseNode, iftrue).init(
+        new ControlFlowEdge.Builder(),
+      );
+      const iffalseEdge = this.addEdge(caseNode, iffalse).init(
+        new ControlFlowEdge.Builder(),
+      );
+      return caseNode
+        .init(new CaseNode.Builder(iftrueEdge, iffalseEdge, $jp))
+        .as(CaseNode.Class);
+    }
+
+    addTryCatch(
+      $jp: Instruction,
+      iftrue: FlowNode.Class,
+      iffalse: FlowNode.Class,
+    ): TryCatchNode.Class {
+      const tryNode = this.addNode();
+      const iftrueEdge = this.addEdge(tryNode, iftrue).init(
+        new ControlFlowEdge.Builder(),
+      );
+      const iffalseEdge = this.addEdge(tryNode, iffalse).init(
+        new ControlFlowEdge.Builder(),
+      );
+      return tryNode
+        .init(new TryCatchNode.Builder(iftrueEdge, iffalseEdge, $jp))
+        .as(TryCatchNode.Class);
     }
 
     // getFunction(name: string): FunctionEntryNode.Class | undefined {

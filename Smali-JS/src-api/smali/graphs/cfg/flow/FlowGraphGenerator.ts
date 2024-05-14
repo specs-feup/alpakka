@@ -15,6 +15,8 @@ import {
   SparseSwitch,
   SparseSwitchElement,
   ThrowStatement,
+  Catch,
+  Instruction,
 } from "../../../../Joinpoints.js";
 import Query from "lara-js/api/weaver/Query.js";
 import UnknownInstructionNode from "./node/instruction/UnknownInstructionNode.js";
@@ -27,9 +29,10 @@ import FunctionExitNode from "./node/instruction/FunctionExitNode.js";
 import ReturnNode from "./node/instruction/ReturnNode.js";
 import LabelNode from "./node/instruction/LabelNode.js";
 import GotoNode from "./node/instruction/GotoNode.js";
-import ConditionNode from "./node/condition/ConditionNode.js";
 import SwitchNode from "./node/instruction/SwitchNode.js";
 import ThrowNode from "./node/instruction/ThrowNode.js";
+import IfComparisonNode from "./node/condition/IfComparisonNode.js";
+import CaseNode from "./node/condition/CaseNode.js";
 
 export default class FlowGraphGenerator {
   #$jp: Joinpoint;
@@ -79,6 +82,8 @@ export default class FlowGraphGenerator {
       return this.#processIf($jp, context);
     } else if ($jp instanceof Goto) {
       return this.#processGoto($jp, context);
+    } else if ($jp instanceof Catch) {
+      return this.#processCatchDirective($jp, context);
     } else if ($jp instanceof ReturnStatement) {
       return this.#addReturnStmt(new ReturnNode.Builder($jp));
     } else if ($jp instanceof ThrowStatement) {
@@ -97,7 +102,10 @@ export default class FlowGraphGenerator {
   ): [FunctionEntryNode.Class, FunctionExitNode.Class?] {
     const context = {
       labels: new Map(),
-      preprocessedStatementStack: [],
+      preprocessedStatementStack: new Array<
+        [FlowNode.Class, InstructionNode.Class?]
+      >(),
+      tryCatchDirectives: new Array<Catch>(),
     };
 
     const body = $jp.children.map((child) => {
@@ -114,10 +122,7 @@ export default class FlowGraphGenerator {
       const [head, tail] = body[i];
       const [nextHead] = body[i + 1];
 
-      if (
-        tail.length === 0 &&
-        (head instanceof ReturnNode.Class || head instanceof ThrowNode.Class)
-      ) {
+      if (head instanceof ReturnNode.Class || head instanceof ThrowNode.Class) {
         functionTail.push(head);
       }
 
@@ -135,6 +140,68 @@ export default class FlowGraphGenerator {
       functionTail.push(lastHead);
     }
 
+    for (const directive of context.tryCatchDirectives) {
+      const tryStartLabel = context.labels.get(
+        directive.tryStart.name,
+      ) as LabelNode.Class;
+      if (tryStartLabel === undefined) {
+        throw new Error("Could not find try start label node");
+      }
+
+      const tryEndLabel = context.labels.get(
+        directive.tryEnd.name,
+      ) as LabelNode.Class;
+      if (tryEndLabel === undefined) {
+        throw new Error("Could not find try end label node");
+      }
+
+      const catchLabel = context.labels.get(
+        directive.catch.name,
+      ) as LabelNode.Class;
+
+      const tryEndIndex = body.findIndex(([head]) => head === tryEndLabel);
+      const tryStartIndex = body.findIndex(([head]) => head === tryStartLabel);
+
+      for (let i = tryEndIndex - 1; i > tryStartIndex; i--) {
+        const [head, tail] = body[i];
+
+        // TODO: Check if exception being thrown is caught by this catch directive
+
+        if (head instanceof ThrowNode.Class) {
+          if (functionTail.includes(head)) {
+            functionTail.splice(functionTail.indexOf(head), 1);
+          }
+
+          this.#connectArbitraryJump(head, catchLabel);
+        } else if (head.jp instanceof Instruction && head.jp.canThrow) {
+          if (tail.length === 0) {
+            continue;
+          }
+          const nextNode = tail[0].nextNode;
+          if (nextNode === undefined) {
+            continue;
+          }
+          body[i] = [
+            this.#graph.addTryCatch(head.jp, nextNode, catchLabel),
+            [],
+          ];
+
+          const [prevHead, previousTail] = body[i - 1];
+          for (const previousTailNode of previousTail) {
+            previousTailNode.nextNode = body[i][0];
+          }
+
+          if (prevHead instanceof IfComparisonNode.Class) {
+            // The true node in an if condition will always be a label
+            prevHead.falseNode = body[i][0];
+          }
+
+          head.removeFromFlow();
+          head.remove();
+        }
+      }
+    }
+
     const bodyHead = body[0][0];
 
     return this.#graph.addFunction($jp, bodyHead, functionTail);
@@ -143,7 +210,7 @@ export default class FlowGraphGenerator {
   #processIf(
     $jp: IfComparison | IfComparisonWithZero,
     context: ProcessJpContext,
-  ): [ConditionNode.Class, InstructionNode.Class?] {
+  ): [IfComparisonNode.Class, InstructionNode.Class?] {
     const $iftrue = $jp.label.decl;
     const $iffalse = $jp.nextStatement;
 
@@ -186,7 +253,7 @@ export default class FlowGraphGenerator {
       .as(SwitchNode.Class);
 
     const $children = $switchDecl.children;
-    let previousCase: ConditionNode.Class | undefined = undefined;
+    let previousCase: CaseNode.Class | undefined = undefined;
 
     const childrenRefs: LabelReference[] = [];
 
@@ -231,7 +298,7 @@ export default class FlowGraphGenerator {
       const label = context.labels.get(child.name);
 
       if (label !== undefined) {
-        const currentCase = this.#graph.addCondition(
+        const currentCase = this.#graph.addSwitchCase(
           child as LabelReference,
           label,
           label, // False node doesn't matter for now, since it will change
@@ -298,6 +365,12 @@ export default class FlowGraphGenerator {
     return [node];
   }
 
+  #processCatchDirective($jp: Catch, context: ProcessJpContext) {
+    context.tryCatchDirectives.push($jp);
+
+    return this.#addInstruction(new StatementNode.Builder($jp));
+  }
+
   #createTemporaryNode($jp?: Joinpoint): UnknownInstructionNode.Class {
     const node = this.#graph
       .addNode()
@@ -336,4 +409,5 @@ export default class FlowGraphGenerator {
 interface ProcessJpContext {
   labels: Map<string, LabelNode.Class>;
   preprocessedStatementStack: Array<[FlowNode.Class, InstructionNode.Class?]>;
+  tryCatchDirectives: Catch[];
 }

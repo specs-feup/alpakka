@@ -4,7 +4,9 @@ import Graph from "../graph/Graph.js";
 import FunctionEntryNode from "./node/instruction/FunctionEntryNode.js";
 import FunctionExitNode from "./node/instruction/FunctionExitNode.js";
 import ControlFlowEdge from "./edge/ControlFlowEdge.js";
-import ConditionNode from "./node/condition/ConditionNode.js";
+import IfComparisonNode from "./node/condition/IfComparisonNode.js";
+import TryCatchNode from "./node/condition/TryCatchNode.js";
+import CaseNode from "./node/condition/CaseNode.js";
 var FlowGraph;
 (function (FlowGraph) {
     class Class extends BaseGraph.Class {
@@ -33,8 +35,24 @@ var FlowGraph;
             const iftrueEdge = this.addEdge(ifnode, iftrue).init(new ControlFlowEdge.Builder());
             const iffalseEdge = this.addEdge(ifnode, iffalse).init(new ControlFlowEdge.Builder());
             return ifnode
-                .init(new ConditionNode.Builder(iftrueEdge, iffalseEdge, $jp))
-                .as(ConditionNode.Class);
+                .init(new IfComparisonNode.Builder(iftrueEdge, iffalseEdge, $jp))
+                .as(IfComparisonNode.Class);
+        }
+        addSwitchCase($jp, iftrue, iffalse) {
+            const caseNode = this.addNode();
+            const iftrueEdge = this.addEdge(caseNode, iftrue).init(new ControlFlowEdge.Builder());
+            const iffalseEdge = this.addEdge(caseNode, iffalse).init(new ControlFlowEdge.Builder());
+            return caseNode
+                .init(new CaseNode.Builder(iftrueEdge, iffalseEdge, $jp))
+                .as(CaseNode.Class);
+        }
+        addTryCatch($jp, iftrue, iffalse) {
+            const tryNode = this.addNode();
+            const iftrueEdge = this.addEdge(tryNode, iftrue).init(new ControlFlowEdge.Builder());
+            const iffalseEdge = this.addEdge(tryNode, iffalse).init(new ControlFlowEdge.Builder());
+            return tryNode
+                .init(new TryCatchNode.Builder(iftrueEdge, iffalseEdge, $jp))
+                .as(TryCatchNode.Class);
         }
     }
     FlowGraph.Class = Class;

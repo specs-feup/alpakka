@@ -110,10 +110,25 @@
         <attribute name="name" type="String"/>
     </artifact>
 
-    <artifact class="catch"/>
+    <artifact class="catch">
+        <attribute name="exception" type="typeDescriptor">
+            <def/>
+        </attribute>
+        <attribute name="tryStart" type="labelReference">
+            <def/>
+        </attribute>
+        <attribute name="tryEnd" type="labelReference">
+            <def/>
+        </attribute>
+        <attribute name="catch" type="labelReference">
+            <def/>
+        </attribute>
+    </artifact>
 
     <!-- INSTRUCTIONS -->
-    <artifact class="instruction"/>
+    <artifact class="instruction">
+        <attribute name="canThrow" type="boolean"/>
+    </artifact>
 
     <artifact class="goto">
         <attribute name="label" type="labelReference">

@@ -27,29 +27,29 @@ var ConditionNode;
         set falseNode(node) {
             this.falseEdge.target = node;
         }
-        get jp() {
-            return this.scratchData.$jp;
-        }
     }
     ConditionNode.Class = Class;
     class Builder extends FlowNode.Builder {
         #truePath;
         #falsePath;
-        constructor(truePath, falsePath, $jp) {
+        #conditionFlowNodeType;
+        constructor(type, truePath, falsePath, $jp) {
             super(FlowNode.Type.CONDITION, $jp);
             this.#truePath = truePath;
             this.#falsePath = falsePath;
+            this.#conditionFlowNodeType = type;
         }
         buildData(data) {
             return {
                 ...super.buildData(data),
                 trueEdgeId: this.#truePath.id,
                 falseEdgeId: this.#falsePath.id,
+                conditionFlowNodeType: this.#conditionFlowNodeType,
             };
         }
         buildScratchData(scratchData) {
             return {
-                ...super.buildScratchData(scratchData),
+                ...(super.buildScratchData(scratchData)),
             };
         }
     }
@@ -65,6 +65,8 @@ var ConditionNode;
                 return false;
             if (typeof d.falseEdgeId !== "string")
                 return false;
+            if (!Object.values(Type).includes(d.conditionFlowNodeType))
+                return false;
             return true;
         },
         isScratchDataCompatible(scratchData) {
@@ -73,6 +75,13 @@ var ConditionNode;
             return true;
         },
     };
+    // ------------------------------------------------------------
+    let Type;
+    (function (Type) {
+        Type["IF_COMPARISON"] = "if_comparison";
+        Type["SWITCH_CASE"] = "switch_case";
+        Type["TRY_CATCH"] = "try_catch";
+    })(Type = ConditionNode.Type || (ConditionNode.Type = {}));
 })(ConditionNode || (ConditionNode = {}));
 export default ConditionNode;
 //# sourceMappingURL=ConditionNode.js.map

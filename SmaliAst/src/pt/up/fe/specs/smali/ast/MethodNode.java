@@ -63,13 +63,17 @@ public class MethodNode extends SmaliNode {
             sb.append(indentCode(registersDirective.getCode())).append("\n");
         }
 
-        for (var child : getChildren()) {
+        var childrenExceptCatch = getChildren().stream()
+                .filter(c -> !(c instanceof CatchDirective))
+                .toList();
+
+        for (var child : childrenExceptCatch) {
             sb.append("\n").append(indentCode(child.getCode()));
             if (child instanceof Label label) {
                 var catchDirectives = getChildren().stream()
                         .filter(c -> c instanceof CatchDirective)
                         .map(c -> (CatchDirective) c)
-                        .filter(c -> c.getEndLabelRef().getName().equals(label.getLabel()))
+                        .filter(c -> c.getTryEndLabelRef().getName().equals(label.getLabel()))
                         .toList();
 
                 for (var catchDir : catchDirectives) {

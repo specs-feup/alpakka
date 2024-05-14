@@ -59,6 +59,15 @@ public abstract class AIfComparisonWithZero extends AInstruction {
     }
 
     /**
+     * Get value on attribute canThrow
+     * @return the attribute's value
+     */
+    @Override
+    public Boolean getCanThrowImpl() {
+        return this.aInstruction.getCanThrowImpl();
+    }
+
+    /**
      * Get value on attribute nextStatement
      * @return the attribute's value
      */
@@ -370,6 +379,7 @@ public abstract class AIfComparisonWithZero extends AInstruction {
      */
     protected enum IfComparisonWithZeroAttributes {
         LABEL("label"),
+        CANTHROW("canThrow"),
         NEXTSTATEMENT("nextStatement"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),

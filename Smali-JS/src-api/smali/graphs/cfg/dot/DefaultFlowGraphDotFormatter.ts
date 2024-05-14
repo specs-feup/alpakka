@@ -13,16 +13,27 @@ import LabelNode from "../flow/node/instruction/LabelNode.js";
 import GotoNode from "../flow/node/instruction/GotoNode.js";
 import SwitchNode from "../flow/node/instruction/SwitchNode.js";
 import ThrowNode from "../flow/node/instruction/ThrowNode.js";
+import CaseNode from "../flow/node/condition/CaseNode.js";
+import IfComparisonNode from "../flow/node/condition/IfComparisonNode.js";
+import TryCatchNode from "../flow/node/condition/TryCatchNode.js";
 
 export default class DefaultFlowGraphDotFormatter extends DotFormatter {
   override formatNode(node: BaseNode.Class): DotFormatter.Node {
     let label;
     let shape = "box";
 
-    if (node.is(ConditionNode.TypeGuard)) {
-      const conditionNode = node.as(ConditionNode.Class);
+    if (node.is(CaseNode.TypeGuard)) {
+      const caseNode = node.as(CaseNode.Class);
       shape = "diamond";
-      label = `Condition:\n${conditionNode.jp.code}`;
+      label = `Case: \n${caseNode.jp.code}`;
+    } else if (node.is(IfComparisonNode.TypeGuard)) {
+      const ifNode = node.as(IfComparisonNode.Class);
+      shape = "diamond";
+      label = `Condition: \n${ifNode.jp.code}`;
+    } else if (node.is(TryCatchNode.TypeGuard)) {
+      const tryNode = node.as(TryCatchNode.Class);
+      shape = "diamond";
+      label = `Try: \n${tryNode.jp.code}`;
     } else if (node.is(FunctionEntryNode.TypeGuard)) {
       const functionEntryNode = node.as(FunctionEntryNode.Class);
       label = `Function Entry \n(${functionEntryNode.jp.name})`;

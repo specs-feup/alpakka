@@ -3,11 +3,7 @@ import FlowNode from "../../../flow/node/FlowNode.js";
 import BaseEdge from "../../../graph/BaseEdge.js";
 import BaseNode from "../../../graph/BaseNode.js";
 import { NodeBuilder, NodeTypeGuard } from "../../../graph/Node.js";
-import {
-  IfComparison,
-  IfComparisonWithZero,
-  LabelReference,
-} from "../../../../../../Joinpoints.js";
+import { Joinpoint } from "../../../../../../Joinpoints.js";
 
 namespace ConditionNode {
   export class Class<
@@ -54,9 +50,9 @@ namespace ConditionNode {
       this.falseEdge.target = node;
     }
 
-    override get jp(): IfComparison | IfComparisonWithZero | LabelReference {
-      return this.scratchData.$jp;
-    }
+    // override get jp(): IfComparison | IfComparisonWithZero | LabelReference {
+    //   return this.scratchData.$jp;
+    // }
   }
 
   export class Builder
@@ -65,15 +61,18 @@ namespace ConditionNode {
   {
     #truePath: ControlFlowEdge.Class;
     #falsePath: ControlFlowEdge.Class;
+    #conditionFlowNodeType: Type;
 
     constructor(
+      type: Type,
       truePath: ControlFlowEdge.Class,
       falsePath: ControlFlowEdge.Class,
-      $jp?: IfComparison | IfComparisonWithZero | LabelReference,
+      $jp?: Joinpoint,
     ) {
       super(FlowNode.Type.CONDITION, $jp);
       this.#truePath = truePath;
       this.#falsePath = falsePath;
+      this.#conditionFlowNodeType = type;
     }
 
     buildData(data: BaseNode.Data): Data {
@@ -83,14 +82,13 @@ namespace ConditionNode {
         }),
         trueEdgeId: this.#truePath.id,
         falseEdgeId: this.#falsePath.id,
+        conditionFlowNodeType: this.#conditionFlowNodeType,
       };
     }
 
     buildScratchData(scratchData: BaseNode.ScratchData): ScratchData {
       return {
-        ...(super.buildScratchData(scratchData) as FlowNode.ScratchData & {
-          $jp: IfComparison | IfComparisonWithZero | LabelReference;
-        }),
+        ...super.buildScratchData(scratchData),
       };
     }
   }
@@ -102,6 +100,8 @@ namespace ConditionNode {
       if (d.flowNodeType !== FlowNode.Type.CONDITION) return false;
       if (typeof d.trueEdgeId !== "string") return false;
       if (typeof d.falseEdgeId !== "string") return false;
+      if (!Object.values(Type).includes(d.conditionFlowNodeType as Type))
+        return false;
       return true;
     },
 
@@ -118,10 +118,17 @@ namespace ConditionNode {
     trueEdgeId: string;
     falseEdgeId: string;
     flowNodeType: FlowNode.Type.CONDITION;
+    conditionFlowNodeType: Type;
   }
 
-  export interface ScratchData extends FlowNode.ScratchData {
-    $jp: IfComparison | IfComparisonWithZero | LabelReference;
+  export interface ScratchData extends FlowNode.ScratchData {}
+
+  // ------------------------------------------------------------
+
+  export enum Type {
+    IF_COMPARISON = "if_comparison",
+    SWITCH_CASE = "switch_case",
+    TRY_CATCH = "try_catch",
   }
 }
 

@@ -21,6 +21,7 @@ repositories {
 dependencies {
     implementation "org.apktool:apktool-lib:2.9.3"
     implementation "org.yaml:snakeyaml:2.2"
+    implementation "com.android.tools.smali:smali-dexlib2:3.0.5"
 
     implementation ":SpecsUtils"
     implementation ":jOptions"

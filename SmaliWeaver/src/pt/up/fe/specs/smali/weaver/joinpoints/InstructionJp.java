@@ -16,4 +16,9 @@ public class InstructionJp extends AInstruction {
     public SmaliNode getNode() {
         return this.instruction;
     }
+
+    @Override
+    public Boolean getCanThrowImpl() {
+        return this.instruction.canThrow();
+    }
 }
