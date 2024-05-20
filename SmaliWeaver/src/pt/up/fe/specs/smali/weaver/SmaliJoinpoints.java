@@ -37,6 +37,7 @@ public class SmaliJoinpoints {
     static {
         JOINPOINT_FACTORY = new FunctionClassMap<>();
         JOINPOINT_FACTORY.put(App.class, ProgramJp::new);
+        JOINPOINT_FACTORY.put(Manifest.class, ManifestJp::new);
         JOINPOINT_FACTORY.put(ClassNode.class, ClassNodeJp::new);
         JOINPOINT_FACTORY.put(FieldNode.class, FieldNodeJp::new);
         JOINPOINT_FACTORY.put(MethodNode.class, MethodNodeJp::new);

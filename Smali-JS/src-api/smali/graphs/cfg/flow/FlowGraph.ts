@@ -25,7 +25,7 @@ namespace FlowGraph {
   > extends BaseGraph.Class<D, S> {
     addFunction(
       $jp: MethodNode,
-      bodyHead: FlowNode.Class,
+      bodyHead: FlowNode.Class | undefined,
       bodyTail: InstructionNode.Class[],
       // params: VarDeclarationNode.Class[] = [],
     ): [FunctionEntryNode.Class, FunctionExitNode.Class?] {
@@ -43,7 +43,9 @@ namespace FlowGraph {
       //     function_exit.insertBefore(param);
       // }
 
-      function_exit.insertSubgraphBefore(bodyHead, bodyTail);
+      if (bodyHead !== undefined) {
+        function_exit.insertSubgraphBefore(bodyHead, bodyTail);
+      }
 
       if (bodyTail.length === 0) {
         function_exit.removeFromFlow();
@@ -105,27 +107,27 @@ namespace FlowGraph {
         .as(TryCatchNode.Class);
     }
 
-    // getFunction(name: string): FunctionEntryNode.Class | undefined {
-    //     const id = this.data.functions.get(name);
-    //     if (id === undefined) return undefined;
-    //     const node = this.getNodeById(id);
-    //     if (node === undefined || !node.is(FunctionEntryNode.TypeGuard)) {
-    //         return undefined;
-    //     }
-    //     return node.as(FunctionEntryNode.Class);
-    // }
+    getFunction(name: string): FunctionEntryNode.Class | undefined {
+      const id = this.data.functions.get(name);
+      if (id === undefined) return undefined;
+      const node = this.getNodeById(id);
+      if (node === undefined || !node.is(FunctionEntryNode.TypeGuard)) {
+        return undefined;
+      }
+      return node.as(FunctionEntryNode.Class);
+    }
 
-    // get functions(): FunctionEntryNode.Class[] {
-    //     const nodes: FunctionEntryNode.Class[] = [];
-    //     for (const id of this.data.functions.values()) {
-    //         const node = this.getNodeById(id);
-    //         if (node === undefined || !node.is(FunctionEntryNode.TypeGuard)) {
-    //             continue;
-    //         }
-    //         nodes.push(node.as(FunctionEntryNode.Class));
-    //     }
-    //     return nodes;
-    // }
+    get functions(): FunctionEntryNode.Class[] {
+      const nodes: FunctionEntryNode.Class[] = [];
+      for (const id of this.data.functions.values()) {
+        const node = this.getNodeById(id);
+        if (node === undefined || !node.is(FunctionEntryNode.TypeGuard)) {
+          continue;
+        }
+        nodes.push(node.as(FunctionEntryNode.Class));
+      }
+      return nodes;
+    }
 
     // /**
     //  * Returns the graph node where the given statement belongs.

@@ -78,6 +78,9 @@ export default class FlowGraphGenerator {
             return [head, tail ? [tail] : []];
         });
         const functionTail = [];
+        if (body.length === 0) {
+            return this.#graph.addFunction($jp, undefined, functionTail);
+        }
         for (let i = 0; i < body.length - 1; i++) {
             const [head, tail] = body[i];
             const [nextHead] = body[i + 1];

@@ -10,6 +10,9 @@
     <!-- PROGRAM -->
     <joinpoint class="program" tooltip="App node"/>
 
+    <!-- MANIFEST -->
+    <joinpoint class="manifest" tooltip="The application's manifest"/>
+
     <!-- CLASS_DEF -->
     <joinpoint class="classNode" tooltip="Class definition"/>
 

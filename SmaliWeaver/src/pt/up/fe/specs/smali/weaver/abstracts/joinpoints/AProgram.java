@@ -1,9 +1,11 @@
 package pt.up.fe.specs.smali.weaver.abstracts.joinpoints;
 
+import org.lara.interpreter.weaver.interf.events.Stage;
+import java.util.Optional;
+import org.lara.interpreter.exception.AttributeException;
 import pt.up.fe.specs.smali.weaver.abstracts.ASmaliWeaverJoinPoint;
 import java.util.List;
 import org.lara.interpreter.weaver.interf.JoinPoint;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.Arrays;
 
@@ -15,6 +17,38 @@ import java.util.Arrays;
  * @author Lara Weaver Generator
  */
 public abstract class AProgram extends ASmaliWeaverJoinPoint {
+
+    /**
+     * Get value on attribute manifest
+     * @return the attribute's value
+     */
+    public abstract AManifest getManifestImpl();
+
+    /**
+     * Get value on attribute manifest
+     * @return the attribute's value
+     */
+    public final Object getManifest() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "manifest", Optional.empty());
+        	}
+        	AManifest result = this.getManifestImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "manifest", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "manifest", e);
+        }
+    }
+
+    /**
+     * 
+     */
+    public void defManifestImpl(AManifest value) {
+        throw new UnsupportedOperationException("Join point "+get_class()+": Action def manifest with type AManifest not implemented ");
+    }
 
     /**
      * 
@@ -36,6 +70,13 @@ public abstract class AProgram extends ASmaliWeaverJoinPoint {
     @Override
     public final void defImpl(String attribute, Object value) {
         switch(attribute){
+        case "manifest": {
+        	if(value instanceof AManifest){
+        		this.defManifestImpl((AManifest)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
         default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
         }
     }
@@ -46,6 +87,7 @@ public abstract class AProgram extends ASmaliWeaverJoinPoint {
     @Override
     protected final void fillWithAttributes(List<String> attributes) {
         super.fillWithAttributes(attributes);
+        attributes.add("manifest");
     }
 
     /**
@@ -76,6 +118,7 @@ public abstract class AProgram extends ASmaliWeaverJoinPoint {
      * 
      */
     protected enum ProgramAttributes {
+        MANIFEST("manifest"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),

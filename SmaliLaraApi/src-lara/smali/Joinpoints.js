@@ -180,6 +180,32 @@ export class LabelReference extends Expression {
 export class Literal extends Expression {
 }
 /**
+ * The application's manifest
+ */
+export class Manifest extends Joinpoint {
+    get activities() {
+        return wrapJoinPoint(this._javaObject.getActivities());
+    }
+    get packageName() {
+        return wrapJoinPoint(this._javaObject.getPackageName());
+    }
+    get services() {
+        return wrapJoinPoint(this._javaObject.getServices());
+    }
+    get attributes() {
+        return wrapJoinPoint(this._javaObject.getAttributes());
+    }
+    get selects() {
+        return wrapJoinPoint(this._javaObject.getSelects());
+    }
+    get actions() {
+        return wrapJoinPoint(this._javaObject.getActions());
+    }
+    def(attribute, value) {
+        return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value)));
+    }
+}
+/**
  * Method definition
  */
 export class MethodNode extends Joinpoint {
@@ -233,6 +259,9 @@ export class Placeholder extends Joinpoint {
  * App node
  */
 export class Program extends Joinpoint {
+    get manifest() {
+        return wrapJoinPoint(this._javaObject.getManifest());
+    }
     get attributes() {
         return wrapJoinPoint(this._javaObject.getAttributes());
     }
@@ -412,6 +441,7 @@ const JoinpointMapper = {
     fieldReference: FieldReference,
     labelReference: LabelReference,
     literal: Literal,
+    manifest: Manifest,
     methodNode: MethodNode,
     methodPrototype: MethodPrototype,
     methodReference: MethodReference,

@@ -118,6 +118,10 @@ export default class FlowGraphGenerator {
 
     const functionTail: InstructionNode.Class[] = [];
 
+    if (body.length === 0) {
+      return this.#graph.addFunction($jp, undefined, functionTail);
+    }
+
     for (let i = 0; i < body.length - 1; i++) {
       const [head, tail] = body[i];
       const [nextHead] = body[i + 1];

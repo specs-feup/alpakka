@@ -47,7 +47,18 @@
     <artifact class="resourceNode"/>
 
     <!-- PROGRAM -->
-    <artifact class="program"/>
+    <artifact class="program">
+        <attribute name="manifest" type="manifest">
+            <def/>
+        </attribute>
+    </artifact>
+
+    <!-- MANIFEST -->
+    <artifact class="manifest">
+        <attribute name="packageName" type="String"/>
+        <attribute name="activities" type="String[]"/>
+        <attribute name="services" type="String[]"/>
+    </artifact>
 
     <!-- CLASS_DEF -->
     <artifact class="classNode"/>

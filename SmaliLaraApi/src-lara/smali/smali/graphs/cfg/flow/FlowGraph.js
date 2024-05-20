@@ -22,7 +22,9 @@ var FlowGraph;
             //   for (const param of params) {
             //     function_exit.insertBefore(param);
             // }
-            function_exit.insertSubgraphBefore(bodyHead, bodyTail);
+            if (bodyHead !== undefined) {
+                function_exit.insertSubgraphBefore(bodyHead, bodyTail);
+            }
             if (bodyTail.length === 0) {
                 function_exit.removeFromFlow();
                 function_exit.remove();
@@ -53,6 +55,27 @@ var FlowGraph;
             return tryNode
                 .init(new TryCatchNode.Builder(iftrueEdge, iffalseEdge, $jp))
                 .as(TryCatchNode.Class);
+        }
+        getFunction(name) {
+            const id = this.data.functions.get(name);
+            if (id === undefined)
+                return undefined;
+            const node = this.getNodeById(id);
+            if (node === undefined || !node.is(FunctionEntryNode.TypeGuard)) {
+                return undefined;
+            }
+            return node.as(FunctionEntryNode.Class);
+        }
+        get functions() {
+            const nodes = [];
+            for (const id of this.data.functions.values()) {
+                const node = this.getNodeById(id);
+                if (node === undefined || !node.is(FunctionEntryNode.TypeGuard)) {
+                    continue;
+                }
+                nodes.push(node.as(FunctionEntryNode.Class));
+            }
+            return nodes;
         }
     }
     FlowGraph.Class = Class;

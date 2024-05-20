@@ -94,4 +94,11 @@ public class App extends SmaliNode {
         return "App: " + sb;
     }
 
+    public Manifest getManifest() {
+        return (Manifest) getChildren().stream()
+                .filter(c -> c instanceof Manifest)
+                .findFirst()
+                .orElseThrow();
+    }
+
 }

@@ -7,13 +7,7 @@ import java.util.List;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import org.suikasoft.jOptions.storedefinition.StoreDefinitions;
 
-import pt.up.fe.specs.smali.ast.App;
-import pt.up.fe.specs.smali.ast.ClassNode;
-import pt.up.fe.specs.smali.ast.FieldNode;
-import pt.up.fe.specs.smali.ast.MethodNode;
-import pt.up.fe.specs.smali.ast.Placeholder;
-import pt.up.fe.specs.smali.ast.Resource;
-import pt.up.fe.specs.smali.ast.SmaliNode;
+import pt.up.fe.specs.smali.ast.*;
 import pt.up.fe.specs.smali.ast.expr.AnnotationElement;
 import pt.up.fe.specs.smali.ast.expr.FieldReference;
 import pt.up.fe.specs.smali.ast.expr.LabelRef;
@@ -71,6 +65,13 @@ public class SmaliFactory {
         data.set(Resource.ATTRIBUTES, attributes);
 
         return new Resource(data, null);
+    }
+
+    public Manifest manifest(HashMap<String, Object> attributes) {
+        var data = newDataStore(Manifest.class);
+        data.set(Manifest.ATTRIBUTES, attributes);
+
+        return new Manifest(data, null);
     }
 
     public App app(HashMap<String, Object> attributes, List<? extends SmaliNode> children) {

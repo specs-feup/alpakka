@@ -49,7 +49,7 @@ var ConditionNode;
         }
         buildScratchData(scratchData) {
             return {
-                ...(super.buildScratchData(scratchData)),
+                ...super.buildScratchData(scratchData),
             };
         }
     }

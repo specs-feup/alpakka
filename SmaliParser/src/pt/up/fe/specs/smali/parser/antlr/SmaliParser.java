@@ -17,6 +17,7 @@ import brut.androlib.ApkDecoder;
 import brut.androlib.Config;
 import brut.androlib.exceptions.AndrolibException;
 import brut.directory.DirectoryException;
+import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import org.yaml.snakeyaml.Yaml;
 import pt.up.fe.specs.smali.ast.*;
@@ -32,10 +33,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class SmaliParser {
 
@@ -77,10 +75,15 @@ public class SmaliParser {
             return Optional.empty();
         }
 
+        if (source.getPath().equals(DECOMPILATION_FOLDERNAME + File.separator + "AndroidManifest.xml")) {
+            return Optional.of(newManifestNode(source, context));
+        }
+
         return switch (SpecsIo.getExtension(source).toLowerCase()) {
         case "apk" -> Optional.of(decompileApk(source, context));
         case "smali" -> {
             // Filter smali files from different organizations
+            // Todo: Turn this into a configuration option, maybe a filter string
             if (organizationName != null && !source.getPath().contains(organizationName)) {
                 yield Optional.of(newResourceNode(source, context));
             } else {
@@ -130,6 +133,35 @@ public class SmaliParser {
         return factory.resource(attributes);
     }
 
+    private Manifest newManifestNode(File source, SmaliContext context) {
+        var factory = context.get(SmaliContext.FACTORY);
+        var attributes = new HashMap<String, Object>();
+        attributes.put("file", source);
+        attributes.put("packageName", getPackageNameFromManifest(source.getAbsolutePath()));
+
+        var components = new HashMap<String, List<String>>();
+        var manifest = parseXML(source);
+        var applicationComponents = manifest.getElementsByTagName("application").item(0).getChildNodes();
+
+        for (int i = 0; i < applicationComponents.getLength(); i++) {
+            var component = applicationComponents.item(i);
+            if (component.getNodeName().equals("activity") || component.getNodeName().equals("service")) {
+                if (components.containsKey(component.getNodeName())) {
+                    var componentList = components.get(component.getNodeName());
+                    componentList.add(component.getAttributes().getNamedItem("android:name").getNodeValue());
+                } else {
+                    var componentList = new ArrayList<String>();
+                    componentList.add(component.getAttributes().getNamedItem("android:name").getNodeValue());
+                    components.put(component.getNodeName(), componentList);
+                }
+            }
+        }
+
+        attributes.put("components", components);
+
+        return factory.manifest(attributes);
+    }
+
     private App decompileApk(File apkFile, SmaliContext context) {
         var outputFolder = SpecsIo.mkdir(DECOMPILATION_FOLDERNAME);
 
@@ -175,17 +207,19 @@ public class SmaliParser {
     }
 
     private String getPackageNameFromManifest(String filePath) {
-        String packageName = null;
+        var inputFile = new File(filePath);
+        var doc = parseXML(inputFile);
+        var root = doc.getDocumentElement();
+        return root.getAttribute("package");
+    }
+
+    private Document parseXML(File file) {
         try {
-            var inputFile = new File(filePath);
             var factory = DocumentBuilderFactory.newInstance();
             var builder = factory.newDocumentBuilder();
-            var doc = builder.parse(inputFile);
-            var root = doc.getDocumentElement();
-            packageName = root.getAttribute("package");
+            return builder.parse(file);
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Could not parse XML file", e);
         }
-        return packageName;
     }
 }

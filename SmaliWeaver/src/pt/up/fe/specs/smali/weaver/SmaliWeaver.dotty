@@ -17,6 +17,7 @@ edge [fontsize=10]
 "label"->"statement"
 "labelReference"->"expression"
 "literal"->"expression"
+"manifest"->"joinpoint"
 "methodNode"->"joinpoint"
 "methodPrototype"->"literal"
 "methodReference"->"expression"
