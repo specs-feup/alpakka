@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.function.Function;
 
 import com.android.tools.smali.dexlib2.Opcode;
+import com.android.tools.smali.smali.Smali;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.Tree;
@@ -74,6 +75,11 @@ public class SmaliFileParser {
         converters.put(smaliParser.I_ANNOTATION, this::convertAnnotation);
         converters.put(smaliParser.I_ANNOTATION_ELEMENT, this::convertAnnotationElement);
         converters.put(smaliParser.I_LINE, this::convertLineDirective);
+        converters.put(smaliParser.I_PROLOGUE, this::convertPrologueDirective);
+        converters.put(smaliParser.I_EPILOGUE, this::convertEpilogueDirective);
+        converters.put(smaliParser.I_LOCAL, this::convertLocalDirective);
+        converters.put(smaliParser.I_END_LOCAL, this::convertEndLocalDirective);
+        converters.put(smaliParser.I_RESTART_LOCAL, this::convertRestartLocalDirective);
         converters.put(smaliParser.I_LABEL, this::convertLabel);
         converters.put(smaliParser.I_STATEMENT_FORMAT10x, this::convertStatementFormat10x);
         converters.put(smaliParser.I_STATEMENT_FORMAT10t, this::convertGotoStatementFormat);
@@ -238,6 +244,67 @@ public class SmaliFileParser {
         attributes.put("line", convert(node.getChild(0)));
 
         return factory.lineDirective(attributes);
+    }
+
+    private SmaliNode convertPrologueDirective(Tree node) {
+        var factory = context.get(SmaliContext.FACTORY);
+        var attributes = getStatementAttributes(null);
+
+        return factory.prologueDirective(attributes);
+    }
+
+    private SmaliNode convertEpilogueDirective(Tree node) {
+        var factory = context.get(SmaliContext.FACTORY);
+        var attributes = getStatementAttributes(null);
+
+        return factory.epilogueDirective(attributes);
+    }
+
+    private SmaliNode convertLocalDirective(Tree node) {
+        var factory = context.get(SmaliContext.FACTORY);
+        var attributes = getStatementAttributes(null);
+
+        attributes.put("register", convert(node.getChild(0)));
+
+        if (node.getChildCount() > 1) {
+            attributes.put("literal", convert(node.getChild(1)));
+
+            var i = 2;
+
+            if (node.getChild(i).getType() == smaliParser.ARRAY_TYPE_PREFIX) {
+                i++;
+                attributes.put("typeDescriptor", factory.arrayType(node.getChild(i).getText()));
+            } else {
+                attributes.put("typeDescriptor", factory.type(node.getChild(i).getText()));
+            }
+
+            i++;
+            if (node.getChildCount() > i) {
+                attributes.put("signature", convert(node.getChild(i)));
+            }
+        }
+
+        return factory.localDirective(attributes);
+    }
+
+    private SmaliNode convertEndLocalDirective(Tree node) {
+        var factory = context.get(SmaliContext.FACTORY);
+        var attributes = getStatementAttributes(null);
+        var children = new ArrayList<SmaliNode>();
+
+        children.add(convert(node.getChild(0)));
+
+        return factory.endLocalDirective(attributes, children);
+    }
+
+    private SmaliNode convertRestartLocalDirective(Tree node) {
+        var factory = context.get(SmaliContext.FACTORY);
+        var attributes = getStatementAttributes(null);
+        var children = new ArrayList<SmaliNode>();
+
+        children.add(convert(node.getChild(0)));
+
+        return factory.restartLocalDirective(attributes, children);
     }
 
     private SmaliNode convertLabel(Tree node) {

@@ -21,13 +21,7 @@ import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.ArrayType;
 import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.ClassType;
 import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.PrimitiveType;
 import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.TypeDescriptor;
-import pt.up.fe.specs.smali.ast.stmt.AnnotationDirective;
-import pt.up.fe.specs.smali.ast.stmt.CatchDirective;
-import pt.up.fe.specs.smali.ast.stmt.Label;
-import pt.up.fe.specs.smali.ast.stmt.LineDirective;
-import pt.up.fe.specs.smali.ast.stmt.LiteralStatement;
-import pt.up.fe.specs.smali.ast.stmt.ParameterDirective;
-import pt.up.fe.specs.smali.ast.stmt.RegistersDirective;
+import pt.up.fe.specs.smali.ast.stmt.*;
 import pt.up.fe.specs.smali.ast.stmt.instruction.*;
 
 public class SmaliFactory {
@@ -107,6 +101,41 @@ public class SmaliFactory {
         data.set(LineDirective.ATTRIBUTES, attributes);
 
         return new LineDirective(data, null);
+    }
+
+    public PrologueDirective prologueDirective(HashMap<String, Object> attributes) {
+        var data = newDataStore(PrologueDirective.class);
+        data.set(PrologueDirective.ATTRIBUTES, attributes);
+
+        return new PrologueDirective(data, null);
+    }
+
+    public EpilogueDirective epilogueDirective(HashMap<String, Object> attributes) {
+        var data = newDataStore(EpilogueDirective.class);
+        data.set(EpilogueDirective.ATTRIBUTES, attributes);
+
+        return new EpilogueDirective(data, null);
+    }
+
+    public LocalDirective localDirective(HashMap<String, Object> attributes) {
+        var data = newDataStore(LocalDirective.class);
+        data.set(LocalDirective.ATTRIBUTES, attributes);
+
+        return new LocalDirective(data, null);
+    }
+
+    public EndLocalDirective endLocalDirective(HashMap<String, Object> attributes, List<? extends SmaliNode> children) {
+        var data = newDataStore(EndLocalDirective.class);
+        data.set(EndLocalDirective.ATTRIBUTES, attributes);
+
+        return new EndLocalDirective(data, children);
+    }
+
+    public RestartLocalDirective restartLocalDirective(HashMap<String, Object> attributes, List<? extends SmaliNode> children) {
+        var data = newDataStore(RestartLocalDirective.class);
+        data.set(RestartLocalDirective.ATTRIBUTES, attributes);
+
+        return new RestartLocalDirective(data, children);
     }
 
     public CatchDirective catchDirective(HashMap<String, Object> attributes) {

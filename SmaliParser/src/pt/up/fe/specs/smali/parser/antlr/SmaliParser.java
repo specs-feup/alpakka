@@ -80,7 +80,7 @@ public class SmaliParser {
         }
 
         return switch (SpecsIo.getExtension(source).toLowerCase()) {
-        case "apk" -> Optional.of(decompileApk(source, context));
+        case "apk" -> Optional.of(decompileApk(source, context, targetSdkVersion));
         case "smali" -> {
             // Filter smali files from different organizations
             // Todo: Turn this into a configuration option, maybe a filter string
@@ -162,7 +162,7 @@ public class SmaliParser {
         return factory.manifest(attributes);
     }
 
-    private App decompileApk(File apkFile, SmaliContext context) {
+    private App decompileApk(File apkFile, SmaliContext context, Integer sdkAttr) {
         var outputFolder = SpecsIo.mkdir(DECOMPILATION_FOLDERNAME);
 
         var config = Config.getDefaultConfig();
@@ -182,7 +182,9 @@ public class SmaliParser {
                 .split("\\.");
         organizationName = packageName[0] + File.separator + packageName[1];
 
-        var targetSdkVersion = (Integer) ((HashMap<String, Object>) attributes.get("sdkInfo")).get("targetSdkVersion");
+        var sdkInfo = (HashMap<String, Object>) attributes.get("sdkInfo");
+
+        var targetSdkVersion = sdkInfo != null ? (Integer) sdkInfo.get("targetSdkVersion") : sdkAttr;
 
         var decompiledFiles = SpecsIo.getFilesRecursive(outputFolder);
 
