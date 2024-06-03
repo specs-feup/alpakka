@@ -52,6 +52,8 @@ public class SmaliJoinpoints {
         JOINPOINT_FACTORY.put(FieldReference.class, FieldReferenceJp::new);
         JOINPOINT_FACTORY.put(LabelRef.class, LabelReferenceJp::new);
         JOINPOINT_FACTORY.put(SparseSwitchElement.class, SparseSwitchElementJp::new);
+        JOINPOINT_FACTORY.put(RegisterRange.class, RegisterRangeJp::new);
+        JOINPOINT_FACTORY.put(RegisterList.class, RegisterListJp::new);
         JOINPOINT_FACTORY.put(Expression.class, ExpressionJp::new);
         JOINPOINT_FACTORY.put(PackedSwitchDirective.class, PackedSwitchJp::new);
         JOINPOINT_FACTORY.put(SparseSwitchDirective.class, SparseSwitchJp::new);

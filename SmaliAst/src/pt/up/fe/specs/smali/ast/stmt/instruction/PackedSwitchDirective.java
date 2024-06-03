@@ -2,12 +2,14 @@ package pt.up.fe.specs.smali.ast.stmt.instruction;
 
 import java.util.Collection;
 
+import com.android.tools.smali.dexlib2.Opcode;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.ast.expr.literal.Literal;
+import pt.up.fe.specs.smali.ast.stmt.Statement;
 
-public class PackedSwitchDirective extends Instruction {
+public class PackedSwitchDirective extends Statement {
 
     public PackedSwitchDirective(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);

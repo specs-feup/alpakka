@@ -27,6 +27,7 @@ import pt.up.fe.specs.util.SpecsIo;
 import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class App extends SmaliNode {
@@ -99,6 +100,13 @@ public class App extends SmaliNode {
                 .filter(c -> c instanceof Manifest)
                 .findFirst()
                 .orElseThrow();
+    }
+
+    public List<ClassNode> getClasses() {
+        return getChildren().stream()
+                .filter(c -> c instanceof ClassNode)
+                .map(c -> (ClassNode) c)
+                .toList();
     }
 
 }

@@ -51,6 +51,7 @@
         <attribute name="manifest" type="manifest">
             <def/>
         </attribute>
+        <attribute name="classes" type="classNode[]"/>
     </artifact>
 
     <!-- MANIFEST -->
@@ -61,7 +62,13 @@
     </artifact>
 
     <!-- CLASS_DEF -->
-    <artifact class="classNode"/>
+    <artifact class="classNode">
+        <attribute name="methods" type="methodNode[]"/>
+        <attribute name="fields" type="fieldNode[]"/>
+        <attribute name="superClass" type="classType">
+            <def/>
+        </attribute>
+    </artifact>
 
     <!-- FIELD -->
     <artifact class="fieldNode"/>
@@ -69,6 +76,9 @@
     <!-- METHOD -->
     <artifact class="methodNode">
         <attribute name="name" type="String"/>
+        <attribute name="prototype" type="methodPrototype">
+            <def/>
+        </attribute>
     </artifact>
 
     <!-- EXPRESSIONS -->
@@ -83,7 +93,15 @@
         </attribute>
     </artifact>
 
-    <artifact class="methodReference"/>
+    <artifact class="methodReference">
+        <attribute name="referenceTypeDescriptor" type="typeDescriptor">
+            <def/>
+        </attribute>
+        <attribute name="memberName" type="String"/>
+        <attribute name="prototype" type="methodPrototype">
+            <def/>
+        </attribute>
+    </artifact>
 
     <artifact class="fieldReference"/>
 
@@ -93,10 +111,19 @@
         </attribute>
     </artifact>
 
+    <artifact class="registerList"/>
+
+    <artifact class="registerRange"/>
+
     <!-- LITERALS -->
     <artifact class="literal"/>
 
-    <artifact class="methodPrototype"/>
+    <artifact class="methodPrototype">
+        <attribute name="parameters" type="typeDescriptor[]"/>
+        <attribute name="returnType" type="typeDescriptor">
+            <def/>
+        </attribute>
+    </artifact>
 
     <!-- TYPE DESCRIPTORS -->
     <artifact class="typeDescriptor"/>
@@ -113,6 +140,9 @@
     <!-- STATEMENTS -->
     <artifact class="statement">
         <attribute name="nextStatement" type="statement">
+            <def/>
+        </attribute>
+        <attribute name="prevStatement" type="statement">
             <def/>
         </attribute>
     </artifact>
@@ -139,6 +169,9 @@
     <!-- INSTRUCTIONS -->
     <artifact class="instruction">
         <attribute name="canThrow" type="boolean"/>
+        <attribute name="setsResult" type="boolean"/>
+        <attribute name="setsRegister" type="boolean"/>
+        <attribute name="opCodeName" type="String"/>
     </artifact>
 
     <artifact class="goto">

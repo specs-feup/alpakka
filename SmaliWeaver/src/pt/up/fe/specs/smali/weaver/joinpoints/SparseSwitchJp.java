@@ -9,7 +9,7 @@ public class SparseSwitchJp extends ASparseSwitch {
     private final SparseSwitchDirective instruction;
 
     public SparseSwitchJp(SparseSwitchDirective instruction) {
-        super(new InstructionJp(instruction));
+        super(new StatementJp(instruction));
         this.instruction = instruction;
     }
 

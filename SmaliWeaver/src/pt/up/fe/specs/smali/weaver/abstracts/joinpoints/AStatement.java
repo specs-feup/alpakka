@@ -51,6 +51,38 @@ public abstract class AStatement extends ASmaliWeaverJoinPoint {
     }
 
     /**
+     * Get value on attribute prevStatement
+     * @return the attribute's value
+     */
+    public abstract AStatement getPrevStatementImpl();
+
+    /**
+     * Get value on attribute prevStatement
+     * @return the attribute's value
+     */
+    public final Object getPrevStatement() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "prevStatement", Optional.empty());
+        	}
+        	AStatement result = this.getPrevStatementImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "prevStatement", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "prevStatement", e);
+        }
+    }
+
+    /**
+     * 
+     */
+    public void defPrevStatementImpl(AStatement value) {
+        throw new UnsupportedOperationException("Join point "+get_class()+": Action def prevStatement with type AStatement not implemented ");
+    }
+
+    /**
      * 
      */
     @Override
@@ -77,6 +109,13 @@ public abstract class AStatement extends ASmaliWeaverJoinPoint {
         	}
         	this.unsupportedTypeForDef(attribute, value);
         }
+        case "prevStatement": {
+        	if(value instanceof AStatement){
+        		this.defPrevStatementImpl((AStatement)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
         default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
         }
     }
@@ -88,6 +127,7 @@ public abstract class AStatement extends ASmaliWeaverJoinPoint {
     protected void fillWithAttributes(List<String> attributes) {
         super.fillWithAttributes(attributes);
         attributes.add("nextStatement");
+        attributes.add("prevStatement");
     }
 
     /**
@@ -119,6 +159,7 @@ public abstract class AStatement extends ASmaliWeaverJoinPoint {
      */
     protected enum StatementAttributes {
         NEXTSTATEMENT("nextStatement"),
+        PREVSTATEMENT("prevStatement"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),

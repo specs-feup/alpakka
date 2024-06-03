@@ -163,10 +163,26 @@ public abstract class ACatch extends AStatement {
     }
 
     /**
+     * Get value on attribute prevStatement
+     * @return the attribute's value
+     */
+    @Override
+    public AStatement getPrevStatementImpl() {
+        return this.aStatement.getPrevStatementImpl();
+    }
+
+    /**
      * 
      */
     public void defNextStatementImpl(AStatement value) {
         this.aStatement.defNextStatementImpl(value);
+    }
+
+    /**
+     * 
+     */
+    public void defPrevStatementImpl(AStatement value) {
+        this.aStatement.defPrevStatementImpl(value);
     }
 
     /**
@@ -431,6 +447,13 @@ public abstract class ACatch extends AStatement {
         	}
         	this.unsupportedTypeForDef(attribute, value);
         }
+        case "prevStatement": {
+        	if(value instanceof AStatement){
+        		this.defPrevStatementImpl((AStatement)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
         default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
         }
     }
@@ -493,6 +516,7 @@ public abstract class ACatch extends AStatement {
         TRYEND("tryEnd"),
         CATCH("catch"),
         NEXTSTATEMENT("nextStatement"),
+        PREVSTATEMENT("prevStatement"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),

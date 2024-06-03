@@ -51,6 +51,81 @@ public abstract class AInstruction extends AStatement {
     }
 
     /**
+     * Get value on attribute setsResult
+     * @return the attribute's value
+     */
+    public abstract Boolean getSetsResultImpl();
+
+    /**
+     * Get value on attribute setsResult
+     * @return the attribute's value
+     */
+    public final Object getSetsResult() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "setsResult", Optional.empty());
+        	}
+        	Boolean result = this.getSetsResultImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "setsResult", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "setsResult", e);
+        }
+    }
+
+    /**
+     * Get value on attribute setsRegister
+     * @return the attribute's value
+     */
+    public abstract Boolean getSetsRegisterImpl();
+
+    /**
+     * Get value on attribute setsRegister
+     * @return the attribute's value
+     */
+    public final Object getSetsRegister() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "setsRegister", Optional.empty());
+        	}
+        	Boolean result = this.getSetsRegisterImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "setsRegister", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "setsRegister", e);
+        }
+    }
+
+    /**
+     * Get value on attribute opCodeName
+     * @return the attribute's value
+     */
+    public abstract String getOpCodeNameImpl();
+
+    /**
+     * Get value on attribute opCodeName
+     * @return the attribute's value
+     */
+    public final Object getOpCodeName() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "opCodeName", Optional.empty());
+        	}
+        	String result = this.getOpCodeNameImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "opCodeName", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "opCodeName", e);
+        }
+    }
+
+    /**
      * Get value on attribute nextStatement
      * @return the attribute's value
      */
@@ -60,10 +135,26 @@ public abstract class AInstruction extends AStatement {
     }
 
     /**
+     * Get value on attribute prevStatement
+     * @return the attribute's value
+     */
+    @Override
+    public AStatement getPrevStatementImpl() {
+        return this.aStatement.getPrevStatementImpl();
+    }
+
+    /**
      * 
      */
     public void defNextStatementImpl(AStatement value) {
         this.aStatement.defNextStatementImpl(value);
+    }
+
+    /**
+     * 
+     */
+    public void defPrevStatementImpl(AStatement value) {
+        this.aStatement.defPrevStatementImpl(value);
     }
 
     /**
@@ -300,6 +391,13 @@ public abstract class AInstruction extends AStatement {
         	}
         	this.unsupportedTypeForDef(attribute, value);
         }
+        case "prevStatement": {
+        	if(value instanceof AStatement){
+        		this.defPrevStatementImpl((AStatement)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
         default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
         }
     }
@@ -311,6 +409,9 @@ public abstract class AInstruction extends AStatement {
     protected void fillWithAttributes(List<String> attributes) {
         this.aStatement.fillWithAttributes(attributes);
         attributes.add("canThrow");
+        attributes.add("setsResult");
+        attributes.add("setsRegister");
+        attributes.add("opCodeName");
     }
 
     /**
@@ -355,7 +456,11 @@ public abstract class AInstruction extends AStatement {
      */
     protected enum InstructionAttributes {
         CANTHROW("canThrow"),
+        SETSRESULT("setsResult"),
+        SETSREGISTER("setsRegister"),
+        OPCODENAME("opCodeName"),
         NEXTSTATEMENT("nextStatement"),
+        PREVSTATEMENT("prevStatement"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),

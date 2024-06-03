@@ -68,6 +68,33 @@ public abstract class AGoto extends AInstruction {
     }
 
     /**
+     * Get value on attribute setsResult
+     * @return the attribute's value
+     */
+    @Override
+    public Boolean getSetsResultImpl() {
+        return this.aInstruction.getSetsResultImpl();
+    }
+
+    /**
+     * Get value on attribute setsRegister
+     * @return the attribute's value
+     */
+    @Override
+    public Boolean getSetsRegisterImpl() {
+        return this.aInstruction.getSetsRegisterImpl();
+    }
+
+    /**
+     * Get value on attribute opCodeName
+     * @return the attribute's value
+     */
+    @Override
+    public String getOpCodeNameImpl() {
+        return this.aInstruction.getOpCodeNameImpl();
+    }
+
+    /**
      * Get value on attribute nextStatement
      * @return the attribute's value
      */
@@ -77,10 +104,26 @@ public abstract class AGoto extends AInstruction {
     }
 
     /**
+     * Get value on attribute prevStatement
+     * @return the attribute's value
+     */
+    @Override
+    public AStatement getPrevStatementImpl() {
+        return this.aInstruction.getPrevStatementImpl();
+    }
+
+    /**
      * 
      */
     public void defNextStatementImpl(AStatement value) {
         this.aInstruction.defNextStatementImpl(value);
+    }
+
+    /**
+     * 
+     */
+    public void defPrevStatementImpl(AStatement value) {
+        this.aInstruction.defPrevStatementImpl(value);
     }
 
     /**
@@ -324,6 +367,13 @@ public abstract class AGoto extends AInstruction {
         	}
         	this.unsupportedTypeForDef(attribute, value);
         }
+        case "prevStatement": {
+        	if(value instanceof AStatement){
+        		this.defPrevStatementImpl((AStatement)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
         default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
         }
     }
@@ -380,7 +430,11 @@ public abstract class AGoto extends AInstruction {
     protected enum GotoAttributes {
         LABEL("label"),
         CANTHROW("canThrow"),
+        SETSRESULT("setsResult"),
+        SETSREGISTER("setsRegister"),
+        OPCODENAME("opCodeName"),
         NEXTSTATEMENT("nextStatement"),
+        PREVSTATEMENT("prevStatement"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),

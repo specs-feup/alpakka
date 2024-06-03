@@ -1,20 +1,20 @@
 package pt.up.fe.specs.smali.weaver.joinpoints;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
-import pt.up.fe.specs.smali.ast.expr.FieldReference;
-import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.AFieldReference;
+import pt.up.fe.specs.smali.ast.expr.RegisterRange;
+import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.ARegisterRange;
 
-public class FieldReferenceJp extends AFieldReference {
+public class RegisterRangeJp extends ARegisterRange {
 
-    private final FieldReference fieldReference;
+    private final RegisterRange rRange;
 
-    public FieldReferenceJp(FieldReference fieldReference) {
-        super(new ExpressionJp(fieldReference));
-        this.fieldReference = fieldReference;
+    public RegisterRangeJp(RegisterRange rRange) {
+        super(new ExpressionJp(rRange));
+        this.rRange = rRange;
     }
 
     @Override
     public SmaliNode getNode() {
-        return this.fieldReference;
+        return this.rRange;
     }
 }

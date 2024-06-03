@@ -87,4 +87,22 @@ public class ClassNode extends SmaliNode {
         return get(ATTRIBUTES).get("dexClass") != null ? (String) get(ATTRIBUTES).get("dexClass") : "";
     }
 
+    public List<MethodNode> getMethods() {
+        return getChildren().stream()
+                .filter(c -> c instanceof MethodNode)
+                .map(c -> (MethodNode) c)
+                .toList();
+    }
+
+    public List<FieldNode> getFields() {
+        return getChildren().stream()
+                .filter(c -> c instanceof FieldNode)
+                .map(c -> (FieldNode) c)
+                .toList();
+    }
+
+    public ClassType getSuperClass() {
+        return (ClassType) get(ATTRIBUTES).get("superClassDescriptor");
+    }
+
 }

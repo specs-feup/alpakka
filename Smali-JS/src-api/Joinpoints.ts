@@ -157,6 +157,15 @@ export class Joinpoint extends LaraJoinPoint {
  * Class definition
  */
 export class ClassNode extends Joinpoint {
+  get fields(): FieldNode[] {
+    return wrapJoinPoint(this._javaObject.getFields());
+  }
+  get methods(): MethodNode[] {
+    return wrapJoinPoint(this._javaObject.getMethods());
+  }
+  get superClass(): ClassType {
+    return wrapJoinPoint(this._javaObject.getSuperClass());
+  }
   get attributes(): string[] {
     return wrapJoinPoint(this._javaObject.getAttributes());
   }
@@ -271,6 +280,9 @@ export class MethodNode extends Joinpoint {
   get name(): string {
     return wrapJoinPoint(this._javaObject.getName());
   }
+  get prototype(): MethodPrototype {
+    return wrapJoinPoint(this._javaObject.getPrototype());
+  }
   get attributes(): string[] {
     return wrapJoinPoint(this._javaObject.getAttributes());
   }
@@ -290,12 +302,29 @@ export class MethodNode extends Joinpoint {
 /**
  * Method prototype
  */
-export class MethodPrototype extends Literal {}
+export class MethodPrototype extends Literal {
+  get parameters(): TypeDescriptor[] {
+    return wrapJoinPoint(this._javaObject.getParameters());
+  }
+  get returnType(): TypeDescriptor {
+    return wrapJoinPoint(this._javaObject.getReturnType());
+  }
+}
 
 /**
  * Method reference
  */
-export class MethodReference extends Expression {}
+export class MethodReference extends Expression {
+  get memberName(): string {
+    return wrapJoinPoint(this._javaObject.getMemberName());
+  }
+  get prototype(): MethodPrototype {
+    return wrapJoinPoint(this._javaObject.getPrototype());
+  }
+  get referenceTypeDescriptor(): TypeDescriptor {
+    return wrapJoinPoint(this._javaObject.getReferenceTypeDescriptor());
+  }
+}
 
 /**
  * Placeholder node
@@ -324,6 +353,9 @@ export class Placeholder extends Joinpoint {
  * App node
  */
 export class Program extends Joinpoint {
+  get classes(): ClassNode[] {
+    return wrapJoinPoint(this._javaObject.getClasses());
+  }
   get manifest(): Manifest {
     return wrapJoinPoint(this._javaObject.getManifest());
   }
@@ -342,6 +374,16 @@ export class Program extends Joinpoint {
     );
   }
 }
+
+/**
+ * Register list
+ */
+export class RegisterList extends Expression {}
+
+/**
+ * Register range
+ */
+export class RegisterRange extends Expression {}
 
 /**
  * Register reference
@@ -383,6 +425,9 @@ export class SparseSwitchElement extends Expression {
 export class Statement extends Joinpoint {
   get nextStatement(): Statement {
     return wrapJoinPoint(this._javaObject.getNextStatement());
+  }
+  get prevStatement(): Statement {
+    return wrapJoinPoint(this._javaObject.getPrevStatement());
   }
   get attributes(): string[] {
     return wrapJoinPoint(this._javaObject.getAttributes());
@@ -447,6 +492,15 @@ export class Instruction extends Statement {
   get canThrow(): boolean {
     return wrapJoinPoint(this._javaObject.getCanThrow());
   }
+  get opCodeName(): string {
+    return wrapJoinPoint(this._javaObject.getOpCodeName());
+  }
+  get setsRegister(): boolean {
+    return wrapJoinPoint(this._javaObject.getSetsRegister());
+  }
+  get setsResult(): boolean {
+    return wrapJoinPoint(this._javaObject.getSetsResult());
+  }
 }
 
 /**
@@ -461,7 +515,7 @@ export class Label extends Statement {
 /**
  * Packed switch directive
  */
-export class PackedSwitch extends Instruction {}
+export class PackedSwitch extends Statement {}
 
 /**
  * Primitive descriptor
@@ -476,7 +530,7 @@ export class ReturnStatement extends Instruction {}
 /**
  * Sparse switch directive
  */
-export class SparseSwitch extends Instruction {}
+export class SparseSwitch extends Statement {}
 
 /**
  * Smali instruction format 31t
@@ -529,6 +583,8 @@ const JoinpointMapper: JoinpointMapperType = {
   methodReference: MethodReference,
   placeholder: Placeholder,
   program: Program,
+  registerList: RegisterList,
+  registerRange: RegisterRange,
   registerReference: RegisterReference,
   resourceNode: ResourceNode,
   sparseSwitchElement: SparseSwitchElement,

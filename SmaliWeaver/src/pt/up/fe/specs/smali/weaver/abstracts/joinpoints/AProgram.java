@@ -51,6 +51,41 @@ public abstract class AProgram extends ASmaliWeaverJoinPoint {
     }
 
     /**
+     * Get value on attribute classes
+     * @return the attribute's value
+     */
+    public abstract AClassNode[] getClassesArrayImpl();
+
+    /**
+     * Get value on attribute classes
+     * @return the attribute's value
+     */
+    public Object getClassesImpl() {
+        AClassNode[] aClassNodeArrayImpl0 = getClassesArrayImpl();
+        Object nativeArray0 = getWeaverEngine().getScriptEngine().toNativeArray(aClassNodeArrayImpl0);
+        return nativeArray0;
+    }
+
+    /**
+     * Get value on attribute classes
+     * @return the attribute's value
+     */
+    public final Object getClasses() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "classes", Optional.empty());
+        	}
+        	Object result = this.getClassesImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "classes", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "classes", e);
+        }
+    }
+
+    /**
      * 
      */
     @Override
@@ -88,6 +123,7 @@ public abstract class AProgram extends ASmaliWeaverJoinPoint {
     protected final void fillWithAttributes(List<String> attributes) {
         super.fillWithAttributes(attributes);
         attributes.add("manifest");
+        attributes.add("classes");
     }
 
     /**
@@ -119,6 +155,7 @@ public abstract class AProgram extends ASmaliWeaverJoinPoint {
      */
     protected enum ProgramAttributes {
         MANIFEST("manifest"),
+        CLASSES("classes"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),

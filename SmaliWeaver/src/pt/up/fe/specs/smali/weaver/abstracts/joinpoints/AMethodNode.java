@@ -44,6 +44,38 @@ public abstract class AMethodNode extends ASmaliWeaverJoinPoint {
     }
 
     /**
+     * Get value on attribute prototype
+     * @return the attribute's value
+     */
+    public abstract AMethodPrototype getPrototypeImpl();
+
+    /**
+     * Get value on attribute prototype
+     * @return the attribute's value
+     */
+    public final Object getPrototype() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "prototype", Optional.empty());
+        	}
+        	AMethodPrototype result = this.getPrototypeImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "prototype", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "prototype", e);
+        }
+    }
+
+    /**
+     * 
+     */
+    public void defPrototypeImpl(AMethodPrototype value) {
+        throw new UnsupportedOperationException("Join point "+get_class()+": Action def prototype with type AMethodPrototype not implemented ");
+    }
+
+    /**
      * 
      */
     @Override
@@ -63,6 +95,13 @@ public abstract class AMethodNode extends ASmaliWeaverJoinPoint {
     @Override
     public final void defImpl(String attribute, Object value) {
         switch(attribute){
+        case "prototype": {
+        	if(value instanceof AMethodPrototype){
+        		this.defPrototypeImpl((AMethodPrototype)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
         default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
         }
     }
@@ -74,6 +113,7 @@ public abstract class AMethodNode extends ASmaliWeaverJoinPoint {
     protected final void fillWithAttributes(List<String> attributes) {
         super.fillWithAttributes(attributes);
         attributes.add("name");
+        attributes.add("prototype");
     }
 
     /**
@@ -105,6 +145,7 @@ public abstract class AMethodNode extends ASmaliWeaverJoinPoint {
      */
     protected enum MethodNodeAttributes {
         NAME("name"),
+        PROTOTYPE("prototype"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),

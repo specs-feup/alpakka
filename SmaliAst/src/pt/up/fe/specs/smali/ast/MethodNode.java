@@ -108,4 +108,8 @@ public class MethodNode extends SmaliNode {
         return sb.toString();
     }
 
+    public MethodPrototype getPrototype() {
+        return (MethodPrototype) get(ATTRIBUTES).get("prototype");
+    }
+
 }

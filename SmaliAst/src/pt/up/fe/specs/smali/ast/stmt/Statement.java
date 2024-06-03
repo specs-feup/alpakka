@@ -27,7 +27,15 @@ public abstract class Statement extends SmaliNode {
     }
 
     public Statement getNextStatement() {
-        return (Statement) getParent().getChildren().get(getParent().getChildren().indexOf(this) + 1);
+        var nextChild = getParent().getChildren().get(getParent().getChildren().indexOf(this) + 1);
+
+        return nextChild instanceof Statement ? (Statement) nextChild : null;
+    }
+
+    public Statement getPreviousStatement() {
+        var previousChild = getParent().getChildren().get(getParent().getChildren().indexOf(this) - 1);
+
+        return previousChild instanceof Statement ? (Statement) previousChild : null;
     }
 
 }

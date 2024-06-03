@@ -2,7 +2,11 @@ package pt.up.fe.specs.smali.weaver.joinpoints;
 
 import pt.up.fe.specs.smali.ast.ClassNode;
 import pt.up.fe.specs.smali.ast.SmaliNode;
+import pt.up.fe.specs.smali.weaver.SmaliJoinpoints;
 import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.AClassNode;
+import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.AClassType;
+import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.AFieldNode;
+import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.AMethodNode;
 
 public class ClassNodeJp extends AClassNode {
 
@@ -17,4 +21,22 @@ public class ClassNodeJp extends AClassNode {
 		return classNode;
 	}
 
+	@Override
+	public AMethodNode[] getMethodsArrayImpl() {
+		return classNode.getMethods().stream()
+				.map(method -> SmaliJoinpoints.create(method, AMethodNode.class))
+				.toArray(AMethodNode[]::new);
+	}
+
+	@Override
+	public AFieldNode[] getFieldsArrayImpl() {
+		return classNode.getFields().stream()
+				.map(field -> SmaliJoinpoints.create(field, AFieldNode.class))
+				.toArray(AFieldNode[]::new);
+	}
+
+	@Override
+	public AClassType getSuperClassImpl() {
+		return SmaliJoinpoints.create(classNode.getSuperClass(), AClassType.class);
+	}
 }

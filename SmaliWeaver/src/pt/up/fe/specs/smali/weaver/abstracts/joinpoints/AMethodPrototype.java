@@ -1,7 +1,9 @@
 package pt.up.fe.specs.smali.weaver.abstracts.joinpoints;
 
-import org.lara.interpreter.weaver.interf.JoinPoint;
+import org.lara.interpreter.weaver.interf.events.Stage;
 import java.util.Optional;
+import org.lara.interpreter.exception.AttributeException;
+import org.lara.interpreter.weaver.interf.JoinPoint;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Arrays;
@@ -24,6 +26,73 @@ public abstract class AMethodPrototype extends ALiteral {
         super(aLiteral);
         this.aLiteral = aLiteral;
     }
+    /**
+     * Get value on attribute parameters
+     * @return the attribute's value
+     */
+    public abstract ATypeDescriptor[] getParametersArrayImpl();
+
+    /**
+     * Get value on attribute parameters
+     * @return the attribute's value
+     */
+    public Object getParametersImpl() {
+        ATypeDescriptor[] aTypeDescriptorArrayImpl0 = getParametersArrayImpl();
+        Object nativeArray0 = getWeaverEngine().getScriptEngine().toNativeArray(aTypeDescriptorArrayImpl0);
+        return nativeArray0;
+    }
+
+    /**
+     * Get value on attribute parameters
+     * @return the attribute's value
+     */
+    public final Object getParameters() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "parameters", Optional.empty());
+        	}
+        	Object result = this.getParametersImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "parameters", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "parameters", e);
+        }
+    }
+
+    /**
+     * Get value on attribute returnType
+     * @return the attribute's value
+     */
+    public abstract ATypeDescriptor getReturnTypeImpl();
+
+    /**
+     * Get value on attribute returnType
+     * @return the attribute's value
+     */
+    public final Object getReturnType() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "returnType", Optional.empty());
+        	}
+        	ATypeDescriptor result = this.getReturnTypeImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "returnType", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "returnType", e);
+        }
+    }
+
+    /**
+     * 
+     */
+    public void defReturnTypeImpl(ATypeDescriptor value) {
+        throw new UnsupportedOperationException("Join point "+get_class()+": Action def returnType with type ATypeDescriptor not implemented ");
+    }
+
     /**
      * Get value on attribute parent
      * @return the attribute's value
@@ -251,6 +320,13 @@ public abstract class AMethodPrototype extends ALiteral {
     @Override
     public final void defImpl(String attribute, Object value) {
         switch(attribute){
+        case "returnType": {
+        	if(value instanceof ATypeDescriptor){
+        		this.defReturnTypeImpl((ATypeDescriptor)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
         default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
         }
     }
@@ -261,6 +337,8 @@ public abstract class AMethodPrototype extends ALiteral {
     @Override
     protected final void fillWithAttributes(List<String> attributes) {
         this.aLiteral.fillWithAttributes(attributes);
+        attributes.add("parameters");
+        attributes.add("returnType");
     }
 
     /**
@@ -304,6 +382,8 @@ public abstract class AMethodPrototype extends ALiteral {
      * 
      */
     protected enum MethodPrototypeAttributes {
+        PARAMETERS("parameters"),
+        RETURNTYPE("returnType"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),

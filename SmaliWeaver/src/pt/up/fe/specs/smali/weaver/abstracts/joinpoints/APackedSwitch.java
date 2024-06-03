@@ -13,40 +13,46 @@ import java.util.Arrays;
  * Packed switch directive
  * @author Lara Weaver Generator
  */
-public abstract class APackedSwitch extends AInstruction {
+public abstract class APackedSwitch extends AStatement {
 
-    protected AInstruction aInstruction;
+    protected AStatement aStatement;
 
     /**
      * 
      */
-    public APackedSwitch(AInstruction aInstruction){
-        super(aInstruction);
-        this.aInstruction = aInstruction;
+    public APackedSwitch(AStatement aStatement){
+        this.aStatement = aStatement;
     }
-    /**
-     * Get value on attribute canThrow
-     * @return the attribute's value
-     */
-    @Override
-    public Boolean getCanThrowImpl() {
-        return this.aInstruction.getCanThrowImpl();
-    }
-
     /**
      * Get value on attribute nextStatement
      * @return the attribute's value
      */
     @Override
     public AStatement getNextStatementImpl() {
-        return this.aInstruction.getNextStatementImpl();
+        return this.aStatement.getNextStatementImpl();
+    }
+
+    /**
+     * Get value on attribute prevStatement
+     * @return the attribute's value
+     */
+    @Override
+    public AStatement getPrevStatementImpl() {
+        return this.aStatement.getPrevStatementImpl();
     }
 
     /**
      * 
      */
     public void defNextStatementImpl(AStatement value) {
-        this.aInstruction.defNextStatementImpl(value);
+        this.aStatement.defNextStatementImpl(value);
+    }
+
+    /**
+     * 
+     */
+    public void defPrevStatementImpl(AStatement value) {
+        this.aStatement.defPrevStatementImpl(value);
     }
 
     /**
@@ -55,7 +61,7 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     public AJoinPoint getParentImpl() {
-        return this.aInstruction.getParentImpl();
+        return this.aStatement.getParentImpl();
     }
 
     /**
@@ -64,7 +70,7 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     public AJoinPoint[] getDescendantsArrayImpl(String type) {
-        return this.aInstruction.getDescendantsArrayImpl(type);
+        return this.aStatement.getDescendantsArrayImpl(type);
     }
 
     /**
@@ -73,7 +79,7 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     public AJoinPoint[] getDescendantsAndSelfArrayImpl(String type) {
-        return this.aInstruction.getDescendantsAndSelfArrayImpl(type);
+        return this.aStatement.getDescendantsAndSelfArrayImpl(type);
     }
 
     /**
@@ -82,7 +88,7 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     public String getAstImpl() {
-        return this.aInstruction.getAstImpl();
+        return this.aStatement.getAstImpl();
     }
 
     /**
@@ -91,7 +97,7 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     public String getCodeImpl() {
-        return this.aInstruction.getCodeImpl();
+        return this.aStatement.getCodeImpl();
     }
 
     /**
@@ -100,7 +106,7 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     public AJoinPoint[] getChildrenArrayImpl() {
-        return this.aInstruction.getChildrenArrayImpl();
+        return this.aStatement.getChildrenArrayImpl();
     }
 
     /**
@@ -109,7 +115,7 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     public AProgram getRootImpl() {
-        return this.aInstruction.getRootImpl();
+        return this.aStatement.getRootImpl();
     }
 
     /**
@@ -118,7 +124,7 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     public AJoinPoint getAncestorImpl(String type) {
-        return this.aInstruction.getAncestorImpl(type);
+        return this.aStatement.getAncestorImpl(type);
     }
 
     /**
@@ -127,7 +133,7 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     public AJoinPoint getChildImpl(int index) {
-        return this.aInstruction.getChildImpl(index);
+        return this.aStatement.getChildImpl(index);
     }
 
     /**
@@ -136,7 +142,7 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     public String getIdImpl() {
-        return this.aInstruction.getIdImpl();
+        return this.aStatement.getIdImpl();
     }
 
     /**
@@ -145,7 +151,7 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     public AJoinPoint[] getDescendantsArrayImpl() {
-        return this.aInstruction.getDescendantsArrayImpl();
+        return this.aStatement.getDescendantsArrayImpl();
     }
 
     /**
@@ -154,7 +160,7 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     public AJoinPoint replaceWithImpl(AJoinPoint node) {
-        return this.aInstruction.replaceWithImpl(node);
+        return this.aStatement.replaceWithImpl(node);
     }
 
     /**
@@ -163,7 +169,7 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     public AJoinPoint replaceWithImpl(String node) {
-        return this.aInstruction.replaceWithImpl(node);
+        return this.aStatement.replaceWithImpl(node);
     }
 
     /**
@@ -172,7 +178,7 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     public AJoinPoint replaceWithImpl(AJoinPoint[] node) {
-        return this.aInstruction.replaceWithImpl(node);
+        return this.aStatement.replaceWithImpl(node);
     }
 
     /**
@@ -181,7 +187,7 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     public AJoinPoint replaceWithStringsImpl(String[] node) {
-        return this.aInstruction.replaceWithStringsImpl(node);
+        return this.aStatement.replaceWithStringsImpl(node);
     }
 
     /**
@@ -190,7 +196,7 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     public AJoinPoint insertBeforeImpl(AJoinPoint node) {
-        return this.aInstruction.insertBeforeImpl(node);
+        return this.aStatement.insertBeforeImpl(node);
     }
 
     /**
@@ -199,7 +205,7 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     public AJoinPoint insertBeforeImpl(String node) {
-        return this.aInstruction.insertBeforeImpl(node);
+        return this.aStatement.insertBeforeImpl(node);
     }
 
     /**
@@ -208,7 +214,7 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     public AJoinPoint insertAfterImpl(AJoinPoint node) {
-        return this.aInstruction.insertAfterImpl(node);
+        return this.aStatement.insertAfterImpl(node);
     }
 
     /**
@@ -217,7 +223,7 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     public AJoinPoint insertAfterImpl(String code) {
-        return this.aInstruction.insertAfterImpl(code);
+        return this.aStatement.insertAfterImpl(code);
     }
 
     /**
@@ -225,7 +231,7 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     public AJoinPoint detachImpl() {
-        return this.aInstruction.detachImpl();
+        return this.aStatement.detachImpl();
     }
 
     /**
@@ -235,7 +241,7 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     public AJoinPoint[] insertImpl(String position, String code) {
-        return this.aInstruction.insertImpl(position, code);
+        return this.aStatement.insertImpl(position, code);
     }
 
     /**
@@ -245,15 +251,15 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     public AJoinPoint[] insertImpl(String position, JoinPoint code) {
-        return this.aInstruction.insertImpl(position, code);
+        return this.aStatement.insertImpl(position, code);
     }
 
     /**
      * 
      */
     @Override
-    public Optional<? extends AInstruction> getSuper() {
-        return Optional.of(this.aInstruction);
+    public Optional<? extends AStatement> getSuper() {
+        return Optional.of(this.aStatement);
     }
 
     /**
@@ -264,7 +270,7 @@ public abstract class APackedSwitch extends AInstruction {
         List<? extends JoinPoint> joinPointList;
         switch(selectName) {
         	default:
-        		joinPointList = this.aInstruction.select(selectName);
+        		joinPointList = this.aStatement.select(selectName);
         		break;
         }
         return joinPointList;
@@ -283,6 +289,13 @@ public abstract class APackedSwitch extends AInstruction {
         	}
         	this.unsupportedTypeForDef(attribute, value);
         }
+        case "prevStatement": {
+        	if(value instanceof AStatement){
+        		this.defPrevStatementImpl((AStatement)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
         default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
         }
     }
@@ -292,7 +305,7 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     protected final void fillWithAttributes(List<String> attributes) {
-        this.aInstruction.fillWithAttributes(attributes);
+        this.aStatement.fillWithAttributes(attributes);
     }
 
     /**
@@ -300,7 +313,7 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     protected final void fillWithSelects(List<String> selects) {
-        this.aInstruction.fillWithSelects(selects);
+        this.aStatement.fillWithSelects(selects);
     }
 
     /**
@@ -308,7 +321,7 @@ public abstract class APackedSwitch extends AInstruction {
      */
     @Override
     protected final void fillWithActions(List<String> actions) {
-        this.aInstruction.fillWithActions(actions);
+        this.aStatement.fillWithActions(actions);
     }
 
     /**
@@ -330,14 +343,14 @@ public abstract class APackedSwitch extends AInstruction {
         if(isInstance) {
         	return true;
         }
-        return this.aInstruction.instanceOf(joinpointClass);
+        return this.aStatement.instanceOf(joinpointClass);
     }
     /**
      * 
      */
     protected enum PackedSwitchAttributes {
-        CANTHROW("canThrow"),
         NEXTSTATEMENT("nextStatement"),
+        PREVSTATEMENT("prevStatement"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),

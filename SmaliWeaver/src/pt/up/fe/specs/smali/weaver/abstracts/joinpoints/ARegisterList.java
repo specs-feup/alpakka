@@ -1,119 +1,28 @@
 package pt.up.fe.specs.smali.weaver.abstracts.joinpoints;
 
-import org.lara.interpreter.weaver.interf.events.Stage;
-import java.util.Optional;
-import org.lara.interpreter.exception.AttributeException;
 import org.lara.interpreter.weaver.interf.JoinPoint;
+import java.util.Optional;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Arrays;
 
 /**
- * Auto-Generated class for join point AMethodReference
+ * Auto-Generated class for join point ARegisterList
  * This class is overwritten by the Weaver Generator.
  * 
- * Method reference
+ * Register list
  * @author Lara Weaver Generator
  */
-public abstract class AMethodReference extends AExpression {
+public abstract class ARegisterList extends AExpression {
 
     protected AExpression aExpression;
 
     /**
      * 
      */
-    public AMethodReference(AExpression aExpression){
+    public ARegisterList(AExpression aExpression){
         this.aExpression = aExpression;
     }
-    /**
-     * Get value on attribute referenceTypeDescriptor
-     * @return the attribute's value
-     */
-    public abstract ATypeDescriptor getReferenceTypeDescriptorImpl();
-
-    /**
-     * Get value on attribute referenceTypeDescriptor
-     * @return the attribute's value
-     */
-    public final Object getReferenceTypeDescriptor() {
-        try {
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "referenceTypeDescriptor", Optional.empty());
-        	}
-        	ATypeDescriptor result = this.getReferenceTypeDescriptorImpl();
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "referenceTypeDescriptor", Optional.ofNullable(result));
-        	}
-        	return result!=null?result:getUndefinedValue();
-        } catch(Exception e) {
-        	throw new AttributeException(get_class(), "referenceTypeDescriptor", e);
-        }
-    }
-
-    /**
-     * 
-     */
-    public void defReferenceTypeDescriptorImpl(ATypeDescriptor value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def referenceTypeDescriptor with type ATypeDescriptor not implemented ");
-    }
-
-    /**
-     * Get value on attribute memberName
-     * @return the attribute's value
-     */
-    public abstract String getMemberNameImpl();
-
-    /**
-     * Get value on attribute memberName
-     * @return the attribute's value
-     */
-    public final Object getMemberName() {
-        try {
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "memberName", Optional.empty());
-        	}
-        	String result = this.getMemberNameImpl();
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "memberName", Optional.ofNullable(result));
-        	}
-        	return result!=null?result:getUndefinedValue();
-        } catch(Exception e) {
-        	throw new AttributeException(get_class(), "memberName", e);
-        }
-    }
-
-    /**
-     * Get value on attribute prototype
-     * @return the attribute's value
-     */
-    public abstract AMethodPrototype getPrototypeImpl();
-
-    /**
-     * Get value on attribute prototype
-     * @return the attribute's value
-     */
-    public final Object getPrototype() {
-        try {
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "prototype", Optional.empty());
-        	}
-        	AMethodPrototype result = this.getPrototypeImpl();
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "prototype", Optional.ofNullable(result));
-        	}
-        	return result!=null?result:getUndefinedValue();
-        } catch(Exception e) {
-        	throw new AttributeException(get_class(), "prototype", e);
-        }
-    }
-
-    /**
-     * 
-     */
-    public void defPrototypeImpl(AMethodPrototype value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def prototype with type AMethodPrototype not implemented ");
-    }
-
     /**
      * Get value on attribute parent
      * @return the attribute's value
@@ -341,20 +250,6 @@ public abstract class AMethodReference extends AExpression {
     @Override
     public final void defImpl(String attribute, Object value) {
         switch(attribute){
-        case "referenceTypeDescriptor": {
-        	if(value instanceof ATypeDescriptor){
-        		this.defReferenceTypeDescriptorImpl((ATypeDescriptor)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        case "prototype": {
-        	if(value instanceof AMethodPrototype){
-        		this.defPrototypeImpl((AMethodPrototype)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
         default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
         }
     }
@@ -365,9 +260,6 @@ public abstract class AMethodReference extends AExpression {
     @Override
     protected final void fillWithAttributes(List<String> attributes) {
         this.aExpression.fillWithAttributes(attributes);
-        attributes.add("referenceTypeDescriptor");
-        attributes.add("memberName");
-        attributes.add("prototype");
     }
 
     /**
@@ -392,7 +284,7 @@ public abstract class AMethodReference extends AExpression {
      */
     @Override
     public final String get_class() {
-        return "methodReference";
+        return "registerList";
     }
 
     /**
@@ -410,10 +302,7 @@ public abstract class AMethodReference extends AExpression {
     /**
      * 
      */
-    protected enum MethodReferenceAttributes {
-        REFERENCETYPEDESCRIPTOR("referenceTypeDescriptor"),
-        MEMBERNAME("memberName"),
-        PROTOTYPE("prototype"),
+    protected enum RegisterListAttributes {
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
@@ -430,13 +319,13 @@ public abstract class AMethodReference extends AExpression {
         /**
          * 
          */
-        private MethodReferenceAttributes(String name){
+        private RegisterListAttributes(String name){
             this.name = name;
         }
         /**
          * Return an attribute enumeration item from a given attribute name
          */
-        public static Optional<MethodReferenceAttributes> fromString(String name) {
+        public static Optional<RegisterListAttributes> fromString(String name) {
             return Arrays.asList(values()).stream().filter(attr -> attr.name.equals(name)).findAny();
         }
 
@@ -444,7 +333,7 @@ public abstract class AMethodReference extends AExpression {
          * Return a list of attributes in String format
          */
         public static List<String> getNames() {
-            return Arrays.asList(values()).stream().map(MethodReferenceAttributes::name).collect(Collectors.toList());
+            return Arrays.asList(values()).stream().map(RegisterListAttributes::name).collect(Collectors.toList());
         }
 
         /**

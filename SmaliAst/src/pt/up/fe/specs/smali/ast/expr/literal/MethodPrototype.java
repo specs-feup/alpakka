@@ -2,6 +2,7 @@ package pt.up.fe.specs.smali.ast.expr.literal;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
@@ -16,9 +17,8 @@ public class MethodPrototype extends Literal {
 
     @Override
     public String getCode() {
-        var attributes = get(ATTRIBUTES);
-        var returnType = (TypeDescriptor) attributes.get("returnType");
-        var parameters = (ArrayList<TypeDescriptor>) attributes.get("parameters");
+        var returnType = getReturnType();
+        var parameters = getParameters();
 
         var builder = new StringBuilder();
         builder.append("(");
@@ -28,6 +28,14 @@ public class MethodPrototype extends Literal {
         builder.append(returnType.getCode());
 
         return builder.toString();
+    }
+
+    public List<TypeDescriptor> getParameters() {
+        return (List<TypeDescriptor>) get(ATTRIBUTES).get("parameters");
+    }
+
+    public TypeDescriptor getReturnType() {
+        return (TypeDescriptor) get(ATTRIBUTES).get("returnType");
     }
 
 }

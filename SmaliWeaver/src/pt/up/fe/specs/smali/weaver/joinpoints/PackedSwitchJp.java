@@ -9,7 +9,7 @@ public class PackedSwitchJp extends APackedSwitch {
     private final PackedSwitchDirective instruction;
 
     public PackedSwitchJp(PackedSwitchDirective instruction) {
-        super(new InstructionJp(instruction));
+        super(new StatementJp(instruction));
         this.instruction = instruction;
     }
 

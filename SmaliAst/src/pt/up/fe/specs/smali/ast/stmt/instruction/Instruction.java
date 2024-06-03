@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import com.android.tools.smali.dexlib2.Opcode;
 import com.android.tools.smali.dexlib2.Opcodes;
+import com.android.tools.smali.dexlib2.ReferenceType;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
@@ -18,11 +19,10 @@ public abstract class Instruction extends Statement {
     @Override
     public String getCode() {
         var sb = new StringBuilder();
-        var attributes = get(ATTRIBUTES);
 
         sb.append(getLineDirective());
 
-        sb.append(attributes.get("instruction") + " ");
+        sb.append(getOpCodeName()).append(" ");
 
         var children = getChildren();
 
@@ -36,14 +36,32 @@ public abstract class Instruction extends Statement {
         return sb.toString();
     }
 
-    public boolean canThrow() {
-        var instruction = get(ATTRIBUTES).get("instruction");
-
+    private Opcode getOpcode() {
         // TODO: Specify the sdk version
         var opcodes = Opcodes.getDefault();
-        var opcode = opcodes.getOpcodeByName(instruction.toString());
+        return opcodes.getOpcodeByName(getOpCodeName());
+    }
+
+    public boolean canThrow() {
+        var opcode = getOpcode();
 
         return opcode != null && opcode.canThrow();
+    }
+
+    public boolean setsResult() {
+        var opcode = getOpcode();
+
+        return opcode != null && opcode.setsResult();
+    }
+
+    public boolean setsRegister() {
+        var opcode = getOpcode();
+
+        return opcode != null && opcode.setsRegister();
+    }
+
+    public String getOpCodeName() {
+        return get(ATTRIBUTES).get("instruction").toString();
     }
 
 }

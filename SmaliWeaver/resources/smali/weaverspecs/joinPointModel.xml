@@ -35,6 +35,10 @@
 
     <joinpoint class="sparseSwitchElement" extends="expression" tooltip="Sparse switch element"/>
 
+    <joinpoint class="registerList" extends="expression" tooltip="Register list"/>
+
+    <joinpoint class="registerRange" extends="expression" tooltip="Register range"/>
+
     <!-- LITERALS -->
     <joinpoint class="literal" extends="expression" tooltip="Literal"/>
 
@@ -67,9 +71,9 @@
 
     <joinpoint class="switch" extends="instruction" tooltip="Smali instruction format 31t"/>
 
-    <joinpoint class="sparseSwitch" extends="instruction" tooltip="Sparse switch directive"/>
+    <joinpoint class="sparseSwitch" extends="statement" tooltip="Sparse switch directive"/>
 
-    <joinpoint class="packedSwitch" extends="instruction" tooltip="Packed switch directive"/>
+    <joinpoint class="packedSwitch" extends="statement" tooltip="Packed switch directive"/>
 
     <joinpoint class="returnStatement" extends="instruction" tooltip="Smali instruction formats 10x, 11x"/>
 

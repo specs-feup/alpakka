@@ -1,20 +1,20 @@
 package pt.up.fe.specs.smali.weaver.joinpoints;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
-import pt.up.fe.specs.smali.ast.expr.RegisterRange;
+import pt.up.fe.specs.smali.ast.expr.RegisterList;
 import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.ARegisterRange;
 
-public class RegisterRangeJp extends ARegisterRange {
+public class RegisterListJp extends ARegisterRange {
 
-    private final RegisterRange rRange;
+    private final RegisterList rList;
 
-    public RegisterRangeJp(RegisterRange rRange) {
-        super(new ExpressionJp(rRange));
-        this.rRange = rRange;
+    public RegisterListJp(RegisterList rList) {
+        super(new ExpressionJp(rList));
+        this.rList = rList;
     }
 
     @Override
     public SmaliNode getNode() {
-        return this.rRange;
+        return this.rList;
     }
 }

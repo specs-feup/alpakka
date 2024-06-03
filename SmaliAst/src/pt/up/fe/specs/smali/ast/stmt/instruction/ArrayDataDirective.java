@@ -6,8 +6,9 @@ import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.ast.expr.literal.Literal;
+import pt.up.fe.specs.smali.ast.stmt.Statement;
 
-public class ArrayDataDirective extends Instruction {
+public class ArrayDataDirective extends Statement {
 
     public ArrayDataDirective(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);

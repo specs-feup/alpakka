@@ -21,4 +21,19 @@ public class InstructionJp extends AInstruction {
     public Boolean getCanThrowImpl() {
         return this.instruction.canThrow();
     }
+
+    @Override
+    public Boolean getSetsResultImpl() {
+        return this.instruction.setsResult();
+    }
+
+    @Override
+    public Boolean getSetsRegisterImpl() {
+        return this.instruction.setsRegister();
+    }
+
+    @Override
+    public String getOpCodeNameImpl() {
+        return this.instruction.getOpCodeName();
+    }
 }

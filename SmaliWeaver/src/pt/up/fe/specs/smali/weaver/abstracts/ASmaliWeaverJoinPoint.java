@@ -53,7 +53,14 @@ public abstract class ASmaliWeaverJoinPoint extends AJoinPoint {
 
     @Override
     public AJoinPoint getParentImpl() {
-        return null;
+        var node = getNode();
+        if (!node.hasParent()) {
+            return null;
+        }
+
+        var currentParent = node.getParent();
+
+        return SmaliJoinpoints.create(currentParent);
     }
 
     @Override

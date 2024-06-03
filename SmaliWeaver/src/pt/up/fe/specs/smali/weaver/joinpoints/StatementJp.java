@@ -22,4 +22,9 @@ public class StatementJp extends AStatement {
     public AStatement getNextStatementImpl() {
         return SmaliJoinpoints.create(this.statement.getNextStatement(), AStatement.class);
     }
+
+    @Override
+    public AStatement getPrevStatementImpl() {
+        return SmaliJoinpoints.create(this.statement.getPreviousStatement(), AStatement.class);
+    }
 }

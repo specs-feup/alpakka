@@ -8,6 +8,7 @@ import org.suikasoft.jOptions.Datakey.DataKey;
 import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
+import pt.up.fe.specs.smali.ast.ClassNode;
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.ast.expr.literal.MethodPrototype;
 import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.TypeDescriptor;
@@ -25,11 +26,9 @@ public class MethodReference extends Expression implements Reference {
 
     @Override
     public String getCode() {
-        var attributes = get(ATTRIBUTES);
-
-        var referenceTypeDescriptor = (TypeDescriptor) attributes.get("referenceTypeDescriptor");
-        var member = attributes.get("memberName");
-        var prototype = (MethodPrototype) attributes.get("prototype");
+        var referenceTypeDescriptor = getReferenceTypeDescriptor();
+        var member = getMemberName();
+        var prototype = getPrototype();
 
         var sb = new StringBuilder();
 
@@ -42,6 +41,18 @@ public class MethodReference extends Expression implements Reference {
         sb.append(prototype.getCode());
 
         return sb.toString();
+    }
+
+    public TypeDescriptor getReferenceTypeDescriptor() {
+        return (TypeDescriptor) get(ATTRIBUTES).get("referenceTypeDescriptor");
+    }
+
+    public String getMemberName() {
+        return (String) get(ATTRIBUTES).get("memberName");
+    }
+
+    public MethodPrototype getPrototype() {
+        return (MethodPrototype) get(ATTRIBUTES).get("prototype");
     }
 
     @Override

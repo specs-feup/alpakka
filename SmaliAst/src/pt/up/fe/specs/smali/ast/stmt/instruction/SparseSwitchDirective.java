@@ -5,8 +5,9 @@ import java.util.Collection;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
+import pt.up.fe.specs.smali.ast.stmt.Statement;
 
-public class SparseSwitchDirective extends Instruction {
+public class SparseSwitchDirective extends Statement {
 
     public SparseSwitchDirective(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
