@@ -1,5 +1,4 @@
 import { MethodNode, Program, Statement, ReturnStatement, Label, Goto, IfComparison, IfComparisonWithZero, Switch, LabelReference, PackedSwitch, SparseSwitch, SparseSwitchElement, ThrowStatement, Catch, Instruction, } from "../../../../Joinpoints.js";
-import Query from "lara-js/api/weaver/Query.js";
 import UnknownInstructionNode from "./node/instruction/UnknownInstructionNode.js";
 import InstructionNode from "./node/instruction/InstructionNode.js";
 import StatementNode from "./node/instruction/StatementNode.js";
@@ -20,9 +19,11 @@ export default class FlowGraphGenerator {
     }
     build() {
         if (this.#$jp instanceof Program) {
-            for (const $function of Query.searchFrom(this.#$jp, "methodNode")) {
-                this.#processFunction($function);
-            }
+            this.#$jp.classes.forEach((child) => {
+                child.methods.forEach((method) => {
+                    this.#processFunction(method);
+                });
+            });
         }
         else if (this.#$jp instanceof MethodNode) {
             this.#processFunction(this.#$jp);

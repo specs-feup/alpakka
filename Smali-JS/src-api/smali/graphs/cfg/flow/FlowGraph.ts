@@ -9,6 +9,7 @@ import {
   LabelReference,
   MethodNode,
   Program,
+  Statement,
 } from "../../../../Joinpoints.js";
 import InstructionNode from "./node/instruction/InstructionNode.js";
 import FunctionEntryNode from "./node/instruction/FunctionEntryNode.js";
@@ -132,14 +133,18 @@ namespace FlowGraph {
     // /**
     //  * Returns the graph node where the given statement belongs.
     //  *
-    //  * @param $stmt - A statement join point, or a string with the astId of the join point
+    //  * @param $stmt - A statement join point, or a string with the id of the join point
     //  */
-    // getNode($stmt: Statement | string) {
-    //     // If string, assume it is astId
-    //     const astId: string = typeof $stmt === "string" ? $stmt : $stmt.astId;
+    getNode($stmt: Statement | string): FlowNode.Class | undefined {
+      // If string, assume it is id
+      const id: string = typeof $stmt === "string" ? $stmt : $stmt.id;
 
-    //     return this.#nodes.get(astId);
-    // }
+      const node = this.getNodeById(id);
+      if (node === undefined || !node.is(FlowNode.TypeGuard)) {
+        return undefined;
+      }
+      return node.as(FlowNode.Class);
+    }
   }
 
   export class Builder

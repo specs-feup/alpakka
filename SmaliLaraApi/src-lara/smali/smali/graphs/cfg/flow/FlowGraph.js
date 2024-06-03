@@ -1,4 +1,5 @@
 import FlowGraphGenerator from "./FlowGraphGenerator.js";
+import FlowNode from "./node/FlowNode.js";
 import BaseGraph from "../graph/BaseGraph.js";
 import Graph from "../graph/Graph.js";
 import FunctionEntryNode from "./node/instruction/FunctionEntryNode.js";
@@ -76,6 +77,20 @@ var FlowGraph;
                 nodes.push(node.as(FunctionEntryNode.Class));
             }
             return nodes;
+        }
+        // /**
+        //  * Returns the graph node where the given statement belongs.
+        //  *
+        //  * @param $stmt - A statement join point, or a string with the astId of the join point
+        //  */
+        getNode($stmt) {
+            // If string, assume it is astId
+            const astId = typeof $stmt === "string" ? $stmt : $stmt.id;
+            const node = this.getNodeById(astId);
+            if (node === undefined || !node.is(FlowNode.TypeGuard)) {
+                return undefined;
+            }
+            return node.as(FlowNode.Class);
         }
     }
     FlowGraph.Class = Class;

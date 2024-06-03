@@ -18,7 +18,6 @@ import {
   Catch,
   Instruction,
 } from "../../../../Joinpoints.js";
-import Query from "lara-js/api/weaver/Query.js";
 import UnknownInstructionNode from "./node/instruction/UnknownInstructionNode.js";
 import FlowNode from "./node/FlowNode.js";
 import InstructionNode from "./node/instruction/InstructionNode.js";
@@ -47,9 +46,11 @@ export default class FlowGraphGenerator {
 
   build(): FlowGraph.Class {
     if (this.#$jp instanceof Program) {
-      for (const $function of Query.searchFrom(this.#$jp, "methodNode")) {
-        this.#processFunction($function as MethodNode);
-      }
+      this.#$jp.classes.forEach((child) => {
+        child.methods.forEach((method) => {
+          this.#processFunction(method);
+        });
+      });
     } else if (this.#$jp instanceof MethodNode) {
       this.#processFunction(this.#$jp);
     }
