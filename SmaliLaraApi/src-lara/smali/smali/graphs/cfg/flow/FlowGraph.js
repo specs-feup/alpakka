@@ -81,12 +81,12 @@ var FlowGraph;
         // /**
         //  * Returns the graph node where the given statement belongs.
         //  *
-        //  * @param $stmt - A statement join point, or a string with the astId of the join point
+        //  * @param $stmt - A statement join point, or a string with the id of the join point
         //  */
         getNode($stmt) {
-            // If string, assume it is astId
-            const astId = typeof $stmt === "string" ? $stmt : $stmt.id;
-            const node = this.getNodeById(astId);
+            // If string, assume it is id
+            const id = typeof $stmt === "string" ? $stmt : $stmt.id;
+            const node = this.getNodeById(id);
             if (node === undefined || !node.is(FlowNode.TypeGuard)) {
                 return undefined;
             }

@@ -89,35 +89,67 @@ public abstract class AClassNode extends ASmaliWeaverJoinPoint {
     }
 
     /**
-     * Get value on attribute superClass
+     * Get value on attribute classDescriptor
      * @return the attribute's value
      */
-    public abstract AClassType getSuperClassImpl();
+    public abstract AClassType getClassDescriptorImpl();
 
     /**
-     * Get value on attribute superClass
+     * Get value on attribute classDescriptor
      * @return the attribute's value
      */
-    public final Object getSuperClass() {
+    public final Object getClassDescriptor() {
         try {
         	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "superClass", Optional.empty());
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "classDescriptor", Optional.empty());
         	}
-        	AClassType result = this.getSuperClassImpl();
+        	AClassType result = this.getClassDescriptorImpl();
         	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "superClass", Optional.ofNullable(result));
+        		eventTrigger().triggerAttribute(Stage.END, this, "classDescriptor", Optional.ofNullable(result));
         	}
         	return result!=null?result:getUndefinedValue();
         } catch(Exception e) {
-        	throw new AttributeException(get_class(), "superClass", e);
+        	throw new AttributeException(get_class(), "classDescriptor", e);
         }
     }
 
     /**
      * 
      */
-    public void defSuperClassImpl(AClassType value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def superClass with type AClassType not implemented ");
+    public void defClassDescriptorImpl(AClassType value) {
+        throw new UnsupportedOperationException("Join point "+get_class()+": Action def classDescriptor with type AClassType not implemented ");
+    }
+
+    /**
+     * Get value on attribute superClassDescriptor
+     * @return the attribute's value
+     */
+    public abstract AClassType getSuperClassDescriptorImpl();
+
+    /**
+     * Get value on attribute superClassDescriptor
+     * @return the attribute's value
+     */
+    public final Object getSuperClassDescriptor() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "superClassDescriptor", Optional.empty());
+        	}
+        	AClassType result = this.getSuperClassDescriptorImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "superClassDescriptor", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "superClassDescriptor", e);
+        }
+    }
+
+    /**
+     * 
+     */
+    public void defSuperClassDescriptorImpl(AClassType value) {
+        throw new UnsupportedOperationException("Join point "+get_class()+": Action def superClassDescriptor with type AClassType not implemented ");
     }
 
     /**
@@ -140,9 +172,16 @@ public abstract class AClassNode extends ASmaliWeaverJoinPoint {
     @Override
     public final void defImpl(String attribute, Object value) {
         switch(attribute){
-        case "superClass": {
+        case "classDescriptor": {
         	if(value instanceof AClassType){
-        		this.defSuperClassImpl((AClassType)value);
+        		this.defClassDescriptorImpl((AClassType)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
+        case "superClassDescriptor": {
+        	if(value instanceof AClassType){
+        		this.defSuperClassDescriptorImpl((AClassType)value);
         		return;
         	}
         	this.unsupportedTypeForDef(attribute, value);
@@ -159,7 +198,8 @@ public abstract class AClassNode extends ASmaliWeaverJoinPoint {
         super.fillWithAttributes(attributes);
         attributes.add("methods");
         attributes.add("fields");
-        attributes.add("superClass");
+        attributes.add("classDescriptor");
+        attributes.add("superClassDescriptor");
     }
 
     /**
@@ -192,7 +232,8 @@ public abstract class AClassNode extends ASmaliWeaverJoinPoint {
     protected enum ClassNodeAttributes {
         METHODS("methods"),
         FIELDS("fields"),
-        SUPERCLASS("superClass"),
+        CLASSDESCRIPTOR("classDescriptor"),
+        SUPERCLASSDESCRIPTOR("superClassDescriptor"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),

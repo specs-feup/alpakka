@@ -7,8 +7,11 @@ import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
+import pt.up.fe.specs.smali.ast.expr.Reference;
 
-public class ClassType extends TypeDescriptor {
+public class ClassType extends TypeDescriptor implements Reference {
+
+	public static String TYPE_LABEL = "class";
 
 	public static final DataKey<String> CLASS_NAME = KeyFactory.string("className");
 	public static final DataKey<String> PACKAGE_NAME = KeyFactory.string("packageName");
@@ -39,5 +42,25 @@ public class ClassType extends TypeDescriptor {
 		sb.append(get(CLASS_NAME)).append(";");
 
 		return sb.toString();
+	}
+
+	@Override
+	public void setDeclaration(SmaliNode decl) {
+		set(DECL, decl);
+	}
+
+	@Override
+	public SmaliNode getDeclaration() {
+		return get(DECL);
+	}
+
+	@Override
+	public String getName() {
+		return this.getCode();
+	}
+
+	@Override
+	public String getTypeLabel() {
+		return TYPE_LABEL;
 	}
 }

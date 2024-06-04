@@ -2,12 +2,8 @@ package pt.up.fe.specs.smali.ast;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.suikasoft.jOptions.Datakey.DataKey;
-import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.expr.literal.MethodPrototype;
@@ -18,9 +14,6 @@ import pt.up.fe.specs.smali.ast.stmt.ParameterDirective;
 import pt.up.fe.specs.smali.ast.stmt.RegistersDirective;
 
 public class MethodNode extends SmaliNode {
-
-    public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-            HashMap::new);
 
     public MethodNode(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, reorderMethodItems(children));
@@ -47,9 +40,9 @@ public class MethodNode extends SmaliNode {
     @Override
     public String getCode() {
         var attributes = get(ATTRIBUTES);
-        var name = (String) attributes.get("name");
-        var prototype = (MethodPrototype) attributes.get("prototype");
-        var accessList = (ArrayList<Modifier>) attributes.get("accessOrRestrictionList");
+        var name = getMethodName();
+        var prototype = getPrototype();
+        var accessList = getAccessList();
         var registersDirective = (RegistersDirective) attributes.get("registersOrLocals");
 
         var sb = new StringBuilder();
@@ -73,7 +66,7 @@ public class MethodNode extends SmaliNode {
                 var catchDirectives = getChildren().stream()
                         .filter(c -> c instanceof CatchDirective)
                         .map(c -> (CatchDirective) c)
-                        .filter(c -> c.getTryEndLabelRef().getName().equals(label.getLabel()))
+                        .filter(c -> c.getTryEndLabelRef().getName().equals(label.getLabelName()))
                         .toList();
 
                 for (var catchDir : catchDirectives) {
@@ -93,6 +86,10 @@ public class MethodNode extends SmaliNode {
         return sb.toString();
     }
 
+    public String getMethodName() {
+        return (String) get(ATTRIBUTES).get("name");
+    }
+
     public String getMethodReferenceName() {
         var sb = new StringBuilder();
         var parentClassDescriptor = ((ClassNode) getParent()).getClassDescriptor();
@@ -101,15 +98,22 @@ public class MethodNode extends SmaliNode {
             sb.append(parentClassDescriptor.getCode()).append("->");
         }
 
-        sb.append(get(ATTRIBUTES).get("name"));
-
-        sb.append(((MethodPrototype) get(ATTRIBUTES).get("prototype")).getCode());
+        sb.append(getMethodName());
+        sb.append(getPrototype().getCode());
 
         return sb.toString();
     }
 
     public MethodPrototype getPrototype() {
         return (MethodPrototype) get(ATTRIBUTES).get("prototype");
+    }
+
+    public List<Modifier> getAccessList() {
+        return (ArrayList<Modifier>) get(ATTRIBUTES).get("accessOrRestrictionList");
+    }
+
+    public boolean isStatic() {
+        return getAccessList().contains(AccessSpec.STATIC);
     }
 
 }

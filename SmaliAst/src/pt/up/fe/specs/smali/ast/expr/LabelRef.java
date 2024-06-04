@@ -1,21 +1,15 @@
 package pt.up.fe.specs.smali.ast.expr;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
-import org.suikasoft.jOptions.Datakey.DataKey;
-import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
+import pt.up.fe.specs.smali.ast.MethodNode;
 import pt.up.fe.specs.smali.ast.SmaliNode;
 
 public class LabelRef extends Expression implements Reference {
 
     public static String TYPE_LABEL = "label";
-
-    public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-            HashMap::new);
 
     public LabelRef(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
@@ -29,7 +23,17 @@ public class LabelRef extends Expression implements Reference {
 
     @Override
     public String getName() {
-        return (String) get(ATTRIBUTES).get("label");
+        var parentMethod = getParent();
+        while (parentMethod != null && !(parentMethod instanceof MethodNode)) {
+            parentMethod = parentMethod.getParent();
+        }
+
+        if (parentMethod == null) {
+            return null;
+        }
+
+        return ((MethodNode) parentMethod).getMethodReferenceName() +
+                getCode();
     }
 
     @Override

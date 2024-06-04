@@ -1,4 +1,4 @@
-package pt.up.fe.specs.smali.ast.stmt.instruction;
+package pt.up.fe.specs.smali.ast.stmt;
 
 import java.util.Collection;
 

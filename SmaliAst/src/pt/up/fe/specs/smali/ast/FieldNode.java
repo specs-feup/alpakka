@@ -1,21 +1,13 @@
 package pt.up.fe.specs.smali.ast;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.suikasoft.jOptions.Datakey.DataKey;
-import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
-
 import pt.up.fe.specs.smali.ast.expr.literal.Literal;
 import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.TypeDescriptor;
 
-public class FieldNode extends SmaliNode {
+import java.util.Collection;
+import java.util.List;
 
-    public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-            HashMap::new);
+public class FieldNode extends SmaliNode {
 
     public FieldNode(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
@@ -26,8 +18,8 @@ public class FieldNode extends SmaliNode {
         var sb = new StringBuilder();
         var attributes = get(ATTRIBUTES);
         var accessOrRestrictionList = (List<Modifier>) attributes.get("accessOrRestrictionList");
-        var name = (String) attributes.get("memberName");
-        var fieldType = (TypeDescriptor) attributes.get("fieldType");
+        var name = getFieldName();
+        var fieldType = getFieldType();
 
         sb.append(".field ");
         accessOrRestrictionList.forEach(a -> sb.append(a.getLabel()).append(" "));
@@ -59,9 +51,27 @@ public class FieldNode extends SmaliNode {
         return sb.toString();
     }
 
-    public String getField() {
-        return get(ATTRIBUTES).get("memberName") + ":"
-                + ((TypeDescriptor) get(ATTRIBUTES).get("fieldType")).getCode();
+    public String getFieldName() {
+        return (String) get(ATTRIBUTES).get("memberName");
+    }
+
+    public TypeDescriptor getFieldType() {
+        return (TypeDescriptor) get(ATTRIBUTES).get("fieldType");
+    }
+
+    public String getFieldReferenceName() {
+        var sb = new StringBuilder();
+        var parentClassDescriptor = ((ClassNode) getParent()).getClassDescriptor();
+
+        if (parentClassDescriptor != null) {
+            sb.append(parentClassDescriptor.getCode()).append("->");
+        }
+
+        sb.append(getFieldName());
+        sb.append(":");
+        sb.append(getFieldType().getCode());
+
+        return sb.toString();
     }
 
 }

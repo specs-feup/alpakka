@@ -1,6 +1,5 @@
 package pt.up.fe.specs.smali.ast.expr.literal;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 

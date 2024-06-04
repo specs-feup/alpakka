@@ -13,21 +13,15 @@
 
 package pt.up.fe.specs.smali.ast;
 
-import org.suikasoft.jOptions.Datakey.DataKey;
-import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import pt.up.fe.specs.util.SpecsIo;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Manifest extends SmaliNode {
-
-    public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-            HashMap::new);
 
     public Manifest(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
@@ -55,7 +49,13 @@ public class Manifest extends SmaliNode {
             return List.of();
         }
 
-        return ((Map<String, List<String>>) componentsMap).get("activity");
+        var activities = ((Map<String, List<String>>) componentsMap).get("activity");
+
+        if (activities == null) {
+            return List.of();
+        }
+
+        return activities;
     }
 
     public List<String> getServices() {
@@ -65,7 +65,13 @@ public class Manifest extends SmaliNode {
             return List.of();
         }
 
-        return ((Map<String, List<String>>) componentsMap).get("service");
+        var services = ((Map<String, List<String>>) componentsMap).get("service");
+
+        if (services == null) {
+            return List.of();
+        }
+
+        return services;
     }
 
 }

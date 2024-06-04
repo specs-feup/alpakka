@@ -26,31 +26,6 @@ public abstract class ALabelReference extends AExpression {
         this.aExpression = aExpression;
     }
     /**
-     * Get value on attribute name
-     * @return the attribute's value
-     */
-    public abstract String getNameImpl();
-
-    /**
-     * Get value on attribute name
-     * @return the attribute's value
-     */
-    public final Object getName() {
-        try {
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "name", Optional.empty());
-        	}
-        	String result = this.getNameImpl();
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "name", Optional.ofNullable(result));
-        	}
-        	return result!=null?result:getUndefinedValue();
-        } catch(Exception e) {
-        	throw new AttributeException(get_class(), "name", e);
-        }
-    }
-
-    /**
      * Get value on attribute decl
      * @return the attribute's value
      */
@@ -326,7 +301,6 @@ public abstract class ALabelReference extends AExpression {
     @Override
     protected final void fillWithAttributes(List<String> attributes) {
         this.aExpression.fillWithAttributes(attributes);
-        attributes.add("name");
         attributes.add("decl");
     }
 
@@ -371,7 +345,6 @@ public abstract class ALabelReference extends AExpression {
      * 
      */
     protected enum LabelReferenceAttributes {
-        NAME("name"),
         DECL("decl"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),

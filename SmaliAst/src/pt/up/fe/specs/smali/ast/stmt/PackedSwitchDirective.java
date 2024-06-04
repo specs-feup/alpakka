@@ -1,8 +1,7 @@
-package pt.up.fe.specs.smali.ast.stmt.instruction;
+package pt.up.fe.specs.smali.ast.stmt;
 
 import java.util.Collection;
 
-import com.android.tools.smali.dexlib2.Opcode;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;

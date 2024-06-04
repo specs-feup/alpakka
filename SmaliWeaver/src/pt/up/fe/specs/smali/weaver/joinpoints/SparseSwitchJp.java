@@ -1,7 +1,7 @@
 package pt.up.fe.specs.smali.weaver.joinpoints;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
-import pt.up.fe.specs.smali.ast.stmt.instruction.SparseSwitchDirective;
+import pt.up.fe.specs.smali.ast.stmt.SparseSwitchDirective;
 import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.ASparseSwitch;
 
 public class SparseSwitchJp extends ASparseSwitch {

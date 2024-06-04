@@ -28,4 +28,9 @@ public class MethodNodeJp extends AMethodNode {
 	public AMethodPrototype getPrototypeImpl() {
 		return SmaliJoinpoints.create(this.methodNode.getPrototype(), AMethodPrototype.class);
 	}
+
+	@Override
+	public Boolean getIsStaticImpl() {
+		return methodNode.isStatic();
+	}
 }

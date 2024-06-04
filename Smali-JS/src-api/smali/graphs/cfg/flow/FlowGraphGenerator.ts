@@ -147,21 +147,21 @@ export default class FlowGraphGenerator {
 
     for (const directive of context.tryCatchDirectives) {
       const tryStartLabel = context.labels.get(
-        directive.tryStart.name,
+        directive.tryStart.decl.name,
       ) as LabelNode.Class;
       if (tryStartLabel === undefined) {
         throw new Error("Could not find try start label node");
       }
 
       const tryEndLabel = context.labels.get(
-        directive.tryEnd.name,
+        directive.tryEnd.decl.name,
       ) as LabelNode.Class;
       if (tryEndLabel === undefined) {
         throw new Error("Could not find try end label node");
       }
 
       const catchLabel = context.labels.get(
-        directive.catch.name,
+        directive.catch.decl.name,
       ) as LabelNode.Class;
 
       const tryEndIndex = body.findIndex(([head]) => head === tryEndLabel);
@@ -224,7 +224,7 @@ export default class FlowGraphGenerator {
     }
 
     let ifTrueHead: FlowNode.Class;
-    const label = context.labels.get($jp.label.name);
+    const label = context.labels.get($iftrue.name);
     if (label !== undefined) {
       ifTrueHead = label;
     } else {
@@ -270,7 +270,7 @@ export default class FlowGraphGenerator {
           );
         }
 
-        if (!context.labels.has(childRef.name)) {
+        if (!context.labels.has(childRef.decl.name)) {
           this.#processLabelStmt(childRef.decl, context);
         }
 
@@ -291,7 +291,7 @@ export default class FlowGraphGenerator {
           );
         }
 
-        if (!context.labels.has(childRef.name)) {
+        if (!context.labels.has(childRef.decl.name)) {
           this.#processLabelStmt(childRef.decl, context);
         }
 
@@ -300,7 +300,7 @@ export default class FlowGraphGenerator {
     }
 
     for (const child of childrenRefs) {
-      const label = context.labels.get(child.name);
+      const label = context.labels.get(child.decl.name);
 
       if (label !== undefined) {
         const currentCase = this.#graph.addSwitchCase(
@@ -358,11 +358,11 @@ export default class FlowGraphGenerator {
       .init(new GotoNode.Builder($jp))
       .as(GotoNode.Class);
 
-    if (!context.labels.has($jp.label.name)) {
+    if (!context.labels.has($jp.label.decl.name)) {
       this.#processLabelStmt($jp.label.decl, context);
     }
 
-    const label = context.labels.get($jp.label.name);
+    const label = context.labels.get($jp.label.decl.name);
     if (label !== undefined) {
       this.#connectArbitraryJump(node, label);
     }

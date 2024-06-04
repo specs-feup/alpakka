@@ -65,7 +65,10 @@
     <artifact class="classNode">
         <attribute name="methods" type="methodNode[]"/>
         <attribute name="fields" type="fieldNode[]"/>
-        <attribute name="superClass" type="classType">
+        <attribute name="classDescriptor" type="classType">
+            <def/>
+        </attribute>
+        <attribute name="superClassDescriptor" type="classType">
             <def/>
         </attribute>
     </artifact>
@@ -79,6 +82,7 @@
         <attribute name="prototype" type="methodPrototype">
             <def/>
         </attribute>
+        <attribute name="isStatic" type="boolean"/>
     </artifact>
 
     <!-- EXPRESSIONS -->
@@ -87,17 +91,16 @@
     <artifact class="registerReference"/>
 
     <artifact class="labelReference">
-        <attribute name="name" type="String"/>
         <attribute name="decl" type="label">
             <def/>
         </attribute>
     </artifact>
 
     <artifact class="methodReference">
-        <attribute name="referenceTypeDescriptor" type="typeDescriptor">
+        <attribute name="parentClassDescriptor" type="typeDescriptor">
             <def/>
         </attribute>
-        <attribute name="memberName" type="String"/>
+        <attribute name="name" type="String"/>
         <attribute name="prototype" type="methodPrototype">
             <def/>
         </attribute>
@@ -131,6 +134,9 @@
     <artifact class="classType">
         <attribute name="className" type="String"/>
         <attribute name="packageName" type="String"/>
+        <attribute name="decl" type="classNode">
+            <def/>
+        </attribute>
     </artifact>
 
     <artifact class="arrayType"/>

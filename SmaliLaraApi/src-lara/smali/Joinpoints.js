@@ -111,8 +111,17 @@ export class Joinpoint extends LaraJoinPoint {
  * Class definition
  */
 export class ClassNode extends Joinpoint {
+    get classDescriptor() {
+        return wrapJoinPoint(this._javaObject.getClassDescriptor());
+    }
+    get fields() {
+        return wrapJoinPoint(this._javaObject.getFields());
+    }
     get methods() {
         return wrapJoinPoint(this._javaObject.getMethods());
+    }
+    get superClassDescriptor() {
+        return wrapJoinPoint(this._javaObject.getSuperClassDescriptor());
     }
     get attributes() {
         return wrapJoinPoint(this._javaObject.getAttributes());
@@ -173,9 +182,6 @@ export class LabelReference extends Expression {
     get decl() {
         return wrapJoinPoint(this._javaObject.getDecl());
     }
-    get name() {
-        return wrapJoinPoint(this._javaObject.getName());
-    }
 }
 /**
  * Literal
@@ -212,6 +218,9 @@ export class Manifest extends Joinpoint {
  * Method definition
  */
 export class MethodNode extends Joinpoint {
+    get isStatic() {
+        return wrapJoinPoint(this._javaObject.getIsStatic());
+    }
     get name() {
         return wrapJoinPoint(this._javaObject.getName());
     }
@@ -235,6 +244,9 @@ export class MethodNode extends Joinpoint {
  * Method prototype
  */
 export class MethodPrototype extends Literal {
+    get parameters() {
+        return wrapJoinPoint(this._javaObject.getParameters());
+    }
     get returnType() {
         return wrapJoinPoint(this._javaObject.getReturnType());
     }
@@ -243,14 +255,14 @@ export class MethodPrototype extends Literal {
  * Method reference
  */
 export class MethodReference extends Expression {
-    get memberName() {
-        return wrapJoinPoint(this._javaObject.getMemberName());
+    get name() {
+        return wrapJoinPoint(this._javaObject.getName());
+    }
+    get parentClassDescriptor() {
+        return wrapJoinPoint(this._javaObject.getParentClassDescriptor());
     }
     get prototype() {
         return wrapJoinPoint(this._javaObject.getPrototype());
-    }
-    get referenceTypeDescriptor() {
-        return wrapJoinPoint(this._javaObject.getReferenceTypeDescriptor());
     }
 }
 /**
@@ -392,6 +404,9 @@ export class Catch extends Statement {
 export class ClassType extends TypeDescriptor {
     get className() {
         return wrapJoinPoint(this._javaObject.getClassName());
+    }
+    get decl() {
+        return wrapJoinPoint(this._javaObject.getDecl());
     }
     get packageName() {
         return wrapJoinPoint(this._javaObject.getPackageName());

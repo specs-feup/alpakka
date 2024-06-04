@@ -77,6 +77,38 @@ public abstract class AClassType extends ATypeDescriptor {
     }
 
     /**
+     * Get value on attribute decl
+     * @return the attribute's value
+     */
+    public abstract AClassNode getDeclImpl();
+
+    /**
+     * Get value on attribute decl
+     * @return the attribute's value
+     */
+    public final Object getDecl() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "decl", Optional.empty());
+        	}
+        	AClassNode result = this.getDeclImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "decl", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "decl", e);
+        }
+    }
+
+    /**
+     * 
+     */
+    public void defDeclImpl(AClassNode value) {
+        throw new UnsupportedOperationException("Join point "+get_class()+": Action def decl with type AClassNode not implemented ");
+    }
+
+    /**
      * Get value on attribute parent
      * @return the attribute's value
      */
@@ -303,6 +335,13 @@ public abstract class AClassType extends ATypeDescriptor {
     @Override
     public final void defImpl(String attribute, Object value) {
         switch(attribute){
+        case "decl": {
+        	if(value instanceof AClassNode){
+        		this.defDeclImpl((AClassNode)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
         default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
         }
     }
@@ -315,6 +354,7 @@ public abstract class AClassType extends ATypeDescriptor {
         this.aTypeDescriptor.fillWithAttributes(attributes);
         attributes.add("className");
         attributes.add("packageName");
+        attributes.add("decl");
     }
 
     /**
@@ -360,6 +400,7 @@ public abstract class AClassType extends ATypeDescriptor {
     protected enum ClassTypeAttributes {
         CLASSNAME("className"),
         PACKAGENAME("packageName"),
+        DECL("decl"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),

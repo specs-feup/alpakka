@@ -17,8 +17,6 @@ import brut.androlib.ApkBuilder;
 import brut.androlib.Config;
 import brut.common.BrutException;
 import brut.directory.ExtFile;
-import org.suikasoft.jOptions.Datakey.DataKey;
-import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -26,14 +24,9 @@ import pt.up.fe.specs.util.SpecsIo;
 
 import java.io.File;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class App extends SmaliNode {
-
-    public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-            HashMap::new);
 
     public App(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);

@@ -99,15 +99,15 @@ export default class FlowGraphGenerator {
             functionTail.push(lastHead);
         }
         for (const directive of context.tryCatchDirectives) {
-            const tryStartLabel = context.labels.get(directive.tryStart.name);
+            const tryStartLabel = context.labels.get(directive.tryStart.decl.name);
             if (tryStartLabel === undefined) {
                 throw new Error("Could not find try start label node");
             }
-            const tryEndLabel = context.labels.get(directive.tryEnd.name);
+            const tryEndLabel = context.labels.get(directive.tryEnd.decl.name);
             if (tryEndLabel === undefined) {
                 throw new Error("Could not find try end label node");
             }
-            const catchLabel = context.labels.get(directive.catch.name);
+            const catchLabel = context.labels.get(directive.catch.decl.name);
             const tryEndIndex = body.findIndex(([head]) => head === tryEndLabel);
             const tryStartIndex = body.findIndex(([head]) => head === tryStartLabel);
             for (let i = tryEndIndex - 1; i > tryStartIndex; i--) {
@@ -160,7 +160,7 @@ export default class FlowGraphGenerator {
             this.#processLabelStmt($iftrue, context);
         }
         let ifTrueHead;
-        const label = context.labels.get($jp.label.name);
+        const label = context.labels.get($iftrue.name);
         if (label !== undefined) {
             ifTrueHead = label;
         }
@@ -193,7 +193,7 @@ export default class FlowGraphGenerator {
                 if (!(childRef instanceof LabelReference)) {
                     throw new Error("Packed switch directive children must be label references");
                 }
-                if (!context.labels.has(childRef.name)) {
+                if (!context.labels.has(childRef.decl.name)) {
                     this.#processLabelStmt(childRef.decl, context);
                 }
                 childrenRefs.push(childRef);
@@ -208,14 +208,14 @@ export default class FlowGraphGenerator {
                 if (!(childRef instanceof LabelReference)) {
                     throw new Error("Sparse switch element must contain a label reference");
                 }
-                if (!context.labels.has(childRef.name)) {
+                if (!context.labels.has(childRef.decl.name)) {
                     this.#processLabelStmt(childRef.decl, context);
                 }
                 childrenRefs.push(childRef);
             }
         }
         for (const child of childrenRefs) {
-            const label = context.labels.get(child.name);
+            const label = context.labels.get(child.decl.name);
             if (label !== undefined) {
                 const currentCase = this.#graph.addSwitchCase(child, label, label);
                 if (previousCase === undefined) {
@@ -256,10 +256,10 @@ export default class FlowGraphGenerator {
             .addNode()
             .init(new GotoNode.Builder($jp))
             .as(GotoNode.Class);
-        if (!context.labels.has($jp.label.name)) {
+        if (!context.labels.has($jp.label.decl.name)) {
             this.#processLabelStmt($jp.label.decl, context);
         }
-        const label = context.labels.get($jp.label.name);
+        const label = context.labels.get($jp.label.decl.name);
         if (label !== undefined) {
             this.#connectArbitraryJump(node, label);
         }

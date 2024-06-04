@@ -4,7 +4,6 @@ import pt.up.fe.specs.smali.ast.App;
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.weaver.SmaliJoinpoints;
 import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.AClassNode;
-import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.ALabelReference;
 import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.AManifest;
 import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.AProgram;
 

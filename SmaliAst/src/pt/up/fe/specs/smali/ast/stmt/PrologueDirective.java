@@ -15,7 +15,6 @@ package pt.up.fe.specs.smali.ast.stmt;
 
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import pt.up.fe.specs.smali.ast.SmaliNode;
-import pt.up.fe.specs.smali.ast.expr.literal.Literal;
 
 import java.util.Collection;
 

@@ -26,6 +26,7 @@ import pt.up.fe.specs.smali.ast.expr.FieldReference;
 import pt.up.fe.specs.smali.ast.expr.LabelRef;
 import pt.up.fe.specs.smali.ast.expr.MethodReference;
 import pt.up.fe.specs.smali.ast.expr.Reference;
+import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.ClassType;
 import pt.up.fe.specs.smali.ast.stmt.Label;
 import pt.up.fe.specs.util.SpecsIo;
 
@@ -34,6 +35,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+
+import static pt.up.fe.specs.smali.ast.SmaliNode.ATTRIBUTES;
 
 public class SmaliParser {
 
@@ -99,13 +102,16 @@ public class SmaliParser {
     private void collectDeclarations(SmaliNode node, Map<String, Map<String, SmaliNode>> declarationsMap) {
         if (node instanceof Label) {
             declarationsMap.computeIfAbsent(LabelRef.TYPE_LABEL, k -> new HashMap<>())
-                    .put(((Label) node).getLabel(), node);
+                    .put(((Label) node).getLabelReferenceName(), node);
         } else if (node instanceof FieldNode) {
             declarationsMap.computeIfAbsent(FieldReference.TYPE_LABEL, k -> new HashMap<>())
-                    .put(((FieldNode) node).getField(), node);
+                    .put(((FieldNode) node).getFieldReferenceName(), node);
         } else if (node instanceof MethodNode) {
             declarationsMap.computeIfAbsent(MethodReference.TYPE_LABEL, k -> new HashMap<>())
                     .put(((MethodNode) node).getMethodReferenceName(), node);
+        } else if (node instanceof ClassNode) {
+            declarationsMap.computeIfAbsent(ClassType.TYPE_LABEL, k -> new HashMap<>())
+                    .put(((ClassNode) node).getClassDescriptor().getCode(), node);
         }
 
         node.getChildren().forEach(child -> collectDeclarations(child, declarationsMap));
@@ -124,6 +130,21 @@ public class SmaliParser {
         }
 
         node.getChildren().forEach(child -> replaceReferences(child, declarationsMap));
+
+        if (node.get(ATTRIBUTES) != null) {
+            node.get(ATTRIBUTES).values().forEach(value -> {
+                if (value instanceof SmaliNode) {
+                    replaceReferences((SmaliNode) value, declarationsMap);
+                } else if (value instanceof List) {
+                    ((List<?>) value).forEach(listValue -> {
+                        if (listValue instanceof SmaliNode) {
+                            replaceReferences((SmaliNode) listValue, declarationsMap);
+                        }
+                    });
+                }
+            });
+        }
+
     }
 
     private Resource newResourceNode(File source, SmaliContext context) {

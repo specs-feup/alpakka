@@ -1,6 +1,8 @@
 package pt.up.fe.specs.smali.ast;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.suikasoft.jOptions.Datakey.DataKey;
 import org.suikasoft.jOptions.Datakey.KeyFactory;
@@ -22,6 +24,9 @@ public abstract class SmaliNode extends DataNode<SmaliNode> {
      * Context of the tree.
      */
     public final static DataKey<SmaliContext> CONTEXT = KeyFactory.object("context", SmaliContext.class);
+
+    public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
+            HashMap::new);
 
     /// DATAKEYS END
 

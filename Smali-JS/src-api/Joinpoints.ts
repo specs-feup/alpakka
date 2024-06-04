@@ -157,14 +157,17 @@ export class Joinpoint extends LaraJoinPoint {
  * Class definition
  */
 export class ClassNode extends Joinpoint {
+  get classDescriptor(): ClassType {
+    return wrapJoinPoint(this._javaObject.getClassDescriptor());
+  }
   get fields(): FieldNode[] {
     return wrapJoinPoint(this._javaObject.getFields());
   }
   get methods(): MethodNode[] {
     return wrapJoinPoint(this._javaObject.getMethods());
   }
-  get superClass(): ClassType {
-    return wrapJoinPoint(this._javaObject.getSuperClass());
+  get superClassDescriptor(): ClassType {
+    return wrapJoinPoint(this._javaObject.getSuperClassDescriptor());
   }
   get attributes(): string[] {
     return wrapJoinPoint(this._javaObject.getAttributes());
@@ -234,9 +237,6 @@ export class LabelReference extends Expression {
   get decl(): Label {
     return wrapJoinPoint(this._javaObject.getDecl());
   }
-  get name(): string {
-    return wrapJoinPoint(this._javaObject.getName());
-  }
 }
 
 /**
@@ -277,6 +277,9 @@ export class Manifest extends Joinpoint {
  * Method definition
  */
 export class MethodNode extends Joinpoint {
+  get isStatic(): boolean {
+    return wrapJoinPoint(this._javaObject.getIsStatic());
+  }
   get name(): string {
     return wrapJoinPoint(this._javaObject.getName());
   }
@@ -315,14 +318,14 @@ export class MethodPrototype extends Literal {
  * Method reference
  */
 export class MethodReference extends Expression {
-  get memberName(): string {
-    return wrapJoinPoint(this._javaObject.getMemberName());
+  get name(): string {
+    return wrapJoinPoint(this._javaObject.getName());
+  }
+  get parentClassDescriptor(): TypeDescriptor {
+    return wrapJoinPoint(this._javaObject.getParentClassDescriptor());
   }
   get prototype(): MethodPrototype {
     return wrapJoinPoint(this._javaObject.getPrototype());
-  }
-  get referenceTypeDescriptor(): TypeDescriptor {
-    return wrapJoinPoint(this._javaObject.getReferenceTypeDescriptor());
   }
 }
 
@@ -479,6 +482,9 @@ export class Catch extends Statement {
 export class ClassType extends TypeDescriptor {
   get className(): string {
     return wrapJoinPoint(this._javaObject.getClassName());
+  }
+  get decl(): ClassNode {
+    return wrapJoinPoint(this._javaObject.getDecl());
   }
   get packageName(): string {
     return wrapJoinPoint(this._javaObject.getPackageName());

@@ -26,59 +26,59 @@ public abstract class AMethodReference extends AExpression {
         this.aExpression = aExpression;
     }
     /**
-     * Get value on attribute referenceTypeDescriptor
+     * Get value on attribute parentClassDescriptor
      * @return the attribute's value
      */
-    public abstract ATypeDescriptor getReferenceTypeDescriptorImpl();
+    public abstract ATypeDescriptor getParentClassDescriptorImpl();
 
     /**
-     * Get value on attribute referenceTypeDescriptor
+     * Get value on attribute parentClassDescriptor
      * @return the attribute's value
      */
-    public final Object getReferenceTypeDescriptor() {
+    public final Object getParentClassDescriptor() {
         try {
         	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "referenceTypeDescriptor", Optional.empty());
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "parentClassDescriptor", Optional.empty());
         	}
-        	ATypeDescriptor result = this.getReferenceTypeDescriptorImpl();
+        	ATypeDescriptor result = this.getParentClassDescriptorImpl();
         	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "referenceTypeDescriptor", Optional.ofNullable(result));
+        		eventTrigger().triggerAttribute(Stage.END, this, "parentClassDescriptor", Optional.ofNullable(result));
         	}
         	return result!=null?result:getUndefinedValue();
         } catch(Exception e) {
-        	throw new AttributeException(get_class(), "referenceTypeDescriptor", e);
+        	throw new AttributeException(get_class(), "parentClassDescriptor", e);
         }
     }
 
     /**
      * 
      */
-    public void defReferenceTypeDescriptorImpl(ATypeDescriptor value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def referenceTypeDescriptor with type ATypeDescriptor not implemented ");
+    public void defParentClassDescriptorImpl(ATypeDescriptor value) {
+        throw new UnsupportedOperationException("Join point "+get_class()+": Action def parentClassDescriptor with type ATypeDescriptor not implemented ");
     }
 
     /**
-     * Get value on attribute memberName
+     * Get value on attribute name
      * @return the attribute's value
      */
-    public abstract String getMemberNameImpl();
+    public abstract String getNameImpl();
 
     /**
-     * Get value on attribute memberName
+     * Get value on attribute name
      * @return the attribute's value
      */
-    public final Object getMemberName() {
+    public final Object getName() {
         try {
         	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "memberName", Optional.empty());
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "name", Optional.empty());
         	}
-        	String result = this.getMemberNameImpl();
+        	String result = this.getNameImpl();
         	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "memberName", Optional.ofNullable(result));
+        		eventTrigger().triggerAttribute(Stage.END, this, "name", Optional.ofNullable(result));
         	}
         	return result!=null?result:getUndefinedValue();
         } catch(Exception e) {
-        	throw new AttributeException(get_class(), "memberName", e);
+        	throw new AttributeException(get_class(), "name", e);
         }
     }
 
@@ -341,9 +341,9 @@ public abstract class AMethodReference extends AExpression {
     @Override
     public final void defImpl(String attribute, Object value) {
         switch(attribute){
-        case "referenceTypeDescriptor": {
+        case "parentClassDescriptor": {
         	if(value instanceof ATypeDescriptor){
-        		this.defReferenceTypeDescriptorImpl((ATypeDescriptor)value);
+        		this.defParentClassDescriptorImpl((ATypeDescriptor)value);
         		return;
         	}
         	this.unsupportedTypeForDef(attribute, value);
@@ -365,8 +365,8 @@ public abstract class AMethodReference extends AExpression {
     @Override
     protected final void fillWithAttributes(List<String> attributes) {
         this.aExpression.fillWithAttributes(attributes);
-        attributes.add("referenceTypeDescriptor");
-        attributes.add("memberName");
+        attributes.add("parentClassDescriptor");
+        attributes.add("name");
         attributes.add("prototype");
     }
 
@@ -411,8 +411,8 @@ public abstract class AMethodReference extends AExpression {
      * 
      */
     protected enum MethodReferenceAttributes {
-        REFERENCETYPEDESCRIPTOR("referenceTypeDescriptor"),
-        MEMBERNAME("memberName"),
+        PARENTCLASSDESCRIPTOR("parentClassDescriptor"),
+        NAME("name"),
         PROTOTYPE("prototype"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),

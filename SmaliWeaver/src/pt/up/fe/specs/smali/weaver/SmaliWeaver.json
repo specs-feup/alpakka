@@ -1007,6 +1007,14 @@
 						"type": "attribute",
 						"children": [
 									{
+										"type": "classType",
+										"name": "classDescriptor"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
 										"type": "fieldNode[]",
 										"name": "fields"
 									}]
@@ -1024,7 +1032,7 @@
 						"children": [
 									{
 										"type": "classType",
-										"name": "superClass"
+										"name": "superClassDescriptor"
 									}]
 					},
 					{
@@ -1349,6 +1357,14 @@
 									{
 										"type": "String",
 										"name": "className"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "classNode",
+										"name": "decl"
 									}]
 					},
 					{
@@ -4455,14 +4471,6 @@
 						"type": "attribute",
 						"children": [
 									{
-										"type": "String",
-										"name": "name"
-									}]
-					},
-					{
-						"type": "attribute",
-						"children": [
-									{
 										"type": "String[]",
 										"name": "attributes"
 									}]
@@ -5435,6 +5443,14 @@
 						"type": "attribute",
 						"children": [
 									{
+										"type": "boolean",
+										"name": "isStatic"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
 										"type": "String",
 										"name": "name"
 									}]
@@ -6100,7 +6116,15 @@
 						"children": [
 									{
 										"type": "String",
-										"name": "memberName"
+										"name": "name"
+									}]
+					},
+					{
+						"type": "attribute",
+						"children": [
+									{
+										"type": "typeDescriptor",
+										"name": "parentClassDescriptor"
 									}]
 					},
 					{
@@ -6109,14 +6133,6 @@
 									{
 										"type": "methodPrototype",
 										"name": "prototype"
-									}]
-					},
-					{
-						"type": "attribute",
-						"children": [
-									{
-										"type": "typeDescriptor",
-										"name": "referenceTypeDescriptor"
 									}]
 					},
 					{

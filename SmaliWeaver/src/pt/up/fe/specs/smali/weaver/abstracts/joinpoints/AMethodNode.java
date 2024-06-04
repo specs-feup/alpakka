@@ -76,6 +76,31 @@ public abstract class AMethodNode extends ASmaliWeaverJoinPoint {
     }
 
     /**
+     * Get value on attribute isStatic
+     * @return the attribute's value
+     */
+    public abstract Boolean getIsStaticImpl();
+
+    /**
+     * Get value on attribute isStatic
+     * @return the attribute's value
+     */
+    public final Object getIsStatic() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "isStatic", Optional.empty());
+        	}
+        	Boolean result = this.getIsStaticImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "isStatic", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "isStatic", e);
+        }
+    }
+
+    /**
      * 
      */
     @Override
@@ -114,6 +139,7 @@ public abstract class AMethodNode extends ASmaliWeaverJoinPoint {
         super.fillWithAttributes(attributes);
         attributes.add("name");
         attributes.add("prototype");
+        attributes.add("isStatic");
     }
 
     /**
@@ -146,6 +172,7 @@ public abstract class AMethodNode extends ASmaliWeaverJoinPoint {
     protected enum MethodNodeAttributes {
         NAME("name"),
         PROTOTYPE("prototype"),
+        ISSTATIC("isStatic"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),

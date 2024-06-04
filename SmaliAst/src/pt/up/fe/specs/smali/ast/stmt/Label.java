@@ -17,6 +17,7 @@ import java.util.Collection;
 
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
+import pt.up.fe.specs.smali.ast.MethodNode;
 import pt.up.fe.specs.smali.ast.SmaliNode;
 
 public class Label extends Statement {
@@ -28,7 +29,7 @@ public class Label extends Statement {
     @Override
     public String getCode() {
         var sb = new StringBuilder();
-        var name = get(ATTRIBUTES).get("label");
+        var name = getLabelName();
 
         sb.append(getLineDirective());
 
@@ -37,8 +38,21 @@ public class Label extends Statement {
         return sb.toString();
     }
 
-    public String getLabel() {
+    public String getLabelName() {
         return (String) get(ATTRIBUTES).get("label");
+    }
+
+    public String getLabelReferenceName() {
+        var sb = new StringBuilder();
+        var parentMethod = ((MethodNode) getParent());
+
+        if (parentMethod != null) {
+            sb.append(parentMethod.getMethodReferenceName());
+        }
+
+        sb.append(":").append(getLabelName());
+
+        return sb.toString();
     }
 
 }

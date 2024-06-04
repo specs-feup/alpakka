@@ -31,9 +31,9 @@ public class CatchDirective extends Statement {
     public String getCode() {
         var sb = new StringBuilder();
         var type = (TypeDescriptor) getExceptionTypeDescriptor();
-        var from = (LabelRef) getTryStartLabelRef();
-        var to = (LabelRef) getTryEndLabelRef();
-        var label = (LabelRef) getCatchLabelRef();
+        var tryStartLabel = getTryStartLabelRef();
+        var tryEndLabel = getTryEndLabelRef();
+        var catchLabel = getCatchLabelRef();
 
         sb.append(getLineDirective());
 
@@ -45,12 +45,12 @@ public class CatchDirective extends Statement {
         }
 
         sb.append(" {");
-        sb.append(from.getCode());
+        sb.append(tryStartLabel.getCode());
         sb.append(" .. ");
-        sb.append(to.getCode());
+        sb.append(tryEndLabel.getCode());
         sb.append("} ");
 
-        sb.append(label.getCode());
+        sb.append(catchLabel.getCode());
 
         return sb.toString();
     }
@@ -60,15 +60,15 @@ public class CatchDirective extends Statement {
     }
 
     public LabelRef getTryStartLabelRef() {
-        return (LabelRef) get(ATTRIBUTES).get("from");
+        return (LabelRef) getChild(0);
     }
 
     public LabelRef getTryEndLabelRef() {
-        return (LabelRef) get(ATTRIBUTES).get("to");
+        return (LabelRef) getChild(1);
     }
 
     public LabelRef getCatchLabelRef() {
-        return (LabelRef) get(ATTRIBUTES).get("label");
+        return (LabelRef) getChild(2);
     }
 
 }

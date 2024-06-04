@@ -138,11 +138,11 @@ public class SmaliFactory {
         return new RestartLocalDirective(data, children);
     }
 
-    public CatchDirective catchDirective(HashMap<String, Object> attributes) {
+    public CatchDirective catchDirective(HashMap<String, Object> attributes, List<? extends SmaliNode> children) {
         var data = newDataStore(CatchDirective.class);
         data.set(CatchDirective.ATTRIBUTES, attributes);
 
-        return new CatchDirective(data, null);
+        return new CatchDirective(data, children);
     }
 
     public ParameterDirective parameterDirective(HashMap<String, Object> attributes,

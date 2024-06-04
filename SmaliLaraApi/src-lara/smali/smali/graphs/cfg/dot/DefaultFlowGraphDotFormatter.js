@@ -63,7 +63,7 @@ export default class DefaultFlowGraphDotFormatter extends DotFormatter {
         }
         else if (node.is(GotoNode.TypeGuard)) {
             const gotoNode = node.as(GotoNode.Class);
-            label = `Goto: \n${gotoNode.jp.label.name}`;
+            label = `Goto: \n${gotoNode.jp.label.decl.name}`;
         }
         else if (node.is(UnknownInstructionNode.TypeGuard)) {
             const unknownInstructionNode = node.as(UnknownInstructionNode.Class);

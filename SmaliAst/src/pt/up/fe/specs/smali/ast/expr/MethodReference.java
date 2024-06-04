@@ -1,24 +1,15 @@
 package pt.up.fe.specs.smali.ast.expr;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.suikasoft.jOptions.Datakey.DataKey;
-import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
-
-import pt.up.fe.specs.smali.ast.ClassNode;
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.ast.expr.literal.MethodPrototype;
 import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.TypeDescriptor;
 
+import java.util.Collection;
+
 public class MethodReference extends Expression implements Reference {
 
     public static String TYPE_LABEL = "method";
-
-    public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-            HashMap::new);
 
     public MethodReference(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
@@ -26,8 +17,8 @@ public class MethodReference extends Expression implements Reference {
 
     @Override
     public String getCode() {
-        var referenceTypeDescriptor = getReferenceTypeDescriptor();
-        var member = getMemberName();
+        var referenceTypeDescriptor = getParentClassDescriptor();
+        var member = getMethodName();
         var prototype = getPrototype();
 
         var sb = new StringBuilder();
@@ -43,11 +34,11 @@ public class MethodReference extends Expression implements Reference {
         return sb.toString();
     }
 
-    public TypeDescriptor getReferenceTypeDescriptor() {
+    public TypeDescriptor getParentClassDescriptor() {
         return (TypeDescriptor) get(ATTRIBUTES).get("referenceTypeDescriptor");
     }
 
-    public String getMemberName() {
+    public String getMethodName() {
         return (String) get(ATTRIBUTES).get("memberName");
     }
 

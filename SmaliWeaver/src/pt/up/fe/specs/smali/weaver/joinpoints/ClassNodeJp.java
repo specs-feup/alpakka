@@ -36,7 +36,12 @@ public class ClassNodeJp extends AClassNode {
 	}
 
 	@Override
-	public AClassType getSuperClassImpl() {
+	public AClassType getClassDescriptorImpl() {
+		return SmaliJoinpoints.create(classNode.getClassDescriptor(), AClassType.class);
+	}
+
+	@Override
+	public AClassType getSuperClassDescriptorImpl() {
 		return SmaliJoinpoints.create(classNode.getSuperClass(), AClassType.class);
 	}
 }

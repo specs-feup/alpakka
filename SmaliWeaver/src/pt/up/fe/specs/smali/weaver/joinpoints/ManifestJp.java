@@ -1,10 +1,8 @@
 package pt.up.fe.specs.smali.weaver.joinpoints;
 
 import pt.up.fe.specs.smali.ast.Manifest;
-import pt.up.fe.specs.smali.ast.Resource;
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.AManifest;
-import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.AResourceNode;
 
 public class ManifestJp extends AManifest {
 

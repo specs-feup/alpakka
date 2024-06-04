@@ -1,30 +1,12 @@
 package pt.up.fe.specs.smali.parser.antlr;
 
-import java.io.File;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.function.Function;
-
 import com.android.tools.smali.dexlib2.Opcode;
-import com.android.tools.smali.smali.Smali;
+import com.android.tools.smali.smali.smaliFlexLexer;
+import com.android.tools.smali.smali.smaliParser;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.Tree;
-
-import com.android.tools.smali.smali.smaliFlexLexer;
-import com.android.tools.smali.smali.smaliParser;
-
-import pt.up.fe.specs.smali.ast.AccessSpec;
-import pt.up.fe.specs.smali.ast.AnnotationVisibility;
-import pt.up.fe.specs.smali.ast.HiddenApiRestriction;
-import pt.up.fe.specs.smali.ast.Modifier;
-import pt.up.fe.specs.smali.ast.SmaliNode;
+import pt.up.fe.specs.smali.ast.*;
 import pt.up.fe.specs.smali.ast.context.SmaliContext;
 import pt.up.fe.specs.smali.ast.expr.FieldReference;
 import pt.up.fe.specs.smali.ast.expr.MethodReference;
@@ -34,6 +16,11 @@ import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.ClassType;
 import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.TypeDescriptor;
 import pt.up.fe.specs.smali.ast.stmt.LineDirective;
 import pt.up.fe.specs.util.SpecsIo;
+
+import java.io.File;
+import java.io.StringReader;
+import java.util.*;
+import java.util.function.Function;
 
 public class SmaliFileParser {
 
@@ -412,6 +399,7 @@ public class SmaliFileParser {
         var factory = context.get(SmaliContext.FACTORY);
 
         var attributes = getStatementAttributes(null);
+        var children = new ArrayList<SmaliNode>();
 
         var i = 0;
 
@@ -426,21 +414,13 @@ public class SmaliFileParser {
             i++;
         }
 
-        var labelRefAttributes = new HashMap<String, Object>();
-        labelRefAttributes.put("label", node.getChild(i).getText());
-        attributes.put("from", factory.labelRef(labelRefAttributes));
-        i++;
+        for (; i < node.getChildCount(); i++) {
+            var labelRefAttributes = new HashMap<String, Object>();
+            labelRefAttributes.put("label", node.getChild(i).getText());
+            children.add(factory.labelRef(labelRefAttributes));
+        }
 
-        labelRefAttributes = new HashMap<String, Object>();
-        labelRefAttributes.put("label", node.getChild(i).getText());
-        attributes.put("to", factory.labelRef(labelRefAttributes));
-        i++;
-
-        labelRefAttributes = new HashMap<String, Object>();
-        labelRefAttributes.put("label", node.getChild(i).getText());
-        attributes.put("label", factory.labelRef(labelRefAttributes));
-
-        return factory.catchDirective(attributes);
+        return factory.catchDirective(attributes, children);
     }
 
     private SmaliNode convertParameter(Tree node) {
@@ -601,7 +581,7 @@ public class SmaliFileParser {
         var parsedEnum = factory.encodedEnum(children);
 
         if (!children.isEmpty())
-            parsedEnum.setType(((FieldReference) children.get(0)).getNonVoidTypeDescriptor());
+            parsedEnum.setType(((FieldReference) children.get(0)).getFieldReferenceType());
 
         return parsedEnum;
     }
