@@ -2,9 +2,9 @@ package pt.up.fe.specs.smali.weaver.joinpoints;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.ast.expr.RegisterList;
-import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.ARegisterRange;
+import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.ARegisterList;
 
-public class RegisterListJp extends ARegisterRange {
+public class RegisterListJp extends ARegisterList {
 
     private final RegisterList rList;
 
