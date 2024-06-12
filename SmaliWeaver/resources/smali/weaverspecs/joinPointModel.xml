@@ -42,6 +42,8 @@
     <!-- LITERALS -->
     <joinpoint class="literal" extends="expression" tooltip="Literal"/>
 
+    <joinpoint class="primitiveLiteral" extends="literal" tooltip="Primitive literal"/>
+
     <joinpoint class="methodPrototype" extends="literal" tooltip="Method prototype"/>
 
     <!-- TYPE DESCRIPTORS -->
@@ -59,6 +61,8 @@
     <joinpoint class="label" extends="statement" tooltip="Label declaration"/>
 
     <joinpoint class="catch" extends="statement" tooltip="Catch directive"/>
+
+    <joinpoint class="registersDirective" extends="statement" tooltip="Registers directive"/>
 
     <!-- INSTRUCTIONS -->
     <joinpoint class="instruction" extends="statement" tooltip="Instruction"/>

@@ -33,7 +33,7 @@ namespace FlowGraph {
       const function_entry = this.addNode()
         .init(new FunctionEntryNode.Builder($jp))
         .as(FunctionEntryNode.Class);
-      this.data.functions.set($jp.name, function_entry.id);
+      this.data.functions.set($jp.referenceName, function_entry.id);
 
       const function_exit = this.addNode()
         .init(new FunctionExitNode.Builder($jp))

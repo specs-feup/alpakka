@@ -17,4 +17,18 @@ public class FieldNodeJp extends AFieldNode {
         return fieldNode;
     }
 
+    @Override
+    public String getNameImpl() {
+        return fieldNode.getFieldName();
+    }
+
+    @Override
+    public String getReferenceNameImpl() {
+        return fieldNode.getFieldReferenceName();
+    }
+
+    @Override
+    public Boolean getIsStaticImpl() {
+        return fieldNode.isStatic();
+    }
 }

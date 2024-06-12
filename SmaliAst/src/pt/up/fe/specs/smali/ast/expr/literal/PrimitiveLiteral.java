@@ -25,4 +25,8 @@ public class PrimitiveLiteral extends Literal {
         super(data, children);
     }
 
+    public String setValue(String value) {
+        return (String) get(ATTRIBUTES).put("value", value);
+    }
+
 }

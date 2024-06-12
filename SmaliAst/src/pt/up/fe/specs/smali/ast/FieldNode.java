@@ -4,6 +4,7 @@ import org.suikasoft.jOptions.Interfaces.DataStore;
 import pt.up.fe.specs.smali.ast.expr.literal.Literal;
 import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.TypeDescriptor;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -16,8 +17,7 @@ public class FieldNode extends SmaliNode {
     @Override
     public String getCode() {
         var sb = new StringBuilder();
-        var attributes = get(ATTRIBUTES);
-        var accessOrRestrictionList = (List<Modifier>) attributes.get("accessOrRestrictionList");
+        var accessOrRestrictionList = getAccessList();
         var name = getFieldName();
         var fieldType = getFieldType();
 
@@ -72,6 +72,14 @@ public class FieldNode extends SmaliNode {
         sb.append(getFieldType().getCode());
 
         return sb.toString();
+    }
+
+    public List<Modifier> getAccessList() {
+        return (ArrayList<Modifier>) get(ATTRIBUTES).get("accessOrRestrictionList");
+    }
+
+    public boolean isStatic() {
+        return getAccessList().contains(AccessSpec.STATIC);
     }
 
 }

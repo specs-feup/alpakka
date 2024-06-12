@@ -227,6 +227,9 @@ export class MethodNode extends Joinpoint {
     get prototype() {
         return wrapJoinPoint(this._javaObject.getPrototype());
     }
+    get referenceName() {
+        return wrapJoinPoint(this._javaObject.getReferenceName());
+    }
     get attributes() {
         return wrapJoinPoint(this._javaObject.getAttributes());
     }
@@ -303,6 +306,9 @@ export class Program extends Joinpoint {
     }
     get actions() {
         return wrapJoinPoint(this._javaObject.getActions());
+    }
+    buildApk(outputName) {
+        return wrapJoinPoint(this._javaObject.buildApk(unwrapJoinPoint(outputName)));
     }
     def(attribute, value) {
         return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value)));

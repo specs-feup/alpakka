@@ -1,9 +1,11 @@
 package pt.up.fe.specs.smali.weaver.abstracts.joinpoints;
 
+import org.lara.interpreter.weaver.interf.events.Stage;
+import java.util.Optional;
+import org.lara.interpreter.exception.AttributeException;
 import pt.up.fe.specs.smali.weaver.abstracts.ASmaliWeaverJoinPoint;
 import java.util.List;
 import org.lara.interpreter.weaver.interf.JoinPoint;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.Arrays;
 
@@ -15,6 +17,81 @@ import java.util.Arrays;
  * @author Lara Weaver Generator
  */
 public abstract class AFieldNode extends ASmaliWeaverJoinPoint {
+
+    /**
+     * Get value on attribute name
+     * @return the attribute's value
+     */
+    public abstract String getNameImpl();
+
+    /**
+     * Get value on attribute name
+     * @return the attribute's value
+     */
+    public final Object getName() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "name", Optional.empty());
+        	}
+        	String result = this.getNameImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "name", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "name", e);
+        }
+    }
+
+    /**
+     * Get value on attribute referenceName
+     * @return the attribute's value
+     */
+    public abstract String getReferenceNameImpl();
+
+    /**
+     * Get value on attribute referenceName
+     * @return the attribute's value
+     */
+    public final Object getReferenceName() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "referenceName", Optional.empty());
+        	}
+        	String result = this.getReferenceNameImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "referenceName", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "referenceName", e);
+        }
+    }
+
+    /**
+     * Get value on attribute isStatic
+     * @return the attribute's value
+     */
+    public abstract Boolean getIsStaticImpl();
+
+    /**
+     * Get value on attribute isStatic
+     * @return the attribute's value
+     */
+    public final Object getIsStatic() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "isStatic", Optional.empty());
+        	}
+        	Boolean result = this.getIsStaticImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "isStatic", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "isStatic", e);
+        }
+    }
 
     /**
      * 
@@ -46,6 +123,9 @@ public abstract class AFieldNode extends ASmaliWeaverJoinPoint {
     @Override
     protected final void fillWithAttributes(List<String> attributes) {
         super.fillWithAttributes(attributes);
+        attributes.add("name");
+        attributes.add("referenceName");
+        attributes.add("isStatic");
     }
 
     /**
@@ -76,6 +156,9 @@ public abstract class AFieldNode extends ASmaliWeaverJoinPoint {
      * 
      */
     protected enum FieldNodeAttributes {
+        NAME("name"),
+        REFERENCENAME("referenceName"),
+        ISSTATIC("isStatic"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),

@@ -44,6 +44,31 @@ public abstract class AMethodNode extends ASmaliWeaverJoinPoint {
     }
 
     /**
+     * Get value on attribute referenceName
+     * @return the attribute's value
+     */
+    public abstract String getReferenceNameImpl();
+
+    /**
+     * Get value on attribute referenceName
+     * @return the attribute's value
+     */
+    public final Object getReferenceName() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "referenceName", Optional.empty());
+        	}
+        	String result = this.getReferenceNameImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "referenceName", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "referenceName", e);
+        }
+    }
+
+    /**
      * Get value on attribute prototype
      * @return the attribute's value
      */
@@ -73,6 +98,38 @@ public abstract class AMethodNode extends ASmaliWeaverJoinPoint {
      */
     public void defPrototypeImpl(AMethodPrototype value) {
         throw new UnsupportedOperationException("Join point "+get_class()+": Action def prototype with type AMethodPrototype not implemented ");
+    }
+
+    /**
+     * Get value on attribute registersDirective
+     * @return the attribute's value
+     */
+    public abstract ARegistersDirective getRegistersDirectiveImpl();
+
+    /**
+     * Get value on attribute registersDirective
+     * @return the attribute's value
+     */
+    public final Object getRegistersDirective() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "registersDirective", Optional.empty());
+        	}
+        	ARegistersDirective result = this.getRegistersDirectiveImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "registersDirective", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "registersDirective", e);
+        }
+    }
+
+    /**
+     * 
+     */
+    public void defRegistersDirectiveImpl(ARegistersDirective value) {
+        throw new UnsupportedOperationException("Join point "+get_class()+": Action def registersDirective with type ARegistersDirective not implemented ");
     }
 
     /**
@@ -127,6 +184,13 @@ public abstract class AMethodNode extends ASmaliWeaverJoinPoint {
         	}
         	this.unsupportedTypeForDef(attribute, value);
         }
+        case "registersDirective": {
+        	if(value instanceof ARegistersDirective){
+        		this.defRegistersDirectiveImpl((ARegistersDirective)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
         default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
         }
     }
@@ -138,7 +202,9 @@ public abstract class AMethodNode extends ASmaliWeaverJoinPoint {
     protected final void fillWithAttributes(List<String> attributes) {
         super.fillWithAttributes(attributes);
         attributes.add("name");
+        attributes.add("referenceName");
         attributes.add("prototype");
+        attributes.add("registersDirective");
         attributes.add("isStatic");
     }
 
@@ -171,7 +237,9 @@ public abstract class AMethodNode extends ASmaliWeaverJoinPoint {
      */
     protected enum MethodNodeAttributes {
         NAME("name"),
+        REFERENCENAME("referenceName"),
         PROTOTYPE("prototype"),
+        REGISTERSDIRECTIVE("registersDirective"),
         ISSTATIC("isStatic"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),

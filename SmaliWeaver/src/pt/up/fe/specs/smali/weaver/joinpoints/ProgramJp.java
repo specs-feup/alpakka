@@ -31,4 +31,10 @@ public class ProgramJp extends AProgram {
                 .map(node -> SmaliJoinpoints.create(node, AClassNode.class))
                 .toArray(AClassNode[]::new);
     }
+
+    @Override
+    public Void buildApkImpl(String outputName) {
+        this.program.buildApk(outputName);
+        return null;
+    }
 }

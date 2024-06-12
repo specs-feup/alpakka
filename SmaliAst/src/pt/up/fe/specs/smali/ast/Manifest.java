@@ -14,28 +14,15 @@
 package pt.up.fe.specs.smali.ast;
 
 import org.suikasoft.jOptions.Interfaces.DataStore;
-import pt.up.fe.specs.util.SpecsIo;
 
-import java.io.File;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public class Manifest extends SmaliNode {
+public class Manifest extends Resource {
 
     public Manifest(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
-    }
-
-    @Override
-    public String getCode() {
-        var file = getFile();
-
-        return SpecsIo.read(file);
-    }
-
-    public File getFile() {
-        return (File) get(ATTRIBUTES).get("file");
     }
 
     public String getPackageName() {

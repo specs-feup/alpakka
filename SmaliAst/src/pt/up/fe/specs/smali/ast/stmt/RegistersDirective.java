@@ -6,6 +6,7 @@ import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.ast.expr.literal.Literal;
+import pt.up.fe.specs.smali.ast.expr.literal.PrimitiveLiteral;
 
 public class RegistersDirective extends Statement {
 
@@ -16,10 +17,9 @@ public class RegistersDirective extends Statement {
     @Override
     public String getCode() {
         var sb = new StringBuilder();
-        var attributes = get(ATTRIBUTES);
 
-        var type = (String) attributes.get("type");
-        var value = (Literal) attributes.get("value");
+        var type = getType();
+        var value = getValue();
 
         sb.append(getLineDirective());
 
@@ -32,6 +32,14 @@ public class RegistersDirective extends Statement {
         sb.append(value.getCode());
 
         return sb.toString();
+    }
+
+    public String getType() {
+        return (String) get(ATTRIBUTES).get("type");
+    }
+
+    public PrimitiveLiteral getValue() {
+        return (PrimitiveLiteral) get(ATTRIBUTES).get("value");
     }
 
 }

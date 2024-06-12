@@ -17,6 +17,7 @@ import pt.up.fe.specs.smali.ast.*;
 import pt.up.fe.specs.smali.ast.expr.*;
 import pt.up.fe.specs.smali.ast.expr.literal.Literal;
 import pt.up.fe.specs.smali.ast.expr.literal.MethodPrototype;
+import pt.up.fe.specs.smali.ast.expr.literal.PrimitiveLiteral;
 import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.ArrayType;
 import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.ClassType;
 import pt.up.fe.specs.smali.ast.expr.literal.typeDescriptor.PrimitiveType;
@@ -44,6 +45,7 @@ public class SmaliJoinpoints {
         JOINPOINT_FACTORY.put(PrimitiveType.class, PrimitiveTypeJp::new);
         JOINPOINT_FACTORY.put(TypeDescriptor.class, TypeDescriptorJp::new);
         JOINPOINT_FACTORY.put(MethodPrototype.class, MethodPrototypeJp::new);
+        JOINPOINT_FACTORY.put(PrimitiveLiteral.class, PrimitiveLiteralJp::new);
         JOINPOINT_FACTORY.put(Literal.class, LiteralJp::new);
         JOINPOINT_FACTORY.put(RegisterReference.class, RegisterReferenceJp::new);
         JOINPOINT_FACTORY.put(MethodReference.class, MethodReferenceJp::new);
@@ -63,6 +65,7 @@ public class SmaliJoinpoints {
         JOINPOINT_FACTORY.put(InstructionFormat22t.class, IfComparisonJp::new);
         JOINPOINT_FACTORY.put(Instruction.class, InstructionJp::new);
         JOINPOINT_FACTORY.put(CatchDirective.class, CatchJp::new);
+        JOINPOINT_FACTORY.put(RegistersDirective.class, RegistersDirectiveJp::new);
         JOINPOINT_FACTORY.put(Label.class, LabelJp::new);
         JOINPOINT_FACTORY.put(Statement.class, StatementJp::new);
         JOINPOINT_FACTORY.put(Resource.class, ResourceNodeJp::new);

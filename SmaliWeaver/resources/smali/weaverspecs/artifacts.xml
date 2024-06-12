@@ -52,6 +52,9 @@
             <def/>
         </attribute>
         <attribute name="classes" type="classNode[]"/>
+        <attribute name="buildApk" type="void">
+            <parameter name="outputName" type="String"/>
+        </attribute>
     </artifact>
 
     <!-- MANIFEST -->
@@ -74,12 +77,20 @@
     </artifact>
 
     <!-- FIELD -->
-    <artifact class="fieldNode"/>
+    <artifact class="fieldNode">
+        <attribute name="name" type="String"/>
+        <attribute name="referenceName" type="String"/>
+        <attribute name="isStatic" type="boolean"/>
+    </artifact>
 
     <!-- METHOD -->
     <artifact class="methodNode">
         <attribute name="name" type="String"/>
+        <attribute name="referenceName" type="String"/>
         <attribute name="prototype" type="methodPrototype">
+            <def/>
+        </attribute>
+        <attribute name="registersDirective" type="registersDirective">
             <def/>
         </attribute>
         <attribute name="isStatic" type="boolean"/>
@@ -128,6 +139,12 @@
         </attribute>
     </artifact>
 
+    <artifact class="primitiveLiteral">
+        <attribute name="setValue" type="String">
+            <parameter name="value" type="String"/>
+        </attribute>
+    </artifact>
+
     <!-- TYPE DESCRIPTORS -->
     <artifact class="typeDescriptor"/>
 
@@ -168,6 +185,13 @@
             <def/>
         </attribute>
         <attribute name="catch" type="labelReference">
+            <def/>
+        </attribute>
+    </artifact>
+
+    <artifact class="registersDirective">
+        <attribute name="type" type="String"/>
+        <attribute name="value" type="primitiveLiteral">
             <def/>
         </attribute>
     </artifact>

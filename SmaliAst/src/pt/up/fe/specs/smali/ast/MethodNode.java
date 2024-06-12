@@ -39,11 +39,10 @@ public class MethodNode extends SmaliNode {
 
     @Override
     public String getCode() {
-        var attributes = get(ATTRIBUTES);
         var name = getMethodName();
         var prototype = getPrototype();
         var accessList = getAccessList();
-        var registersDirective = (RegistersDirective) attributes.get("registersOrLocals");
+        var registersDirective = getRegistersDirective();
 
         var sb = new StringBuilder();
         sb.append(".method ");
@@ -66,7 +65,7 @@ public class MethodNode extends SmaliNode {
                 var catchDirectives = getChildren().stream()
                         .filter(c -> c instanceof CatchDirective)
                         .map(c -> (CatchDirective) c)
-                        .filter(c -> c.getTryEndLabelRef().getName().equals(label.getLabelName()))
+                        .filter(c -> c.getTryEndLabelRef().getName().equals(label.getLabelReferenceName()))
                         .toList();
 
                 for (var catchDir : catchDirectives) {
@@ -102,6 +101,10 @@ public class MethodNode extends SmaliNode {
         sb.append(getPrototype().getCode());
 
         return sb.toString();
+    }
+
+    public RegistersDirective getRegistersDirective() {
+        return (RegistersDirective) get(ATTRIBUTES).get("registersOrLocals");
     }
 
     public MethodPrototype getPrototype() {

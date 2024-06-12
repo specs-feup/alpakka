@@ -209,6 +209,15 @@ export class Expression extends Joinpoint {
  * Field definition
  */
 export class FieldNode extends Joinpoint {
+  get isStatic(): boolean {
+    return wrapJoinPoint(this._javaObject.getIsStatic());
+  }
+  get name(): string {
+    return wrapJoinPoint(this._javaObject.getName());
+  }
+  get referenceName(): string {
+    return wrapJoinPoint(this._javaObject.getReferenceName());
+  }
   get attributes(): string[] {
     return wrapJoinPoint(this._javaObject.getAttributes());
   }
@@ -286,6 +295,12 @@ export class MethodNode extends Joinpoint {
   get prototype(): MethodPrototype {
     return wrapJoinPoint(this._javaObject.getPrototype());
   }
+  get referenceName(): string {
+    return wrapJoinPoint(this._javaObject.getReferenceName());
+  }
+  get registersDirective(): RegistersDirective {
+    return wrapJoinPoint(this._javaObject.getRegistersDirective());
+  }
   get attributes(): string[] {
     return wrapJoinPoint(this._javaObject.getAttributes());
   }
@@ -353,6 +368,15 @@ export class Placeholder extends Joinpoint {
 }
 
 /**
+ * Primitive literal
+ */
+export class PrimitiveLiteral extends Literal {
+  setValue(value: string): string {
+    return wrapJoinPoint(this._javaObject.setValue(unwrapJoinPoint(value)));
+  }
+}
+
+/**
  * App node
  */
 export class Program extends Joinpoint {
@@ -370,6 +394,11 @@ export class Program extends Joinpoint {
   }
   get actions(): string[] {
     return wrapJoinPoint(this._javaObject.getActions());
+  }
+  buildApk(outputName: string): void {
+    return wrapJoinPoint(
+      this._javaObject.buildApk(unwrapJoinPoint(outputName)),
+    );
   }
   def(attribute: string, value: object): void {
     return wrapJoinPoint(
@@ -529,6 +558,18 @@ export class PackedSwitch extends Statement {}
 export class PrimitiveType extends TypeDescriptor {}
 
 /**
+ * Registers directive
+ */
+export class RegistersDirective extends Statement {
+  get type(): string {
+    return wrapJoinPoint(this._javaObject.getType());
+  }
+  get value(): PrimitiveLiteral {
+    return wrapJoinPoint(this._javaObject.getValue());
+  }
+}
+
+/**
  * Smali instruction formats 10x, 11x
  */
 export class ReturnStatement extends Instruction {}
@@ -588,6 +629,7 @@ const JoinpointMapper: JoinpointMapperType = {
   methodPrototype: MethodPrototype,
   methodReference: MethodReference,
   placeholder: Placeholder,
+  primitiveLiteral: PrimitiveLiteral,
   program: Program,
   registerList: RegisterList,
   registerRange: RegisterRange,
@@ -603,6 +645,7 @@ const JoinpointMapper: JoinpointMapperType = {
   label: Label,
   packedSwitch: PackedSwitch,
   primitiveType: PrimitiveType,
+  registersDirective: RegistersDirective,
   returnStatement: ReturnStatement,
   sparseSwitch: SparseSwitch,
   switch: Switch,

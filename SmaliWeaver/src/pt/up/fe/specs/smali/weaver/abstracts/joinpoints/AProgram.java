@@ -87,6 +87,33 @@ public abstract class AProgram extends ASmaliWeaverJoinPoint {
 
     /**
      * 
+     * @param outputName
+     * @return 
+     */
+    public abstract Void buildApkImpl(String outputName);
+
+    /**
+     * 
+     * @param outputName
+     * @return 
+     */
+    public final Object buildApk(String outputName) {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "buildApk", Optional.empty(), outputName);
+        	}
+        	Void result = this.buildApkImpl(outputName);
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "buildApk", Optional.ofNullable(result), outputName);
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "buildApk", e);
+        }
+    }
+
+    /**
+     * 
      */
     @Override
     public final List<? extends JoinPoint> select(String selectName) {
@@ -124,6 +151,7 @@ public abstract class AProgram extends ASmaliWeaverJoinPoint {
         super.fillWithAttributes(attributes);
         attributes.add("manifest");
         attributes.add("classes");
+        attributes.add("buildApk");
     }
 
     /**
@@ -156,6 +184,7 @@ public abstract class AProgram extends ASmaliWeaverJoinPoint {
     protected enum ProgramAttributes {
         MANIFEST("manifest"),
         CLASSES("classes"),
+        BUILDAPK("buildApk"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),

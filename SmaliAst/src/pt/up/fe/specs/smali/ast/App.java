@@ -32,7 +32,7 @@ public class App extends SmaliNode {
         super(data, children);
     }
 
-    public File buildApk() {
+    public void buildApk(String outputName) {
         var outputFolder = SpecsIo.mkdir("output");
 
         for (var child : getChildren()) {
@@ -60,7 +60,13 @@ public class App extends SmaliNode {
         SpecsIo.write(apktoolYml, yaml.dump(attributes));
 
         var config = Config.getDefaultConfig();
-        var outputFile = new File("output.apk");
+
+        var outName = outputName.isBlank() ? "output.apk" : outputName;
+        if (!outName.endsWith(".apk")) {
+            outName += ".apk";
+        }
+
+        var outputFile = new File(outName);
 
         try {
             new ApkBuilder(config, new ExtFile(outputFolder)).build(outputFile);
@@ -69,8 +75,6 @@ public class App extends SmaliNode {
         }
 
         SpecsIo.deleteFolder(outputFolder);
-
-        return new File("output.apk");
     }
 
     @Override
