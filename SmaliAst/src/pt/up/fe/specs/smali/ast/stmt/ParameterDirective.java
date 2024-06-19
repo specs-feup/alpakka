@@ -33,7 +33,7 @@ public class ParameterDirective extends Statement {
         var register = (RegisterReference) get(ATTRIBUTES).get("register");
         var string = (Literal) get(ATTRIBUTES).get("string");
 
-        sb.append(getLineDirective());
+        sb.append(getLine());
 
         sb.append(".param " + register.getCode());
 

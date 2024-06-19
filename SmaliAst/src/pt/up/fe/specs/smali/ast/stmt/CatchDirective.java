@@ -35,7 +35,7 @@ public class CatchDirective extends Statement {
         var tryEndLabel = getTryEndLabelRef();
         var catchLabel = getCatchLabelRef();
 
-        sb.append(getLineDirective());
+        sb.append(getLine());
 
         if (type != null) {
             sb.append(".catch ");

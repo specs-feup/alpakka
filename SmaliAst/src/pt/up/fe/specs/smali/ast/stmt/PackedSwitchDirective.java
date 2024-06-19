@@ -6,7 +6,6 @@ import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.ast.expr.literal.Literal;
-import pt.up.fe.specs.smali.ast.stmt.Statement;
 
 public class PackedSwitchDirective extends Statement {
 
@@ -18,7 +17,7 @@ public class PackedSwitchDirective extends Statement {
     public String getCode() {
         var sb = new StringBuilder();
 
-        sb.append(getLineDirective());
+        sb.append(getLine());
 
         var key = (Literal) get(ATTRIBUTES).get("key");
 

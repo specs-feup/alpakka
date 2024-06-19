@@ -168,6 +168,13 @@
         <attribute name="prevStatement" type="statement">
             <def/>
         </attribute>
+        <attribute name="line" type="lineDirective">
+            <def/>
+        </attribute>
+    </artifact>
+
+    <artifact class="lineDirective">
+        <attribute name="value" type="literal"/>
     </artifact>
 
     <artifact class="label">

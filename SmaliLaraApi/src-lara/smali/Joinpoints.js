@@ -157,6 +157,15 @@ export class Expression extends Joinpoint {
  * Field definition
  */
 export class FieldNode extends Joinpoint {
+    get isStatic() {
+        return wrapJoinPoint(this._javaObject.getIsStatic());
+    }
+    get name() {
+        return wrapJoinPoint(this._javaObject.getName());
+    }
+    get referenceName() {
+        return wrapJoinPoint(this._javaObject.getReferenceName());
+    }
     get attributes() {
         return wrapJoinPoint(this._javaObject.getAttributes());
     }
@@ -230,6 +239,9 @@ export class MethodNode extends Joinpoint {
     get referenceName() {
         return wrapJoinPoint(this._javaObject.getReferenceName());
     }
+    get registersDirective() {
+        return wrapJoinPoint(this._javaObject.getRegistersDirective());
+    }
     get attributes() {
         return wrapJoinPoint(this._javaObject.getAttributes());
     }
@@ -286,6 +298,14 @@ export class Placeholder extends Joinpoint {
     }
     def(attribute, value) {
         return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value)));
+    }
+}
+/**
+ * Primitive literal
+ */
+export class PrimitiveLiteral extends Literal {
+    setValue(value) {
+        return wrapJoinPoint(this._javaObject.setValue(unwrapJoinPoint(value)));
     }
 }
 /**
@@ -358,6 +378,9 @@ export class SparseSwitchElement extends Expression {
  * Statement
  */
 export class Statement extends Joinpoint {
+    get line() {
+        return wrapJoinPoint(this._javaObject.getLine());
+    }
     get nextStatement() {
         return wrapJoinPoint(this._javaObject.getNextStatement());
     }
@@ -444,6 +467,14 @@ export class Label extends Statement {
     }
 }
 /**
+ * Line directive
+ */
+export class LineDirective extends Statement {
+    get value() {
+        return wrapJoinPoint(this._javaObject.getValue());
+    }
+}
+/**
  * Packed switch directive
  */
 export class PackedSwitch extends Statement {
@@ -452,6 +483,17 @@ export class PackedSwitch extends Statement {
  * Primitive descriptor
  */
 export class PrimitiveType extends TypeDescriptor {
+}
+/**
+ * Registers directive
+ */
+export class RegistersDirective extends Statement {
+    get type() {
+        return wrapJoinPoint(this._javaObject.getType());
+    }
+    get value() {
+        return wrapJoinPoint(this._javaObject.getValue());
+    }
 }
 /**
  * Smali instruction formats 10x, 11x
@@ -510,6 +552,7 @@ const JoinpointMapper = {
     methodPrototype: MethodPrototype,
     methodReference: MethodReference,
     placeholder: Placeholder,
+    primitiveLiteral: PrimitiveLiteral,
     program: Program,
     registerList: RegisterList,
     registerRange: RegisterRange,
@@ -523,8 +566,10 @@ const JoinpointMapper = {
     classType: ClassType,
     instruction: Instruction,
     label: Label,
+    lineDirective: LineDirective,
     packedSwitch: PackedSwitch,
     primitiveType: PrimitiveType,
+    registersDirective: RegistersDirective,
     returnStatement: ReturnStatement,
     sparseSwitch: SparseSwitch,
     switch: Switch,

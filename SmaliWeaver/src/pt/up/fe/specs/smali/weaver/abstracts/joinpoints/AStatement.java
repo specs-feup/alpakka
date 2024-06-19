@@ -83,6 +83,38 @@ public abstract class AStatement extends ASmaliWeaverJoinPoint {
     }
 
     /**
+     * Get value on attribute line
+     * @return the attribute's value
+     */
+    public abstract ALineDirective getLineImpl();
+
+    /**
+     * Get value on attribute line
+     * @return the attribute's value
+     */
+    public final Object getLine() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "line", Optional.empty());
+        	}
+        	ALineDirective result = this.getLineImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "line", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "line", e);
+        }
+    }
+
+    /**
+     * 
+     */
+    public void defLineImpl(ALineDirective value) {
+        throw new UnsupportedOperationException("Join point "+get_class()+": Action def line with type ALineDirective not implemented ");
+    }
+
+    /**
      * 
      */
     @Override
@@ -116,6 +148,13 @@ public abstract class AStatement extends ASmaliWeaverJoinPoint {
         	}
         	this.unsupportedTypeForDef(attribute, value);
         }
+        case "line": {
+        	if(value instanceof ALineDirective){
+        		this.defLineImpl((ALineDirective)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
         default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
         }
     }
@@ -128,6 +167,7 @@ public abstract class AStatement extends ASmaliWeaverJoinPoint {
         super.fillWithAttributes(attributes);
         attributes.add("nextStatement");
         attributes.add("prevStatement");
+        attributes.add("line");
     }
 
     /**
@@ -160,6 +200,7 @@ public abstract class AStatement extends ASmaliWeaverJoinPoint {
     protected enum StatementAttributes {
         NEXTSTATEMENT("nextStatement"),
         PREVSTATEMENT("prevStatement"),
+        LINE("line"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),

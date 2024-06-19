@@ -19,7 +19,7 @@ public abstract class Instruction extends Statement {
     public String getCode() {
         var sb = new StringBuilder();
 
-        sb.append(getLineDirective());
+        sb.append(getLine());
 
         sb.append(getOpCodeName()).append(" ");
 

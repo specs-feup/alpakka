@@ -5,7 +5,6 @@ import java.util.Collection;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
-import pt.up.fe.specs.smali.ast.stmt.Statement;
 
 public class SparseSwitchDirective extends Statement {
 
@@ -17,7 +16,7 @@ public class SparseSwitchDirective extends Statement {
     public String getCode() {
         var sb = new StringBuilder();
 
-        sb.append(getLineDirective());
+        sb.append(getLine());
 
         sb.append(".sparse-switch\n");
 

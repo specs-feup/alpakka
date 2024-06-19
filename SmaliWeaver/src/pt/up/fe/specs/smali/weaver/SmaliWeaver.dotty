@@ -16,6 +16,7 @@ edge [fontsize=10]
 "instruction"->"statement"
 "label"->"statement"
 "labelReference"->"expression"
+"lineDirective"->"statement"
 "literal"->"expression"
 "manifest"->"joinpoint"
 "methodNode"->"joinpoint"

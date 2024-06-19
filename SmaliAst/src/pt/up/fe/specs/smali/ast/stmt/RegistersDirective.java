@@ -5,7 +5,6 @@ import java.util.Collection;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.smali.ast.SmaliNode;
-import pt.up.fe.specs.smali.ast.expr.literal.Literal;
 import pt.up.fe.specs.smali.ast.expr.literal.PrimitiveLiteral;
 
 public class RegistersDirective extends Statement {
@@ -21,7 +20,7 @@ public class RegistersDirective extends Statement {
         var type = getType();
         var value = getValue();
 
-        sb.append(getLineDirective());
+        sb.append(getLine());
 
         if (type.equals("I_REGISTERS")) {
             sb.append(".registers ");

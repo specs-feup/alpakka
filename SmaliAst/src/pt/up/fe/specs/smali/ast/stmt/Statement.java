@@ -12,23 +12,36 @@ public abstract class Statement extends SmaliNode {
         super(data, children);
     }
 
-    protected String getLineDirective() {
-        var attributes = get(ATTRIBUTES);
-        var lineDirective = (LineDirective) attributes.get("lineDirective");
+    protected String getLine() {
+        var lineDirective = getLineDirective();
 
         return lineDirective != null ? lineDirective.getCode() + "\n" : "";
     }
 
     public Statement getNextStatement() {
-        var nextChild = getParent().getChildren().get(getParent().getChildren().indexOf(this) + 1);
+        var currentStatementIndex = getParent().getChildren().indexOf(this);
+        if (currentStatementIndex < 0 || currentStatementIndex >= getParent().getChildren().size() - 1) {
+            return null;
+        }
+
+        var nextChild = getParent().getChildren().get(currentStatementIndex + 1);
 
         return nextChild instanceof Statement ? (Statement) nextChild : null;
     }
 
     public Statement getPreviousStatement() {
-        var previousChild = getParent().getChildren().get(getParent().getChildren().indexOf(this) - 1);
+        var currentStatementIndex = getParent().getChildren().indexOf(this);
+        if (currentStatementIndex <= 0 || currentStatementIndex > getParent().getChildren().size() - 1) {
+            return null;
+        }
+
+        var previousChild = getParent().getChildren().get(currentStatementIndex - 1);
 
         return previousChild instanceof Statement ? (Statement) previousChild : null;
+    }
+
+    public LineDirective getLineDirective() {
+        return (LineDirective) get(ATTRIBUTES).get("lineDirective");
     }
 
 }

@@ -33,7 +33,7 @@ public class AnnotationDirective extends Statement {
         var visibility = (AnnotationVisibility) get(ATTRIBUTES).get("visibility");
         var classDescriptor = (ClassType) get(ATTRIBUTES).get("classDescriptor");
 
-        sb.append(getLineDirective());
+        sb.append(getLine());
 
         sb.append(".annotation " + visibility.getVisibility() + " " + classDescriptor.getCode() + "\n");
 

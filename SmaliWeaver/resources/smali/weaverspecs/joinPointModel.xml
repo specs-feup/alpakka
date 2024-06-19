@@ -58,6 +58,8 @@
     <!-- STATEMENTS -->
     <joinpoint class="statement" tooltip="Statement"/>
 
+    <joinpoint class="lineDirective" extends="statement" tooltip="Line directive"/>
+
     <joinpoint class="label" extends="statement" tooltip="Label declaration"/>
 
     <joinpoint class="catch" extends="statement" tooltip="Catch directive"/>

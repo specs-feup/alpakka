@@ -37,7 +37,7 @@ public class LocalDirective extends Statement {
         var typeDescriptor = (TypeDescriptor) attributes.get("typeDescriptor");
         var signature = (PrimitiveLiteral) attributes.get("signature");
 
-        sb.append(getLineDirective());
+        sb.append(getLine());
 
         sb.append(".local ");
 

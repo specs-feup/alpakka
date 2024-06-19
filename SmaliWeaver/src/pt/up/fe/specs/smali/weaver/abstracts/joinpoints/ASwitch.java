@@ -79,6 +79,15 @@ public abstract class ASwitch extends AInstruction {
     }
 
     /**
+     * Get value on attribute line
+     * @return the attribute's value
+     */
+    @Override
+    public ALineDirective getLineImpl() {
+        return this.aInstruction.getLineImpl();
+    }
+
+    /**
      * 
      */
     public void defNextStatementImpl(AStatement value) {
@@ -90,6 +99,13 @@ public abstract class ASwitch extends AInstruction {
      */
     public void defPrevStatementImpl(AStatement value) {
         this.aInstruction.defPrevStatementImpl(value);
+    }
+
+    /**
+     * 
+     */
+    public void defLineImpl(ALineDirective value) {
+        this.aInstruction.defLineImpl(value);
     }
 
     /**
@@ -333,6 +349,13 @@ public abstract class ASwitch extends AInstruction {
         	}
         	this.unsupportedTypeForDef(attribute, value);
         }
+        case "line": {
+        	if(value instanceof ALineDirective){
+        		this.defLineImpl((ALineDirective)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
         default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
         }
     }
@@ -392,6 +415,7 @@ public abstract class ASwitch extends AInstruction {
         OPCODENAME("opCodeName"),
         NEXTSTATEMENT("nextStatement"),
         PREVSTATEMENT("prevStatement"),
+        LINE("line"),
         PARENT("parent"),
         GETDESCENDANTS("getDescendants"),
         GETDESCENDANTSANDSELF("getDescendantsAndSelf"),

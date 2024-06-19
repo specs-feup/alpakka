@@ -31,7 +31,7 @@ public class Label extends Statement {
         var sb = new StringBuilder();
         var name = getLabelName();
 
-        sb.append(getLineDirective());
+        sb.append(getLine());
 
         sb.append(":" + name);
 

@@ -9,148 +9,45 @@ import java.util.stream.Collectors;
 import java.util.Arrays;
 
 /**
- * Auto-Generated class for join point ACatch
+ * Auto-Generated class for join point ALineDirective
  * This class is overwritten by the Weaver Generator.
  * 
- * Catch directive
+ * Line directive
  * @author Lara Weaver Generator
  */
-public abstract class ACatch extends AStatement {
+public abstract class ALineDirective extends AStatement {
 
     protected AStatement aStatement;
 
     /**
      * 
      */
-    public ACatch(AStatement aStatement){
+    public ALineDirective(AStatement aStatement){
         this.aStatement = aStatement;
     }
     /**
-     * Get value on attribute exception
+     * Get value on attribute value
      * @return the attribute's value
      */
-    public abstract ATypeDescriptor getExceptionImpl();
+    public abstract ALiteral getValueImpl();
 
     /**
-     * Get value on attribute exception
+     * Get value on attribute value
      * @return the attribute's value
      */
-    public final Object getException() {
+    public final Object getValue() {
         try {
         	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "exception", Optional.empty());
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "value", Optional.empty());
         	}
-        	ATypeDescriptor result = this.getExceptionImpl();
+        	ALiteral result = this.getValueImpl();
         	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "exception", Optional.ofNullable(result));
+        		eventTrigger().triggerAttribute(Stage.END, this, "value", Optional.ofNullable(result));
         	}
         	return result!=null?result:getUndefinedValue();
         } catch(Exception e) {
-        	throw new AttributeException(get_class(), "exception", e);
+        	throw new AttributeException(get_class(), "value", e);
         }
-    }
-
-    /**
-     * 
-     */
-    public void defExceptionImpl(ATypeDescriptor value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def exception with type ATypeDescriptor not implemented ");
-    }
-
-    /**
-     * Get value on attribute tryStart
-     * @return the attribute's value
-     */
-    public abstract ALabelReference getTryStartImpl();
-
-    /**
-     * Get value on attribute tryStart
-     * @return the attribute's value
-     */
-    public final Object getTryStart() {
-        try {
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "tryStart", Optional.empty());
-        	}
-        	ALabelReference result = this.getTryStartImpl();
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "tryStart", Optional.ofNullable(result));
-        	}
-        	return result!=null?result:getUndefinedValue();
-        } catch(Exception e) {
-        	throw new AttributeException(get_class(), "tryStart", e);
-        }
-    }
-
-    /**
-     * 
-     */
-    public void defTryStartImpl(ALabelReference value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def tryStart with type ALabelReference not implemented ");
-    }
-
-    /**
-     * Get value on attribute tryEnd
-     * @return the attribute's value
-     */
-    public abstract ALabelReference getTryEndImpl();
-
-    /**
-     * Get value on attribute tryEnd
-     * @return the attribute's value
-     */
-    public final Object getTryEnd() {
-        try {
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "tryEnd", Optional.empty());
-        	}
-        	ALabelReference result = this.getTryEndImpl();
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "tryEnd", Optional.ofNullable(result));
-        	}
-        	return result!=null?result:getUndefinedValue();
-        } catch(Exception e) {
-        	throw new AttributeException(get_class(), "tryEnd", e);
-        }
-    }
-
-    /**
-     * 
-     */
-    public void defTryEndImpl(ALabelReference value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def tryEnd with type ALabelReference not implemented ");
-    }
-
-    /**
-     * Get value on attribute _catch
-     * @return the attribute's value
-     */
-    public abstract ALabelReference getCatchImpl();
-
-    /**
-     * Get value on attribute _catch
-     * @return the attribute's value
-     */
-    public final Object getCatch() {
-        try {
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "catch", Optional.empty());
-        	}
-        	ALabelReference result = this.getCatchImpl();
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "catch", Optional.ofNullable(result));
-        	}
-        	return result!=null?result:getUndefinedValue();
-        } catch(Exception e) {
-        	throw new AttributeException(get_class(), "catch", e);
-        }
-    }
-
-    /**
-     * 
-     */
-    public void defCatchImpl(ALabelReference value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def catch with type ALabelReference not implemented ");
     }
 
     /**
@@ -428,34 +325,6 @@ public abstract class ACatch extends AStatement {
     @Override
     public final void defImpl(String attribute, Object value) {
         switch(attribute){
-        case "exception": {
-        	if(value instanceof ATypeDescriptor){
-        		this.defExceptionImpl((ATypeDescriptor)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        case "tryStart": {
-        	if(value instanceof ALabelReference){
-        		this.defTryStartImpl((ALabelReference)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        case "tryEnd": {
-        	if(value instanceof ALabelReference){
-        		this.defTryEndImpl((ALabelReference)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        case "catch": {
-        	if(value instanceof ALabelReference){
-        		this.defCatchImpl((ALabelReference)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
         case "nextStatement": {
         	if(value instanceof AStatement){
         		this.defNextStatementImpl((AStatement)value);
@@ -487,10 +356,7 @@ public abstract class ACatch extends AStatement {
     @Override
     protected final void fillWithAttributes(List<String> attributes) {
         this.aStatement.fillWithAttributes(attributes);
-        attributes.add("exception");
-        attributes.add("tryStart");
-        attributes.add("tryEnd");
-        attributes.add("catch");
+        attributes.add("value");
     }
 
     /**
@@ -515,7 +381,7 @@ public abstract class ACatch extends AStatement {
      */
     @Override
     public final String get_class() {
-        return "catch";
+        return "lineDirective";
     }
 
     /**
@@ -533,11 +399,8 @@ public abstract class ACatch extends AStatement {
     /**
      * 
      */
-    protected enum CatchAttributes {
-        EXCEPTION("exception"),
-        TRYSTART("tryStart"),
-        TRYEND("tryEnd"),
-        CATCH("catch"),
+    protected enum LineDirectiveAttributes {
+        VALUE("value"),
         NEXTSTATEMENT("nextStatement"),
         PREVSTATEMENT("prevStatement"),
         LINE("line"),
@@ -557,13 +420,13 @@ public abstract class ACatch extends AStatement {
         /**
          * 
          */
-        private CatchAttributes(String name){
+        private LineDirectiveAttributes(String name){
             this.name = name;
         }
         /**
          * Return an attribute enumeration item from a given attribute name
          */
-        public static Optional<CatchAttributes> fromString(String name) {
+        public static Optional<LineDirectiveAttributes> fromString(String name) {
             return Arrays.asList(values()).stream().filter(attr -> attr.name.equals(name)).findAny();
         }
 
@@ -571,7 +434,7 @@ public abstract class ACatch extends AStatement {
          * Return a list of attributes in String format
          */
         public static List<String> getNames() {
-            return Arrays.asList(values()).stream().map(CatchAttributes::name).collect(Collectors.toList());
+            return Arrays.asList(values()).stream().map(LineDirectiveAttributes::name).collect(Collectors.toList());
         }
 
         /**

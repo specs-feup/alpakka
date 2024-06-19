@@ -26,7 +26,7 @@ public class RestartLocalDirective extends Statement {
 
     @Override
     public String getCode() {
-        return getLineDirective() +
+        return getLine() +
                 ".restart local " +
                 getChild(0).getCode();
     }

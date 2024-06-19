@@ -26,7 +26,7 @@ public class EndLocalDirective extends Statement {
 
     @Override
     public String getCode() {
-        return getLineDirective() +
+        return getLine() +
                 ".end local " +
                 getChild(0).getCode();
     }

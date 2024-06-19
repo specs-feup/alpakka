@@ -3,6 +3,7 @@ package pt.up.fe.specs.smali.weaver.joinpoints;
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.ast.stmt.Statement;
 import pt.up.fe.specs.smali.weaver.SmaliJoinpoints;
+import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.ALineDirective;
 import pt.up.fe.specs.smali.weaver.abstracts.joinpoints.AStatement;
 
 public class StatementJp extends AStatement {
@@ -26,5 +27,10 @@ public class StatementJp extends AStatement {
     @Override
     public AStatement getPrevStatementImpl() {
         return SmaliJoinpoints.create(this.statement.getPreviousStatement(), AStatement.class);
+    }
+
+    @Override
+    public ALineDirective getLineImpl() {
+        return SmaliJoinpoints.create(this.statement.getLineDirective(), ALineDirective.class);
     }
 }

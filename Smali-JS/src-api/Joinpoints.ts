@@ -455,6 +455,9 @@ export class SparseSwitchElement extends Expression {
  * Statement
  */
 export class Statement extends Joinpoint {
+  get line(): LineDirective {
+    return wrapJoinPoint(this._javaObject.getLine());
+  }
   get nextStatement(): Statement {
     return wrapJoinPoint(this._javaObject.getNextStatement());
   }
@@ -544,6 +547,15 @@ export class Instruction extends Statement {
 export class Label extends Statement {
   get name(): string {
     return wrapJoinPoint(this._javaObject.getName());
+  }
+}
+
+/**
+ * Line directive
+ */
+export class LineDirective extends Statement {
+  get value(): Literal {
+    return wrapJoinPoint(this._javaObject.getValue());
   }
 }
 
@@ -643,6 +655,7 @@ const JoinpointMapper: JoinpointMapperType = {
   classType: ClassType,
   instruction: Instruction,
   label: Label,
+  lineDirective: LineDirective,
   packedSwitch: PackedSwitch,
   primitiveType: PrimitiveType,
   registersDirective: RegistersDirective,

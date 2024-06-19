@@ -26,7 +26,7 @@ public class PrologueDirective extends Statement {
 
     @Override
     public String getCode() {
-        return getLineDirective() +
+        return getLine() +
                 ".prologue";
     }
 

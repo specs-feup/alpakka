@@ -31,12 +31,16 @@ public class LineDirective extends Statement {
         var sb = new StringBuilder();
         var value = (Literal) get(ATTRIBUTES).get("line");
 
-        sb.append(getLineDirective());
+        sb.append(getLine());
 
         sb.append(".line ");
         sb.append(value.getCode());
 
         return sb.toString();
+    }
+
+    public Literal getValue() {
+        return (Literal) get(ATTRIBUTES).get("line");
     }
 
 }
