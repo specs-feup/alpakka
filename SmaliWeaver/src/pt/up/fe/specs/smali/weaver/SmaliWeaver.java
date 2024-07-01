@@ -1,6 +1,7 @@
 package pt.up.fe.specs.smali.weaver;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -108,9 +109,7 @@ public class SmaliWeaver extends ASmaliWeaver {
         // sources can be a smali file, a folder or APK. Only supporting smali files for
         // now
 
-        var targetSdkVersion = args.get(SmaliWeaverOption.TARGET_SDK);
-
-        root = new SmaliParser().parse(sources, targetSdkVersion)
+        root = new SmaliParser().parse(sources, buildParserOptions(args))
                 .orElse(new App(DataStore.newInstance(App.class), List.of()));
 
         System.out.println("SOURCES: " + sources);
@@ -119,6 +118,18 @@ public class SmaliWeaver extends ASmaliWeaver {
         // throw new UnsupportedOperationException("Method begin for SmaliWeaver is not
         // yet implemented");
         return true;
+    }
+
+    private List<String> buildParserOptions(DataStore args) {
+        var options = new ArrayList<String>();
+
+        var targetSdkVersion = args.get(SmaliWeaverOption.TARGET_SDK);
+        options.add("-targetSdkVersion" + targetSdkVersion);
+
+        var packageFilter = args.get(SmaliWeaverOption.PACKAGE_FILTER);
+        options.add("-packageFilter" + packageFilter);
+
+        return options;
     }
 
     @Override

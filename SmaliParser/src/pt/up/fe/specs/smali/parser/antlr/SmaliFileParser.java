@@ -112,7 +112,7 @@ public class SmaliFileParser {
         converters.put(smaliParser.STRING_LITERAL, this::convertStringLiteral);
         converters.put(smaliParser.INTEGER_LITERAL, this::convertPrimitiveLiteral);
         converters.put(smaliParser.SHORT_LITERAL, this::convertPrimitiveLiteral);
-        converters.put(smaliParser.CHAR_LITERAL, this::convertPrimitiveLiteral);
+        converters.put(smaliParser.CHAR_LITERAL, this::convertCharLiteral);
         converters.put(smaliParser.FLOAT_LITERAL, this::convertPrimitiveLiteral);
         converters.put(smaliParser.DOUBLE_LITERAL, this::convertPrimitiveLiteral);
         converters.put(smaliParser.LONG_LITERAL, this::convertPrimitiveLiteral);
@@ -600,10 +600,22 @@ public class SmaliFileParser {
         case smaliParser.BYTE_LITERAL -> literalExpr.setType(factory.type("B"));
         case smaliParser.BOOL_LITERAL -> literalExpr.setType(factory.type("Z"));
         case smaliParser.SHORT_LITERAL -> literalExpr.setType(factory.type("S"));
-        case smaliParser.CHAR_LITERAL -> literalExpr.setType(factory.type("C"));
         case smaliParser.FLOAT_LITERAL -> literalExpr.setType(factory.type("F"));
         case smaliParser.DOUBLE_LITERAL -> literalExpr.setType(factory.type("D"));
         }
+
+        return literalExpr;
+    }
+
+    private SmaliNode convertCharLiteral(Tree node) {
+        var factory = context.get(SmaliContext.FACTORY);
+
+        var literalAttributes = new HashMap<String, Object>();
+        literalAttributes.put("value", "'" + escapeString(node.getText().substring(1, node.getText().length() - 1)) + "'");
+
+        var literalExpr = factory.primitiveLiteral(literalAttributes);
+
+        literalExpr.setType(factory.type("C"));
 
         return literalExpr;
     }

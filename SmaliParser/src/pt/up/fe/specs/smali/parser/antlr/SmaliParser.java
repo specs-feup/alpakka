@@ -35,6 +35,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static pt.up.fe.specs.smali.ast.SmaliNode.ATTRIBUTES;
 
@@ -42,13 +44,11 @@ public class SmaliParser {
 
     private static final String DECOMPILATION_FOLDERNAME = "decompiledApp";
 
-    private static String organizationName = null;
-
-    public Optional<App> parse(List<File> sources, Integer targetSdkVersion) {
+    public Optional<App> parse(List<File> sources, List<String> options) {
         var context = new SmaliContext();
 
         var classes = sources.stream()
-                .map(file -> parseSingleFile(file, context, targetSdkVersion))
+                .map(file -> parseSingleFile(file, context, options))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .toList();
@@ -65,6 +65,12 @@ public class SmaliParser {
         if (classes.size() == 1 && classes.get(0) instanceof App) {
             return Optional.of((App) classes.get(0));
         } else {
+            var targetSdkVersion = options.stream()
+                    .filter(option -> option.startsWith("-targetSdkVersion"))
+                    .map(option -> Integer.parseInt(option.substring("-targetSdkVersion".length())))
+                    .findFirst()
+                    .orElse(20);
+
             var factory = context.get(SmaliContext.FACTORY);
             var attributes = new HashMap<String, Object>();
             attributes.put("sdkInfo", new HashMap<String, Object>().put("targetSdkVersion", targetSdkVersion));
@@ -73,7 +79,7 @@ public class SmaliParser {
         }
     }
 
-    private Optional<SmaliNode> parseSingleFile(File source, SmaliContext context, Integer targetSdkVersion) {
+    private Optional<SmaliNode> parseSingleFile(File source, SmaliContext context, List<String> options) {
         if (source.getPath().equals(DECOMPILATION_FOLDERNAME + File.separator + "apktool.yml")) {
             return Optional.empty();
         }
@@ -82,20 +88,29 @@ public class SmaliParser {
             return Optional.of(newManifestNode(source, context));
         }
 
+        var targetSdkVersion = options.stream()
+                .filter(option -> option.startsWith("-targetSdkVersion"))
+                .map(option -> Integer.parseInt(option.substring("-targetSdkVersion".length())))
+                .findFirst()
+                .orElse(20);
+
+        var packageFilter = options.stream()
+                .filter(option -> option.startsWith("-packageFilter"))
+                .map(option -> option.substring("-packageFilter".length()))
+                .findFirst()
+                .orElse("")
+                .replace(".", File.separator);
+
         return switch (SpecsIo.getExtension(source).toLowerCase()) {
-        case "apk" -> Optional.of(decompileApk(source, context, targetSdkVersion));
+        case "apk" -> Optional.of(decompileApk(source, context, options));
         case "smali" -> {
-            // Filter smali files from different organizations
-            // Todo: Turn this into a configuration option, maybe a filter string
-            if (organizationName != null && !source.getPath().contains(organizationName)) {
+            if (!source.getPath().contains(packageFilter)) {
                 yield Optional.of(newResourceNode(source, context));
             } else {
                 yield new SmaliFileParser(source, context, targetSdkVersion).parse();
             }
         }
-        default -> {
-            yield Optional.of(newResourceNode(source, context));
-        }
+        default -> Optional.of(newResourceNode(source, context));
         };
     }
 
@@ -162,7 +177,8 @@ public class SmaliParser {
 
         var components = new HashMap<String, List<String>>();
         var manifest = parseXML(source);
-        var applicationComponents = manifest.getElementsByTagName("application").item(0).getChildNodes();
+        var application = manifest.getElementsByTagName("application");
+        var applicationComponents = application.getLength() > 0 ? application.item(0).getChildNodes() : manifest.getChildNodes();
 
         for (int i = 0; i < applicationComponents.getLength(); i++) {
             var component = applicationComponents.item(i);
@@ -183,7 +199,7 @@ public class SmaliParser {
         return factory.manifest(attributes);
     }
 
-    private App decompileApk(File apkFile, SmaliContext context, Integer sdkAttr) {
+    private App decompileApk(File apkFile, SmaliContext context, List<String> options) {
         var outputFolder = SpecsIo.mkdir(DECOMPILATION_FOLDERNAME);
 
         var config = Config.getDefaultConfig();
@@ -199,18 +215,17 @@ public class SmaliParser {
 
         var attributes = getAttributesFromYaml(outputFolder.getAbsolutePath() + "/apktool.yml");
 
-        var packageName = getPackageNameFromManifest(outputFolder.getAbsolutePath() + "/AndroidManifest.xml")
-                .split("\\.");
-        organizationName = packageName[0] + File.separator + packageName[1];
-
         var sdkInfo = (HashMap<String, Object>) attributes.get("sdkInfo");
 
-        var targetSdkVersion = sdkInfo != null ? (Integer) sdkInfo.get("targetSdkVersion") : sdkAttr;
+        if (sdkInfo != null) {
+            options.removeIf(option -> option.startsWith("-targetSdkVersion"));
+            options.add("-targetSdkVersion" + sdkInfo.get("targetSdkVersion"));
+        }
 
         var decompiledFiles = SpecsIo.getFilesRecursive(outputFolder);
 
         var children = decompiledFiles.stream()
-                .map(file -> parseSingleFile(file, context, targetSdkVersion))
+                .map(file -> parseSingleFile(file, context, options))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .toList();
@@ -223,10 +238,24 @@ public class SmaliParser {
     }
 
     private HashMap<String, Object> getAttributesFromYaml(String yamlFilePath) {
-        var yaml = new Yaml();
-        var data = SpecsIo.read(yamlFilePath);
+        var cleanYaml = fixYamlContent(SpecsIo.read(yamlFilePath));
 
-        return yaml.load(data);
+        var yaml = new Yaml();
+
+        return yaml.load(cleanYaml);
+    }
+
+    private static String fixYamlContent(String content) {
+        String regex = "(\\s*:\\s*)(@[^\\s]+)";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(content);
+
+        StringBuffer result = new StringBuffer();
+        while (matcher.find()) {
+            matcher.appendReplacement(result, "$1\"$2\"");
+        }
+        matcher.appendTail(result);
+        return result.toString();
     }
 
     private String getPackageNameFromManifest(String filePath) {

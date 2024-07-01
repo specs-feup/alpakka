@@ -21,7 +21,7 @@ public class FieldReference extends Expression implements Reference {
 
         var attributes = get(ATTRIBUTES);
 
-        var referenceTypeDescriptor = (TypeDescriptor) attributes.get("referenceTypeDescriptor");
+        var referenceTypeDescriptor = getParentClassDescriptor();
         var member = attributes.get("memberName");
         var nonVoidTypeDescriptor = getFieldReferenceType();
 
@@ -34,6 +34,10 @@ public class FieldReference extends Expression implements Reference {
         sb.append(nonVoidTypeDescriptor.getCode());
 
         return sb.toString();
+    }
+
+    public TypeDescriptor getParentClassDescriptor() {
+        return (TypeDescriptor) get(ATTRIBUTES).get("referenceTypeDescriptor");
     }
 
     public TypeDescriptor getFieldReferenceType() {

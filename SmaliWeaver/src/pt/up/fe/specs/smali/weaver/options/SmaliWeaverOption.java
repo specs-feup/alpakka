@@ -20,10 +20,12 @@ import org.suikasoft.jOptions.storedefinition.StoreDefinitionBuilder;
 
 public interface SmaliWeaverOption {
 
-    DataKey<Integer> TARGET_SDK = KeyFactory.integer("targetSdk", 10);
+    DataKey<Integer> TARGET_SDK = KeyFactory.integer("targetSdk", 20);
+
+    DataKey<String> PACKAGE_FILTER = KeyFactory.string("packageFilter", "");
 
     StoreDefinition STORE_DEFINITION = new StoreDefinitionBuilder("Smali Weaver Options")
-            .addKeys(TARGET_SDK)
+            .addKeys(TARGET_SDK, PACKAGE_FILTER)
             .build();
 
 }

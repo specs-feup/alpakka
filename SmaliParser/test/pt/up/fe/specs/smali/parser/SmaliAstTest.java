@@ -1,6 +1,7 @@
 package pt.up.fe.specs.smali.parser;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -49,7 +50,10 @@ class SmaliAstTest {
 
     void testSmaliFile(File resourceFile) {
 
-        var smaliRoot = new SmaliParser().parse(List.of(resourceFile), 10).orElseThrow();
+        var parserOptions = new ArrayList<String>();
+        parserOptions.add("-targetSdkVersion" + "20");
+
+        var smaliRoot = new SmaliParser().parse(List.of(resourceFile), parserOptions).orElseThrow();
 
         var directory = SpecsIo.mkdir(SmaliAstTest.OUTPUT_FOLDERNAME + "/outputFirst");
         SpecsIo.write(new File(directory, resourceFile.getName()), smaliRoot.getChildren().get(0).getCode());
@@ -57,7 +61,7 @@ class SmaliAstTest {
         // Parse output again, check if files are the same
         File firstOutput = new File(directory, resourceFile.getName());
 
-        var smaliRoot2 = new SmaliParser().parse(List.of(firstOutput), 10).orElseThrow();
+        var smaliRoot2 = new SmaliParser().parse(List.of(firstOutput), parserOptions).orElseThrow();
 
         var secondDirectory = SpecsIo.mkdir(SmaliAstTest.OUTPUT_FOLDERNAME + "/outputSecond");
         SpecsIo.write(new File(secondDirectory, resourceFile.getName()), smaliRoot2.getChildren().get(0).getCode());

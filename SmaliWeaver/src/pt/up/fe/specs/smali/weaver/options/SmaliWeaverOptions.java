@@ -13,12 +13,13 @@
 
 package pt.up.fe.specs.smali.weaver.options;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import org.lara.interpreter.weaver.options.OptionArguments;
 import org.lara.interpreter.weaver.options.WeaverOption;
 import org.lara.interpreter.weaver.options.WeaverOptionBuilder;
 import org.suikasoft.jOptions.Datakey.DataKey;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SmaliWeaverOptions {
 
@@ -28,6 +29,11 @@ public class SmaliWeaverOptions {
         WEAVER_OPTIONS = new HashMap<>();
         WEAVER_OPTIONS.put(SmaliWeaverOption.TARGET_SDK.getName(),
                 WeaverOptionBuilder.build(SmaliWeaverOption.TARGET_SDK));
+
+        WEAVER_OPTIONS.put(SmaliWeaverOption.PACKAGE_FILTER.getName(),
+                WeaverOptionBuilder.build("f", "filter", OptionArguments.ONE_ARG,
+                        "Filter string", "Filter smali files to be processed by package name",
+                        SmaliWeaverOption.PACKAGE_FILTER));
     }
 
     public static WeaverOption getOption(DataKey<?> key) {
