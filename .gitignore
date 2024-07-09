@@ -30,8 +30,6 @@ Matisse.lara
 .gradle/
 gradle/
 build/
-gradlew
-gradlew.bat
 
 ### Default folder for executing applications
 **/run/**
