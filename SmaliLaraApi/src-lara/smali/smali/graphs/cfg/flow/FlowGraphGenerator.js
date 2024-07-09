@@ -1,4 +1,4 @@
-import { MethodNode, Program, Statement, ReturnStatement, Label, Goto, IfComparison, IfComparisonWithZero, Switch, LabelReference, PackedSwitch, SparseSwitch, SparseSwitchElement, ThrowStatement, Catch, Instruction, } from "../../../../Joinpoints.js";
+import { MethodNode, Program, Statement, ReturnStatement, Label, Goto, IfComparison, IfComparisonWithZero, Switch, LabelReference, PackedSwitch, SparseSwitch, SparseSwitchElement, ThrowStatement, Catch, Instruction, MethodReference, } from "../../../../Joinpoints.js";
 import UnknownInstructionNode from "./node/instruction/UnknownInstructionNode.js";
 import InstructionNode from "./node/instruction/InstructionNode.js";
 import StatementNode from "./node/instruction/StatementNode.js";
@@ -69,6 +69,10 @@ export default class FlowGraphGenerator {
         }
     }
     #processFunction($jp) {
+        const processedFunction = this.#graph.getFunction($jp.referenceName);
+        if (processedFunction !== undefined) {
+            return [processedFunction, undefined];
+        }
         const context = {
             labels: new Map(),
             preprocessedStatementStack: new Array(),
@@ -108,6 +112,10 @@ export default class FlowGraphGenerator {
                 throw new Error("Could not find try end label node");
             }
             const catchLabel = context.labels.get(directive.catch.decl.name);
+            let exception = "Ljava/lang/Exception;";
+            if (!(directive.code.startsWith(".catchall"))) {
+                exception = directive.exception.code;
+            }
             const tryEndIndex = body.findIndex(([head]) => head === tryEndLabel);
             const tryStartIndex = body.findIndex(([head]) => head === tryStartLabel);
             for (let i = tryEndIndex - 1; i > tryStartIndex; i--) {
@@ -119,7 +127,8 @@ export default class FlowGraphGenerator {
                     }
                     this.#connectArbitraryJump(head, catchLabel);
                 }
-                else if (head.jp instanceof Instruction && head.jp.canThrow) {
+                else if (head.jp instanceof Instruction &&
+                    this.canThrow(head.jp, exception)) {
                     if (tail.length === 0) {
                         continue;
                     }
@@ -152,6 +161,66 @@ export default class FlowGraphGenerator {
         //   }
         // }
         return this.#graph.addFunction($jp, bodyHead, functionTail);
+    }
+    canThrow($jp, $exception) {
+        // return $jp.canThrow;
+        if ($jp.opCodeName === "check-cast" &&
+            ($exception === "Ljava/lang/ClassCastException;" ||
+                $exception === "Ljava/lang/RuntimeException;" ||
+                $exception === "Ljava/lang/Exception;")) {
+            return true;
+        }
+        if (($jp.opCodeName.startsWith("rem") || $jp.opCodeName.startsWith("div")) &&
+            ($exception === "Ljava/lang/ArithmeticException;" ||
+                $exception === "Ljava/lang/RuntimeException;" ||
+                $exception === "Ljava/lang/Exception;")) {
+            return true;
+        }
+        // These can use dynamic dispatch, I think
+        // Would need further analysis to accurately determine if they can throw
+        if ($jp.opCodeName.startsWith("invoke-virtual") ||
+            $jp.opCodeName.startsWith("invoke-interface")) {
+            return $jp.canThrow;
+        }
+        if ($jp.opCodeName.startsWith("invoke")) {
+            const methodRef = $jp.children[1];
+            if (methodRef === undefined || !(methodRef instanceof MethodReference)) {
+                return false;
+            }
+            let classDescriptor = methodRef.parentClassDescriptor;
+            let processedFunction;
+            while (classDescriptor.decl !== undefined &&
+                processedFunction === undefined) {
+                classDescriptor.decl.children.forEach((child) => {
+                    if (child instanceof MethodNode &&
+                        child.referenceName === methodRef.code) {
+                        // Calling this might lead to maximum call stack size exceeded, needs to be reworked
+                        processedFunction = this.#processFunction(child)[0];
+                    }
+                });
+                if (classDescriptor.decl.superClassDescriptor === undefined) {
+                    break;
+                }
+                classDescriptor = classDescriptor.decl.superClassDescriptor;
+            }
+            if (processedFunction === undefined) {
+                // returning $jp.canThrow since we don't have access to system apis
+                return $jp.canThrow;
+            }
+            let instruction = undefined;
+            if (processedFunction.nextNodes[0] !== undefined) {
+                instruction = processedFunction.nextNodes[0].jp;
+            }
+            while (instruction !== undefined) {
+                if (instruction instanceof ThrowStatement) {
+                    // TODO: Needs to move backwards and check exception type
+                    return true;
+                }
+                instruction = instruction.nextStatement;
+            }
+        }
+        // Not sure if there are more exceptions
+        return false;
     }
     #processIf($jp, context) {
         const $iftrue = $jp.label.decl;

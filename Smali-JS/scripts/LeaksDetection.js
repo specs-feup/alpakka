@@ -14,6 +14,7 @@ import FunctionExitNode from "smali-js/api/smali/graphs/cfg/flow/node/instructio
 import Resources from "./Resources.js";
 import ResourceLeak from "./ResourceLeak.js";
 import ConditionNode from "smali-js/api/smali/graphs/cfg/flow/node/condition/ConditionNode.js";
+import TryCatchNode from "../api/smali/graphs/cfg/flow/node/condition/TryCatchNode.js";
 
 const resources = new Resources().getAllResources();
 
@@ -335,9 +336,11 @@ class LeaksDetection {
             existingRegister,
           );
           if (leaks[key] !== undefined)
-            resultingLeaks[existingRegister] = originalMethodCall.currLeaks[existingRegister];
+            resultingLeaks[existingRegister] =
+              originalMethodCall.currLeaks[existingRegister];
           if (fields[key] !== undefined)
-            resultingFields[existingRegister] = originalMethodCall.currFields[existingRegister];
+            resultingFields[existingRegister] =
+              originalMethodCall.currFields[existingRegister];
           continue;
         }
 
@@ -801,6 +804,18 @@ class LeaksDetection {
       }
     }
 
+    if (incomingNode.is(TryCatchNode.TypeGuard) && childNode.jp instanceof Label) {
+      for (const register in leaks) {
+        if (register.endsWith("_")) {
+          continue;
+        }
+
+        if (leaks[register].acquisitionJp.id === incomingNode.jp.id) {
+          this.releaseResource(leaks, register);
+        }
+      }
+    }
+
     return leaks;
   }
 
@@ -1121,7 +1136,7 @@ class LeaksDetection {
     // const register = rList.children[0];
     let register = undefined;
 
-    // The register isn't gonna be the first in startManagingResource, 
+    // The register isn't gonna be the first in startManagingResource,
     // this should probably be declared in the resource's details
     for (const reg of rList.children) {
       if (leaks[reg.code] !== undefined) {

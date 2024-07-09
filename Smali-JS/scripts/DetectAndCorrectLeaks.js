@@ -90,7 +90,7 @@ for (const leak in leaksResult) {
     leaksResult[leak].resource.type +
     " leak in " +
     leaksResult[leak].jpList[0].parent.referenceName +
-    "\n";
+  "\n";
     // + "Acquisition Jp: " +
     // leaksResult[leak].acquisitionJp.code +
     // "\n" +
@@ -167,7 +167,7 @@ function getLineInfo(jp) {
 
 function saveUniqueLeaks(leaksResult, fieldsResult, leaksMap, fieldsMap) {
   // TODO: It's possible two registers are holding the same resource,
-  // we should save the smallest register in order to stay within the 4 bits limit
+  // we should save the smallest register in order to stay within the 4 bits correction limit
 
   for (const leak in leaksMap) {
     let isDuplicate = false;
