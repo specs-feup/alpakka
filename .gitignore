@@ -28,7 +28,6 @@ Matisse.lara
 #output/
 .idea/
 .gradle/
-gradle/
 build/
 
 ### Default folder for executing applications
