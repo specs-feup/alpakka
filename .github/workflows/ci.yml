@@ -9,12 +9,13 @@ on:
   pull_request:
     branches: [ "main" ]
 
+permissions:
+  checks: write
+
 jobs:
   build:
 
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
 
     steps:
     - uses: actions/checkout@v4
@@ -45,3 +46,10 @@ jobs:
     - name: Run tests
       working-directory: workspace/smali/SmaliParser
       run: ./gradlew test    
+
+    - name: Publish Test Report
+      uses: mikepenz/action-junit-report@v4
+      if: always()
+      with:
+        report_paths: 'workspace/smali/**/build/test-results/test/TEST-*.xml'
+        summary: true
