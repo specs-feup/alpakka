@@ -1,47 +1,46 @@
 {
-  "name": "smali-js",
-  "version": "0.0.1",
-  "description": "",
-  "type": "module",
-  "bin": {
-    "smali-js": "./code/index.js"
-  },
-  "scripts": {
-    "run": "node ./code/index.js",
-    "build": "tsc -b src-api src-code",
-    "build:api": "tsc -b src-api",
-    "build:code": "tsc -b src-code",
-    "lint": "eslint .",
-    "format": "prettier --write .",
-    "java-dist": "npx lara-java-dist --jsSourceFolder api --jsDestinationFolder ../SmaliLaraApi/src-lara/smali/ --javaClassname SmaliApiJsResource --javaPackageName pt.up.fe.specs.smali.weaver --javaDestinationFolder ../SmaliLaraApi/src-java/pt/up/fe/specs/smali/weaver/ --javaResourceNamespace smali",
-    "build-interfaces": "npx lara-build-interfaces --input ../SmaliWeaver/src/pt/up/fe/specs/smali/weaver/SmaliWeaver.json --lara lara-js/LaraJoinPointSpecification.json --output src-api/Joinpoints.ts"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/specs-feup/smali.git",
-    "directory": "Smali-JS"
-  },
-  "keywords": [
-    "Android",
-    "smali",
-    "source-to-source",
-    "compiler"
-  ],
-  "author": "",
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/specs-feup/smali/issues"
-  },
-  "dependencies": {
-    "lara-js": "^0.0.1"
-  },
-  "devDependencies": {
-    "@types/node": "^20.12.7",
-    "@typescript-eslint/eslint-plugin": "^7.6.0",
-    "@typescript-eslint/parser": "^7.6.0",
-    "eslint": "^8.57.0",
-    "eslint-config-prettier": "^9.1.0",
-    "prettier": "^3.2.5",
-    "typescript": "^5.4.5"
-  }
+    "name": "smali-js",
+    "version": "0.0.1",
+    "description": "",
+    "type": "module",
+    "bin": {
+        "smali-js": "./code/index.js"
+    },
+    "scripts": {
+        "run": "node ./code/index.js",
+        "build": "tsc -b src-api src-code",
+        "build:api": "tsc -b src-api",
+        "build:code": "tsc -b src-code",
+        "lint": "eslint .",
+        "format": "prettier --write .",
+        "java-dist": "npx lara-java-dist --jsSourceFolder api --jsDestinationFolder ../SmaliLaraApi/src-lara/smali/ --javaClassname SmaliApiJsResource --javaPackageName pt.up.fe.specs.smali.weaver --javaDestinationFolder ../SmaliLaraApi/src-java/pt/up/fe/specs/smali/weaver/ --javaResourceNamespace smali",
+        "build-interfaces": "npx lara-build-interfaces --input ../SmaliWeaver/src/pt/up/fe/specs/smali/weaver/SmaliWeaver.json --lara lara-js/LaraJoinPointSpecification.json --output src-api/Joinpoints.ts"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/specs-feup/smali.git",
+        "directory": "Smali-JS"
+    },
+    "keywords": [
+        "Android",
+        "smali",
+        "source-to-source",
+        "compiler"
+    ],
+    "author": "",
+    "license": "Apache-2.0",
+    "bugs": {
+        "url": "https://github.com/specs-feup/smali/issues"
+    },
+    "dependencies": {
+        "lara-js": "^0.0.1"
+    },
+    "devDependencies": {
+        "@types/node": "^20.14.10",
+        "typescript-eslint": "^8.0.0-alpha.44",
+        "eslint": "^9.7.0",
+        "eslint-config-prettier": "^9.1.0",
+        "prettier": "^3.3.3",
+        "typescript": "^5.5.3"
+    }
 }
