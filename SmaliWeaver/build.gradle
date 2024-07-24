@@ -25,6 +25,8 @@ repositories {
 }
 
 dependencies {
+    implementation "junit:junit:4.12"
+
     implementation ":SpecsUtils"
     implementation ":jOptions"
     implementation ":JsEngine"
@@ -55,6 +57,17 @@ sourceSets {
 		srcDir 'resources'
 	  }      
    }
+
+    test {
+        java {
+            srcDir 'test'
+        }
+
+        resources {
+            srcDir 'resources'
+            srcDir 'test-resources'
+        }
+    }
 }
 
 mainClassName = "pt.up.fe.specs.smali.weaver.SmaliWeaverLauncher"
