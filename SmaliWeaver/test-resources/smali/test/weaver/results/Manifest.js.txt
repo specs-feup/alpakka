@@ -1,0 +1,11 @@
+Activities:
+com.liato.bankdroid.LoginActivity
+com.liato.bankdroid.MainActivity
+com.liato.bankdroid.TransactionsActivity
+com.liato.bankdroid.AccountActivity
+com.liato.bankdroid.SettingsActivity
+com.liato.bankdroid.WidgetConfigureActivity
+
+Services:
+com.liato.bankdroid.AutoRefreshService
+com.liato.bankdroid.BankdroidWidgetProvider$WidgetService

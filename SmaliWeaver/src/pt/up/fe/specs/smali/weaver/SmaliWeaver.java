@@ -1,11 +1,5 @@
 package pt.up.fe.specs.smali.weaver;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import org.lara.interpreter.weaver.ast.AstMethods;
 import org.lara.interpreter.weaver.interf.AGear;
 import org.lara.interpreter.weaver.interf.JoinPoint;
@@ -13,7 +7,6 @@ import org.lara.interpreter.weaver.options.WeaverOption;
 import org.lara.interpreter.weaver.utils.LaraResourceProvider;
 import org.lara.language.specification.LanguageSpecification;
 import org.suikasoft.jOptions.Interfaces.DataStore;
-
 import pt.up.fe.specs.smali.ast.App;
 import pt.up.fe.specs.smali.ast.SmaliNode;
 import pt.up.fe.specs.smali.parser.antlr.SmaliFileParser;
@@ -21,6 +14,9 @@ import pt.up.fe.specs.smali.parser.antlr.SmaliParser;
 import pt.up.fe.specs.smali.weaver.abstracts.weaver.ASmaliWeaver;
 import pt.up.fe.specs.smali.weaver.options.SmaliWeaverOption;
 import pt.up.fe.specs.smali.weaver.options.SmaliWeaverOptions;
+
+import java.io.File;
+import java.util.*;
 
 /**
  * Weaver Implementation for SmaliWeaver<br>
@@ -92,6 +88,18 @@ public class SmaliWeaver extends ASmaliWeaver {
         return true;
     }
 
+    private List<File> filterSupportedFiles(File... sources) {
+        var supportedFiles = new ArrayList<File>();
+
+        for (var source : sources) {
+            if (source.getName().endsWith(".smali") || source.getName().endsWith(".apk")) {
+                supportedFiles.add(source);
+            }
+        }
+
+        return supportedFiles;
+    }
+
     /**
      * Set a file/folder in the weaver if it is valid file/folder type for the weaver.
      * 
@@ -106,10 +114,17 @@ public class SmaliWeaver extends ASmaliWeaver {
     @Override
     public boolean begin(List<File> sources, File outputDir, DataStore args) {
 
-        // sources can be a smali file, a folder or APK. Only supporting smali files for
-        // now
+        var smaliFiles = new ArrayList<File>();
 
-        root = new SmaliParser().parse(sources, buildParserOptions(args))
+        sources.forEach(source -> {
+            if (source.isDirectory()) {
+                smaliFiles.addAll(filterSupportedFiles(Objects.requireNonNull(source.listFiles())));
+            } else {
+                smaliFiles.addAll(filterSupportedFiles(source));
+            }
+        });
+
+        root = new SmaliParser().parse(smaliFiles, buildParserOptions(args))
                 .orElse(new App(DataStore.newInstance(App.class), List.of()));
 
         System.out.println("SOURCES: " + sources);

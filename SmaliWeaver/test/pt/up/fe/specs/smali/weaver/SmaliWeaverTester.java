@@ -18,10 +18,9 @@ import org.lara.interpreter.joptions.config.interpreter.LaraiKeys;
 import org.lara.interpreter.joptions.config.interpreter.VerboseLevel;
 import org.lara.interpreter.joptions.keys.FileList;
 import org.lara.interpreter.joptions.keys.OptionalFile;
-import org.lara.interpreter.weaver.interf.WeaverEngine;
 import org.suikasoft.jOptions.Datakey.DataKey;
 import org.suikasoft.jOptions.Interfaces.DataStore;
-import pt.up.fe.specs.lara.WeaverLauncher;
+import pt.up.fe.specs.smali.weaver.options.SmaliWeaverOption;
 import pt.up.fe.specs.util.SpecsCollections;
 import pt.up.fe.specs.util.SpecsIo;
 import pt.up.fe.specs.util.SpecsLogs;
@@ -153,7 +152,7 @@ public class SmaliWeaverTester {
 
         List<ResourceProvider> codes = SpecsCollections.map(codeResources, this::buildCodeResource);
 
-        File log = runCxxWeaver(() -> basePackage + laraResource, codes);
+        File log = runSmaliWeaver(() -> basePackage + laraResource, codes);
 
         // Do not check expected output
         if (!this.checkExpectedOutput) {
@@ -197,7 +196,7 @@ public class SmaliWeaverTester {
         // return string.replaceAll("\r\n", "\n");
     }
 
-    private File runCxxWeaver(ResourceProvider lara, List<ResourceProvider> code) {
+    private File runSmaliWeaver(ResourceProvider lara, List<ResourceProvider> code) {
         // Prepare folder
         File workFolder = SpecsIo.mkdir(WORK_FOLDER);
         SpecsIo.deleteFolderContents(workFolder);
@@ -225,7 +224,8 @@ public class SmaliWeaverTester {
         data.add(LaraiKeys.LOG_FILE, OptionalFile.newInstance(getWeaverLog().getAbsolutePath()));
 
         // Set custom weaver configurations
-        // Set CxxWeaver configurations
+        // Set SmaliWeaver configurations
+        data.add(SmaliWeaverOption.TARGET_SDK, 20);
 
         // Add additional settings
         data.addAll(additionalSettings);

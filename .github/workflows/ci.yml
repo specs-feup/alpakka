@@ -34,18 +34,26 @@ jobs:
         repository: specs-feup/specs-java-libs
         path: workspace/specs-java-libs
 
+    - name: Check out specs-java-libs repo
+      uses: actions/checkout@v4
+      with:
+        repository: specs-feup/lara-framework
+        ref: feature/lara-js
+        path: workspace/lara-framework
+
     # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
     # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
 
-    - name: Build with Gradle Wrapper
+    # Setting up gradle multi-project would be helpful
+    - name: Build and Test SmaliParser
       working-directory: workspace/smali/SmaliParser
-      run: ./gradlew build
+      run: ./gradlew build test
 
-    - name: Run tests
-      working-directory: workspace/smali/SmaliParser
-      run: ./gradlew test    
+    - name: Build and Test SmaliWeaver
+      working-directory: workspace/smali/SmaliWeaver
+      run: ./gradlew build test
 
     - name: Publish Test Report
       uses: mikepenz/action-junit-report@v4

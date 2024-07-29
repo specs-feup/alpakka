@@ -18,14 +18,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import pt.up.fe.specs.smali.weaver.SmaliWeaverTester;
 import pt.up.fe.specs.util.SpecsSystem;
-import pt.up.fe.specs.util.lazy.Lazy;
-
-import java.util.Arrays;
 
 public class SmaliWeaverTest {
-
-    private static final Lazy<Boolean> IS_CMAKE_AVAILABLE = Lazy
-            .newInstance(() -> SpecsSystem.runProcess(Arrays.asList("cmake"), false, false).getReturnValue() == 0);
 
     @BeforeClass
     public static void setupOnce() {
@@ -46,7 +40,12 @@ public class SmaliWeaverTest {
 
     @Test
     public void testBasic() {
-        newTester().test("Basic.js", "Basic.smali");
+        newTester().test("HelloWorld.js", "HelloWorld.smali");
+    }
+
+    @Test
+    public void testManifest() {
+        newTester().test("Manifest.js", "Bankdroid-rev-2b0345b5c2.apk");
     }
 
 }
