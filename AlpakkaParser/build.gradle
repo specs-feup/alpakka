@@ -1,0 +1,65 @@
+plugins {
+ 	id 'distribution'
+}
+
+// Java project
+apply plugin: 'java'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+// Repositories providers
+repositories {
+    // smali
+    google()
+
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform("org.junit:junit-bom:5.10.2")
+    testImplementation "org.junit.jupiter:junit-jupiter"
+
+    implementation "org.apktool:apktool-lib:2.9.3"
+    implementation "org.yaml:snakeyaml:2.2"
+    implementation "org.antlr:antlr4:4.13.1"
+    implementation "com.android.tools.smali:smali:3.0.5"
+
+    implementation ":SpecsUtils"
+    implementation ":jOptions"
+
+    implementation ":AlpakkaAst"
+}
+
+java {
+    withSourcesJar()
+}
+
+test {
+    useJUnitPlatform()
+}
+
+// Project sources
+sourceSets {
+   main {
+      java {
+          srcDir 'src'
+      }
+
+	  resources {
+          srcDir 'resources'
+	  }      
+   }
+
+   test {
+      java {
+          srcDir 'test'
+      }
+
+	  resources {
+          srcDir 'resources'
+	  }
+   }
+}

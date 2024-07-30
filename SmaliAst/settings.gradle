@@ -1,4 +1,0 @@
-rootProject.name = 'SmaliAst'
-
-includeBuild("../../specs-java-libs/SpecsUtils")
-includeBuild("../../specs-java-libs/jOptions")
