@@ -1,0 +1,77 @@
+plugins {
+ 	id 'distribution'
+}
+
+// Java project
+apply plugin: 'java'
+
+// Executable
+apply plugin: 'application'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+// Repositories providers
+repositories {
+    // Gearman
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots"}
+
+    // smali
+    google()
+
+    mavenCentral()
+}
+
+dependencies {
+    implementation "junit:junit:4.12"
+
+    implementation ":SpecsUtils"
+    implementation ":jOptions"
+    implementation ":JsEngine"
+
+    implementation ":LaraFramework"
+    implementation ":LARAI"
+    implementation ":LaraUtils"
+    implementation ":WeaverInterface"
+    implementation ":LanguageSpecification"
+
+    implementation ":AlpakkaParser"
+    implementation ":AlpakkaAst"
+    implementation ":AlpakkaLaraApi"
+}
+
+java {
+	withSourcesJar()
+}
+
+// Project sources
+sourceSets {
+   main {
+      java {
+         srcDir 'src'
+      }
+
+	  resources {
+		srcDir 'resources'
+	  }      
+   }
+
+    test {
+        java {
+            srcDir 'test'
+        }
+
+        resources {
+            srcDir 'resources'
+            srcDir 'test-resources'
+        }
+    }
+}
+
+mainClassName = "pt.up.fe.specs.smali.weaver.SmaliWeaverLauncher"
+
+application {
+    mainClass.set(mainClassName)
+}
