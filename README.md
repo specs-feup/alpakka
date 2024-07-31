@@ -1,2 +1,2 @@
-# smali
-Projects related with processing smali code
+# Alpakka
+Projects related to the smali source-to-source compiler Alpakka
