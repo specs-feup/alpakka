@@ -34,7 +34,7 @@ jobs:
         repository: specs-feup/specs-java-libs
         path: workspace/specs-java-libs
 
-    - name: Check out specs-java-libs repo
+    - name: Check out lara-framework repo
       uses: actions/checkout@v4
       with:
         repository: specs-feup/lara-framework
