@@ -38,7 +38,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         repository: specs-feup/lara-framework
-        ref: feature/lara-js
+        ref: master
         path: workspace/lara-framework
 
     # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.

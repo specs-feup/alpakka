@@ -9,6 +9,10 @@ on:
   pull_request:
     branches: [ "staging" ]
 
+  # Daily at midnight
+  schedule:
+    - cron: '0 0 * * *'
+
 permissions:
   checks: write
 
@@ -19,7 +23,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      # Because of scheduled runs, by default run on default branch
       with:
+        ref: staging
         path: workspace/alpakka
 
     - name: Set up JDK 17
@@ -38,7 +44,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         repository: specs-feup/lara-framework
-        ref: feature/lara-js
+        ref: staging
         path: workspace/lara-framework
 
     # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
