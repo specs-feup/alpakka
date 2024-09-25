@@ -33,7 +33,7 @@
         "url": "https://github.com/specs-feup/alpakka/issues"
     },
     "dependencies": {
-        "lara-js": "^0.0.1"
+        "@specs-feup/lara": "^3.0.0"
     },
     "devDependencies": {
         "@types/node": "^20.14.10",
