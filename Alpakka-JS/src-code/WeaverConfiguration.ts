@@ -1,11 +1,11 @@
-import WeaverConfiguration from "lara-js/code/WeaverConfiguration.js";
+import WeaverConfiguration from "@specs-feup/lara/code/WeaverConfiguration.js";
 import path from "path";
 import { fileURLToPath } from "url";
 
 export const weaverConfig: WeaverConfiguration = {
   weaverName: "alpakka",
   weaverPrettyName: "Alpakka",
-  weaverFileName: "lara-js/code/Weaver.js",
+  weaverFileName: "@specs-feup/lara/code/Weaver.js",
   jarPath: path.join(
     path.dirname(path.dirname(fileURLToPath(import.meta.url))),
     "./java-binaries/",

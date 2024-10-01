@@ -16,9 +16,58 @@ import {
   registerJoinpointMapper,
   wrapJoinPoint,
   unwrapJoinPoint,
-} from "lara-js/api/LaraJoinPoint.js";
+} from "@specs-feup/lara/api/LaraJoinPoint.js";
+
+type PrivateMapper = {
+  "Joinpoint": typeof Joinpoint,
+  "ClassNode": typeof ClassNode,
+  "Expression": typeof Expression,
+  "FieldNode": typeof FieldNode,
+  "FieldReference": typeof FieldReference,
+  "LabelReference": typeof LabelReference,
+  "Literal": typeof Literal,
+  "Manifest": typeof Manifest,
+  "MethodNode": typeof MethodNode,
+  "MethodPrototype": typeof MethodPrototype,
+  "MethodReference": typeof MethodReference,
+  "Placeholder": typeof Placeholder,
+  "PrimitiveLiteral": typeof PrimitiveLiteral,
+  "Program": typeof Program,
+  "RegisterList": typeof RegisterList,
+  "RegisterRange": typeof RegisterRange,
+  "RegisterReference": typeof RegisterReference,
+  "ResourceNode": typeof ResourceNode,
+  "SparseSwitchElement": typeof SparseSwitchElement,
+  "Statement": typeof Statement,
+  "TypeDescriptor": typeof TypeDescriptor,
+  "ArrayType": typeof ArrayType,
+  "Catch": typeof Catch,
+  "ClassType": typeof ClassType,
+  "Instruction": typeof Instruction,
+  "Label": typeof Label,
+  "LineDirective": typeof LineDirective,
+  "PackedSwitch": typeof PackedSwitch,
+  "PrimitiveType": typeof PrimitiveType,
+  "RegistersDirective": typeof RegistersDirective,
+  "ReturnStatement": typeof ReturnStatement,
+  "SparseSwitch": typeof SparseSwitch,
+  "Switch": typeof Switch,
+  "ThrowStatement": typeof ThrowStatement,
+  "Goto": typeof Goto,
+  "IfComparison": typeof IfComparison,
+  "IfComparisonWithZero": typeof IfComparisonWithZero,
+};
+
+type DefaultAttributeMap = {
+}
 
 export class Joinpoint extends LaraJoinPoint {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
   /**
    * String representation of the ast
    */
@@ -78,7 +127,7 @@ export class Joinpoint extends LaraJoinPoint {
   /**
    * Inserts the given join point after this join point
    */
-  insertAfter(p1: Joinpoint | string): Joinpoint | Joinpoint { return wrapJoinPoint(this._javaObject.insertAfter(unwrapJoinPoint(p1))); }
+  insertAfter(p1: Joinpoint | string): Joinpoint { return wrapJoinPoint(this._javaObject.insertAfter(unwrapJoinPoint(p1))); }
   /**
    * Inserts the given join point before this join point
    */
@@ -90,7 +139,7 @@ export class Joinpoint extends LaraJoinPoint {
   /**
    * Inserts the given join point before this join point
    */
-  insertBefore(p1: Joinpoint | string): Joinpoint | Joinpoint { return wrapJoinPoint(this._javaObject.insertBefore(unwrapJoinPoint(p1))); }
+  insertBefore(p1: Joinpoint | string): Joinpoint { return wrapJoinPoint(this._javaObject.insertBefore(unwrapJoinPoint(p1))); }
   /**
    * Replaces this node with the given node
    */
@@ -106,7 +155,7 @@ export class Joinpoint extends LaraJoinPoint {
   /**
    * Replaces this node with the given node
    */
-  replaceWith(p1: Joinpoint | string | Joinpoint[]): Joinpoint | Joinpoint | Joinpoint { return wrapJoinPoint(this._javaObject.replaceWith(unwrapJoinPoint(p1))); }
+  replaceWith(p1: Joinpoint | string | Joinpoint[]): Joinpoint { return wrapJoinPoint(this._javaObject.replaceWith(unwrapJoinPoint(p1))); }
   /**
    * Overload which accepts a list of strings
    */
@@ -117,49 +166,67 @@ export class Joinpoint extends LaraJoinPoint {
    * Class definition
    */
 export class ClassNode extends Joinpoint {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
   get classDescriptor(): ClassType { return wrapJoinPoint(this._javaObject.getClassDescriptor()) }
   get fields(): FieldNode[] { return wrapJoinPoint(this._javaObject.getFields()) }
   get methods(): MethodNode[] { return wrapJoinPoint(this._javaObject.getMethods()) }
   get superClassDescriptor(): ClassType { return wrapJoinPoint(this._javaObject.getSuperClassDescriptor()) }
-  get attributes(): string[] { return wrapJoinPoint(this._javaObject.getAttributes()) }
-  get selects(): string[] { return wrapJoinPoint(this._javaObject.getSelects()) }
-  get actions(): string[] { return wrapJoinPoint(this._javaObject.getActions()) }
-  def(attribute: string, value: object): void { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
 }
 
   /**
    * Expression
    */
 export class Expression extends Joinpoint {
-  get attributes(): string[] { return wrapJoinPoint(this._javaObject.getAttributes()) }
-  get selects(): string[] { return wrapJoinPoint(this._javaObject.getSelects()) }
-  get actions(): string[] { return wrapJoinPoint(this._javaObject.getActions()) }
-  def(attribute: string, value: object): void { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
 }
 
   /**
    * Field definition
    */
 export class FieldNode extends Joinpoint {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
   get isStatic(): boolean { return wrapJoinPoint(this._javaObject.getIsStatic()) }
   get name(): string { return wrapJoinPoint(this._javaObject.getName()) }
   get referenceName(): string { return wrapJoinPoint(this._javaObject.getReferenceName()) }
-  get attributes(): string[] { return wrapJoinPoint(this._javaObject.getAttributes()) }
-  get selects(): string[] { return wrapJoinPoint(this._javaObject.getSelects()) }
-  get actions(): string[] { return wrapJoinPoint(this._javaObject.getActions()) }
-  def(attribute: string, value: object): void { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
 }
 
   /**
    * Field reference
    */
 export class FieldReference extends Expression {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
 }
 
   /**
    * Label reference
    */
 export class LabelReference extends Expression {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
   get decl(): Label { return wrapJoinPoint(this._javaObject.getDecl()) }
 }
 
@@ -167,40 +234,56 @@ export class LabelReference extends Expression {
    * Literal
    */
 export class Literal extends Expression {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
 }
 
   /**
    * The application's manifest
    */
 export class Manifest extends Joinpoint {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
   get activities(): string[] { return wrapJoinPoint(this._javaObject.getActivities()) }
   get packageName(): string { return wrapJoinPoint(this._javaObject.getPackageName()) }
   get services(): string[] { return wrapJoinPoint(this._javaObject.getServices()) }
-  get attributes(): string[] { return wrapJoinPoint(this._javaObject.getAttributes()) }
-  get selects(): string[] { return wrapJoinPoint(this._javaObject.getSelects()) }
-  get actions(): string[] { return wrapJoinPoint(this._javaObject.getActions()) }
-  def(attribute: string, value: object): void { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
 }
 
   /**
    * Method definition
    */
 export class MethodNode extends Joinpoint {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
   get isStatic(): boolean { return wrapJoinPoint(this._javaObject.getIsStatic()) }
   get name(): string { return wrapJoinPoint(this._javaObject.getName()) }
   get prototype(): MethodPrototype { return wrapJoinPoint(this._javaObject.getPrototype()) }
   get referenceName(): string { return wrapJoinPoint(this._javaObject.getReferenceName()) }
   get registersDirective(): RegistersDirective { return wrapJoinPoint(this._javaObject.getRegistersDirective()) }
-  get attributes(): string[] { return wrapJoinPoint(this._javaObject.getAttributes()) }
-  get selects(): string[] { return wrapJoinPoint(this._javaObject.getSelects()) }
-  get actions(): string[] { return wrapJoinPoint(this._javaObject.getActions()) }
-  def(attribute: string, value: object): void { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
 }
 
   /**
    * Method prototype
    */
 export class MethodPrototype extends Literal {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
   get parameters(): TypeDescriptor[] { return wrapJoinPoint(this._javaObject.getParameters()) }
   get returnType(): TypeDescriptor { return wrapJoinPoint(this._javaObject.getReturnType()) }
 }
@@ -209,6 +292,12 @@ export class MethodPrototype extends Literal {
    * Method reference
    */
 export class MethodReference extends Expression {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
   get name(): string { return wrapJoinPoint(this._javaObject.getName()) }
   get parentClassDescriptor(): TypeDescriptor { return wrapJoinPoint(this._javaObject.getParentClassDescriptor()) }
   get prototype(): MethodPrototype { return wrapJoinPoint(this._javaObject.getPrototype()) }
@@ -218,17 +307,25 @@ export class MethodReference extends Expression {
    * Placeholder node
    */
 export class Placeholder extends Joinpoint {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
   get kind(): string { return wrapJoinPoint(this._javaObject.getKind()) }
-  get attributes(): string[] { return wrapJoinPoint(this._javaObject.getAttributes()) }
-  get selects(): string[] { return wrapJoinPoint(this._javaObject.getSelects()) }
-  get actions(): string[] { return wrapJoinPoint(this._javaObject.getActions()) }
-  def(attribute: string, value: object): void { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
 }
 
   /**
    * Primitive literal
    */
 export class PrimitiveLiteral extends Literal {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
   setValue(value: string): string { return wrapJoinPoint(this._javaObject.setValue(unwrapJoinPoint(value))); }
 }
 
@@ -236,47 +333,75 @@ export class PrimitiveLiteral extends Literal {
    * App node
    */
 export class Program extends Joinpoint {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
   get classes(): ClassNode[] { return wrapJoinPoint(this._javaObject.getClasses()) }
   get manifest(): Manifest { return wrapJoinPoint(this._javaObject.getManifest()) }
-  get attributes(): string[] { return wrapJoinPoint(this._javaObject.getAttributes()) }
-  get selects(): string[] { return wrapJoinPoint(this._javaObject.getSelects()) }
-  get actions(): string[] { return wrapJoinPoint(this._javaObject.getActions()) }
   buildApk(outputName: string): void { return wrapJoinPoint(this._javaObject.buildApk(unwrapJoinPoint(outputName))); }
-  def(attribute: string, value: object): void { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
 }
 
   /**
    * Register list
    */
 export class RegisterList extends Expression {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
 }
 
   /**
    * Register range
    */
 export class RegisterRange extends Expression {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
 }
 
   /**
    * Register reference
    */
 export class RegisterReference extends Expression {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
 }
 
   /**
    * Resource nodes, like xml files are not being handled for now
    */
 export class ResourceNode extends Joinpoint {
-  get attributes(): string[] { return wrapJoinPoint(this._javaObject.getAttributes()) }
-  get selects(): string[] { return wrapJoinPoint(this._javaObject.getSelects()) }
-  get actions(): string[] { return wrapJoinPoint(this._javaObject.getActions()) }
-  def(attribute: string, value: object): void { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
 }
 
   /**
    * Sparse switch element
    */
 export class SparseSwitchElement extends Expression {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
   get label(): LabelReference { return wrapJoinPoint(this._javaObject.getLabel()) }
 }
 
@@ -284,31 +409,51 @@ export class SparseSwitchElement extends Expression {
    * Statement
    */
 export class Statement extends Joinpoint {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
   get line(): LineDirective { return wrapJoinPoint(this._javaObject.getLine()) }
   get nextStatement(): Statement { return wrapJoinPoint(this._javaObject.getNextStatement()) }
   get prevStatement(): Statement { return wrapJoinPoint(this._javaObject.getPrevStatement()) }
-  get attributes(): string[] { return wrapJoinPoint(this._javaObject.getAttributes()) }
-  get selects(): string[] { return wrapJoinPoint(this._javaObject.getSelects()) }
-  get actions(): string[] { return wrapJoinPoint(this._javaObject.getActions()) }
-  def(attribute: string, value: object): void { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
 }
 
   /**
    * Type descriptor
    */
 export class TypeDescriptor extends Literal {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
 }
 
   /**
    * Array descriptor
    */
 export class ArrayType extends TypeDescriptor {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
 }
 
   /**
    * Catch directive
    */
 export class Catch extends Statement {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
   get catch(): LabelReference { return wrapJoinPoint(this._javaObject.getCatch()) }
   get exception(): TypeDescriptor { return wrapJoinPoint(this._javaObject.getException()) }
   get tryEnd(): LabelReference { return wrapJoinPoint(this._javaObject.getTryEnd()) }
@@ -319,6 +464,12 @@ export class Catch extends Statement {
    * Class descriptor
    */
 export class ClassType extends TypeDescriptor {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
   get className(): string { return wrapJoinPoint(this._javaObject.getClassName()) }
   get decl(): ClassNode { return wrapJoinPoint(this._javaObject.getDecl()) }
   get packageName(): string { return wrapJoinPoint(this._javaObject.getPackageName()) }
@@ -328,6 +479,12 @@ export class ClassType extends TypeDescriptor {
    * Instruction
    */
 export class Instruction extends Statement {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
   get canThrow(): boolean { return wrapJoinPoint(this._javaObject.getCanThrow()) }
   get opCodeName(): string { return wrapJoinPoint(this._javaObject.getOpCodeName()) }
   get setsRegister(): boolean { return wrapJoinPoint(this._javaObject.getSetsRegister()) }
@@ -338,6 +495,12 @@ export class Instruction extends Statement {
    * Label declaration
    */
 export class Label extends Statement {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
   get name(): string { return wrapJoinPoint(this._javaObject.getName()) }
 }
 
@@ -345,6 +508,12 @@ export class Label extends Statement {
    * Line directive
    */
 export class LineDirective extends Statement {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
   get value(): Literal { return wrapJoinPoint(this._javaObject.getValue()) }
 }
 
@@ -352,18 +521,36 @@ export class LineDirective extends Statement {
    * Packed switch directive
    */
 export class PackedSwitch extends Statement {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
 }
 
   /**
    * Primitive descriptor
    */
 export class PrimitiveType extends TypeDescriptor {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
 }
 
   /**
    * Registers directive
    */
 export class RegistersDirective extends Statement {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
   get type(): string { return wrapJoinPoint(this._javaObject.getType()) }
   get value(): PrimitiveLiteral { return wrapJoinPoint(this._javaObject.getValue()) }
 }
@@ -372,30 +559,60 @@ export class RegistersDirective extends Statement {
    * Smali instruction formats 10x, 11x
    */
 export class ReturnStatement extends Instruction {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
 }
 
   /**
    * Sparse switch directive
    */
 export class SparseSwitch extends Statement {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
 }
 
   /**
    * Smali instruction format 31t
    */
 export class Switch extends Instruction {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
 }
 
   /**
    * Smali instruction format 11x
    */
 export class ThrowStatement extends Instruction {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
 }
 
   /**
    * Smali instruction formats 10t, 20t, 30t
    */
 export class Goto extends Instruction {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
   get label(): LabelReference { return wrapJoinPoint(this._javaObject.getLabel()) }
 }
 
@@ -403,6 +620,12 @@ export class Goto extends Instruction {
    * Smali instruction format 22t
    */
 export class IfComparison extends Instruction {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
   get label(): LabelReference { return wrapJoinPoint(this._javaObject.getLabel()) }
 }
 
@@ -410,10 +633,16 @@ export class IfComparison extends Instruction {
    * Smali instruction format 21t
    */
 export class IfComparisonWithZero extends Instruction {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
   get label(): LabelReference { return wrapJoinPoint(this._javaObject.getLabel()) }
 }
 
-const JoinpointMapper: JoinpointMapperType = {
+const JoinpointMapper = {
   joinpoint: Joinpoint,
   classNode: ClassNode,
   expression: Expression,
@@ -458,3 +687,4 @@ if (!registered) {
   registerJoinpointMapper(JoinpointMapper);
   registered = true;
 }
+

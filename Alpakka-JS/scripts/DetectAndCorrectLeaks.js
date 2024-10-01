@@ -1,5 +1,5 @@
-import Query from "lara-js/api/weaver/Query.js";
-import WeaverOptions from "lara-js/api/weaver/WeaverOptions.js";
+import Query from "@specs-feup/lara/api/weaver/Query.js";
+import WeaverOptions from "@specs-feup/lara/api/weaver/WeaverOptions.js";
 import FlowGraph from "alpakka-js/api/alpakka/graphs/cfg/flow/FlowGraph.js";
 // import DefaultFlowGraphDotFormatter from "alpakka-js/api/alpakka/graphs/cfg/dot/DefaultFlowGraphDotFormatter.js";
 import LeaksDetection from "./LeaksDetection.js";

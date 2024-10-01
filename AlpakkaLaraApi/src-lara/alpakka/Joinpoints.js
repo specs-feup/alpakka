@@ -8,8 +8,14 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-duplicate-type-constituents */
-import { LaraJoinPoint, registerJoinpointMapper, wrapJoinPoint, unwrapJoinPoint, } from "lara-js/api/LaraJoinPoint.js";
+import { LaraJoinPoint, registerJoinpointMapper, wrapJoinPoint, unwrapJoinPoint, } from "@specs-feup/lara/api/LaraJoinPoint.js";
 export class Joinpoint extends LaraJoinPoint {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
     /**
      * String representation of the ast
      */
@@ -79,82 +85,116 @@ export class Joinpoint extends LaraJoinPoint {
  * Class definition
  */
 export class ClassNode extends Joinpoint {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
     get classDescriptor() { return wrapJoinPoint(this._javaObject.getClassDescriptor()); }
     get fields() { return wrapJoinPoint(this._javaObject.getFields()); }
     get methods() { return wrapJoinPoint(this._javaObject.getMethods()); }
     get superClassDescriptor() { return wrapJoinPoint(this._javaObject.getSuperClassDescriptor()); }
-    get attributes() { return wrapJoinPoint(this._javaObject.getAttributes()); }
-    get selects() { return wrapJoinPoint(this._javaObject.getSelects()); }
-    get actions() { return wrapJoinPoint(this._javaObject.getActions()); }
-    def(attribute, value) { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
 }
 /**
  * Expression
  */
 export class Expression extends Joinpoint {
-    get attributes() { return wrapJoinPoint(this._javaObject.getAttributes()); }
-    get selects() { return wrapJoinPoint(this._javaObject.getSelects()); }
-    get actions() { return wrapJoinPoint(this._javaObject.getActions()); }
-    def(attribute, value) { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
 }
 /**
  * Field definition
  */
 export class FieldNode extends Joinpoint {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
     get isStatic() { return wrapJoinPoint(this._javaObject.getIsStatic()); }
     get name() { return wrapJoinPoint(this._javaObject.getName()); }
     get referenceName() { return wrapJoinPoint(this._javaObject.getReferenceName()); }
-    get attributes() { return wrapJoinPoint(this._javaObject.getAttributes()); }
-    get selects() { return wrapJoinPoint(this._javaObject.getSelects()); }
-    get actions() { return wrapJoinPoint(this._javaObject.getActions()); }
-    def(attribute, value) { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
 }
 /**
  * Field reference
  */
 export class FieldReference extends Expression {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
 }
 /**
  * Label reference
  */
 export class LabelReference extends Expression {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
     get decl() { return wrapJoinPoint(this._javaObject.getDecl()); }
 }
 /**
  * Literal
  */
 export class Literal extends Expression {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
 }
 /**
  * The application's manifest
  */
 export class Manifest extends Joinpoint {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
     get activities() { return wrapJoinPoint(this._javaObject.getActivities()); }
     get packageName() { return wrapJoinPoint(this._javaObject.getPackageName()); }
     get services() { return wrapJoinPoint(this._javaObject.getServices()); }
-    get attributes() { return wrapJoinPoint(this._javaObject.getAttributes()); }
-    get selects() { return wrapJoinPoint(this._javaObject.getSelects()); }
-    get actions() { return wrapJoinPoint(this._javaObject.getActions()); }
-    def(attribute, value) { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
 }
 /**
  * Method definition
  */
 export class MethodNode extends Joinpoint {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
     get isStatic() { return wrapJoinPoint(this._javaObject.getIsStatic()); }
     get name() { return wrapJoinPoint(this._javaObject.getName()); }
     get prototype() { return wrapJoinPoint(this._javaObject.getPrototype()); }
     get referenceName() { return wrapJoinPoint(this._javaObject.getReferenceName()); }
     get registersDirective() { return wrapJoinPoint(this._javaObject.getRegistersDirective()); }
-    get attributes() { return wrapJoinPoint(this._javaObject.getAttributes()); }
-    get selects() { return wrapJoinPoint(this._javaObject.getSelects()); }
-    get actions() { return wrapJoinPoint(this._javaObject.getActions()); }
-    def(attribute, value) { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
 }
 /**
  * Method prototype
  */
 export class MethodPrototype extends Literal {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
     get parameters() { return wrapJoinPoint(this._javaObject.getParameters()); }
     get returnType() { return wrapJoinPoint(this._javaObject.getReturnType()); }
 }
@@ -162,6 +202,12 @@ export class MethodPrototype extends Literal {
  * Method reference
  */
 export class MethodReference extends Expression {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
     get name() { return wrapJoinPoint(this._javaObject.getName()); }
     get parentClassDescriptor() { return wrapJoinPoint(this._javaObject.getParentClassDescriptor()); }
     get prototype() { return wrapJoinPoint(this._javaObject.getPrototype()); }
@@ -170,86 +216,142 @@ export class MethodReference extends Expression {
  * Placeholder node
  */
 export class Placeholder extends Joinpoint {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
     get kind() { return wrapJoinPoint(this._javaObject.getKind()); }
-    get attributes() { return wrapJoinPoint(this._javaObject.getAttributes()); }
-    get selects() { return wrapJoinPoint(this._javaObject.getSelects()); }
-    get actions() { return wrapJoinPoint(this._javaObject.getActions()); }
-    def(attribute, value) { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
 }
 /**
  * Primitive literal
  */
 export class PrimitiveLiteral extends Literal {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
     setValue(value) { return wrapJoinPoint(this._javaObject.setValue(unwrapJoinPoint(value))); }
 }
 /**
  * App node
  */
 export class Program extends Joinpoint {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
     get classes() { return wrapJoinPoint(this._javaObject.getClasses()); }
     get manifest() { return wrapJoinPoint(this._javaObject.getManifest()); }
-    get attributes() { return wrapJoinPoint(this._javaObject.getAttributes()); }
-    get selects() { return wrapJoinPoint(this._javaObject.getSelects()); }
-    get actions() { return wrapJoinPoint(this._javaObject.getActions()); }
     buildApk(outputName) { return wrapJoinPoint(this._javaObject.buildApk(unwrapJoinPoint(outputName))); }
-    def(attribute, value) { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
 }
 /**
  * Register list
  */
 export class RegisterList extends Expression {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
 }
 /**
  * Register range
  */
 export class RegisterRange extends Expression {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
 }
 /**
  * Register reference
  */
 export class RegisterReference extends Expression {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
 }
 /**
  * Resource nodes, like xml files are not being handled for now
  */
 export class ResourceNode extends Joinpoint {
-    get attributes() { return wrapJoinPoint(this._javaObject.getAttributes()); }
-    get selects() { return wrapJoinPoint(this._javaObject.getSelects()); }
-    get actions() { return wrapJoinPoint(this._javaObject.getActions()); }
-    def(attribute, value) { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
 }
 /**
  * Sparse switch element
  */
 export class SparseSwitchElement extends Expression {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
     get label() { return wrapJoinPoint(this._javaObject.getLabel()); }
 }
 /**
  * Statement
  */
 export class Statement extends Joinpoint {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
     get line() { return wrapJoinPoint(this._javaObject.getLine()); }
     get nextStatement() { return wrapJoinPoint(this._javaObject.getNextStatement()); }
     get prevStatement() { return wrapJoinPoint(this._javaObject.getPrevStatement()); }
-    get attributes() { return wrapJoinPoint(this._javaObject.getAttributes()); }
-    get selects() { return wrapJoinPoint(this._javaObject.getSelects()); }
-    get actions() { return wrapJoinPoint(this._javaObject.getActions()); }
-    def(attribute, value) { return wrapJoinPoint(this._javaObject.def(unwrapJoinPoint(attribute), unwrapJoinPoint(value))); }
 }
 /**
  * Type descriptor
  */
 export class TypeDescriptor extends Literal {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
 }
 /**
  * Array descriptor
  */
 export class ArrayType extends TypeDescriptor {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
 }
 /**
  * Catch directive
  */
 export class Catch extends Statement {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
     get catch() { return wrapJoinPoint(this._javaObject.getCatch()); }
     get exception() { return wrapJoinPoint(this._javaObject.getException()); }
     get tryEnd() { return wrapJoinPoint(this._javaObject.getTryEnd()); }
@@ -259,6 +361,12 @@ export class Catch extends Statement {
  * Class descriptor
  */
 export class ClassType extends TypeDescriptor {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
     get className() { return wrapJoinPoint(this._javaObject.getClassName()); }
     get decl() { return wrapJoinPoint(this._javaObject.getDecl()); }
     get packageName() { return wrapJoinPoint(this._javaObject.getPackageName()); }
@@ -267,6 +375,12 @@ export class ClassType extends TypeDescriptor {
  * Instruction
  */
 export class Instruction extends Statement {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
     get canThrow() { return wrapJoinPoint(this._javaObject.getCanThrow()); }
     get opCodeName() { return wrapJoinPoint(this._javaObject.getOpCodeName()); }
     get setsRegister() { return wrapJoinPoint(this._javaObject.getSetsRegister()); }
@@ -276,28 +390,58 @@ export class Instruction extends Statement {
  * Label declaration
  */
 export class Label extends Statement {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
     get name() { return wrapJoinPoint(this._javaObject.getName()); }
 }
 /**
  * Line directive
  */
 export class LineDirective extends Statement {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
     get value() { return wrapJoinPoint(this._javaObject.getValue()); }
 }
 /**
  * Packed switch directive
  */
 export class PackedSwitch extends Statement {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
 }
 /**
  * Primitive descriptor
  */
 export class PrimitiveType extends TypeDescriptor {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
 }
 /**
  * Registers directive
  */
 export class RegistersDirective extends Statement {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
     get type() { return wrapJoinPoint(this._javaObject.getType()); }
     get value() { return wrapJoinPoint(this._javaObject.getValue()); }
 }
@@ -305,38 +449,80 @@ export class RegistersDirective extends Statement {
  * Smali instruction formats 10x, 11x
  */
 export class ReturnStatement extends Instruction {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
 }
 /**
  * Sparse switch directive
  */
 export class SparseSwitch extends Statement {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
 }
 /**
  * Smali instruction format 31t
  */
 export class Switch extends Instruction {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
 }
 /**
  * Smali instruction format 11x
  */
 export class ThrowStatement extends Instruction {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
 }
 /**
  * Smali instruction formats 10t, 20t, 30t
  */
 export class Goto extends Instruction {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
     get label() { return wrapJoinPoint(this._javaObject.getLabel()); }
 }
 /**
  * Smali instruction format 22t
  */
 export class IfComparison extends Instruction {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
     get label() { return wrapJoinPoint(this._javaObject.getLabel()); }
 }
 /**
  * Smali instruction format 21t
  */
 export class IfComparisonWithZero extends Instruction {
+    /**
+     * @internal
+     */
+    static _defaultAttributeInfo = {
+        name: null,
+    };
     get label() { return wrapJoinPoint(this._javaObject.getLabel()); }
 }
 const JoinpointMapper = {

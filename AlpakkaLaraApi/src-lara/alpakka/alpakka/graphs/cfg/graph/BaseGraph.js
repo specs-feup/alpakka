@@ -1,7 +1,7 @@
 import Graph from "./Graph.js";
 import BaseNode from "./BaseNode.js";
 import BaseEdge from "./BaseEdge.js";
-import Io from "lara-js/api/lara/Io.js";
+import Io from "@specs-feup/lara/api/lara/Io.js";
 var BaseGraph;
 (function (BaseGraph) {
     class Class {

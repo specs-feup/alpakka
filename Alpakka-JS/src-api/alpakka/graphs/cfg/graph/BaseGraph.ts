@@ -1,4 +1,4 @@
-import cytoscape from "lara-js/api/libs/cytoscape-3.26.0.js";
+import cytoscape from "@specs-feup/lara/api/libs/cytoscape-3.26.0.js";
 import Graph, {
   GraphBuilder,
   GraphConstructor,
@@ -7,9 +7,9 @@ import Graph, {
 } from "./Graph.js";
 import BaseNode from "./BaseNode.js";
 import BaseEdge from "./BaseEdge.js";
-import { JavaClasses } from "lara-js/api/lara/util/JavaTypes.js";
+import { JavaClasses } from "@specs-feup/lara/api/lara/util/JavaTypes.js";
 import DotFormatter from "../dot/DotFormatter.js";
-import Io from "lara-js/api/lara/Io.js";
+import Io from "@specs-feup/lara/api/lara/Io.js";
 
 namespace BaseGraph {
   export class Class<

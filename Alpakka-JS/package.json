@@ -14,7 +14,7 @@
         "lint": "eslint .",
         "format": "prettier --write .",
         "java-dist": "npx lara-java-dist --jsSourceFolder api --jsDestinationFolder ../AlpakkaLaraApi/src-lara/alpakka/ --javaClassname AlpakkaApiJsResource --javaPackageName pt.up.fe.specs.alpakka.weaver --javaDestinationFolder ../AlpakkaLaraApi/src-java/pt/up/fe/specs/alpakka/weaver/ --javaResourceNamespace alpakka",
-        "build-interfaces": "npx lara-build-interfaces --input ../AlpakkaWeaver/src/pt/up/fe/specs/alpakka/weaver/SmaliWeaver.json --lara lara-js/LaraJoinPointSpecification.json --output src-api/Joinpoints.ts"
+        "build-interfaces": "npx lara-build-interfaces --input ../AlpakkaWeaver/src/pt/up/fe/specs/alpakka/weaver/SmaliWeaver.json --lara @specs-feup/lara/LaraJoinPointSpecification.json --output src-api/Joinpoints.ts"
     },
     "repository": {
         "type": "git",
@@ -33,7 +33,7 @@
         "url": "https://github.com/specs-feup/alpakka/issues"
     },
     "dependencies": {
-        "@specs-feup/lara": "^3.0.0"
+        "@specs-feup/lara": "^3.0.1"
     },
     "devDependencies": {
         "@types/node": "^20.14.10",

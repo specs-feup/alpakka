@@ -1,6 +1,6 @@
 import BaseGraph from "./BaseGraph.js";
 import BaseNode from "./BaseNode.js";
-import cytoscape from "lara-js/api/libs/cytoscape-3.26.0.js";
+import cytoscape from "@specs-feup/lara/api/libs/cytoscape-3.26.0.js";
 
 export type NodeConstructor<
   D extends BaseNode.Data,
