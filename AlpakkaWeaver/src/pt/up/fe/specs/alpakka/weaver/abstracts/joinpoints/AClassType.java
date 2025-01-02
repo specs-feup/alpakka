@@ -52,31 +52,6 @@ public abstract class AClassType extends ATypeDescriptor {
     }
 
     /**
-     * Get value on attribute packageName
-     * @return the attribute's value
-     */
-    public abstract String getPackageNameImpl();
-
-    /**
-     * Get value on attribute packageName
-     * @return the attribute's value
-     */
-    public final Object getPackageName() {
-        try {
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "packageName", Optional.empty());
-        	}
-        	String result = this.getPackageNameImpl();
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "packageName", Optional.ofNullable(result));
-        	}
-        	return result!=null?result:getUndefinedValue();
-        } catch(Exception e) {
-        	throw new AttributeException(get_class(), "packageName", e);
-        }
-    }
-
-    /**
      * Get value on attribute decl
      * @return the attribute's value
      */
@@ -109,30 +84,28 @@ public abstract class AClassType extends ATypeDescriptor {
     }
 
     /**
-     * Get value on attribute parent
+     * Get value on attribute packageName
      * @return the attribute's value
      */
-    @Override
-    public AJoinPoint getParentImpl() {
-        return this.aTypeDescriptor.getParentImpl();
-    }
+    public abstract String getPackageNameImpl();
 
     /**
-     * Get value on attribute getDescendantsArrayImpl
+     * Get value on attribute packageName
      * @return the attribute's value
      */
-    @Override
-    public AJoinPoint[] getDescendantsArrayImpl(String type) {
-        return this.aTypeDescriptor.getDescendantsArrayImpl(type);
-    }
-
-    /**
-     * Get value on attribute getDescendantsAndSelfArrayImpl
-     * @return the attribute's value
-     */
-    @Override
-    public AJoinPoint[] getDescendantsAndSelfArrayImpl(String type) {
-        return this.aTypeDescriptor.getDescendantsAndSelfArrayImpl(type);
+    public final Object getPackageName() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "packageName", Optional.empty());
+        	}
+        	String result = this.getPackageNameImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "packageName", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "packageName", e);
+        }
     }
 
     /**
@@ -145,15 +118,6 @@ public abstract class AClassType extends ATypeDescriptor {
     }
 
     /**
-     * Get value on attribute code
-     * @return the attribute's value
-     */
-    @Override
-    public String getCodeImpl() {
-        return this.aTypeDescriptor.getCodeImpl();
-    }
-
-    /**
      * Get value on attribute childrenArrayImpl
      * @return the attribute's value
      */
@@ -163,12 +127,21 @@ public abstract class AClassType extends ATypeDescriptor {
     }
 
     /**
-     * Get value on attribute root
+     * Get value on attribute code
      * @return the attribute's value
      */
     @Override
-    public AProgram getRootImpl() {
-        return this.aTypeDescriptor.getRootImpl();
+    public String getCodeImpl() {
+        return this.aTypeDescriptor.getCodeImpl();
+    }
+
+    /**
+     * Get value on attribute descendantsArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getDescendantsArrayImpl() {
+        return this.aTypeDescriptor.getDescendantsArrayImpl();
     }
 
     /**
@@ -190,6 +163,24 @@ public abstract class AClassType extends ATypeDescriptor {
     }
 
     /**
+     * Get value on attribute getDescendantsArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getDescendantsArrayImpl(String type) {
+        return this.aTypeDescriptor.getDescendantsArrayImpl(type);
+    }
+
+    /**
+     * Get value on attribute getDescendantsAndSelfArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getDescendantsAndSelfArrayImpl(String type) {
+        return this.aTypeDescriptor.getDescendantsAndSelfArrayImpl(type);
+    }
+
+    /**
      * Get value on attribute id
      * @return the attribute's value
      */
@@ -199,12 +190,85 @@ public abstract class AClassType extends ATypeDescriptor {
     }
 
     /**
-     * Get value on attribute descendantsArrayImpl
+     * Get value on attribute parent
      * @return the attribute's value
      */
     @Override
-    public AJoinPoint[] getDescendantsArrayImpl() {
-        return this.aTypeDescriptor.getDescendantsArrayImpl();
+    public AJoinPoint getParentImpl() {
+        return this.aTypeDescriptor.getParentImpl();
+    }
+
+    /**
+     * Get value on attribute root
+     * @return the attribute's value
+     */
+    @Override
+    public AProgram getRootImpl() {
+        return this.aTypeDescriptor.getRootImpl();
+    }
+
+    /**
+     * Removes the node associated to this joinpoint from the AST
+     */
+    @Override
+    public AJoinPoint detachImpl() {
+        return this.aTypeDescriptor.detachImpl();
+    }
+
+    /**
+     * 
+     * @param position 
+     * @param code 
+     */
+    @Override
+    public AJoinPoint[] insertImpl(String position, String code) {
+        return this.aTypeDescriptor.insertImpl(position, code);
+    }
+
+    /**
+     * 
+     * @param position 
+     * @param code 
+     */
+    @Override
+    public AJoinPoint[] insertImpl(String position, JoinPoint code) {
+        return this.aTypeDescriptor.insertImpl(position, code);
+    }
+
+    /**
+     * Inserts the given join point after this join point
+     * @param node 
+     */
+    @Override
+    public AJoinPoint insertAfterImpl(AJoinPoint node) {
+        return this.aTypeDescriptor.insertAfterImpl(node);
+    }
+
+    /**
+     * Overload which accepts a string
+     * @param code 
+     */
+    @Override
+    public AJoinPoint insertAfterImpl(String code) {
+        return this.aTypeDescriptor.insertAfterImpl(code);
+    }
+
+    /**
+     * Inserts the given join point before this join point
+     * @param node 
+     */
+    @Override
+    public AJoinPoint insertBeforeImpl(AJoinPoint node) {
+        return this.aTypeDescriptor.insertBeforeImpl(node);
+    }
+
+    /**
+     * Overload which accepts a string
+     * @param node 
+     */
+    @Override
+    public AJoinPoint insertBeforeImpl(String node) {
+        return this.aTypeDescriptor.insertBeforeImpl(node);
     }
 
     /**
@@ -241,70 +305,6 @@ public abstract class AClassType extends ATypeDescriptor {
     @Override
     public AJoinPoint replaceWithStringsImpl(String[] node) {
         return this.aTypeDescriptor.replaceWithStringsImpl(node);
-    }
-
-    /**
-     * Inserts the given join point before this join point
-     * @param node 
-     */
-    @Override
-    public AJoinPoint insertBeforeImpl(AJoinPoint node) {
-        return this.aTypeDescriptor.insertBeforeImpl(node);
-    }
-
-    /**
-     * Overload which accepts a string
-     * @param node 
-     */
-    @Override
-    public AJoinPoint insertBeforeImpl(String node) {
-        return this.aTypeDescriptor.insertBeforeImpl(node);
-    }
-
-    /**
-     * Inserts the given join point after this join point
-     * @param node 
-     */
-    @Override
-    public AJoinPoint insertAfterImpl(AJoinPoint node) {
-        return this.aTypeDescriptor.insertAfterImpl(node);
-    }
-
-    /**
-     * Overload which accepts a string
-     * @param code 
-     */
-    @Override
-    public AJoinPoint insertAfterImpl(String code) {
-        return this.aTypeDescriptor.insertAfterImpl(code);
-    }
-
-    /**
-     * Removes the node associated to this joinpoint from the AST
-     */
-    @Override
-    public AJoinPoint detachImpl() {
-        return this.aTypeDescriptor.detachImpl();
-    }
-
-    /**
-     * 
-     * @param position 
-     * @param code 
-     */
-    @Override
-    public AJoinPoint[] insertImpl(String position, String code) {
-        return this.aTypeDescriptor.insertImpl(position, code);
-    }
-
-    /**
-     * 
-     * @param position 
-     * @param code 
-     */
-    @Override
-    public AJoinPoint[] insertImpl(String position, JoinPoint code) {
-        return this.aTypeDescriptor.insertImpl(position, code);
     }
 
     /**
@@ -353,8 +353,8 @@ public abstract class AClassType extends ATypeDescriptor {
     protected final void fillWithAttributes(List<String> attributes) {
         this.aTypeDescriptor.fillWithAttributes(attributes);
         attributes.add("className");
-        attributes.add("packageName");
         attributes.add("decl");
+        attributes.add("packageName");
     }
 
     /**
@@ -399,19 +399,19 @@ public abstract class AClassType extends ATypeDescriptor {
      */
     protected enum ClassTypeAttributes {
         CLASSNAME("className"),
-        PACKAGENAME("packageName"),
         DECL("decl"),
-        PARENT("parent"),
-        GETDESCENDANTS("getDescendants"),
-        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
+        PACKAGENAME("packageName"),
         AST("ast"),
-        CODE("code"),
         CHILDREN("children"),
-        ROOT("root"),
+        CODE("code"),
+        DESCENDANTS("descendants"),
         GETANCESTOR("getAncestor"),
         GETCHILD("getChild"),
+        GETDESCENDANTS("getDescendants"),
+        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
         ID("id"),
-        DESCENDANTS("descendants");
+        PARENT("parent"),
+        ROOT("root");
         private String name;
 
         /**

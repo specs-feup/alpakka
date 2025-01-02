@@ -83,6 +83,15 @@ public abstract class ARegistersDirective extends AStatement {
     }
 
     /**
+     * Get value on attribute line
+     * @return the attribute's value
+     */
+    @Override
+    public ALineDirective getLineImpl() {
+        return this.aStatement.getLineImpl();
+    }
+
+    /**
      * Get value on attribute nextStatement
      * @return the attribute's value
      */
@@ -101,12 +110,10 @@ public abstract class ARegistersDirective extends AStatement {
     }
 
     /**
-     * Get value on attribute line
-     * @return the attribute's value
+     * 
      */
-    @Override
-    public ALineDirective getLineImpl() {
-        return this.aStatement.getLineImpl();
+    public void defLineImpl(ALineDirective value) {
+        this.aStatement.defLineImpl(value);
     }
 
     /**
@@ -124,55 +131,12 @@ public abstract class ARegistersDirective extends AStatement {
     }
 
     /**
-     * 
-     */
-    public void defLineImpl(ALineDirective value) {
-        this.aStatement.defLineImpl(value);
-    }
-
-    /**
-     * Get value on attribute parent
-     * @return the attribute's value
-     */
-    @Override
-    public AJoinPoint getParentImpl() {
-        return this.aStatement.getParentImpl();
-    }
-
-    /**
-     * Get value on attribute getDescendantsArrayImpl
-     * @return the attribute's value
-     */
-    @Override
-    public AJoinPoint[] getDescendantsArrayImpl(String type) {
-        return this.aStatement.getDescendantsArrayImpl(type);
-    }
-
-    /**
-     * Get value on attribute getDescendantsAndSelfArrayImpl
-     * @return the attribute's value
-     */
-    @Override
-    public AJoinPoint[] getDescendantsAndSelfArrayImpl(String type) {
-        return this.aStatement.getDescendantsAndSelfArrayImpl(type);
-    }
-
-    /**
      * Get value on attribute ast
      * @return the attribute's value
      */
     @Override
     public String getAstImpl() {
         return this.aStatement.getAstImpl();
-    }
-
-    /**
-     * Get value on attribute code
-     * @return the attribute's value
-     */
-    @Override
-    public String getCodeImpl() {
-        return this.aStatement.getCodeImpl();
     }
 
     /**
@@ -185,12 +149,21 @@ public abstract class ARegistersDirective extends AStatement {
     }
 
     /**
-     * Get value on attribute root
+     * Get value on attribute code
      * @return the attribute's value
      */
     @Override
-    public AProgram getRootImpl() {
-        return this.aStatement.getRootImpl();
+    public String getCodeImpl() {
+        return this.aStatement.getCodeImpl();
+    }
+
+    /**
+     * Get value on attribute descendantsArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getDescendantsArrayImpl() {
+        return this.aStatement.getDescendantsArrayImpl();
     }
 
     /**
@@ -212,6 +185,24 @@ public abstract class ARegistersDirective extends AStatement {
     }
 
     /**
+     * Get value on attribute getDescendantsArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getDescendantsArrayImpl(String type) {
+        return this.aStatement.getDescendantsArrayImpl(type);
+    }
+
+    /**
+     * Get value on attribute getDescendantsAndSelfArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getDescendantsAndSelfArrayImpl(String type) {
+        return this.aStatement.getDescendantsAndSelfArrayImpl(type);
+    }
+
+    /**
      * Get value on attribute id
      * @return the attribute's value
      */
@@ -221,12 +212,85 @@ public abstract class ARegistersDirective extends AStatement {
     }
 
     /**
-     * Get value on attribute descendantsArrayImpl
+     * Get value on attribute parent
      * @return the attribute's value
      */
     @Override
-    public AJoinPoint[] getDescendantsArrayImpl() {
-        return this.aStatement.getDescendantsArrayImpl();
+    public AJoinPoint getParentImpl() {
+        return this.aStatement.getParentImpl();
+    }
+
+    /**
+     * Get value on attribute root
+     * @return the attribute's value
+     */
+    @Override
+    public AProgram getRootImpl() {
+        return this.aStatement.getRootImpl();
+    }
+
+    /**
+     * Removes the node associated to this joinpoint from the AST
+     */
+    @Override
+    public AJoinPoint detachImpl() {
+        return this.aStatement.detachImpl();
+    }
+
+    /**
+     * 
+     * @param position 
+     * @param code 
+     */
+    @Override
+    public AJoinPoint[] insertImpl(String position, String code) {
+        return this.aStatement.insertImpl(position, code);
+    }
+
+    /**
+     * 
+     * @param position 
+     * @param code 
+     */
+    @Override
+    public AJoinPoint[] insertImpl(String position, JoinPoint code) {
+        return this.aStatement.insertImpl(position, code);
+    }
+
+    /**
+     * Inserts the given join point after this join point
+     * @param node 
+     */
+    @Override
+    public AJoinPoint insertAfterImpl(AJoinPoint node) {
+        return this.aStatement.insertAfterImpl(node);
+    }
+
+    /**
+     * Overload which accepts a string
+     * @param code 
+     */
+    @Override
+    public AJoinPoint insertAfterImpl(String code) {
+        return this.aStatement.insertAfterImpl(code);
+    }
+
+    /**
+     * Inserts the given join point before this join point
+     * @param node 
+     */
+    @Override
+    public AJoinPoint insertBeforeImpl(AJoinPoint node) {
+        return this.aStatement.insertBeforeImpl(node);
+    }
+
+    /**
+     * Overload which accepts a string
+     * @param node 
+     */
+    @Override
+    public AJoinPoint insertBeforeImpl(String node) {
+        return this.aStatement.insertBeforeImpl(node);
     }
 
     /**
@@ -266,70 +330,6 @@ public abstract class ARegistersDirective extends AStatement {
     }
 
     /**
-     * Inserts the given join point before this join point
-     * @param node 
-     */
-    @Override
-    public AJoinPoint insertBeforeImpl(AJoinPoint node) {
-        return this.aStatement.insertBeforeImpl(node);
-    }
-
-    /**
-     * Overload which accepts a string
-     * @param node 
-     */
-    @Override
-    public AJoinPoint insertBeforeImpl(String node) {
-        return this.aStatement.insertBeforeImpl(node);
-    }
-
-    /**
-     * Inserts the given join point after this join point
-     * @param node 
-     */
-    @Override
-    public AJoinPoint insertAfterImpl(AJoinPoint node) {
-        return this.aStatement.insertAfterImpl(node);
-    }
-
-    /**
-     * Overload which accepts a string
-     * @param code 
-     */
-    @Override
-    public AJoinPoint insertAfterImpl(String code) {
-        return this.aStatement.insertAfterImpl(code);
-    }
-
-    /**
-     * Removes the node associated to this joinpoint from the AST
-     */
-    @Override
-    public AJoinPoint detachImpl() {
-        return this.aStatement.detachImpl();
-    }
-
-    /**
-     * 
-     * @param position 
-     * @param code 
-     */
-    @Override
-    public AJoinPoint[] insertImpl(String position, String code) {
-        return this.aStatement.insertImpl(position, code);
-    }
-
-    /**
-     * 
-     * @param position 
-     * @param code 
-     */
-    @Override
-    public AJoinPoint[] insertImpl(String position, JoinPoint code) {
-        return this.aStatement.insertImpl(position, code);
-    }
-
-    /**
      * 
      */
     @Override
@@ -364,6 +364,13 @@ public abstract class ARegistersDirective extends AStatement {
         	}
         	this.unsupportedTypeForDef(attribute, value);
         }
+        case "line": {
+        	if(value instanceof ALineDirective){
+        		this.defLineImpl((ALineDirective)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
         case "nextStatement": {
         	if(value instanceof AStatement){
         		this.defNextStatementImpl((AStatement)value);
@@ -374,13 +381,6 @@ public abstract class ARegistersDirective extends AStatement {
         case "prevStatement": {
         	if(value instanceof AStatement){
         		this.defPrevStatementImpl((AStatement)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        case "line": {
-        	if(value instanceof ALineDirective){
-        		this.defLineImpl((ALineDirective)value);
         		return;
         	}
         	this.unsupportedTypeForDef(attribute, value);
@@ -442,20 +442,20 @@ public abstract class ARegistersDirective extends AStatement {
     protected enum RegistersDirectiveAttributes {
         TYPE("type"),
         VALUE("value"),
+        LINE("line"),
         NEXTSTATEMENT("nextStatement"),
         PREVSTATEMENT("prevStatement"),
-        LINE("line"),
-        PARENT("parent"),
-        GETDESCENDANTS("getDescendants"),
-        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
         AST("ast"),
-        CODE("code"),
         CHILDREN("children"),
-        ROOT("root"),
+        CODE("code"),
+        DESCENDANTS("descendants"),
         GETANCESTOR("getAncestor"),
         GETCHILD("getChild"),
+        GETDESCENDANTS("getDescendants"),
+        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
         ID("id"),
-        DESCENDANTS("descendants");
+        PARENT("parent"),
+        ROOT("root");
         private String name;
 
         /**

@@ -54,48 +54,12 @@ public abstract class APrimitiveLiteral extends ALiteral {
     }
 
     /**
-     * Get value on attribute parent
-     * @return the attribute's value
-     */
-    @Override
-    public AJoinPoint getParentImpl() {
-        return this.aLiteral.getParentImpl();
-    }
-
-    /**
-     * Get value on attribute getDescendantsArrayImpl
-     * @return the attribute's value
-     */
-    @Override
-    public AJoinPoint[] getDescendantsArrayImpl(String type) {
-        return this.aLiteral.getDescendantsArrayImpl(type);
-    }
-
-    /**
-     * Get value on attribute getDescendantsAndSelfArrayImpl
-     * @return the attribute's value
-     */
-    @Override
-    public AJoinPoint[] getDescendantsAndSelfArrayImpl(String type) {
-        return this.aLiteral.getDescendantsAndSelfArrayImpl(type);
-    }
-
-    /**
      * Get value on attribute ast
      * @return the attribute's value
      */
     @Override
     public String getAstImpl() {
         return this.aLiteral.getAstImpl();
-    }
-
-    /**
-     * Get value on attribute code
-     * @return the attribute's value
-     */
-    @Override
-    public String getCodeImpl() {
-        return this.aLiteral.getCodeImpl();
     }
 
     /**
@@ -108,12 +72,21 @@ public abstract class APrimitiveLiteral extends ALiteral {
     }
 
     /**
-     * Get value on attribute root
+     * Get value on attribute code
      * @return the attribute's value
      */
     @Override
-    public AProgram getRootImpl() {
-        return this.aLiteral.getRootImpl();
+    public String getCodeImpl() {
+        return this.aLiteral.getCodeImpl();
+    }
+
+    /**
+     * Get value on attribute descendantsArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getDescendantsArrayImpl() {
+        return this.aLiteral.getDescendantsArrayImpl();
     }
 
     /**
@@ -135,6 +108,24 @@ public abstract class APrimitiveLiteral extends ALiteral {
     }
 
     /**
+     * Get value on attribute getDescendantsArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getDescendantsArrayImpl(String type) {
+        return this.aLiteral.getDescendantsArrayImpl(type);
+    }
+
+    /**
+     * Get value on attribute getDescendantsAndSelfArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getDescendantsAndSelfArrayImpl(String type) {
+        return this.aLiteral.getDescendantsAndSelfArrayImpl(type);
+    }
+
+    /**
      * Get value on attribute id
      * @return the attribute's value
      */
@@ -144,12 +135,85 @@ public abstract class APrimitiveLiteral extends ALiteral {
     }
 
     /**
-     * Get value on attribute descendantsArrayImpl
+     * Get value on attribute parent
      * @return the attribute's value
      */
     @Override
-    public AJoinPoint[] getDescendantsArrayImpl() {
-        return this.aLiteral.getDescendantsArrayImpl();
+    public AJoinPoint getParentImpl() {
+        return this.aLiteral.getParentImpl();
+    }
+
+    /**
+     * Get value on attribute root
+     * @return the attribute's value
+     */
+    @Override
+    public AProgram getRootImpl() {
+        return this.aLiteral.getRootImpl();
+    }
+
+    /**
+     * Removes the node associated to this joinpoint from the AST
+     */
+    @Override
+    public AJoinPoint detachImpl() {
+        return this.aLiteral.detachImpl();
+    }
+
+    /**
+     * 
+     * @param position 
+     * @param code 
+     */
+    @Override
+    public AJoinPoint[] insertImpl(String position, String code) {
+        return this.aLiteral.insertImpl(position, code);
+    }
+
+    /**
+     * 
+     * @param position 
+     * @param code 
+     */
+    @Override
+    public AJoinPoint[] insertImpl(String position, JoinPoint code) {
+        return this.aLiteral.insertImpl(position, code);
+    }
+
+    /**
+     * Inserts the given join point after this join point
+     * @param node 
+     */
+    @Override
+    public AJoinPoint insertAfterImpl(AJoinPoint node) {
+        return this.aLiteral.insertAfterImpl(node);
+    }
+
+    /**
+     * Overload which accepts a string
+     * @param code 
+     */
+    @Override
+    public AJoinPoint insertAfterImpl(String code) {
+        return this.aLiteral.insertAfterImpl(code);
+    }
+
+    /**
+     * Inserts the given join point before this join point
+     * @param node 
+     */
+    @Override
+    public AJoinPoint insertBeforeImpl(AJoinPoint node) {
+        return this.aLiteral.insertBeforeImpl(node);
+    }
+
+    /**
+     * Overload which accepts a string
+     * @param node 
+     */
+    @Override
+    public AJoinPoint insertBeforeImpl(String node) {
+        return this.aLiteral.insertBeforeImpl(node);
     }
 
     /**
@@ -186,70 +250,6 @@ public abstract class APrimitiveLiteral extends ALiteral {
     @Override
     public AJoinPoint replaceWithStringsImpl(String[] node) {
         return this.aLiteral.replaceWithStringsImpl(node);
-    }
-
-    /**
-     * Inserts the given join point before this join point
-     * @param node 
-     */
-    @Override
-    public AJoinPoint insertBeforeImpl(AJoinPoint node) {
-        return this.aLiteral.insertBeforeImpl(node);
-    }
-
-    /**
-     * Overload which accepts a string
-     * @param node 
-     */
-    @Override
-    public AJoinPoint insertBeforeImpl(String node) {
-        return this.aLiteral.insertBeforeImpl(node);
-    }
-
-    /**
-     * Inserts the given join point after this join point
-     * @param node 
-     */
-    @Override
-    public AJoinPoint insertAfterImpl(AJoinPoint node) {
-        return this.aLiteral.insertAfterImpl(node);
-    }
-
-    /**
-     * Overload which accepts a string
-     * @param code 
-     */
-    @Override
-    public AJoinPoint insertAfterImpl(String code) {
-        return this.aLiteral.insertAfterImpl(code);
-    }
-
-    /**
-     * Removes the node associated to this joinpoint from the AST
-     */
-    @Override
-    public AJoinPoint detachImpl() {
-        return this.aLiteral.detachImpl();
-    }
-
-    /**
-     * 
-     * @param position 
-     * @param code 
-     */
-    @Override
-    public AJoinPoint[] insertImpl(String position, String code) {
-        return this.aLiteral.insertImpl(position, code);
-    }
-
-    /**
-     * 
-     * @param position 
-     * @param code 
-     */
-    @Override
-    public AJoinPoint[] insertImpl(String position, JoinPoint code) {
-        return this.aLiteral.insertImpl(position, code);
     }
 
     /**
@@ -335,17 +335,17 @@ public abstract class APrimitiveLiteral extends ALiteral {
      */
     protected enum PrimitiveLiteralAttributes {
         SETVALUE("setValue"),
-        PARENT("parent"),
-        GETDESCENDANTS("getDescendants"),
-        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
         AST("ast"),
-        CODE("code"),
         CHILDREN("children"),
-        ROOT("root"),
+        CODE("code"),
+        DESCENDANTS("descendants"),
         GETANCESTOR("getAncestor"),
         GETCHILD("getChild"),
+        GETDESCENDANTS("getDescendants"),
+        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
         ID("id"),
-        DESCENDANTS("descendants");
+        PARENT("parent"),
+        ROOT("root");
         private String name;
 
         /**

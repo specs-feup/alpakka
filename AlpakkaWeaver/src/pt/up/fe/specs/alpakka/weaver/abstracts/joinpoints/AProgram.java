@@ -19,35 +19,30 @@ import java.util.Arrays;
 public abstract class AProgram extends ASmaliWeaverJoinPoint {
 
     /**
-     * Get value on attribute manifest
-     * @return the attribute's value
+     * 
+     * @param outputName
+     * @return 
      */
-    public abstract AManifest getManifestImpl();
-
-    /**
-     * Get value on attribute manifest
-     * @return the attribute's value
-     */
-    public final Object getManifest() {
-        try {
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "manifest", Optional.empty());
-        	}
-        	AManifest result = this.getManifestImpl();
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "manifest", Optional.ofNullable(result));
-        	}
-        	return result!=null?result:getUndefinedValue();
-        } catch(Exception e) {
-        	throw new AttributeException(get_class(), "manifest", e);
-        }
-    }
+    public abstract Void buildApkImpl(String outputName);
 
     /**
      * 
+     * @param outputName
+     * @return 
      */
-    public void defManifestImpl(AManifest value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def manifest with type AManifest not implemented ");
+    public final Object buildApk(String outputName) {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "buildApk", Optional.empty(), outputName);
+        	}
+        	Void result = this.buildApkImpl(outputName);
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "buildApk", Optional.ofNullable(result), outputName);
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "buildApk", e);
+        }
     }
 
     /**
@@ -86,30 +81,35 @@ public abstract class AProgram extends ASmaliWeaverJoinPoint {
     }
 
     /**
-     * 
-     * @param outputName
-     * @return 
+     * Get value on attribute manifest
+     * @return the attribute's value
      */
-    public abstract Void buildApkImpl(String outputName);
+    public abstract AManifest getManifestImpl();
 
     /**
-     * 
-     * @param outputName
-     * @return 
+     * Get value on attribute manifest
+     * @return the attribute's value
      */
-    public final Object buildApk(String outputName) {
+    public final Object getManifest() {
         try {
         	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "buildApk", Optional.empty(), outputName);
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "manifest", Optional.empty());
         	}
-        	Void result = this.buildApkImpl(outputName);
+        	AManifest result = this.getManifestImpl();
         	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "buildApk", Optional.ofNullable(result), outputName);
+        		eventTrigger().triggerAttribute(Stage.END, this, "manifest", Optional.ofNullable(result));
         	}
         	return result!=null?result:getUndefinedValue();
         } catch(Exception e) {
-        	throw new AttributeException(get_class(), "buildApk", e);
+        	throw new AttributeException(get_class(), "manifest", e);
         }
+    }
+
+    /**
+     * 
+     */
+    public void defManifestImpl(AManifest value) {
+        throw new UnsupportedOperationException("Join point "+get_class()+": Action def manifest with type AManifest not implemented ");
     }
 
     /**
@@ -149,9 +149,9 @@ public abstract class AProgram extends ASmaliWeaverJoinPoint {
     @Override
     protected final void fillWithAttributes(List<String> attributes) {
         super.fillWithAttributes(attributes);
-        attributes.add("manifest");
-        attributes.add("classes");
         attributes.add("buildApk");
+        attributes.add("classes");
+        attributes.add("manifest");
     }
 
     /**
@@ -182,20 +182,20 @@ public abstract class AProgram extends ASmaliWeaverJoinPoint {
      * 
      */
     protected enum ProgramAttributes {
-        MANIFEST("manifest"),
-        CLASSES("classes"),
         BUILDAPK("buildApk"),
-        PARENT("parent"),
-        GETDESCENDANTS("getDescendants"),
-        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
+        CLASSES("classes"),
+        MANIFEST("manifest"),
         AST("ast"),
-        CODE("code"),
         CHILDREN("children"),
-        ROOT("root"),
+        CODE("code"),
+        DESCENDANTS("descendants"),
         GETANCESTOR("getAncestor"),
         GETCHILD("getChild"),
+        GETDESCENDANTS("getDescendants"),
+        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
         ID("id"),
-        DESCENDANTS("descendants");
+        PARENT("parent"),
+        ROOT("root");
         private String name;
 
         /**

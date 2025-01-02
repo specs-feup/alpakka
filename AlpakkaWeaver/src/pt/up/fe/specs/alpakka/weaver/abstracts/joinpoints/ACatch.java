@@ -26,6 +26,38 @@ public abstract class ACatch extends AStatement {
         this.aStatement = aStatement;
     }
     /**
+     * Get value on attribute _catch
+     * @return the attribute's value
+     */
+    public abstract ALabelReference getCatchImpl();
+
+    /**
+     * Get value on attribute _catch
+     * @return the attribute's value
+     */
+    public final Object getCatch() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "catch", Optional.empty());
+        	}
+        	ALabelReference result = this.getCatchImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "catch", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "catch", e);
+        }
+    }
+
+    /**
+     * 
+     */
+    public void defCatchImpl(ALabelReference value) {
+        throw new UnsupportedOperationException("Join point "+get_class()+": Action def catch with type ALabelReference not implemented ");
+    }
+
+    /**
      * Get value on attribute exception
      * @return the attribute's value
      */
@@ -55,38 +87,6 @@ public abstract class ACatch extends AStatement {
      */
     public void defExceptionImpl(ATypeDescriptor value) {
         throw new UnsupportedOperationException("Join point "+get_class()+": Action def exception with type ATypeDescriptor not implemented ");
-    }
-
-    /**
-     * Get value on attribute tryStart
-     * @return the attribute's value
-     */
-    public abstract ALabelReference getTryStartImpl();
-
-    /**
-     * Get value on attribute tryStart
-     * @return the attribute's value
-     */
-    public final Object getTryStart() {
-        try {
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "tryStart", Optional.empty());
-        	}
-        	ALabelReference result = this.getTryStartImpl();
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "tryStart", Optional.ofNullable(result));
-        	}
-        	return result!=null?result:getUndefinedValue();
-        } catch(Exception e) {
-        	throw new AttributeException(get_class(), "tryStart", e);
-        }
-    }
-
-    /**
-     * 
-     */
-    public void defTryStartImpl(ALabelReference value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def tryStart with type ALabelReference not implemented ");
     }
 
     /**
@@ -122,35 +122,44 @@ public abstract class ACatch extends AStatement {
     }
 
     /**
-     * Get value on attribute _catch
+     * Get value on attribute tryStart
      * @return the attribute's value
      */
-    public abstract ALabelReference getCatchImpl();
+    public abstract ALabelReference getTryStartImpl();
 
     /**
-     * Get value on attribute _catch
+     * Get value on attribute tryStart
      * @return the attribute's value
      */
-    public final Object getCatch() {
+    public final Object getTryStart() {
         try {
         	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "catch", Optional.empty());
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "tryStart", Optional.empty());
         	}
-        	ALabelReference result = this.getCatchImpl();
+        	ALabelReference result = this.getTryStartImpl();
         	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "catch", Optional.ofNullable(result));
+        		eventTrigger().triggerAttribute(Stage.END, this, "tryStart", Optional.ofNullable(result));
         	}
         	return result!=null?result:getUndefinedValue();
         } catch(Exception e) {
-        	throw new AttributeException(get_class(), "catch", e);
+        	throw new AttributeException(get_class(), "tryStart", e);
         }
     }
 
     /**
      * 
      */
-    public void defCatchImpl(ALabelReference value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def catch with type ALabelReference not implemented ");
+    public void defTryStartImpl(ALabelReference value) {
+        throw new UnsupportedOperationException("Join point "+get_class()+": Action def tryStart with type ALabelReference not implemented ");
+    }
+
+    /**
+     * Get value on attribute line
+     * @return the attribute's value
+     */
+    @Override
+    public ALineDirective getLineImpl() {
+        return this.aStatement.getLineImpl();
     }
 
     /**
@@ -172,12 +181,10 @@ public abstract class ACatch extends AStatement {
     }
 
     /**
-     * Get value on attribute line
-     * @return the attribute's value
+     * 
      */
-    @Override
-    public ALineDirective getLineImpl() {
-        return this.aStatement.getLineImpl();
+    public void defLineImpl(ALineDirective value) {
+        this.aStatement.defLineImpl(value);
     }
 
     /**
@@ -195,55 +202,12 @@ public abstract class ACatch extends AStatement {
     }
 
     /**
-     * 
-     */
-    public void defLineImpl(ALineDirective value) {
-        this.aStatement.defLineImpl(value);
-    }
-
-    /**
-     * Get value on attribute parent
-     * @return the attribute's value
-     */
-    @Override
-    public AJoinPoint getParentImpl() {
-        return this.aStatement.getParentImpl();
-    }
-
-    /**
-     * Get value on attribute getDescendantsArrayImpl
-     * @return the attribute's value
-     */
-    @Override
-    public AJoinPoint[] getDescendantsArrayImpl(String type) {
-        return this.aStatement.getDescendantsArrayImpl(type);
-    }
-
-    /**
-     * Get value on attribute getDescendantsAndSelfArrayImpl
-     * @return the attribute's value
-     */
-    @Override
-    public AJoinPoint[] getDescendantsAndSelfArrayImpl(String type) {
-        return this.aStatement.getDescendantsAndSelfArrayImpl(type);
-    }
-
-    /**
      * Get value on attribute ast
      * @return the attribute's value
      */
     @Override
     public String getAstImpl() {
         return this.aStatement.getAstImpl();
-    }
-
-    /**
-     * Get value on attribute code
-     * @return the attribute's value
-     */
-    @Override
-    public String getCodeImpl() {
-        return this.aStatement.getCodeImpl();
     }
 
     /**
@@ -256,12 +220,21 @@ public abstract class ACatch extends AStatement {
     }
 
     /**
-     * Get value on attribute root
+     * Get value on attribute code
      * @return the attribute's value
      */
     @Override
-    public AProgram getRootImpl() {
-        return this.aStatement.getRootImpl();
+    public String getCodeImpl() {
+        return this.aStatement.getCodeImpl();
+    }
+
+    /**
+     * Get value on attribute descendantsArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getDescendantsArrayImpl() {
+        return this.aStatement.getDescendantsArrayImpl();
     }
 
     /**
@@ -283,6 +256,24 @@ public abstract class ACatch extends AStatement {
     }
 
     /**
+     * Get value on attribute getDescendantsArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getDescendantsArrayImpl(String type) {
+        return this.aStatement.getDescendantsArrayImpl(type);
+    }
+
+    /**
+     * Get value on attribute getDescendantsAndSelfArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getDescendantsAndSelfArrayImpl(String type) {
+        return this.aStatement.getDescendantsAndSelfArrayImpl(type);
+    }
+
+    /**
      * Get value on attribute id
      * @return the attribute's value
      */
@@ -292,12 +283,85 @@ public abstract class ACatch extends AStatement {
     }
 
     /**
-     * Get value on attribute descendantsArrayImpl
+     * Get value on attribute parent
      * @return the attribute's value
      */
     @Override
-    public AJoinPoint[] getDescendantsArrayImpl() {
-        return this.aStatement.getDescendantsArrayImpl();
+    public AJoinPoint getParentImpl() {
+        return this.aStatement.getParentImpl();
+    }
+
+    /**
+     * Get value on attribute root
+     * @return the attribute's value
+     */
+    @Override
+    public AProgram getRootImpl() {
+        return this.aStatement.getRootImpl();
+    }
+
+    /**
+     * Removes the node associated to this joinpoint from the AST
+     */
+    @Override
+    public AJoinPoint detachImpl() {
+        return this.aStatement.detachImpl();
+    }
+
+    /**
+     * 
+     * @param position 
+     * @param code 
+     */
+    @Override
+    public AJoinPoint[] insertImpl(String position, String code) {
+        return this.aStatement.insertImpl(position, code);
+    }
+
+    /**
+     * 
+     * @param position 
+     * @param code 
+     */
+    @Override
+    public AJoinPoint[] insertImpl(String position, JoinPoint code) {
+        return this.aStatement.insertImpl(position, code);
+    }
+
+    /**
+     * Inserts the given join point after this join point
+     * @param node 
+     */
+    @Override
+    public AJoinPoint insertAfterImpl(AJoinPoint node) {
+        return this.aStatement.insertAfterImpl(node);
+    }
+
+    /**
+     * Overload which accepts a string
+     * @param code 
+     */
+    @Override
+    public AJoinPoint insertAfterImpl(String code) {
+        return this.aStatement.insertAfterImpl(code);
+    }
+
+    /**
+     * Inserts the given join point before this join point
+     * @param node 
+     */
+    @Override
+    public AJoinPoint insertBeforeImpl(AJoinPoint node) {
+        return this.aStatement.insertBeforeImpl(node);
+    }
+
+    /**
+     * Overload which accepts a string
+     * @param node 
+     */
+    @Override
+    public AJoinPoint insertBeforeImpl(String node) {
+        return this.aStatement.insertBeforeImpl(node);
     }
 
     /**
@@ -337,70 +401,6 @@ public abstract class ACatch extends AStatement {
     }
 
     /**
-     * Inserts the given join point before this join point
-     * @param node 
-     */
-    @Override
-    public AJoinPoint insertBeforeImpl(AJoinPoint node) {
-        return this.aStatement.insertBeforeImpl(node);
-    }
-
-    /**
-     * Overload which accepts a string
-     * @param node 
-     */
-    @Override
-    public AJoinPoint insertBeforeImpl(String node) {
-        return this.aStatement.insertBeforeImpl(node);
-    }
-
-    /**
-     * Inserts the given join point after this join point
-     * @param node 
-     */
-    @Override
-    public AJoinPoint insertAfterImpl(AJoinPoint node) {
-        return this.aStatement.insertAfterImpl(node);
-    }
-
-    /**
-     * Overload which accepts a string
-     * @param code 
-     */
-    @Override
-    public AJoinPoint insertAfterImpl(String code) {
-        return this.aStatement.insertAfterImpl(code);
-    }
-
-    /**
-     * Removes the node associated to this joinpoint from the AST
-     */
-    @Override
-    public AJoinPoint detachImpl() {
-        return this.aStatement.detachImpl();
-    }
-
-    /**
-     * 
-     * @param position 
-     * @param code 
-     */
-    @Override
-    public AJoinPoint[] insertImpl(String position, String code) {
-        return this.aStatement.insertImpl(position, code);
-    }
-
-    /**
-     * 
-     * @param position 
-     * @param code 
-     */
-    @Override
-    public AJoinPoint[] insertImpl(String position, JoinPoint code) {
-        return this.aStatement.insertImpl(position, code);
-    }
-
-    /**
      * 
      */
     @Override
@@ -428,16 +428,16 @@ public abstract class ACatch extends AStatement {
     @Override
     public final void defImpl(String attribute, Object value) {
         switch(attribute){
-        case "exception": {
-        	if(value instanceof ATypeDescriptor){
-        		this.defExceptionImpl((ATypeDescriptor)value);
+        case "catch": {
+        	if(value instanceof ALabelReference){
+        		this.defCatchImpl((ALabelReference)value);
         		return;
         	}
         	this.unsupportedTypeForDef(attribute, value);
         }
-        case "tryStart": {
-        	if(value instanceof ALabelReference){
-        		this.defTryStartImpl((ALabelReference)value);
+        case "exception": {
+        	if(value instanceof ATypeDescriptor){
+        		this.defExceptionImpl((ATypeDescriptor)value);
         		return;
         	}
         	this.unsupportedTypeForDef(attribute, value);
@@ -449,9 +449,16 @@ public abstract class ACatch extends AStatement {
         	}
         	this.unsupportedTypeForDef(attribute, value);
         }
-        case "catch": {
+        case "tryStart": {
         	if(value instanceof ALabelReference){
-        		this.defCatchImpl((ALabelReference)value);
+        		this.defTryStartImpl((ALabelReference)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
+        case "line": {
+        	if(value instanceof ALineDirective){
+        		this.defLineImpl((ALineDirective)value);
         		return;
         	}
         	this.unsupportedTypeForDef(attribute, value);
@@ -470,13 +477,6 @@ public abstract class ACatch extends AStatement {
         	}
         	this.unsupportedTypeForDef(attribute, value);
         }
-        case "line": {
-        	if(value instanceof ALineDirective){
-        		this.defLineImpl((ALineDirective)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
         default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
         }
     }
@@ -487,10 +487,10 @@ public abstract class ACatch extends AStatement {
     @Override
     protected final void fillWithAttributes(List<String> attributes) {
         this.aStatement.fillWithAttributes(attributes);
-        attributes.add("exception");
-        attributes.add("tryStart");
-        attributes.add("tryEnd");
         attributes.add("catch");
+        attributes.add("exception");
+        attributes.add("tryEnd");
+        attributes.add("tryStart");
     }
 
     /**
@@ -534,24 +534,24 @@ public abstract class ACatch extends AStatement {
      * 
      */
     protected enum CatchAttributes {
-        EXCEPTION("exception"),
-        TRYSTART("tryStart"),
-        TRYEND("tryEnd"),
         CATCH("catch"),
+        EXCEPTION("exception"),
+        TRYEND("tryEnd"),
+        TRYSTART("tryStart"),
+        LINE("line"),
         NEXTSTATEMENT("nextStatement"),
         PREVSTATEMENT("prevStatement"),
-        LINE("line"),
-        PARENT("parent"),
-        GETDESCENDANTS("getDescendants"),
-        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
         AST("ast"),
-        CODE("code"),
         CHILDREN("children"),
-        ROOT("root"),
+        CODE("code"),
+        DESCENDANTS("descendants"),
         GETANCESTOR("getAncestor"),
         GETCHILD("getChild"),
+        GETDESCENDANTS("getDescendants"),
+        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
         ID("id"),
-        DESCENDANTS("descendants");
+        PARENT("parent"),
+        ROOT("root");
         private String name;
 
         /**
