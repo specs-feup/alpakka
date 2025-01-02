@@ -40,6 +40,7 @@ dependencies {
     implementation ":AlpakkaParser"
     implementation ":AlpakkaAst"
     implementation ":AlpakkaLaraApi"
+    implementation ":AlpakkaWeaverTasks"
 }
 
 java {
