@@ -5,7 +5,7 @@ import org.lara.interpreter.weaver.interf.AGear;
 import org.lara.interpreter.weaver.interf.JoinPoint;
 import org.lara.interpreter.weaver.options.WeaverOption;
 import org.lara.interpreter.weaver.utils.LaraResourceProvider;
-import org.lara.language.specification.dsl.LanguageSpecificationV2;
+import org.lara.language.specification.dsl.LanguageSpecification;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import pt.up.fe.specs.alpakka.ast.App;
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
@@ -41,8 +41,8 @@ public class SmaliWeaver extends ASmaliWeaver {
     /**
      * @return
      */
-    public static LanguageSpecificationV2 buildLanguageSpecification() {
-        return LanguageSpecificationV2.newInstance(() -> "smali/weaverspecs/joinPointModel.xml",
+    public static LanguageSpecification buildLanguageSpecification() {
+        return LanguageSpecification.newInstance(() -> "smali/weaverspecs/joinPointModel.xml",
                 () -> "smali/weaverspecs/artifacts.xml", () -> "smali/weaverspecs/actionModel.xml");
     }
 
@@ -194,7 +194,7 @@ public class SmaliWeaver extends ASmaliWeaver {
     }
 
     @Override
-    protected LanguageSpecificationV2 buildLangSpecs() {
+    protected LanguageSpecification buildLangSpecs() {
         return buildLanguageSpecification();
     }
 
