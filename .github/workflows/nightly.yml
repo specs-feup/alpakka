@@ -148,7 +148,7 @@ jobs:
 
       - name: Setup js workspace
         run: |
-          echo '{ "name": "SPeCS Workspace", "type": "module", "workspaces": [ "clava/Alpakka-JS", "lara-framework/Lara-JS" ] }' > package.json
+          echo '{ "name": "SPeCS Workspace", "type": "module", "workspaces": [ "alpakka/Alpakka-JS", "lara-framework/Lara-JS" ] }' > package.json
           npm install
 
       - name: Build Lara-JS
