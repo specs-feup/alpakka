@@ -19,6 +19,31 @@ import java.util.Arrays;
 public abstract class AMethodNode extends ASmaliWeaverJoinPoint {
 
     /**
+     * Get value on attribute isStatic
+     * @return the attribute's value
+     */
+    public abstract Boolean getIsStaticImpl();
+
+    /**
+     * Get value on attribute isStatic
+     * @return the attribute's value
+     */
+    public final Object getIsStatic() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "isStatic", Optional.empty());
+        	}
+        	Boolean result = this.getIsStaticImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "isStatic", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "isStatic", e);
+        }
+    }
+
+    /**
      * Get value on attribute name
      * @return the attribute's value
      */
@@ -40,31 +65,6 @@ public abstract class AMethodNode extends ASmaliWeaverJoinPoint {
         	return result!=null?result:getUndefinedValue();
         } catch(Exception e) {
         	throw new AttributeException(get_class(), "name", e);
-        }
-    }
-
-    /**
-     * Get value on attribute referenceName
-     * @return the attribute's value
-     */
-    public abstract String getReferenceNameImpl();
-
-    /**
-     * Get value on attribute referenceName
-     * @return the attribute's value
-     */
-    public final Object getReferenceName() {
-        try {
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "referenceName", Optional.empty());
-        	}
-        	String result = this.getReferenceNameImpl();
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "referenceName", Optional.ofNullable(result));
-        	}
-        	return result!=null?result:getUndefinedValue();
-        } catch(Exception e) {
-        	throw new AttributeException(get_class(), "referenceName", e);
         }
     }
 
@@ -101,6 +101,31 @@ public abstract class AMethodNode extends ASmaliWeaverJoinPoint {
     }
 
     /**
+     * Get value on attribute referenceName
+     * @return the attribute's value
+     */
+    public abstract String getReferenceNameImpl();
+
+    /**
+     * Get value on attribute referenceName
+     * @return the attribute's value
+     */
+    public final Object getReferenceName() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "referenceName", Optional.empty());
+        	}
+        	String result = this.getReferenceNameImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "referenceName", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "referenceName", e);
+        }
+    }
+
+    /**
      * Get value on attribute registersDirective
      * @return the attribute's value
      */
@@ -130,31 +155,6 @@ public abstract class AMethodNode extends ASmaliWeaverJoinPoint {
      */
     public void defRegistersDirectiveImpl(ARegistersDirective value) {
         throw new UnsupportedOperationException("Join point "+get_class()+": Action def registersDirective with type ARegistersDirective not implemented ");
-    }
-
-    /**
-     * Get value on attribute isStatic
-     * @return the attribute's value
-     */
-    public abstract Boolean getIsStaticImpl();
-
-    /**
-     * Get value on attribute isStatic
-     * @return the attribute's value
-     */
-    public final Object getIsStatic() {
-        try {
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "isStatic", Optional.empty());
-        	}
-        	Boolean result = this.getIsStaticImpl();
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "isStatic", Optional.ofNullable(result));
-        	}
-        	return result!=null?result:getUndefinedValue();
-        } catch(Exception e) {
-        	throw new AttributeException(get_class(), "isStatic", e);
-        }
     }
 
     /**
@@ -201,11 +201,11 @@ public abstract class AMethodNode extends ASmaliWeaverJoinPoint {
     @Override
     protected final void fillWithAttributes(List<String> attributes) {
         super.fillWithAttributes(attributes);
-        attributes.add("name");
-        attributes.add("referenceName");
-        attributes.add("prototype");
-        attributes.add("registersDirective");
         attributes.add("isStatic");
+        attributes.add("name");
+        attributes.add("prototype");
+        attributes.add("referenceName");
+        attributes.add("registersDirective");
     }
 
     /**
@@ -236,22 +236,22 @@ public abstract class AMethodNode extends ASmaliWeaverJoinPoint {
      * 
      */
     protected enum MethodNodeAttributes {
-        NAME("name"),
-        REFERENCENAME("referenceName"),
-        PROTOTYPE("prototype"),
-        REGISTERSDIRECTIVE("registersDirective"),
         ISSTATIC("isStatic"),
-        PARENT("parent"),
-        GETDESCENDANTS("getDescendants"),
-        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
+        NAME("name"),
+        PROTOTYPE("prototype"),
+        REFERENCENAME("referenceName"),
+        REGISTERSDIRECTIVE("registersDirective"),
         AST("ast"),
-        CODE("code"),
         CHILDREN("children"),
-        ROOT("root"),
+        CODE("code"),
+        DESCENDANTS("descendants"),
         GETANCESTOR("getAncestor"),
         GETCHILD("getChild"),
+        GETDESCENDANTS("getDescendants"),
+        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
         ID("id"),
-        DESCENDANTS("descendants");
+        PARENT("parent"),
+        ROOT("root");
         private String name;
 
         /**

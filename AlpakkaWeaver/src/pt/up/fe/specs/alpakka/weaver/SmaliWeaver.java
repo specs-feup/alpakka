@@ -5,13 +5,13 @@ import org.lara.interpreter.weaver.interf.AGear;
 import org.lara.interpreter.weaver.interf.JoinPoint;
 import org.lara.interpreter.weaver.options.WeaverOption;
 import org.lara.interpreter.weaver.utils.LaraResourceProvider;
-import org.lara.language.specification.LanguageSpecification;
+import org.lara.language.specification.dsl.LanguageSpecification;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import pt.up.fe.specs.alpakka.ast.App;
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
-import pt.up.fe.specs.alpakka.weaver.abstracts.ASmaliWeaverJoinPoint;
-import pt.up.fe.specs.alpakka.parser.antlr.SmaliFileParser;
 import pt.up.fe.specs.alpakka.parser.antlr.AlpakkaParser;
+import pt.up.fe.specs.alpakka.parser.antlr.SmaliFileParser;
+import pt.up.fe.specs.alpakka.weaver.abstracts.ASmaliWeaverJoinPoint;
 import pt.up.fe.specs.alpakka.weaver.abstracts.weaver.ASmaliWeaver;
 import pt.up.fe.specs.alpakka.weaver.options.SmaliWeaverOption;
 import pt.up.fe.specs.alpakka.weaver.options.SmaliWeaverOptions;
@@ -26,7 +26,7 @@ import java.util.*;
  * The abstract class {@link ASmaliWeaverJoinPoint} can be used to add
  * user-defined methods and fields which the user intends to add for all join points and are not intended to be used in
  * LARA aspects.
- * 
+ *
  * @author Lara Weaver Generator
  */
 public class SmaliWeaver extends ASmaliWeaver {
@@ -37,21 +37,13 @@ public class SmaliWeaver extends ASmaliWeaver {
         return WOVEN_CODE_FOLDERNAME;
     }
 
-    /**
-     * Thread-scope WeaverEngine
-     */
-    // private static final SpecsThreadLocal<WeaverEngine> THREAD_LOCAL_WEAVER = new
-    // SpecsThreadLocal<>(
-    // WeaverEngine.class);
 
     /**
-     * @deprecated
      * @return
      */
-    @Deprecated
-    public static LanguageSpecification buildLanguageSpecificationOld() {
+    public static LanguageSpecification buildLanguageSpecification() {
         return LanguageSpecification.newInstance(() -> "smali/weaverspecs/joinPointModel.xml",
-                () -> "smali/weaverspecs/artifacts.xml", () -> "smali/weaverspecs/actionModel.xml", true);
+                () -> "smali/weaverspecs/artifacts.xml", () -> "smali/weaverspecs/actionModel.xml");
     }
 
     private static final String ALPAKKA_API_NAME = "alpakka-js";
@@ -80,7 +72,7 @@ public class SmaliWeaver extends ASmaliWeaver {
 
     /**
      * Warns the lara interpreter if the weaver accepts a folder as the application or only one file at a time.
-     * 
+     *
      * @return true if the weaver is able to work with several files, false if only works with one file
      */
     @Override
@@ -103,13 +95,10 @@ public class SmaliWeaver extends ASmaliWeaver {
 
     /**
      * Set a file/folder in the weaver if it is valid file/folder type for the weaver.
-     * 
-     * @param sources
-     *            the file with the source code
-     * @param outputDir
-     *            output directory for the generated file(s)
-     * @param args
-     *            arguments to start the weaver
+     *
+     * @param sources   the file with the source code
+     * @param outputDir output directory for the generated file(s)
+     * @param args      arguments to start the weaver
      * @return true if the file type is valid
      */
     @Override
@@ -156,7 +145,7 @@ public class SmaliWeaver extends ASmaliWeaver {
 
     /**
      * Return a JoinPoint instance of the language root, i.e., an instance of APlaceholder
-     * 
+     *
      * @return an instance of the join point root/program
      */
     @Override
@@ -169,7 +158,7 @@ public class SmaliWeaver extends ASmaliWeaver {
 
     /**
      * Closes the weaver to the specified output directory location, if the weaver generates new file(s)
-     * 
+     *
      * @return if close was successful
      */
     @Override
@@ -182,7 +171,7 @@ public class SmaliWeaver extends ASmaliWeaver {
 
     /**
      * Returns a list of Gears associated to this weaver engine
-     * 
+     *
      * @return a list of implementations of {@link AGear} or null if no gears are available
      */
     @Override
@@ -205,8 +194,8 @@ public class SmaliWeaver extends ASmaliWeaver {
     }
 
     @Override
-    public LanguageSpecification getLanguageSpecification() {
-        return buildLanguageSpecificationOld();
+    protected LanguageSpecification buildLangSpecs() {
+        return buildLanguageSpecification();
     }
 
     @Override

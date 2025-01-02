@@ -19,6 +19,38 @@ import java.util.Arrays;
 public abstract class AStatement extends ASmaliWeaverJoinPoint {
 
     /**
+     * Get value on attribute line
+     * @return the attribute's value
+     */
+    public abstract ALineDirective getLineImpl();
+
+    /**
+     * Get value on attribute line
+     * @return the attribute's value
+     */
+    public final Object getLine() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "line", Optional.empty());
+        	}
+        	ALineDirective result = this.getLineImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "line", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "line", e);
+        }
+    }
+
+    /**
+     * 
+     */
+    public void defLineImpl(ALineDirective value) {
+        throw new UnsupportedOperationException("Join point "+get_class()+": Action def line with type ALineDirective not implemented ");
+    }
+
+    /**
      * Get value on attribute nextStatement
      * @return the attribute's value
      */
@@ -83,38 +115,6 @@ public abstract class AStatement extends ASmaliWeaverJoinPoint {
     }
 
     /**
-     * Get value on attribute line
-     * @return the attribute's value
-     */
-    public abstract ALineDirective getLineImpl();
-
-    /**
-     * Get value on attribute line
-     * @return the attribute's value
-     */
-    public final Object getLine() {
-        try {
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "line", Optional.empty());
-        	}
-        	ALineDirective result = this.getLineImpl();
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "line", Optional.ofNullable(result));
-        	}
-        	return result!=null?result:getUndefinedValue();
-        } catch(Exception e) {
-        	throw new AttributeException(get_class(), "line", e);
-        }
-    }
-
-    /**
-     * 
-     */
-    public void defLineImpl(ALineDirective value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def line with type ALineDirective not implemented ");
-    }
-
-    /**
      * 
      */
     @Override
@@ -134,6 +134,13 @@ public abstract class AStatement extends ASmaliWeaverJoinPoint {
     @Override
     public void defImpl(String attribute, Object value) {
         switch(attribute){
+        case "line": {
+        	if(value instanceof ALineDirective){
+        		this.defLineImpl((ALineDirective)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
         case "nextStatement": {
         	if(value instanceof AStatement){
         		this.defNextStatementImpl((AStatement)value);
@@ -148,13 +155,6 @@ public abstract class AStatement extends ASmaliWeaverJoinPoint {
         	}
         	this.unsupportedTypeForDef(attribute, value);
         }
-        case "line": {
-        	if(value instanceof ALineDirective){
-        		this.defLineImpl((ALineDirective)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
         default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
         }
     }
@@ -165,9 +165,9 @@ public abstract class AStatement extends ASmaliWeaverJoinPoint {
     @Override
     protected void fillWithAttributes(List<String> attributes) {
         super.fillWithAttributes(attributes);
+        attributes.add("line");
         attributes.add("nextStatement");
         attributes.add("prevStatement");
-        attributes.add("line");
     }
 
     /**
@@ -198,20 +198,20 @@ public abstract class AStatement extends ASmaliWeaverJoinPoint {
      * 
      */
     protected enum StatementAttributes {
+        LINE("line"),
         NEXTSTATEMENT("nextStatement"),
         PREVSTATEMENT("prevStatement"),
-        LINE("line"),
-        PARENT("parent"),
-        GETDESCENDANTS("getDescendants"),
-        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
         AST("ast"),
-        CODE("code"),
         CHILDREN("children"),
-        ROOT("root"),
+        CODE("code"),
+        DESCENDANTS("descendants"),
         GETANCESTOR("getAncestor"),
         GETCHILD("getChild"),
+        GETDESCENDANTS("getDescendants"),
+        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
         ID("id"),
-        DESCENDANTS("descendants");
+        PARENT("parent"),
+        ROOT("root");
         private String name;
 
         /**

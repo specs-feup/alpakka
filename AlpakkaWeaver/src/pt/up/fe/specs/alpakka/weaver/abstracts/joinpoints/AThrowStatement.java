@@ -34,12 +34,12 @@ public abstract class AThrowStatement extends AInstruction {
     }
 
     /**
-     * Get value on attribute setsResult
+     * Get value on attribute opCodeName
      * @return the attribute's value
      */
     @Override
-    public Boolean getSetsResultImpl() {
-        return this.aInstruction.getSetsResultImpl();
+    public String getOpCodeNameImpl() {
+        return this.aInstruction.getOpCodeNameImpl();
     }
 
     /**
@@ -52,12 +52,21 @@ public abstract class AThrowStatement extends AInstruction {
     }
 
     /**
-     * Get value on attribute opCodeName
+     * Get value on attribute setsResult
      * @return the attribute's value
      */
     @Override
-    public String getOpCodeNameImpl() {
-        return this.aInstruction.getOpCodeNameImpl();
+    public Boolean getSetsResultImpl() {
+        return this.aInstruction.getSetsResultImpl();
+    }
+
+    /**
+     * Get value on attribute line
+     * @return the attribute's value
+     */
+    @Override
+    public ALineDirective getLineImpl() {
+        return this.aInstruction.getLineImpl();
     }
 
     /**
@@ -79,12 +88,10 @@ public abstract class AThrowStatement extends AInstruction {
     }
 
     /**
-     * Get value on attribute line
-     * @return the attribute's value
+     * 
      */
-    @Override
-    public ALineDirective getLineImpl() {
-        return this.aInstruction.getLineImpl();
+    public void defLineImpl(ALineDirective value) {
+        this.aInstruction.defLineImpl(value);
     }
 
     /**
@@ -102,55 +109,12 @@ public abstract class AThrowStatement extends AInstruction {
     }
 
     /**
-     * 
-     */
-    public void defLineImpl(ALineDirective value) {
-        this.aInstruction.defLineImpl(value);
-    }
-
-    /**
-     * Get value on attribute parent
-     * @return the attribute's value
-     */
-    @Override
-    public AJoinPoint getParentImpl() {
-        return this.aInstruction.getParentImpl();
-    }
-
-    /**
-     * Get value on attribute getDescendantsArrayImpl
-     * @return the attribute's value
-     */
-    @Override
-    public AJoinPoint[] getDescendantsArrayImpl(String type) {
-        return this.aInstruction.getDescendantsArrayImpl(type);
-    }
-
-    /**
-     * Get value on attribute getDescendantsAndSelfArrayImpl
-     * @return the attribute's value
-     */
-    @Override
-    public AJoinPoint[] getDescendantsAndSelfArrayImpl(String type) {
-        return this.aInstruction.getDescendantsAndSelfArrayImpl(type);
-    }
-
-    /**
      * Get value on attribute ast
      * @return the attribute's value
      */
     @Override
     public String getAstImpl() {
         return this.aInstruction.getAstImpl();
-    }
-
-    /**
-     * Get value on attribute code
-     * @return the attribute's value
-     */
-    @Override
-    public String getCodeImpl() {
-        return this.aInstruction.getCodeImpl();
     }
 
     /**
@@ -163,12 +127,21 @@ public abstract class AThrowStatement extends AInstruction {
     }
 
     /**
-     * Get value on attribute root
+     * Get value on attribute code
      * @return the attribute's value
      */
     @Override
-    public AProgram getRootImpl() {
-        return this.aInstruction.getRootImpl();
+    public String getCodeImpl() {
+        return this.aInstruction.getCodeImpl();
+    }
+
+    /**
+     * Get value on attribute descendantsArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getDescendantsArrayImpl() {
+        return this.aInstruction.getDescendantsArrayImpl();
     }
 
     /**
@@ -190,6 +163,24 @@ public abstract class AThrowStatement extends AInstruction {
     }
 
     /**
+     * Get value on attribute getDescendantsArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getDescendantsArrayImpl(String type) {
+        return this.aInstruction.getDescendantsArrayImpl(type);
+    }
+
+    /**
+     * Get value on attribute getDescendantsAndSelfArrayImpl
+     * @return the attribute's value
+     */
+    @Override
+    public AJoinPoint[] getDescendantsAndSelfArrayImpl(String type) {
+        return this.aInstruction.getDescendantsAndSelfArrayImpl(type);
+    }
+
+    /**
      * Get value on attribute id
      * @return the attribute's value
      */
@@ -199,12 +190,85 @@ public abstract class AThrowStatement extends AInstruction {
     }
 
     /**
-     * Get value on attribute descendantsArrayImpl
+     * Get value on attribute parent
      * @return the attribute's value
      */
     @Override
-    public AJoinPoint[] getDescendantsArrayImpl() {
-        return this.aInstruction.getDescendantsArrayImpl();
+    public AJoinPoint getParentImpl() {
+        return this.aInstruction.getParentImpl();
+    }
+
+    /**
+     * Get value on attribute root
+     * @return the attribute's value
+     */
+    @Override
+    public AProgram getRootImpl() {
+        return this.aInstruction.getRootImpl();
+    }
+
+    /**
+     * Removes the node associated to this joinpoint from the AST
+     */
+    @Override
+    public AJoinPoint detachImpl() {
+        return this.aInstruction.detachImpl();
+    }
+
+    /**
+     * 
+     * @param position 
+     * @param code 
+     */
+    @Override
+    public AJoinPoint[] insertImpl(String position, String code) {
+        return this.aInstruction.insertImpl(position, code);
+    }
+
+    /**
+     * 
+     * @param position 
+     * @param code 
+     */
+    @Override
+    public AJoinPoint[] insertImpl(String position, JoinPoint code) {
+        return this.aInstruction.insertImpl(position, code);
+    }
+
+    /**
+     * Inserts the given join point after this join point
+     * @param node 
+     */
+    @Override
+    public AJoinPoint insertAfterImpl(AJoinPoint node) {
+        return this.aInstruction.insertAfterImpl(node);
+    }
+
+    /**
+     * Overload which accepts a string
+     * @param code 
+     */
+    @Override
+    public AJoinPoint insertAfterImpl(String code) {
+        return this.aInstruction.insertAfterImpl(code);
+    }
+
+    /**
+     * Inserts the given join point before this join point
+     * @param node 
+     */
+    @Override
+    public AJoinPoint insertBeforeImpl(AJoinPoint node) {
+        return this.aInstruction.insertBeforeImpl(node);
+    }
+
+    /**
+     * Overload which accepts a string
+     * @param node 
+     */
+    @Override
+    public AJoinPoint insertBeforeImpl(String node) {
+        return this.aInstruction.insertBeforeImpl(node);
     }
 
     /**
@@ -244,70 +308,6 @@ public abstract class AThrowStatement extends AInstruction {
     }
 
     /**
-     * Inserts the given join point before this join point
-     * @param node 
-     */
-    @Override
-    public AJoinPoint insertBeforeImpl(AJoinPoint node) {
-        return this.aInstruction.insertBeforeImpl(node);
-    }
-
-    /**
-     * Overload which accepts a string
-     * @param node 
-     */
-    @Override
-    public AJoinPoint insertBeforeImpl(String node) {
-        return this.aInstruction.insertBeforeImpl(node);
-    }
-
-    /**
-     * Inserts the given join point after this join point
-     * @param node 
-     */
-    @Override
-    public AJoinPoint insertAfterImpl(AJoinPoint node) {
-        return this.aInstruction.insertAfterImpl(node);
-    }
-
-    /**
-     * Overload which accepts a string
-     * @param code 
-     */
-    @Override
-    public AJoinPoint insertAfterImpl(String code) {
-        return this.aInstruction.insertAfterImpl(code);
-    }
-
-    /**
-     * Removes the node associated to this joinpoint from the AST
-     */
-    @Override
-    public AJoinPoint detachImpl() {
-        return this.aInstruction.detachImpl();
-    }
-
-    /**
-     * 
-     * @param position 
-     * @param code 
-     */
-    @Override
-    public AJoinPoint[] insertImpl(String position, String code) {
-        return this.aInstruction.insertImpl(position, code);
-    }
-
-    /**
-     * 
-     * @param position 
-     * @param code 
-     */
-    @Override
-    public AJoinPoint[] insertImpl(String position, JoinPoint code) {
-        return this.aInstruction.insertImpl(position, code);
-    }
-
-    /**
      * 
      */
     @Override
@@ -335,6 +335,13 @@ public abstract class AThrowStatement extends AInstruction {
     @Override
     public final void defImpl(String attribute, Object value) {
         switch(attribute){
+        case "line": {
+        	if(value instanceof ALineDirective){
+        		this.defLineImpl((ALineDirective)value);
+        		return;
+        	}
+        	this.unsupportedTypeForDef(attribute, value);
+        }
         case "nextStatement": {
         	if(value instanceof AStatement){
         		this.defNextStatementImpl((AStatement)value);
@@ -345,13 +352,6 @@ public abstract class AThrowStatement extends AInstruction {
         case "prevStatement": {
         	if(value instanceof AStatement){
         		this.defPrevStatementImpl((AStatement)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        case "line": {
-        	if(value instanceof ALineDirective){
-        		this.defLineImpl((ALineDirective)value);
         		return;
         	}
         	this.unsupportedTypeForDef(attribute, value);
@@ -410,23 +410,23 @@ public abstract class AThrowStatement extends AInstruction {
      */
     protected enum ThrowStatementAttributes {
         CANTHROW("canThrow"),
-        SETSRESULT("setsResult"),
-        SETSREGISTER("setsRegister"),
         OPCODENAME("opCodeName"),
+        SETSREGISTER("setsRegister"),
+        SETSRESULT("setsResult"),
+        LINE("line"),
         NEXTSTATEMENT("nextStatement"),
         PREVSTATEMENT("prevStatement"),
-        LINE("line"),
-        PARENT("parent"),
-        GETDESCENDANTS("getDescendants"),
-        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
         AST("ast"),
-        CODE("code"),
         CHILDREN("children"),
-        ROOT("root"),
+        CODE("code"),
+        DESCENDANTS("descendants"),
         GETANCESTOR("getAncestor"),
         GETCHILD("getChild"),
+        GETDESCENDANTS("getDescendants"),
+        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
         ID("id"),
-        DESCENDANTS("descendants");
+        PARENT("parent"),
+        ROOT("root");
         private String name;
 
         /**
