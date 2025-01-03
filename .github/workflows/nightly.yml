@@ -72,7 +72,7 @@ jobs:
       # Currently lara-framework default branch is 'master' and not 'main'
       - name: Checkout lara-framework (main)
         uses: actions/checkout@v4
-        if: env.branch_name == 'main'
+        if: env.BRANCH_NAME == 'main'
         with:
           repository: specs-feup/lara-framework
           path: lara-framework
@@ -80,7 +80,7 @@ jobs:
 
       - name: Checkout lara-framework (other branches)
         uses: actions/checkout@v4
-        if: env.branch_name != 'main'
+        if: env.BRANCH_NAME != 'main'
         with:
           repository: specs-feup/lara-framework
           path: lara-framework
