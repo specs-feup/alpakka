@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Abstract Weaver Implementation for SmaliWeaver<br>
  * Since the generated abstract classes are always overwritten, their implementation should be done by extending those abstract classes with user-defined classes.<br>
- * The abstract class {@link pt.up.fe.specs.alpakka.weaver.abstracts.ASmaliWeaverJoinPoint} can be used to add user-defined methods and fields which the user intends to add for all join points and are not intended to be used in LARA aspects.
+ * The abstract class {@link pt.up.fe.specs.alpakka.weaver.abstracts.ASmaliWeaverJoinPoint} contains attributes and actions common to all join points.
  * The implementation of the abstract methods is mandatory!
  * @author Lara C.
  */
@@ -21,7 +21,7 @@ public abstract class ASmaliWeaver extends LaraWeaverEngine {
      */
     @Override
     public final List<String> getActions() {
-        String[] weaverActions= {"replaceWith", "replaceWith", "replaceWith", "replaceWithStrings", "insertBefore", "insertBefore", "insertAfter", "insertAfter", "detach"};
+        String[] weaverActions= {"detach", "insertAfter", "insertAfter", "insertBefore", "insertBefore", "replaceWith", "replaceWith", "replaceWith", "replaceWithStrings"};
         return Arrays.asList(weaverActions);
     }
 

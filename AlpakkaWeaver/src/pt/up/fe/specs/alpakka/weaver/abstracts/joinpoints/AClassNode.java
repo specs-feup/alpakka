@@ -19,38 +19,35 @@ import java.util.Arrays;
 public abstract class AClassNode extends ASmaliWeaverJoinPoint {
 
     /**
-     * Get value on attribute methods
+     * Get value on attribute classDescriptor
      * @return the attribute's value
      */
-    public abstract AMethodNode[] getMethodsArrayImpl();
+    public abstract AClassType getClassDescriptorImpl();
 
     /**
-     * Get value on attribute methods
+     * Get value on attribute classDescriptor
      * @return the attribute's value
      */
-    public Object getMethodsImpl() {
-        AMethodNode[] aMethodNodeArrayImpl0 = getMethodsArrayImpl();
-        Object nativeArray0 = getWeaverEngine().getScriptEngine().toNativeArray(aMethodNodeArrayImpl0);
-        return nativeArray0;
-    }
-
-    /**
-     * Get value on attribute methods
-     * @return the attribute's value
-     */
-    public final Object getMethods() {
+    public final Object getClassDescriptor() {
         try {
         	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "methods", Optional.empty());
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "classDescriptor", Optional.empty());
         	}
-        	Object result = this.getMethodsImpl();
+        	AClassType result = this.getClassDescriptorImpl();
         	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "methods", Optional.ofNullable(result));
+        		eventTrigger().triggerAttribute(Stage.END, this, "classDescriptor", Optional.ofNullable(result));
         	}
         	return result!=null?result:getUndefinedValue();
         } catch(Exception e) {
-        	throw new AttributeException(get_class(), "methods", e);
+        	throw new AttributeException(get_class(), "classDescriptor", e);
         }
+    }
+
+    /**
+     * 
+     */
+    public void defClassDescriptorImpl(AClassType value) {
+        throw new UnsupportedOperationException("Join point "+get_class()+": Action def classDescriptor with type AClassType not implemented ");
     }
 
     /**
@@ -89,35 +86,38 @@ public abstract class AClassNode extends ASmaliWeaverJoinPoint {
     }
 
     /**
-     * Get value on attribute classDescriptor
+     * Get value on attribute methods
      * @return the attribute's value
      */
-    public abstract AClassType getClassDescriptorImpl();
+    public abstract AMethodNode[] getMethodsArrayImpl();
 
     /**
-     * Get value on attribute classDescriptor
+     * Get value on attribute methods
      * @return the attribute's value
      */
-    public final Object getClassDescriptor() {
-        try {
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "classDescriptor", Optional.empty());
-        	}
-        	AClassType result = this.getClassDescriptorImpl();
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "classDescriptor", Optional.ofNullable(result));
-        	}
-        	return result!=null?result:getUndefinedValue();
-        } catch(Exception e) {
-        	throw new AttributeException(get_class(), "classDescriptor", e);
-        }
+    public Object getMethodsImpl() {
+        AMethodNode[] aMethodNodeArrayImpl0 = getMethodsArrayImpl();
+        Object nativeArray0 = getWeaverEngine().getScriptEngine().toNativeArray(aMethodNodeArrayImpl0);
+        return nativeArray0;
     }
 
     /**
-     * 
+     * Get value on attribute methods
+     * @return the attribute's value
      */
-    public void defClassDescriptorImpl(AClassType value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def classDescriptor with type AClassType not implemented ");
+    public final Object getMethods() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "methods", Optional.empty());
+        	}
+        	Object result = this.getMethodsImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "methods", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "methods", e);
+        }
     }
 
     /**
@@ -196,9 +196,9 @@ public abstract class AClassNode extends ASmaliWeaverJoinPoint {
     @Override
     protected final void fillWithAttributes(List<String> attributes) {
         super.fillWithAttributes(attributes);
-        attributes.add("methods");
-        attributes.add("fields");
         attributes.add("classDescriptor");
+        attributes.add("fields");
+        attributes.add("methods");
         attributes.add("superClassDescriptor");
     }
 
@@ -230,21 +230,21 @@ public abstract class AClassNode extends ASmaliWeaverJoinPoint {
      * 
      */
     protected enum ClassNodeAttributes {
-        METHODS("methods"),
-        FIELDS("fields"),
         CLASSDESCRIPTOR("classDescriptor"),
+        FIELDS("fields"),
+        METHODS("methods"),
         SUPERCLASSDESCRIPTOR("superClassDescriptor"),
-        PARENT("parent"),
-        GETDESCENDANTS("getDescendants"),
-        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
         AST("ast"),
-        CODE("code"),
         CHILDREN("children"),
-        ROOT("root"),
+        CODE("code"),
+        DESCENDANTS("descendants"),
         GETANCESTOR("getAncestor"),
         GETCHILD("getChild"),
+        GETDESCENDANTS("getDescendants"),
+        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
         ID("id"),
-        DESCENDANTS("descendants");
+        PARENT("parent"),
+        ROOT("root");
         private String name;
 
         /**

@@ -19,31 +19,6 @@ import java.util.Arrays;
 public abstract class AManifest extends ASmaliWeaverJoinPoint {
 
     /**
-     * Get value on attribute packageName
-     * @return the attribute's value
-     */
-    public abstract String getPackageNameImpl();
-
-    /**
-     * Get value on attribute packageName
-     * @return the attribute's value
-     */
-    public final Object getPackageName() {
-        try {
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "packageName", Optional.empty());
-        	}
-        	String result = this.getPackageNameImpl();
-        	if(hasListeners()) {
-        		eventTrigger().triggerAttribute(Stage.END, this, "packageName", Optional.ofNullable(result));
-        	}
-        	return result!=null?result:getUndefinedValue();
-        } catch(Exception e) {
-        	throw new AttributeException(get_class(), "packageName", e);
-        }
-    }
-
-    /**
      * Get value on attribute activities
      * @return the attribute's value
      */
@@ -75,6 +50,31 @@ public abstract class AManifest extends ASmaliWeaverJoinPoint {
         	return result!=null?result:getUndefinedValue();
         } catch(Exception e) {
         	throw new AttributeException(get_class(), "activities", e);
+        }
+    }
+
+    /**
+     * Get value on attribute packageName
+     * @return the attribute's value
+     */
+    public abstract String getPackageNameImpl();
+
+    /**
+     * Get value on attribute packageName
+     * @return the attribute's value
+     */
+    public final Object getPackageName() {
+        try {
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.BEGIN, this, "packageName", Optional.empty());
+        	}
+        	String result = this.getPackageNameImpl();
+        	if(hasListeners()) {
+        		eventTrigger().triggerAttribute(Stage.END, this, "packageName", Optional.ofNullable(result));
+        	}
+        	return result!=null?result:getUndefinedValue();
+        } catch(Exception e) {
+        	throw new AttributeException(get_class(), "packageName", e);
         }
     }
 
@@ -143,8 +143,8 @@ public abstract class AManifest extends ASmaliWeaverJoinPoint {
     @Override
     protected final void fillWithAttributes(List<String> attributes) {
         super.fillWithAttributes(attributes);
-        attributes.add("packageName");
         attributes.add("activities");
+        attributes.add("packageName");
         attributes.add("services");
     }
 
@@ -176,20 +176,20 @@ public abstract class AManifest extends ASmaliWeaverJoinPoint {
      * 
      */
     protected enum ManifestAttributes {
-        PACKAGENAME("packageName"),
         ACTIVITIES("activities"),
+        PACKAGENAME("packageName"),
         SERVICES("services"),
-        PARENT("parent"),
-        GETDESCENDANTS("getDescendants"),
-        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
         AST("ast"),
-        CODE("code"),
         CHILDREN("children"),
-        ROOT("root"),
+        CODE("code"),
+        DESCENDANTS("descendants"),
         GETANCESTOR("getAncestor"),
         GETCHILD("getChild"),
+        GETDESCENDANTS("getDescendants"),
+        GETDESCENDANTSANDSELF("getDescendantsAndSelf"),
         ID("id"),
-        DESCENDANTS("descendants");
+        PARENT("parent"),
+        ROOT("root");
         private String name;
 
         /**
