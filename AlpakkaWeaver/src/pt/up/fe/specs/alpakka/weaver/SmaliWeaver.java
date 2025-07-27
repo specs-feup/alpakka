@@ -46,7 +46,7 @@ public class SmaliWeaver extends ASmaliWeaver {
                 () -> "smali/weaverspecs/artifacts.xml", () -> "smali/weaverspecs/actionModel.xml");
     }
 
-    private static final String ALPAKKA_API_NAME = "alpakka-js";
+    private static final String ALPAKKA_API_NAME = "@specs-feup/alpakka";
     // private static final List<ResourceProvider> SMALI_LARA_API = new ArrayList<>();
     // static {
     // SMALI_LARA_API.addAll(AlpakkaLaraApis.getApis());

@@ -4,3 +4,5 @@ java-binaries/
 
 node_modules/
 package-lock.json
+
+*.apk
