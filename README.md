@@ -3,13 +3,14 @@ Alpakka is a [LARA Framework](https://github.com/specs-feup/lara-framework) sour
 
 The name "Alpakka" derives from the Icelandic word for package, "Pakka", reflecting its core functionality in handling Android Packages (APKs).
 
-## Installing
 
-To install Alpakka, follow these steps:
+## Local Development
+
+To locally develop Alpakka, follow these steps:
 
 1. Clone the repositories for Alpakka, the [LARA Framework](https://github.com/specs-feup/lara-framework) and [Specs Java Libs](https://github.com/specs-feup/specs-java-libs) to the root of your workspace.
 
-2. Since the LARA Framework and Alpakka are not yet being distributed as npm packages, if you want to use them with Node.js, you'll need to create a `package.json` file at the root of your workspace with the following contents:
+2. You'll need to create a `package.json` file at the root of your workspace with the following contents:
 
 ```json
 {
@@ -35,12 +36,12 @@ npm install
 npm run build
 ```
 
-## Running Alpakka-JS
+## Running Alpakka
 
-To execute Alpakka-JS, use the following command:
+To execute Alpakka, use the following command:
 
 ```bash
-npx alpakka-js <scriptToRun.js> -- smali <input file>
+npx alpakka classic <scriptToRun.js> -p <input file>
 ```
 
 Replace `<scriptToRun.js>` with your JavaScript file and `<input file>` with the input APK or smali files you want to analyze.
