@@ -9,7 +9,7 @@ import {
   RegisterReference,
   ReturnStatement,
   Statement,
-} from "alpakka-js/api/Joinpoints.js";
+} from "@specs-feup/alpakka/api/Joinpoints.js";
 import FunctionExitNode from "../api/alpakka/graphs/cfg/flow/node/instruction/FunctionExitNode.js";
 import Resources from "./Resources.js";
 import ResourceLeak from "./ResourceLeak.js";

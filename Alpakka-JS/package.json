@@ -1,46 +1,60 @@
 {
-    "name": "alpakka-js",
-    "version": "0.0.1",
-    "description": "",
-    "type": "module",
-    "bin": {
-        "alpakka-js": "./code/index.js"
-    },
-    "scripts": {
-        "run": "node ./code/index.js",
-        "build": "tsc -b src-api src-code",
-        "build:api": "tsc -b src-api",
-        "build:code": "tsc -b src-code",
-        "lint": "eslint .",
-        "format": "prettier --write .",
-        "java-dist": "npx lara-java-dist --jsSourceFolder api --jsDestinationFolder ../AlpakkaLaraApi/src-lara/alpakka/ --javaClassname AlpakkaApiJsResource --javaPackageName pt.up.fe.specs.alpakka.weaver --javaDestinationFolder ../AlpakkaLaraApi/src-java/pt/up/fe/specs/alpakka/weaver/ --javaResourceNamespace alpakka",
-        "build-interfaces": "npx lara-build-interfaces --input ../AlpakkaWeaver/src/pt/up/fe/specs/alpakka/weaver/SmaliWeaver.json --lara @specs-feup/lara/LaraJoinPointSpecification.json --output src-api/Joinpoints.ts"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/specs-feup/alpakka.git",
-        "directory": "Alpakka-JS"
-    },
-    "keywords": [
-        "Android",
-        "smali",
-        "source-to-source",
-        "compiler"
-    ],
-    "author": "",
-    "license": "Apache-2.0",
-    "bugs": {
-        "url": "https://github.com/specs-feup/alpakka/issues"
-    },
-    "dependencies": {
-        "@specs-feup/lara": "^3.0.1"
-    },
-    "devDependencies": {
-        "@types/node": "^20.14.10",
-        "typescript-eslint": "^8.0.0-alpha.44",
-        "eslint": "^9.7.0",
-        "eslint-config-prettier": "^9.1.0",
-        "prettier": "^3.3.3",
-        "typescript": "^5.5.3"
-    }
+  "name": "@specs-feup/alpakka",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "bin": {
+    "alpakka": "./code/index.js"
+  },
+  "files": [
+    "api",
+    "code",
+    "src-api",
+    "src-code",
+    "java-binaries",
+    ".gitignore",
+    "eslint.config.js",
+    "LICENSE",
+    "package.json",
+    "README.md",
+    "tsconfig.json",
+    "typedoc.config.js"
+  ],
+  "scripts": {
+    "run": "node ./code/index.js",
+    "build": "tsc -b src-api src-code",
+    "build:api": "tsc -b src-api",
+    "build:code": "tsc -b src-code",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "java-dist": "npx lara-java-dist --jsSourceFolder api --jsDestinationFolder ../AlpakkaLaraApi/src-lara/alpakka/ --javaClassname AlpakkaApiJsResource --javaPackageName pt.up.fe.specs.alpakka.weaver --javaDestinationFolder ../AlpakkaLaraApi/src-java/pt/up/fe/specs/alpakka/weaver/ --javaResourceNamespace alpakka",
+    "build-interfaces": "npx lara-build-interfaces --input ../AlpakkaWeaver/src/pt/up/fe/specs/alpakka/weaver/SmaliWeaver.json --lara @specs-feup/lara/LaraJoinPointSpecification.json --output src-api/Joinpoints.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/specs-feup/alpakka.git",
+    "directory": "Alpakka-JS"
+  },
+  "keywords": [
+    "Android",
+    "smali",
+    "source-to-source",
+    "compiler"
+  ],
+  "author": "",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/specs-feup/alpakka/issues"
+  },
+  "dependencies": {
+    "@specs-feup/lara": "^3.0.11"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "typescript-eslint": "^8.0.0-alpha.44",
+    "eslint": "^9.7.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.3.3",
+    "typescript": "^5.5.3"
+  }
 }

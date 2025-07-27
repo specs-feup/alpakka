@@ -1,4 +1,4 @@
-const prefix = "alpakka-js/api/";
+const prefix = "@specs-feup/alpakka/api/";
 const coreImports: string[] = [];
 const sideEffectsOnlyImports: string[] = ["Joinpoints.js"];
 
