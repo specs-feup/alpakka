@@ -69,8 +69,18 @@ jobs:
           echo "Default branch: ${{ env.DEFAULT_BRANCH }}"
           echo "Branch base_ref: ${{ github.base_ref }}"          
 
-      - name: Checkout lara-framework
+      # Currently lara-framework default branch is 'master' and not 'main'
+      - name: Checkout lara-framework (main)
         uses: actions/checkout@v4
+        if: env.BRANCH_NAME == 'main'
+        with:
+          repository: specs-feup/lara-framework
+          path: lara-framework
+          ref: master
+
+      - name: Checkout lara-framework (other branches)
+        uses: actions/checkout@v4
+        if: env.BRANCH_NAME != 'main'
         with:
           repository: specs-feup/lara-framework
           path: lara-framework
