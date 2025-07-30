@@ -8,52 +8,15 @@
 ehthumbs.db
 Thumbs.db
 
-
-# Eclipse-related files #
-#########################
-.metadata/
-bin/
-RemoteSystemsTempFiles/
-.recommenders/
-
 # Custom ignores #
 ##################
-
-tomJava/
-.svn/
-sf.eclipse.javacc.prefs
-MatisseOptions.lara
-Matisse.lara
+bin/
 
 #output/
 .idea/
 .gradle/
 build/
 
-### Default folder for executing applications
-**/run/**
-#!**/run/dummy.txt
-!**/run/*.launch
-!**/run/*.deploy
-**/run/*-local.launch
-
-
-### Cache for ivy 
-ivy/
-
-### Ignore Java2Jasmin output
-Kadabra/Java2Jasmin/out
-PerformanceTests/sdvbs-disparity.txt
-
-**/gephi-toolkit-0.9.1-all.jar
-
-### ignore media formats
-*.mp4
-*.wmv
-
-
-# C/C++ Dependencies
-deps/*/*/*
 
 # Build
 **/build/*
