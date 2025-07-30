@@ -12,13 +12,8 @@ java {
 
 // Repositories providers
 repositories {
-    // Gearman
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots"}
-
-    // smali
-    google()
-
     mavenCentral()
+    google() // smali
 }
 
 configurations {
