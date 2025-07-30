@@ -4,10 +4,9 @@ import org.lara.interpreter.weaver.interf.events.Stage;
 import java.util.Optional;
 import org.lara.interpreter.exception.AttributeException;
 import pt.up.fe.specs.alpakka.weaver.abstracts.ASmaliWeaverJoinPoint;
-import java.util.List;
-import org.lara.interpreter.weaver.interf.JoinPoint;
 import java.util.stream.Collectors;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Auto-Generated class for join point AClassNode
@@ -44,13 +43,6 @@ public abstract class AClassNode extends ASmaliWeaverJoinPoint {
     }
 
     /**
-     * 
-     */
-    public void defClassDescriptorImpl(AClassType value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def classDescriptor with type AClassType not implemented ");
-    }
-
-    /**
      * Get value on attribute fields
      * @return the attribute's value
      */
@@ -62,7 +54,7 @@ public abstract class AClassNode extends ASmaliWeaverJoinPoint {
      */
     public Object getFieldsImpl() {
         AFieldNode[] aFieldNodeArrayImpl0 = getFieldsArrayImpl();
-        Object nativeArray0 = getWeaverEngine().getScriptEngine().toNativeArray(aFieldNodeArrayImpl0);
+        Object nativeArray0 = aFieldNodeArrayImpl0;
         return nativeArray0;
     }
 
@@ -97,7 +89,7 @@ public abstract class AClassNode extends ASmaliWeaverJoinPoint {
      */
     public Object getMethodsImpl() {
         AMethodNode[] aMethodNodeArrayImpl0 = getMethodsArrayImpl();
-        Object nativeArray0 = getWeaverEngine().getScriptEngine().toNativeArray(aMethodNodeArrayImpl0);
+        Object nativeArray0 = aMethodNodeArrayImpl0;
         return nativeArray0;
     }
 
@@ -143,79 +135,6 @@ public abstract class AClassNode extends ASmaliWeaverJoinPoint {
         } catch(Exception e) {
         	throw new AttributeException(get_class(), "superClassDescriptor", e);
         }
-    }
-
-    /**
-     * 
-     */
-    public void defSuperClassDescriptorImpl(AClassType value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def superClassDescriptor with type AClassType not implemented ");
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public final List<? extends JoinPoint> select(String selectName) {
-        List<? extends JoinPoint> joinPointList;
-        switch(selectName) {
-        	default:
-        		joinPointList = super.select(selectName);
-        		break;
-        }
-        return joinPointList;
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public final void defImpl(String attribute, Object value) {
-        switch(attribute){
-        case "classDescriptor": {
-        	if(value instanceof AClassType){
-        		this.defClassDescriptorImpl((AClassType)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        case "superClassDescriptor": {
-        	if(value instanceof AClassType){
-        		this.defSuperClassDescriptorImpl((AClassType)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
-        }
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithAttributes(List<String> attributes) {
-        super.fillWithAttributes(attributes);
-        attributes.add("classDescriptor");
-        attributes.add("fields");
-        attributes.add("methods");
-        attributes.add("superClassDescriptor");
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithSelects(List<String> selects) {
-        super.fillWithSelects(selects);
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithActions(List<String> actions) {
-        super.fillWithActions(actions);
     }
 
     /**

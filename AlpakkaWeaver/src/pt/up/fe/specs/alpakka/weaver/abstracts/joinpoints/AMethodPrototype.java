@@ -4,9 +4,9 @@ import org.lara.interpreter.weaver.interf.events.Stage;
 import java.util.Optional;
 import org.lara.interpreter.exception.AttributeException;
 import org.lara.interpreter.weaver.interf.JoinPoint;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Auto-Generated class for join point AMethodPrototype
@@ -38,7 +38,7 @@ public abstract class AMethodPrototype extends ALiteral {
      */
     public Object getParametersImpl() {
         ATypeDescriptor[] aTypeDescriptorArrayImpl0 = getParametersArrayImpl();
-        Object nativeArray0 = getWeaverEngine().getScriptEngine().toNativeArray(aTypeDescriptorArrayImpl0);
+        Object nativeArray0 = aTypeDescriptorArrayImpl0;
         return nativeArray0;
     }
 
@@ -84,13 +84,6 @@ public abstract class AMethodPrototype extends ALiteral {
         } catch(Exception e) {
         	throw new AttributeException(get_class(), "returnType", e);
         }
-    }
-
-    /**
-     * 
-     */
-    public void defReturnTypeImpl(ATypeDescriptor value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def returnType with type ATypeDescriptor not implemented ");
     }
 
     /**
@@ -298,63 +291,6 @@ public abstract class AMethodPrototype extends ALiteral {
     @Override
     public Optional<? extends ALiteral> getSuper() {
         return Optional.of(this.aLiteral);
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public final List<? extends JoinPoint> select(String selectName) {
-        List<? extends JoinPoint> joinPointList;
-        switch(selectName) {
-        	default:
-        		joinPointList = this.aLiteral.select(selectName);
-        		break;
-        }
-        return joinPointList;
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public final void defImpl(String attribute, Object value) {
-        switch(attribute){
-        case "returnType": {
-        	if(value instanceof ATypeDescriptor){
-        		this.defReturnTypeImpl((ATypeDescriptor)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
-        }
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithAttributes(List<String> attributes) {
-        this.aLiteral.fillWithAttributes(attributes);
-        attributes.add("parameters");
-        attributes.add("returnType");
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithSelects(List<String> selects) {
-        this.aLiteral.fillWithSelects(selects);
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithActions(List<String> actions) {
-        this.aLiteral.fillWithActions(actions);
     }
 
     /**

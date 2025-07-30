@@ -4,9 +4,9 @@ import org.lara.interpreter.weaver.interf.events.Stage;
 import java.util.Optional;
 import org.lara.interpreter.exception.AttributeException;
 import org.lara.interpreter.weaver.interf.JoinPoint;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Auto-Generated class for join point AClassType
@@ -74,13 +74,6 @@ public abstract class AClassType extends ATypeDescriptor {
         } catch(Exception e) {
         	throw new AttributeException(get_class(), "decl", e);
         }
-    }
-
-    /**
-     * 
-     */
-    public void defDeclImpl(AClassNode value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def decl with type AClassNode not implemented ");
     }
 
     /**
@@ -313,64 +306,6 @@ public abstract class AClassType extends ATypeDescriptor {
     @Override
     public Optional<? extends ATypeDescriptor> getSuper() {
         return Optional.of(this.aTypeDescriptor);
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public final List<? extends JoinPoint> select(String selectName) {
-        List<? extends JoinPoint> joinPointList;
-        switch(selectName) {
-        	default:
-        		joinPointList = this.aTypeDescriptor.select(selectName);
-        		break;
-        }
-        return joinPointList;
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public final void defImpl(String attribute, Object value) {
-        switch(attribute){
-        case "decl": {
-        	if(value instanceof AClassNode){
-        		this.defDeclImpl((AClassNode)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
-        }
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithAttributes(List<String> attributes) {
-        this.aTypeDescriptor.fillWithAttributes(attributes);
-        attributes.add("className");
-        attributes.add("decl");
-        attributes.add("packageName");
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithSelects(List<String> selects) {
-        this.aTypeDescriptor.fillWithSelects(selects);
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithActions(List<String> actions) {
-        this.aTypeDescriptor.fillWithActions(actions);
     }
 
     /**

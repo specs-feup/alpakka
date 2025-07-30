@@ -2,13 +2,11 @@ package pt.up.fe.specs.alpakka.weaver.abstracts.joinpoints;
 
 import org.lara.interpreter.weaver.interf.JoinPoint;
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
-import java.util.List;
 import org.lara.interpreter.weaver.interf.events.Stage;
 import java.util.Optional;
 import org.lara.interpreter.exception.ActionException;
 import org.lara.interpreter.exception.AttributeException;
 import pt.up.fe.specs.alpakka.weaver.SmaliWeaver;
-import org.lara.interpreter.weaver.interf.SelectOp;
 
 /**
  * Abstract class containing the global attributes and default action exception.
@@ -44,32 +42,6 @@ public abstract class AJoinPoint extends JoinPoint {
      * @return Tree node reference
      */
     public abstract SmaliNode getNode();
-
-    /**
-     * 
-     */
-    @Override
-    public void defImpl(String attribute, Object value) {
-        switch(attribute){
-        default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
-        }
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected void fillWithActions(List<String> actions) {
-        actions.add("detach()");
-        actions.add("insertAfter(AJoinPoint node)");
-        actions.add("insertAfter(String code)");
-        actions.add("insertBefore(AJoinPoint node)");
-        actions.add("insertBefore(String node)");
-        actions.add("replaceWith(AJoinPoint node)");
-        actions.add("replaceWith(String node)");
-        actions.add("replaceWith(AJoinPoint[] node)");
-        actions.add("replaceWithStrings(String[] node)");
-    }
 
     /**
      * Removes the node associated to this joinpoint from the AST
@@ -313,28 +285,6 @@ public abstract class AJoinPoint extends JoinPoint {
     }
 
     /**
-     * 
-     */
-    @Override
-    protected void fillWithAttributes(List<String> attributes) {
-        // Default attributes
-        super.fillWithAttributes(attributes);
-        
-        //Attributes available for all join points
-        attributes.add("ast");
-        attributes.add("children");
-        attributes.add("code");
-        attributes.add("descendants");
-        attributes.add("getAncestor(String type)");
-        attributes.add("getChild(int index)");
-        attributes.add("getDescendants(String type)");
-        attributes.add("getDescendantsAndSelf(String type)");
-        attributes.add("id");
-        attributes.add("parent");
-        attributes.add("root");
-    }
-
-    /**
      * String representation of the ast
      */
     public abstract String getAstImpl();
@@ -368,7 +318,7 @@ public abstract class AJoinPoint extends JoinPoint {
      */
     public Object getChildrenImpl() {
         AJoinPoint[] aJoinPointArrayImpl0 = getChildrenArrayImpl();
-        Object nativeArray0 = getWeaverEngine().getScriptEngine().toNativeArray(aJoinPointArrayImpl0);
+        Object nativeArray0 = aJoinPointArrayImpl0;
         return nativeArray0;
     }
 
@@ -424,7 +374,7 @@ public abstract class AJoinPoint extends JoinPoint {
      */
     public Object getDescendantsImpl() {
         AJoinPoint[] aJoinPointArrayImpl0 = getDescendantsArrayImpl();
-        Object nativeArray0 = getWeaverEngine().getScriptEngine().toNativeArray(aJoinPointArrayImpl0);
+        Object nativeArray0 = aJoinPointArrayImpl0;
         return nativeArray0;
     }
 
@@ -514,7 +464,7 @@ public abstract class AJoinPoint extends JoinPoint {
      */
     public Object getDescendantsImpl(String type) {
         AJoinPoint[] aJoinPointArrayImpl0 = getDescendantsArrayImpl(type);
-        Object nativeArray0 = getWeaverEngine().getScriptEngine().toNativeArray(aJoinPointArrayImpl0);
+        Object nativeArray0 = aJoinPointArrayImpl0;
         return nativeArray0;
     }
 
@@ -552,7 +502,7 @@ public abstract class AJoinPoint extends JoinPoint {
      */
     public Object getDescendantsAndSelfImpl(String type) {
         AJoinPoint[] aJoinPointArrayImpl0 = getDescendantsAndSelfArrayImpl(type);
-        Object nativeArray0 = getWeaverEngine().getScriptEngine().toNativeArray(aJoinPointArrayImpl0);
+        Object nativeArray0 = aJoinPointArrayImpl0;
         return nativeArray0;
     }
 
@@ -665,9 +615,4 @@ public abstract class AJoinPoint extends JoinPoint {
     public SmaliWeaver getWeaverEngine() {
         return SmaliWeaver.getSmaliWeaver();
     }
-
-    /**
-     * Generic select function, used by the default select implementations.
-     */
-    public abstract <T extends AJoinPoint> List<? extends T> select(Class<T> joinPointClass, SelectOp op);
 }

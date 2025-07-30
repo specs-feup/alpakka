@@ -2,9 +2,9 @@ package pt.up.fe.specs.alpakka.weaver.abstracts.joinpoints;
 
 import org.lara.interpreter.weaver.interf.JoinPoint;
 import java.util.Optional;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Auto-Generated class for join point AFieldReference
@@ -228,54 +228,6 @@ public abstract class AFieldReference extends AExpression {
     @Override
     public Optional<? extends AExpression> getSuper() {
         return Optional.of(this.aExpression);
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public final List<? extends JoinPoint> select(String selectName) {
-        List<? extends JoinPoint> joinPointList;
-        switch(selectName) {
-        	default:
-        		joinPointList = this.aExpression.select(selectName);
-        		break;
-        }
-        return joinPointList;
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public final void defImpl(String attribute, Object value) {
-        switch(attribute){
-        default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
-        }
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithAttributes(List<String> attributes) {
-        this.aExpression.fillWithAttributes(attributes);
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithSelects(List<String> selects) {
-        this.aExpression.fillWithSelects(selects);
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithActions(List<String> actions) {
-        this.aExpression.fillWithActions(actions);
     }
 
     /**

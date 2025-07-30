@@ -4,7 +4,6 @@ import org.lara.interpreter.weaver.ast.AstMethods;
 import org.lara.interpreter.weaver.interf.AGear;
 import org.lara.interpreter.weaver.interf.JoinPoint;
 import org.lara.interpreter.weaver.options.WeaverOption;
-import org.lara.interpreter.weaver.utils.LaraResourceProvider;
 import org.lara.language.specification.dsl.LanguageSpecification;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import pt.up.fe.specs.alpakka.ast.App;
@@ -46,39 +45,12 @@ public class SmaliWeaver extends ASmaliWeaver {
                 () -> "smali/weaverspecs/artifacts.xml", () -> "smali/weaverspecs/actionModel.xml");
     }
 
-    private static final String ALPAKKA_API_NAME = "@specs-feup/alpakka";
-    // private static final List<ResourceProvider> SMALI_LARA_API = new ArrayList<>();
-    // static {
-    // SMALI_LARA_API.addAll(AlpakkaLaraApis.getApis());
-    // }
-
     private final SmaliFileParser parser;
     private SmaliNode root;
 
     public SmaliWeaver() {
         parser = null;
         root = null;
-    }
-
-    // @Override
-    // protected void addWeaverApis() {
-    // addApis(SMALI_API_NAME, SMALI_LARA_API);
-    // }
-
-    @Override
-    public String getWeaverApiName() {
-        return ALPAKKA_API_NAME;
-    }
-
-    /**
-     * Warns the lara interpreter if the weaver accepts a folder as the application or only one file at a time.
-     *
-     * @return true if the weaver is able to work with several files, false if only works with one file
-     */
-    @Override
-    public boolean handlesApplicationFolder() {
-        // Can the weaver handle an application folder?
-        return true;
     }
 
     private List<File> filterSupportedFiles(File... sources) {
@@ -144,19 +116,6 @@ public class SmaliWeaver extends ASmaliWeaver {
     }
 
     /**
-     * Return a JoinPoint instance of the language root, i.e., an instance of APlaceholder
-     *
-     * @return an instance of the join point root/program
-     */
-    @Override
-    public JoinPoint select() {
-        // return new <APlaceholder implementation>;
-        // throw new UnsupportedOperationException("Method select for SmaliWeaver is not
-        // yet implemented");
-        return null;
-    }
-
-    /**
      * Closes the weaver to the specified output directory location, if the weaver generates new file(s)
      *
      * @return if close was successful
@@ -203,15 +162,6 @@ public class SmaliWeaver extends ASmaliWeaver {
         return "SmaliWeaver";
     }
 
-//    @Override
-//    public List<ResourceProvider> getAspectsAPI() {
-//        return SMALI_LARA_API;
-//    }
-
-    @Override
-    protected List<LaraResourceProvider> getWeaverNpmResources() {
-        return Arrays.asList(AlpakkaApiJsResource.values());
-    }
 
     @Override
     public JoinPoint getRootJp() {

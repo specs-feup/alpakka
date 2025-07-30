@@ -4,9 +4,9 @@ import org.lara.interpreter.weaver.interf.events.Stage;
 import java.util.Optional;
 import org.lara.interpreter.exception.AttributeException;
 import org.lara.interpreter.weaver.interf.JoinPoint;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Auto-Generated class for join point AIfComparison
@@ -49,13 +49,6 @@ public abstract class AIfComparison extends AInstruction {
         } catch(Exception e) {
         	throw new AttributeException(get_class(), "label", e);
         }
-    }
-
-    /**
-     * 
-     */
-    public void defLabelImpl(ALabelReference value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def label with type ALabelReference not implemented ");
     }
 
     /**
@@ -119,27 +112,6 @@ public abstract class AIfComparison extends AInstruction {
     @Override
     public AStatement getPrevStatementImpl() {
         return this.aInstruction.getPrevStatementImpl();
-    }
-
-    /**
-     * 
-     */
-    public void defLineImpl(ALineDirective value) {
-        this.aInstruction.defLineImpl(value);
-    }
-
-    /**
-     * 
-     */
-    public void defNextStatementImpl(AStatement value) {
-        this.aInstruction.defNextStatementImpl(value);
-    }
-
-    /**
-     * 
-     */
-    public void defPrevStatementImpl(AStatement value) {
-        this.aInstruction.defPrevStatementImpl(value);
     }
 
     /**
@@ -347,83 +319,6 @@ public abstract class AIfComparison extends AInstruction {
     @Override
     public Optional<? extends AInstruction> getSuper() {
         return Optional.of(this.aInstruction);
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public final List<? extends JoinPoint> select(String selectName) {
-        List<? extends JoinPoint> joinPointList;
-        switch(selectName) {
-        	default:
-        		joinPointList = this.aInstruction.select(selectName);
-        		break;
-        }
-        return joinPointList;
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public final void defImpl(String attribute, Object value) {
-        switch(attribute){
-        case "label": {
-        	if(value instanceof ALabelReference){
-        		this.defLabelImpl((ALabelReference)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        case "line": {
-        	if(value instanceof ALineDirective){
-        		this.defLineImpl((ALineDirective)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        case "nextStatement": {
-        	if(value instanceof AStatement){
-        		this.defNextStatementImpl((AStatement)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        case "prevStatement": {
-        	if(value instanceof AStatement){
-        		this.defPrevStatementImpl((AStatement)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
-        }
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithAttributes(List<String> attributes) {
-        this.aInstruction.fillWithAttributes(attributes);
-        attributes.add("label");
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithSelects(List<String> selects) {
-        this.aInstruction.fillWithSelects(selects);
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithActions(List<String> actions) {
-        this.aInstruction.fillWithActions(actions);
     }
 
     /**

@@ -4,10 +4,9 @@ import org.lara.interpreter.weaver.interf.events.Stage;
 import java.util.Optional;
 import org.lara.interpreter.exception.AttributeException;
 import pt.up.fe.specs.alpakka.weaver.abstracts.ASmaliWeaverJoinPoint;
-import java.util.List;
-import org.lara.interpreter.weaver.interf.JoinPoint;
 import java.util.stream.Collectors;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Auto-Generated class for join point AStatement
@@ -44,13 +43,6 @@ public abstract class AStatement extends ASmaliWeaverJoinPoint {
     }
 
     /**
-     * 
-     */
-    public void defLineImpl(ALineDirective value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def line with type ALineDirective not implemented ");
-    }
-
-    /**
      * Get value on attribute nextStatement
      * @return the attribute's value
      */
@@ -76,13 +68,6 @@ public abstract class AStatement extends ASmaliWeaverJoinPoint {
     }
 
     /**
-     * 
-     */
-    public void defNextStatementImpl(AStatement value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def nextStatement with type AStatement not implemented ");
-    }
-
-    /**
      * Get value on attribute prevStatement
      * @return the attribute's value
      */
@@ -105,85 +90,6 @@ public abstract class AStatement extends ASmaliWeaverJoinPoint {
         } catch(Exception e) {
         	throw new AttributeException(get_class(), "prevStatement", e);
         }
-    }
-
-    /**
-     * 
-     */
-    public void defPrevStatementImpl(AStatement value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def prevStatement with type AStatement not implemented ");
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public List<? extends JoinPoint> select(String selectName) {
-        List<? extends JoinPoint> joinPointList;
-        switch(selectName) {
-        	default:
-        		joinPointList = super.select(selectName);
-        		break;
-        }
-        return joinPointList;
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public void defImpl(String attribute, Object value) {
-        switch(attribute){
-        case "line": {
-        	if(value instanceof ALineDirective){
-        		this.defLineImpl((ALineDirective)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        case "nextStatement": {
-        	if(value instanceof AStatement){
-        		this.defNextStatementImpl((AStatement)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        case "prevStatement": {
-        	if(value instanceof AStatement){
-        		this.defPrevStatementImpl((AStatement)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
-        }
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected void fillWithAttributes(List<String> attributes) {
-        super.fillWithAttributes(attributes);
-        attributes.add("line");
-        attributes.add("nextStatement");
-        attributes.add("prevStatement");
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected void fillWithSelects(List<String> selects) {
-        super.fillWithSelects(selects);
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected void fillWithActions(List<String> actions) {
-        super.fillWithActions(actions);
     }
 
     /**

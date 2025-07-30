@@ -4,9 +4,9 @@ import org.lara.interpreter.weaver.interf.events.Stage;
 import java.util.Optional;
 import org.lara.interpreter.exception.AttributeException;
 import org.lara.interpreter.weaver.interf.JoinPoint;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Auto-Generated class for join point AMethodReference
@@ -76,13 +76,6 @@ public abstract class AMethodReference extends AExpression {
     }
 
     /**
-     * 
-     */
-    public void defParentClassDescriptorImpl(ATypeDescriptor value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def parentClassDescriptor with type ATypeDescriptor not implemented ");
-    }
-
-    /**
      * Get value on attribute prototype
      * @return the attribute's value
      */
@@ -105,13 +98,6 @@ public abstract class AMethodReference extends AExpression {
         } catch(Exception e) {
         	throw new AttributeException(get_class(), "prototype", e);
         }
-    }
-
-    /**
-     * 
-     */
-    public void defPrototypeImpl(AMethodPrototype value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def prototype with type AMethodPrototype not implemented ");
     }
 
     /**
@@ -319,71 +305,6 @@ public abstract class AMethodReference extends AExpression {
     @Override
     public Optional<? extends AExpression> getSuper() {
         return Optional.of(this.aExpression);
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public final List<? extends JoinPoint> select(String selectName) {
-        List<? extends JoinPoint> joinPointList;
-        switch(selectName) {
-        	default:
-        		joinPointList = this.aExpression.select(selectName);
-        		break;
-        }
-        return joinPointList;
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public final void defImpl(String attribute, Object value) {
-        switch(attribute){
-        case "parentClassDescriptor": {
-        	if(value instanceof ATypeDescriptor){
-        		this.defParentClassDescriptorImpl((ATypeDescriptor)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        case "prototype": {
-        	if(value instanceof AMethodPrototype){
-        		this.defPrototypeImpl((AMethodPrototype)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
-        }
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithAttributes(List<String> attributes) {
-        this.aExpression.fillWithAttributes(attributes);
-        attributes.add("name");
-        attributes.add("parentClassDescriptor");
-        attributes.add("prototype");
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithSelects(List<String> selects) {
-        this.aExpression.fillWithSelects(selects);
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithActions(List<String> actions) {
-        this.aExpression.fillWithActions(actions);
     }
 
     /**

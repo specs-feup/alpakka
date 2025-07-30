@@ -4,9 +4,9 @@ import org.lara.interpreter.weaver.interf.events.Stage;
 import java.util.Optional;
 import org.lara.interpreter.exception.AttributeException;
 import org.lara.interpreter.weaver.interf.JoinPoint;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Auto-Generated class for join point ACatch
@@ -51,13 +51,6 @@ public abstract class ACatch extends AStatement {
     }
 
     /**
-     * 
-     */
-    public void defCatchImpl(ALabelReference value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def catch with type ALabelReference not implemented ");
-    }
-
-    /**
      * Get value on attribute exception
      * @return the attribute's value
      */
@@ -80,13 +73,6 @@ public abstract class ACatch extends AStatement {
         } catch(Exception e) {
         	throw new AttributeException(get_class(), "exception", e);
         }
-    }
-
-    /**
-     * 
-     */
-    public void defExceptionImpl(ATypeDescriptor value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def exception with type ATypeDescriptor not implemented ");
     }
 
     /**
@@ -115,13 +101,6 @@ public abstract class ACatch extends AStatement {
     }
 
     /**
-     * 
-     */
-    public void defTryEndImpl(ALabelReference value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def tryEnd with type ALabelReference not implemented ");
-    }
-
-    /**
      * Get value on attribute tryStart
      * @return the attribute's value
      */
@@ -144,13 +123,6 @@ public abstract class ACatch extends AStatement {
         } catch(Exception e) {
         	throw new AttributeException(get_class(), "tryStart", e);
         }
-    }
-
-    /**
-     * 
-     */
-    public void defTryStartImpl(ALabelReference value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def tryStart with type ALabelReference not implemented ");
     }
 
     /**
@@ -178,27 +150,6 @@ public abstract class ACatch extends AStatement {
     @Override
     public AStatement getPrevStatementImpl() {
         return this.aStatement.getPrevStatementImpl();
-    }
-
-    /**
-     * 
-     */
-    public void defLineImpl(ALineDirective value) {
-        this.aStatement.defLineImpl(value);
-    }
-
-    /**
-     * 
-     */
-    public void defNextStatementImpl(AStatement value) {
-        this.aStatement.defNextStatementImpl(value);
-    }
-
-    /**
-     * 
-     */
-    public void defPrevStatementImpl(AStatement value) {
-        this.aStatement.defPrevStatementImpl(value);
     }
 
     /**
@@ -406,107 +357,6 @@ public abstract class ACatch extends AStatement {
     @Override
     public Optional<? extends AStatement> getSuper() {
         return Optional.of(this.aStatement);
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public final List<? extends JoinPoint> select(String selectName) {
-        List<? extends JoinPoint> joinPointList;
-        switch(selectName) {
-        	default:
-        		joinPointList = this.aStatement.select(selectName);
-        		break;
-        }
-        return joinPointList;
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public final void defImpl(String attribute, Object value) {
-        switch(attribute){
-        case "catch": {
-        	if(value instanceof ALabelReference){
-        		this.defCatchImpl((ALabelReference)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        case "exception": {
-        	if(value instanceof ATypeDescriptor){
-        		this.defExceptionImpl((ATypeDescriptor)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        case "tryEnd": {
-        	if(value instanceof ALabelReference){
-        		this.defTryEndImpl((ALabelReference)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        case "tryStart": {
-        	if(value instanceof ALabelReference){
-        		this.defTryStartImpl((ALabelReference)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        case "line": {
-        	if(value instanceof ALineDirective){
-        		this.defLineImpl((ALineDirective)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        case "nextStatement": {
-        	if(value instanceof AStatement){
-        		this.defNextStatementImpl((AStatement)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        case "prevStatement": {
-        	if(value instanceof AStatement){
-        		this.defPrevStatementImpl((AStatement)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
-        }
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithAttributes(List<String> attributes) {
-        this.aStatement.fillWithAttributes(attributes);
-        attributes.add("catch");
-        attributes.add("exception");
-        attributes.add("tryEnd");
-        attributes.add("tryStart");
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithSelects(List<String> selects) {
-        this.aStatement.fillWithSelects(selects);
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithActions(List<String> actions) {
-        this.aStatement.fillWithActions(actions);
     }
 
     /**

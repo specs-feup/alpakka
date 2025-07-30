@@ -1,10 +1,8 @@
 package pt.up.fe.specs.alpakka.weaver.abstracts;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 import org.lara.interpreter.weaver.interf.JoinPoint;
-import org.lara.interpreter.weaver.interf.SelectOp;
 
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
 import pt.up.fe.specs.alpakka.weaver.SmaliJoinpoints;
@@ -29,15 +27,6 @@ public abstract class ASmaliWeaverJoinPoint extends AJoinPoint {
     @Override
     public boolean compareNodes(AJoinPoint aJoinPoint) {
         return this.getNode().equals(aJoinPoint.getNode());
-    }
-
-    /**
-     * Generic select function, used by the default select implementations.
-     */
-    @Override
-    public <T extends AJoinPoint> List<? extends T> select(Class<T> joinPointClass, SelectOp op) {
-        throw new RuntimeException(
-                "Generic select function not implemented yet. Implement it in order to use the default implementations of select");
     }
 
     @Override

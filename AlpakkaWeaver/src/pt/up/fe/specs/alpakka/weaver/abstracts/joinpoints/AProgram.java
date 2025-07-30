@@ -4,10 +4,9 @@ import org.lara.interpreter.weaver.interf.events.Stage;
 import java.util.Optional;
 import org.lara.interpreter.exception.AttributeException;
 import pt.up.fe.specs.alpakka.weaver.abstracts.ASmaliWeaverJoinPoint;
-import java.util.List;
-import org.lara.interpreter.weaver.interf.JoinPoint;
 import java.util.stream.Collectors;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Auto-Generated class for join point AProgram
@@ -57,7 +56,7 @@ public abstract class AProgram extends ASmaliWeaverJoinPoint {
      */
     public Object getClassesImpl() {
         AClassNode[] aClassNodeArrayImpl0 = getClassesArrayImpl();
-        Object nativeArray0 = getWeaverEngine().getScriptEngine().toNativeArray(aClassNodeArrayImpl0);
+        Object nativeArray0 = aClassNodeArrayImpl0;
         return nativeArray0;
     }
 
@@ -103,71 +102,6 @@ public abstract class AProgram extends ASmaliWeaverJoinPoint {
         } catch(Exception e) {
         	throw new AttributeException(get_class(), "manifest", e);
         }
-    }
-
-    /**
-     * 
-     */
-    public void defManifestImpl(AManifest value) {
-        throw new UnsupportedOperationException("Join point "+get_class()+": Action def manifest with type AManifest not implemented ");
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public final List<? extends JoinPoint> select(String selectName) {
-        List<? extends JoinPoint> joinPointList;
-        switch(selectName) {
-        	default:
-        		joinPointList = super.select(selectName);
-        		break;
-        }
-        return joinPointList;
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public final void defImpl(String attribute, Object value) {
-        switch(attribute){
-        case "manifest": {
-        	if(value instanceof AManifest){
-        		this.defManifestImpl((AManifest)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
-        }
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithAttributes(List<String> attributes) {
-        super.fillWithAttributes(attributes);
-        attributes.add("buildApk");
-        attributes.add("classes");
-        attributes.add("manifest");
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithSelects(List<String> selects) {
-        super.fillWithSelects(selects);
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected final void fillWithActions(List<String> actions) {
-        super.fillWithActions(actions);
     }
 
     /**

@@ -4,9 +4,9 @@ import org.lara.interpreter.weaver.interf.events.Stage;
 import java.util.Optional;
 import org.lara.interpreter.exception.AttributeException;
 import org.lara.interpreter.weaver.interf.JoinPoint;
-import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Auto-Generated class for join point AInstruction
@@ -150,27 +150,6 @@ public abstract class AInstruction extends AStatement {
     @Override
     public AStatement getPrevStatementImpl() {
         return this.aStatement.getPrevStatementImpl();
-    }
-
-    /**
-     * 
-     */
-    public void defLineImpl(ALineDirective value) {
-        this.aStatement.defLineImpl(value);
-    }
-
-    /**
-     * 
-     */
-    public void defNextStatementImpl(AStatement value) {
-        this.aStatement.defNextStatementImpl(value);
-    }
-
-    /**
-     * 
-     */
-    public void defPrevStatementImpl(AStatement value) {
-        this.aStatement.defPrevStatementImpl(value);
     }
 
     /**
@@ -378,79 +357,6 @@ public abstract class AInstruction extends AStatement {
     @Override
     public Optional<? extends AStatement> getSuper() {
         return Optional.of(this.aStatement);
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public List<? extends JoinPoint> select(String selectName) {
-        List<? extends JoinPoint> joinPointList;
-        switch(selectName) {
-        	default:
-        		joinPointList = this.aStatement.select(selectName);
-        		break;
-        }
-        return joinPointList;
-    }
-
-    /**
-     * 
-     */
-    @Override
-    public void defImpl(String attribute, Object value) {
-        switch(attribute){
-        case "line": {
-        	if(value instanceof ALineDirective){
-        		this.defLineImpl((ALineDirective)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        case "nextStatement": {
-        	if(value instanceof AStatement){
-        		this.defNextStatementImpl((AStatement)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        case "prevStatement": {
-        	if(value instanceof AStatement){
-        		this.defPrevStatementImpl((AStatement)value);
-        		return;
-        	}
-        	this.unsupportedTypeForDef(attribute, value);
-        }
-        default: throw new UnsupportedOperationException("Join point "+get_class()+": attribute '"+attribute+"' cannot be defined");
-        }
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected void fillWithAttributes(List<String> attributes) {
-        this.aStatement.fillWithAttributes(attributes);
-        attributes.add("canThrow");
-        attributes.add("opCodeName");
-        attributes.add("setsRegister");
-        attributes.add("setsResult");
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected void fillWithSelects(List<String> selects) {
-        this.aStatement.fillWithSelects(selects);
-    }
-
-    /**
-     * 
-     */
-    @Override
-    protected void fillWithActions(List<String> actions) {
-        this.aStatement.fillWithActions(actions);
     }
 
     /**
