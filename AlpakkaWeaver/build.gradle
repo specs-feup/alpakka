@@ -33,7 +33,6 @@ dependencies {
 
     implementation ":AlpakkaParser"
     implementation ":AlpakkaAst"
-    implementation ":AlpakkaLaraApi"
 
     weaverGeneratorRuntime ":WeaverGenerator"
 }

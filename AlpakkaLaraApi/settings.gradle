@@ -1,7 +1,0 @@
-rootProject.name = 'AlpakkaLaraApi'
-
-includeBuild("../../specs-java-libs/SpecsUtils")
-
-includeBuild("../../lara-framework/LaraUtils")
-
-includeBuild("../../alpakka/AlpakkaAst")

@@ -11,4 +11,3 @@ includeBuild("../../lara-framework/LanguageSpecification")
 
 includeBuild("../../alpakka/AlpakkaParser")
 includeBuild("../../alpakka/AlpakkaAst")
-includeBuild("../../alpakka/AlpakkaLaraApi")
