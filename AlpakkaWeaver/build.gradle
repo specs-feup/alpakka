@@ -22,8 +22,6 @@ configurations {
 }
 
 dependencies {
-    testImplementation "junit:junit:4.13.1"
-
     implementation ":SpecsUtils"
     implementation ":jOptions"
     
@@ -50,17 +48,6 @@ sourceSets {
             srcDir 'resources'
         }      
     }
-
-    test {
-        java {
-            srcDir 'test'
-        }
-
-        resources {
-            srcDir 'resources'
-            srcDir 'test-resources'
-        }
-    }
 }
 
 // Weaver Generator
@@ -76,8 +63,7 @@ task generateWeaver(type: JavaExec) {
             '-p', 'pt.up.fe.specs.alpakka.weaver',
             '-n', 'pt.up.fe.specs.alpakka.ast.SmaliNode',
             '-j',
-            '-e',
-            '-d'
+            '-e'
     ]
 }
 

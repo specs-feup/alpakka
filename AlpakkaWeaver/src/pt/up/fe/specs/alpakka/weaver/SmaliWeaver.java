@@ -74,7 +74,7 @@ public class SmaliWeaver extends ASmaliWeaver {
      * @return true if the file type is valid
      */
     @Override
-    public boolean begin(List<File> sources, File outputDir, DataStore args) {
+    protected boolean begin(List<File> sources, File outputDir, DataStore args) {
 
         var smaliFiles = new ArrayList<File>();
 
@@ -121,7 +121,7 @@ public class SmaliWeaver extends ASmaliWeaver {
      * @return if close was successful
      */
     @Override
-    public boolean close() {
+    protected boolean close() {
         // Terminate weaver execution with final steps required and writing output files
         // throw new UnsupportedOperationException("Method close for SmaliWeaver is not
         // yet implemented");

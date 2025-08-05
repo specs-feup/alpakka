@@ -1,6 +1,6 @@
 /api
 /code
-java-binaries/
+java-binaries
 
 node_modules/
 package-lock.json
