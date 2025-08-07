@@ -1,7 +1,7 @@
 {
   "name": "@specs-feup/alpakka",
   "version": "1.0.0",
-  "description": "",
+  "description": "A Smali/APK source-to-source compiler written in Typescript",
   "type": "module",
   "bin": {
     "alpakka": "./code/index.js"
