@@ -2,7 +2,7 @@ import BaseGraph from "./BaseGraph.js";
 import BaseNode from "./BaseNode.js";
 import { EdgeBuilder, EdgeConstructor, EdgeTypeGuard } from "./Edge.js";
 import Graph from "./Graph.js";
-import cytoscape from "@specs-feup/lara/api/libs/cytoscape-3.26.0.js";
+import cytoscape from "cytoscape";
 
 namespace BaseEdge {
   export class Class<
