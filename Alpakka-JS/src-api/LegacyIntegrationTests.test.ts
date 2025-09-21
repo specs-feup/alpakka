@@ -5,7 +5,7 @@ import path from "path";
 describe("Legacy Integration Tests", () => {
     function newTester() {
         return new AlpakkaLegacyTester(
-            path.resolve("../AlpakkaWeaver/test-resources")
+            path.resolve("../AlpakkaWeaver/test-resources/alpakka/test/weaver")
         )
             .setResultPackage("results")
             .setSrcPackage("src");

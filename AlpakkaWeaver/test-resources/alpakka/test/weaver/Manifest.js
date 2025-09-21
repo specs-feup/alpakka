@@ -1,4 +1,4 @@
-laraImport("weaver.Query");
+import Query from "@specs-feup/lara/api/weaver/Query.js";
 
 const app = Query.root();
 
@@ -13,4 +13,3 @@ console.log("Services:\n");
 for (const service of manifest.services) {
     console.log(service + "\n");
 }
-
