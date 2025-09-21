@@ -9,7 +9,6 @@ import org.suikasoft.jOptions.Interfaces.DataStore;
 import pt.up.fe.specs.alpakka.ast.App;
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
 import pt.up.fe.specs.alpakka.parser.antlr.AlpakkaParser;
-import pt.up.fe.specs.alpakka.parser.antlr.SmaliFileParser;
 import pt.up.fe.specs.alpakka.weaver.abstracts.ASmaliWeaverJoinPoint;
 import pt.up.fe.specs.alpakka.weaver.abstracts.weaver.ASmaliWeaver;
 import pt.up.fe.specs.alpakka.weaver.options.SmaliWeaverOption;
@@ -45,11 +44,9 @@ public class SmaliWeaver extends ASmaliWeaver {
                 () -> "smali/weaverspecs/artifacts.xml", () -> "smali/weaverspecs/actionModel.xml");
     }
 
-    private final SmaliFileParser parser;
     private SmaliNode root;
 
     public SmaliWeaver() {
-        parser = null;
         root = null;
     }
 
