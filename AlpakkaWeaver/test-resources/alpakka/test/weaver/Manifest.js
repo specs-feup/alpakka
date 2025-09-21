@@ -4,12 +4,14 @@ const app = Query.root();
 
 const manifest = app.manifest;
 
-console.log("Activities:\n");
+console.log("Activities:");
 for (const activity of manifest.activities) {
-    console.log(activity + "\n");
+    console.log(activity);
 }
+console.log();
 
-console.log("Services:\n");
+console.log("Services:");
 for (const service of manifest.services) {
-    console.log(service + "\n");
+    console.log(service);
 }
+console.log();

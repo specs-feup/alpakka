@@ -6,6 +6,7 @@ import JavaTypes, {
 export namespace AlpakkaJavaClasses {
   /* eslint-disable @typescript-eslint/no-empty-object-type */
   export interface AlpakkaOptions extends JavaClasses.JavaClass {}
+  export interface AlpakkaOption extends JavaClasses.JavaClass {}
   /* eslint-enable @typescript-eslint/no-empty-object-type */
 }
 
@@ -18,5 +19,11 @@ export default class AlpakkaJavaTypes {
     return JavaTypes.getType(
       "pt.up.fe.specs.alpakka.weaver.options.SmaliWeaverOptions"
     ) as AlpakkaJavaClasses.AlpakkaOptions;
+  }
+
+  static get AlpakkaOption() {
+    return JavaTypes.getType(
+      "pt.up.fe.specs.alpakka.weaver.options.SmaliWeaverOption"
+    ) as AlpakkaJavaClasses.AlpakkaOption;
   }
 }
