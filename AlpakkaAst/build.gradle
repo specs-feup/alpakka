@@ -1,11 +1,11 @@
 plugins {
  	id 'distribution'
+    id 'java'
 }
 
-// Java project
-apply plugin: 'java'
-
 java {
+	withSourcesJar()
+
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
@@ -17,23 +17,19 @@ repositories {
 }
 
 dependencies {
-    implementation group: "org.apktool", name: "apktool-lib", version: "2.9.3"
-    implementation group: "org.yaml", name: "snakeyaml", version: "2.2"
-    implementation group: "com.android.tools.smali", name: "smali-dexlib2", version: "3.0.5"
+    implementation "org.apktool:apktool-lib:2.9.3"
+    implementation "org.yaml:snakeyaml:2.2"
+    implementation "com.android.tools.smali:smali-dexlib2:3.0.5"
 
     implementation ":SpecsUtils"
     implementation ":jOptions"
 }
 
-java {
-	withSourcesJar()
-}
-
 // Project sources
 sourceSets {
-   main {
-      java {
-         srcDir 'src'
-      }
-   }
+    main {
+        java {
+            srcDir 'src'
+        }
+    }
 }

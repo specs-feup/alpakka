@@ -1,11 +1,11 @@
 plugins {
- 	id 'distribution'
+    id 'distribution'
+    id 'java'
 }
 
-// Java project
-apply plugin: 'java'
-
 java {
+    withSourcesJar()
+
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
@@ -17,21 +17,17 @@ repositories {
 }
 
 dependencies {
-    testImplementation platform("org.junit:junit-bom:5.10.2")
-    testImplementation group: "org.junit.jupiter", name: "junit-jupiter", version: '5.10.0'
+    testImplementation "org.junit.jupiter:junit-jupiter:5.10.0"
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher:1.10.0'
 
-    implementation group: "org.apktool", name: "apktool-lib", version: "2.9.3"
-    implementation group: "org.yaml", name: "snakeyaml", version: "2.2"
-    implementation group: "com.android.tools.smali", name: "smali", version: "3.0.5"
+    implementation "org.apktool:apktool-lib:2.9.3"
+    implementation "org.yaml:snakeyaml:2.2"
+    implementation "com.android.tools.smali:smali:3.0.5"
 
     implementation ":SpecsUtils"
     implementation ":jOptions"
 
     implementation ":AlpakkaAst"
-}
-
-java {
-    withSourcesJar()
 }
 
 test {
@@ -40,23 +36,20 @@ test {
 
 // Project sources
 sourceSets {
-   main {
-      java {
-          srcDir 'src'
-      }
-
-	  resources {
-          srcDir 'resources'
-	  }      
-   }
-
-   test {
-      java {
-          srcDir 'test'
-      }
-
-	  resources {
-          srcDir 'resources'
-	  }
-   }
+    main {
+        java {
+            srcDir 'src'
+        }
+        resources {
+            srcDir 'resources'
+        }      
+    }
+    test {
+        java {
+            srcDir 'test'
+        }
+        resources {
+            srcDir 'resources'
+        }
+    }
 }
