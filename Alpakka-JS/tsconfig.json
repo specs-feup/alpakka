@@ -4,6 +4,7 @@
     "module": "NodeNext",
     "declaration": true,
     "strict": true,
+    "isolatedModules": true,
     //"allowJs": true,
     //"checkJs": true,
     "moduleResolution": "NodeNext",
