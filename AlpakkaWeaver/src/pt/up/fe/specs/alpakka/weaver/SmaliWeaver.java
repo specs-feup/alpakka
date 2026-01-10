@@ -135,13 +135,6 @@ public class SmaliWeaver extends ASmaliWeaver {
         return Collections.emptyList(); // i.e., no gears currently being used
     }
 
-    /**
-     * Returns Weaving Engine as a SmaliWeaver
-     */
-    public static SmaliWeaver getSmaliWeaver() {
-        return (SmaliWeaver) getThreadLocalWeaver();
-    }
-
     @Override
     public List<WeaverOption> getOptions() {
         return SmaliWeaverOption.STORE_DEFINITION.getKeys().stream()
@@ -162,6 +155,6 @@ public class SmaliWeaver extends ASmaliWeaver {
 
     @Override
     public JoinPoint getRootJp() {
-        return SmaliJoinpoints.create(root);
+        return SmaliJoinpoints.create(root, this);
     }
 }
