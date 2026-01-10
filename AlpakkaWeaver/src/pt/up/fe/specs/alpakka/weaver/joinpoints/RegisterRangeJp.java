@@ -2,13 +2,15 @@ package pt.up.fe.specs.alpakka.weaver.joinpoints;
 
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
 import pt.up.fe.specs.alpakka.ast.expr.RegisterRange;
+import pt.up.fe.specs.alpakka.weaver.SmaliWeaver;
 import pt.up.fe.specs.alpakka.weaver.abstracts.joinpoints.ARegisterRange;
 
 public class RegisterRangeJp extends ARegisterRange {
 
     private final RegisterRange rRange;
 
-    public RegisterRangeJp(RegisterRange rRange) {
+    public RegisterRangeJp(RegisterRange rRange, SmaliWeaver weaver) {
+        super(weaver);
         this.rRange = rRange;
     }
 

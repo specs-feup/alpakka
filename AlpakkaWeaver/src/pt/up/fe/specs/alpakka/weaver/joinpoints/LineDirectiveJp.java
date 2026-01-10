@@ -2,14 +2,15 @@ package pt.up.fe.specs.alpakka.weaver.joinpoints;
 
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
 import pt.up.fe.specs.alpakka.ast.stmt.LineDirective;
+import pt.up.fe.specs.alpakka.weaver.SmaliWeaver;
 import pt.up.fe.specs.alpakka.weaver.abstracts.joinpoints.ALineDirective;
 
 public class LineDirectiveJp extends ALineDirective {
 
     private final LineDirective line;
 
-    public LineDirectiveJp(LineDirective line) {
-        super(new StatementJp(line));
+    public LineDirectiveJp(LineDirective line, SmaliWeaver weaver) {
+        super(new StatementJp(line, weaver), weaver);
         this.line = line;
     }
 
