@@ -51,7 +51,7 @@
     "url": "https://github.com/specs-feup/alpakka/issues"
   },
   "dependencies": {
-    "@specs-feup/lara": "^3.5.0",
+    "@specs-feup/lara": "~3.5.0",
     "cytoscape": "^3.0.0"
   },
   "devDependencies": {
