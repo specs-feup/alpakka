@@ -6,6 +6,7 @@ import org.lara.interpreter.weaver.interf.JoinPoint;
 
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
 import pt.up.fe.specs.alpakka.weaver.SmaliJoinpoints;
+import pt.up.fe.specs.alpakka.weaver.SmaliWeaver;
 import pt.up.fe.specs.alpakka.weaver.abstracts.joinpoints.AJoinPoint;
 import pt.up.fe.specs.alpakka.weaver.abstracts.joinpoints.AProgram;
 import pt.up.fe.specs.util.exceptions.NotImplementedException;
@@ -17,6 +18,15 @@ import pt.up.fe.specs.util.treenode.NodeInsertUtils;
  * @author Lara Weaver Generator
  */
 public abstract class ASmaliWeaverJoinPoint extends AJoinPoint {
+
+    public ASmaliWeaverJoinPoint(SmaliWeaver weaver) {
+        super(weaver);
+    }
+
+    @Override
+    public SmaliWeaver getWeaverEngine() {
+        return (SmaliWeaver) super.getWeaverEngine();
+    }
 
     /**
      * Compares the two join points based on their node reference of the used compiler/parsing tool.<br>
@@ -49,7 +59,7 @@ public abstract class ASmaliWeaverJoinPoint extends AJoinPoint {
 
         var currentParent = node.getParent();
 
-        return SmaliJoinpoints.create(currentParent);
+        return SmaliJoinpoints.create(currentParent, getWeaverEngine());
     }
 
     @Override
@@ -59,30 +69,30 @@ public abstract class ASmaliWeaverJoinPoint extends AJoinPoint {
 
     @Override
     public AJoinPoint[] getDescendantsArrayImpl() {
-        return getNode().getDescendants().stream().map(SmaliJoinpoints::create).toArray(AJoinPoint[]::new);
+        return getNode().getDescendants().stream().map(node -> SmaliJoinpoints.create(node, getWeaverEngine())).toArray(AJoinPoint[]::new);
     }
 
     @Override
     public AJoinPoint[] getDescendantsArrayImpl(String type) {
-        return getNode().getDescendantsStream().map(SmaliJoinpoints::create)
+        return getNode().getDescendantsStream().map(node -> SmaliJoinpoints.create(node, getWeaverEngine()))
                 .filter(jp -> jp.instanceOf(type))
                 .toArray(AJoinPoint[]::new);
     }
 
     @Override
     public AJoinPoint[] getDescendantsAndSelfArrayImpl(String type) {
-        return getNode().getDescendantsAndSelfStream().map(SmaliJoinpoints::create).toArray(AJoinPoint[]::new);
+        return getNode().getDescendantsAndSelfStream().map(node -> SmaliJoinpoints.create(node, getWeaverEngine())).toArray(AJoinPoint[]::new);
 
     }
 
     @Override
     public Stream<JoinPoint> getJpChildrenStream() {
-        return getNode().getChildrenStream().map(node -> SmaliJoinpoints.create(node));
+        return getNode().getChildrenStream().map(node -> SmaliJoinpoints.create(node, getWeaverEngine()));
     }
 
     @Override
     public AJoinPoint[] getChildrenArrayImpl() {
-    return getNode().getChildrenStream().map(SmaliJoinpoints::create).toArray(AJoinPoint[]::new);
+    return getNode().getChildrenStream().map(node -> SmaliJoinpoints.create(node, getWeaverEngine())).toArray(AJoinPoint[]::new);
     }
 
     @Override
@@ -90,7 +100,7 @@ public abstract class ASmaliWeaverJoinPoint extends AJoinPoint {
         return getNode().getChildren().stream()
                 .skip(index)
                 .findFirst()
-                .map(SmaliJoinpoints::create)
+                .map(node -> SmaliJoinpoints.create(node, getWeaverEngine()))
                 .orElse(null);
     }
     
@@ -108,7 +118,7 @@ public abstract class ASmaliWeaverJoinPoint extends AJoinPoint {
     public AJoinPoint insertBeforeImpl(AJoinPoint node) {
         NodeInsertUtils.insertBefore(this.getNode(), node.getNode());
 
-        return SmaliJoinpoints.create(node.getNode());
+        return SmaliJoinpoints.create(node.getNode(), getWeaverEngine());
     }
 
     @Override
@@ -120,7 +130,7 @@ public abstract class ASmaliWeaverJoinPoint extends AJoinPoint {
     public AJoinPoint insertAfterImpl(AJoinPoint node) {
         NodeInsertUtils.insertAfter(this.getNode(), node.getNode());
 
-        return SmaliJoinpoints.create(node.getNode());
+        return SmaliJoinpoints.create(node.getNode(), getWeaverEngine());
     }
 
     @Override
@@ -131,7 +141,7 @@ public abstract class ASmaliWeaverJoinPoint extends AJoinPoint {
     private AJoinPoint toJpToBeInserted(String code) {
         var context = getNode().getContext();
 
-        return SmaliJoinpoints.create(context.getFactory().literalStmt(code));
+        return SmaliJoinpoints.create(context.getFactory().literalStmt(code), getWeaverEngine());
     }
 
     /**

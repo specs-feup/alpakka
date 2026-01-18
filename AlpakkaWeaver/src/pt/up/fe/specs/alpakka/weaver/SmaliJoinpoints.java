@@ -28,13 +28,13 @@ import pt.up.fe.specs.alpakka.weaver.abstracts.ASmaliWeaverJoinPoint;
 import pt.up.fe.specs.alpakka.weaver.abstracts.joinpoints.AJoinPoint;
 import pt.up.fe.specs.alpakka.weaver.joinpoints.*;
 import pt.up.fe.specs.util.SpecsLogs;
-import pt.up.fe.specs.util.classmap.FunctionClassMap;
+import pt.up.fe.specs.util.classmap.BiFunctionClassMap;
 
 public class SmaliJoinpoints {
 
-    private static final FunctionClassMap<SmaliNode, ASmaliWeaverJoinPoint> JOINPOINT_FACTORY;
+    private static final BiFunctionClassMap<SmaliNode, SmaliWeaver, ASmaliWeaverJoinPoint> JOINPOINT_FACTORY;
     static {
-        JOINPOINT_FACTORY = new FunctionClassMap<>();
+        JOINPOINT_FACTORY = new BiFunctionClassMap<>();
         JOINPOINT_FACTORY.put(App.class, ProgramJp::new);
         JOINPOINT_FACTORY.put(Manifest.class, ManifestJp::new);
         JOINPOINT_FACTORY.put(ClassNode.class, ClassNodeJp::new);
@@ -73,30 +73,30 @@ public class SmaliJoinpoints {
         JOINPOINT_FACTORY.put(Placeholder.class, PlaceholderJp::new);
     }
 
-    public static ASmaliWeaverJoinPoint createFromLara(Object node) {
+    public static ASmaliWeaverJoinPoint createFromLara(Object node, SmaliWeaver weaver) {
         if (!(node instanceof SmaliNode)) {
             throw new RuntimeException(
                     "Expected input to be a ClavaNode, is " + node.getClass().getSimpleName() + ": " + node);
         }
 
-        return create((SmaliNode) node);
+        return create((SmaliNode) node, weaver);
     }
 
-    public static ASmaliWeaverJoinPoint create(SmaliNode node) {
+    public static ASmaliWeaverJoinPoint create(SmaliNode node, SmaliWeaver weaver) {
         if (node == null) {
             SpecsLogs.debug("CxxJoinpoints: tried to create join point from null node, returning undefined");
             return null;
         }
 
-        return JOINPOINT_FACTORY.apply(node);
+        return JOINPOINT_FACTORY.apply(node, weaver);
     }
 
-    public static <T extends AJoinPoint> T create(SmaliNode node, Class<T> targetClass) {
+    public static <T extends AJoinPoint> T create(SmaliNode node, SmaliWeaver weaver, Class<T> targetClass) {
         if (targetClass == null) {
             throw new RuntimeException("Check if you meant to call 'create' with a single argument");
         }
 
-        return targetClass.cast(create(node));
+        return targetClass.cast(create(node, weaver));
     }
 
 }

@@ -2,13 +2,15 @@ package pt.up.fe.specs.alpakka.weaver.joinpoints;
 
 import pt.up.fe.specs.alpakka.ast.Manifest;
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
+import pt.up.fe.specs.alpakka.weaver.SmaliWeaver;
 import pt.up.fe.specs.alpakka.weaver.abstracts.joinpoints.AManifest;
 
 public class ManifestJp extends AManifest {
 
 	private final Manifest manifest;
 
-	public ManifestJp(Manifest manifest) {
+	public ManifestJp(Manifest manifest, SmaliWeaver weaver) {
+		super(weaver);
 		this.manifest = manifest;
 	}
 
