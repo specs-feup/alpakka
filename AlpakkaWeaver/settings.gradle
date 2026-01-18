@@ -1,17 +1,16 @@
 rootProject.name = 'AlpakkaWeaver'
 
-includeBuild("../../specs-java-libs/JsEngine")
-includeBuild("../../specs-java-libs/SpecsUtils")
-includeBuild("../../specs-java-libs/jOptions")
+def specsJavaLibsRoot = System.getenv('SPECS_JAVA_LIBS_HOME') ?: '../../specs-java-libs'
+def laraFrameworkRoot = System.getenv('LARA_FRAMEWORK_HOME') ?: '../../lara-framework'
 
-includeBuild("../../lara-framework/LaraFramework")
-includeBuild("../../lara-framework/LARAI")
-includeBuild("../../lara-framework/LaraUtils")
-includeBuild("../../lara-framework/WeaverInterface")
-includeBuild("../../lara-framework/LanguageSpecification")
-includeBuild("../../lara-framework/LaraCommonLanguageApi")
+includeBuild("${specsJavaLibsRoot}/SpecsUtils")
+includeBuild("${specsJavaLibsRoot}/jOptions")
 
-includeBuild("../../alpakka/AlpakkaParser")
-includeBuild("../../alpakka/AlpakkaAst")
-includeBuild("../../alpakka/AlpakkaLaraApi")
-includeBuild("../../alpakka/AlpakkaWeaverTasks")
+includeBuild("${laraFrameworkRoot}/LARAI")
+includeBuild("${laraFrameworkRoot}/LaraUtils")
+includeBuild("${laraFrameworkRoot}/WeaverGenerator")
+includeBuild("${laraFrameworkRoot}/WeaverInterface")
+includeBuild("${laraFrameworkRoot}/LanguageSpecification")
+
+includeBuild("../AlpakkaParser")
+includeBuild("../AlpakkaAst")

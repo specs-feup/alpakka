@@ -1,37 +1,30 @@
 plugins {
     id 'distribution'
+    id 'application' // Executable
+    id 'java' // Java project
 }
 
-// Java project
-apply plugin: 'java'
-
-// Executable
-apply plugin: 'application'
-
 java {
+    withSourcesJar()
+
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
 
 // Repositories providers
 repositories {
-    // Gearman
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-
-    // smali
-    google()
-
     mavenCentral()
+    google() // smali
+}
+
+configurations {
+    weaverGeneratorRuntime
 }
 
 dependencies {
-    implementation "junit:junit:4.13.1"
-
     implementation ":SpecsUtils"
     implementation ":jOptions"
-    implementation ":JsEngine"
-
-    implementation ":LaraFramework"
+    
     implementation ":LARAI"
     implementation ":LaraUtils"
     implementation ":WeaverInterface"
@@ -39,13 +32,10 @@ dependencies {
 
     implementation ":AlpakkaParser"
     implementation ":AlpakkaAst"
-    implementation ":AlpakkaLaraApi"
-    implementation ":AlpakkaWeaverTasks"
+
+    weaverGeneratorRuntime ":WeaverGenerator"
 }
 
-java {
-    withSourcesJar()
-}
 
 // Project sources
 sourceSets {
@@ -56,21 +46,25 @@ sourceSets {
 
         resources {
             srcDir 'resources'
-        }
-    }
-
-    test {
-        java {
-            srcDir 'test'
-        }
-
-        resources {
-            srcDir 'resources'
-            srcDir 'test-resources'
-        }
+        }      
     }
 }
 
-application {
-    mainClass = "pt.up.fe.specs.smali.weaver.SmaliWeaverLauncher"
+// Weaver Generator
+tasks.register('generateWeaver', JavaExec) {
+    group = "Execution"
+    description = "Generates the Weaver Abstracts from the Language Specification"
+    classpath = configurations.weaverGeneratorRuntime
+    mainClass = 'org.lara.interpreter.weaver.generator.commandline.WeaverGenerator'
+    args = [
+            '-w', 'SmaliWeaver',
+            '-x', './resources/smali/weaverspecs',
+            '-o', './src',
+            '-p', 'pt.up.fe.specs.alpakka.weaver',
+            '-n', 'pt.up.fe.specs.alpakka.ast.SmaliNode',
+            '-j',
+            '-e'
+    ]
 }
+
+compileJava.dependsOn generateWeaver

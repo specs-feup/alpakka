@@ -1,4 +1,4 @@
-import cytoscape from "@specs-feup/lara/api/libs/cytoscape-3.26.0.js";
+import cytoscape from "cytoscape";
 import Graph from "./Graph.js";
 import { NodeBuilder, NodeConstructor, NodeTypeGuard } from "./Node.js";
 import BaseGraph from "./BaseGraph.js";

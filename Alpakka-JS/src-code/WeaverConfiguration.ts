@@ -11,4 +11,5 @@ export const weaverConfig: WeaverConfiguration = {
     "./java-binaries/",
   ),
   javaWeaverQualifiedName: "pt.up.fe.specs.alpakka.weaver.SmaliWeaver",
+  importForSideEffects: ["@specs-feup/alpakka/api/Joinpoints.js"],
 };

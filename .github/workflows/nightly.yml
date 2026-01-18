@@ -7,11 +7,10 @@ name: nightly
 
 on:
   push:
-  pull_request:
 
-  # Daily at midnight
+  # Every Monday at 09h00
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 9 * * 1'
 
 permissions:
   checks: write
@@ -69,18 +68,8 @@ jobs:
           echo "Default branch: ${{ env.DEFAULT_BRANCH }}"
           echo "Branch base_ref: ${{ github.base_ref }}"          
 
-      # Currently lara-framework default branch is 'master' and not 'main'
-      - name: Checkout lara-framework (main)
+      - name: Checkout lara-framework
         uses: actions/checkout@v4
-        if: env.BRANCH_NAME == 'main'
-        with:
-          repository: specs-feup/lara-framework
-          path: lara-framework
-          ref: master
-
-      - name: Checkout lara-framework (other branches)
-        uses: actions/checkout@v4
-        if: env.BRANCH_NAME != 'main'
         with:
           repository: specs-feup/lara-framework
           path: lara-framework
@@ -91,8 +80,7 @@ jobs:
         with:
           repository: specs-feup/specs-java-libs
           path: specs-java-libs
-          # This is causing problems in PRs, for now it will always be the default branch
-          #ref: ${{ steps.Branch-specs-java-libs.outputs.value == '1' && env.BRANCH_NAME || env.DEFAULT_BRANCH }}
+          ref: ${{ steps.Branch-specs-java-libs.outputs.value == '1' && env.BRANCH_NAME || env.DEFAULT_BRANCH }}
 
       - name: Build with Gradle
         run: |
@@ -103,8 +91,6 @@ jobs:
         run: |
           cd alpakka/AlpakkaWeaver
           gradle test
-        env:
-          GITHUB_DEPENDENCY_GRAPH_ENABLED: false
 
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v4
@@ -126,7 +112,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        #node-version: ['latest', '20.x', '18.x']
+        #node-version: ['latest', '22.x', '20.x']
         node-version: ['22.x', '20.x']
         os: [ubuntu-latest, windows-latest, macos-latest]
 
@@ -177,8 +163,7 @@ jobs:
           name: java-binaries
           path: alpakka/Alpakka-JS/java-binaries
 
-      # TODO: Uncomment this after adding tests to the flow
-      #- name: Test JS
-      #  run: |
-      #    cd alpakka/Alpakka-JS
-      #    npm run test
+      - name: Test JS
+        run: |
+          cd alpakka/Alpakka-JS
+          npm run test

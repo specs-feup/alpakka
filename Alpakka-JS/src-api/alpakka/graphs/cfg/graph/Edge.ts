@@ -1,6 +1,6 @@
 import BaseEdge from "./BaseEdge.js";
 import BaseGraph from "./BaseGraph.js";
-import cytoscape from "@specs-feup/lara/api/libs/cytoscape-3.26.0.js";
+import cytoscape from "cytoscape";
 
 export type EdgeConstructor<
   D extends BaseEdge.Data,
