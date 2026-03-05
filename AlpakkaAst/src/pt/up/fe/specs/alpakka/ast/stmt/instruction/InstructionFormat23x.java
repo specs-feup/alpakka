@@ -15,6 +15,8 @@ package pt.up.fe.specs.alpakka.ast.stmt.instruction;
 
 import java.util.Collection;
 
+import com.android.tools.smali.dexlib2.Format;
+import com.android.tools.smali.dexlib2.Opcode;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
@@ -23,6 +25,11 @@ public class InstructionFormat23x extends Instruction {
 
     public InstructionFormat23x(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
+    }
+
+    @Override
+    protected boolean opcodeIsCompatible(Opcode opcode) {
+        return opcode != null && opcode.format.equals(Format.Format23x);
     }
 
 }
