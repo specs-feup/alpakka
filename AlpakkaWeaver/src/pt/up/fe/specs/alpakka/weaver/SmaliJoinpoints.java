@@ -63,6 +63,7 @@ public class SmaliJoinpoints {
         JOINPOINT_FACTORY.put(GotoStatement.class, GotoJp::new);
         JOINPOINT_FACTORY.put(InstructionFormat21t.class, IfComparisonWithZeroJp::new);
         JOINPOINT_FACTORY.put(InstructionFormat22t.class, IfComparisonJp::new);
+        JOINPOINT_FACTORY.put(InstructionFormat23x.class, BinaryOpJp::new);
         JOINPOINT_FACTORY.put(Instruction.class, InstructionJp::new);
         JOINPOINT_FACTORY.put(CatchDirective.class, CatchJp::new);
         JOINPOINT_FACTORY.put(RegistersDirective.class, RegistersDirectiveJp::new);
