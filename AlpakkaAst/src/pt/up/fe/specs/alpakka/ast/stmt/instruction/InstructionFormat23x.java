@@ -21,14 +21,17 @@ import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
 
-public class InstructionFormat23x extends Instruction {
+/**
+ * Instruction format 23x: three registers (vAA, vBB, vCC).
+ */
+public class InstructionFormat23x extends BinaryOp {
 
     public InstructionFormat23x(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
     }
 
     @Override
-    protected boolean opcodeIsCompatible(Opcode opcode) {
+    protected boolean isOpcodeCompatibleFormat(Opcode opcode) {
         return opcode != null && opcode.format.equals(Format.Format23x);
     }
 

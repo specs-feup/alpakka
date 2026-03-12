@@ -85,6 +85,6 @@
 
     <joinpoint class="throwStatement" extends="instruction" tooltip="Smali instruction format 11x"/>
 
-    <joinpoint class="binaryOp" extends="instruction" tooltip="Smali instruction format 23x, 12x"/>
+    <joinpoint class="binaryOp" extends="instruction" tooltip="Smali instruction formats 12x, 22b, 22s, 23x"/>
 
 </joinpoints>

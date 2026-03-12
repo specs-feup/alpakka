@@ -2,7 +2,6 @@ package pt.up.fe.specs.alpakka.ast.stmt.instruction;
 
 import java.util.Collection;
 
-import com.android.tools.smali.dexlib2.Format;
 import com.android.tools.smali.dexlib2.Opcode;
 import com.android.tools.smali.dexlib2.Opcodes;
 import org.suikasoft.jOptions.Interfaces.DataStore;
@@ -64,13 +63,15 @@ public abstract class Instruction extends Statement {
         return get(SmaliNode.ATTRIBUTES).get("instruction").toString();
     }
 
-    abstract boolean opcodeIsCompatible(Opcode opcode);
+    protected boolean isOpcodeCompatibleFormat(Opcode opcode) {
+        return true;
+    }
 
     public void setOpcode(Opcode opcode) {
         if (opcode == null) {
             throw new NullPointerException("opcode");
         }
-        if (!opcodeIsCompatible(opcode)) {
+        if (!isOpcodeCompatibleFormat(opcode)) {
             throw new IllegalArgumentException(
                 "Opcode '" + opcode.name + "' is not compatible");
         }

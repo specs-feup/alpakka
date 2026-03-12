@@ -1,15 +1,14 @@
 package pt.up.fe.specs.alpakka.weaver.joinpoints;
 
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
-import pt.up.fe.specs.alpakka.ast.stmt.instruction.Instruction;
+import pt.up.fe.specs.alpakka.ast.stmt.instruction.BinaryOp;
 import pt.up.fe.specs.alpakka.weaver.abstracts.joinpoints.ABinaryOp;
-import pt.up.fe.specs.alpakka.weaver.abstracts.joinpoints.AInstruction;
 
 public class BinaryOpJp extends ABinaryOp {
 
-  private final Instruction opInstruction;
+  private final BinaryOp opInstruction;
 
-  public BinaryOpJp(Instruction opInstruction) {
+  public BinaryOpJp(BinaryOp opInstruction) {
     super(new InstructionJp(opInstruction));
     this.opInstruction = opInstruction;
   }
@@ -20,8 +19,8 @@ public class BinaryOpJp extends ABinaryOp {
   }
 
   @Override
-  public void setOpImpl(String operation) {
-    opInstruction.setOpcode(operation);
+  public void setOperatorImpl(String operator) {
+    this.opInstruction.setOperator(operator);
   }
 
 }

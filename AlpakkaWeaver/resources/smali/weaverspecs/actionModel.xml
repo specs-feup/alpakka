@@ -48,7 +48,7 @@
 	<action name="detach" return="joinpoint" tooltip="Removes the node associated to this joinpoint from the AST"/>
 
   <!-- binaryOp operations -->
-  <action name="setOp" class="binaryOp" tooltip="Sets the operator of this instruction">
+  <action name="setOperator" class="binaryOp" tooltip="Sets the operator of this instruction">
     <parameter name="operation" type="String" />
   </action>
 
