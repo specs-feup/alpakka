@@ -17,9 +17,4 @@ public class InstructionFormat22s extends BinaryOp {
 		super(data, children);
 	}
 
-	@Override
-	protected boolean isOpcodeCompatibleFormat(Opcode opcode) {
-		return opcode != null && opcode.format.equals(Format.Format22s);
-	}
-
 }

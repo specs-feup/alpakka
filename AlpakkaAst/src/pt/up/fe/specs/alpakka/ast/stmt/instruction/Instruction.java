@@ -2,14 +2,20 @@ package pt.up.fe.specs.alpakka.ast.stmt.instruction;
 
 import java.util.Collection;
 
+import com.android.tools.smali.dexlib2.Format;
 import com.android.tools.smali.dexlib2.Opcode;
 import com.android.tools.smali.dexlib2.Opcodes;
+import org.suikasoft.jOptions.Datakey.DataKey;
+import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
+import pt.up.fe.specs.alpakka.ast.context.SmaliContext;
 import pt.up.fe.specs.alpakka.ast.stmt.Statement;
 
 public abstract class Instruction extends Statement {
+
+    public final static DataKey<Format> FORMAT = KeyFactory.object("format", Format.class);
 
     public Instruction(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
@@ -63,8 +69,8 @@ public abstract class Instruction extends Statement {
         return get(SmaliNode.ATTRIBUTES).get("instruction").toString();
     }
 
-    protected boolean isOpcodeCompatibleFormat(Opcode opcode) {
-        return true;
+    private boolean isOpcodeCompatibleFormat(Opcode opcode) {
+        return opcode.format == get(FORMAT);
     }
 
     public void setOpcode(Opcode opcode) {

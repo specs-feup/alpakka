@@ -596,7 +596,7 @@ export class ThrowStatement extends Instruction {
 }
 
   /**
-   * Smali instruction format 23x, 12x
+   * Smali instruction formats 23x, 22x, 12x
    */
 export class BinaryOp extends Instruction {
   /**

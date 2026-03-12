@@ -30,9 +30,4 @@ public class InstructionFormat23x extends BinaryOp {
         super(data, children);
     }
 
-    @Override
-    protected boolean isOpcodeCompatibleFormat(Opcode opcode) {
-        return opcode != null && opcode.format.equals(Format.Format23x);
-    }
-
 }
