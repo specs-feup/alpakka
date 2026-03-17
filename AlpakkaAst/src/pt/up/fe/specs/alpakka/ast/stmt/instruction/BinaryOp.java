@@ -16,8 +16,8 @@ public abstract class BinaryOp extends Instruction {
         return BinaryOperator.fromName(getOpCodeName());
     }
 
-    public BinaryOperator.OperandType getOperandType() {
-        return BinaryOperator.OperandType.fromOpcodeName(getOpCodeName());
+    public OperandType getOperandType() {
+        return OperandType.fromOpcodeName(getOpCodeName());
     }
 
     public void setOperator(String operatorName) {
@@ -26,29 +26,17 @@ public abstract class BinaryOp extends Instruction {
         }
 
         BinaryOperator operator = BinaryOperator.fromName(operatorName);
-        if (operator == null) {
-            throw new IllegalArgumentException("Invalid operator name: " + operatorName);
-        }
 
         setOperator(operator);
     }
 
     public void setOperator(BinaryOperator operator) {
-        if (operator == null) {
-            throw new NullPointerException("operator");
-        }
-        
         BinaryOperator currentOperator = getOperator();
-        if (currentOperator == null) {
-            throw new IllegalStateException("Current operator cannot be determined");
-        }
 
-        BinaryOperator.OperandType currentType = getOperandType();
-        if (currentType == null) {
-            throw new IllegalStateException("Current operator does not have a valid operand type");
-        }
+        OperandType currentType = getOperandType();
 
         // Check that the new operator is the same type (arithmetic or bitwise) as the current operator
+        // TODO: test if this is necessary, or if SMALI already enforces this
         if (currentOperator.getType() != operator.getType()) {
             throw new IllegalArgumentException(
                 "Cannot change from " + currentOperator.getType() + " operator '" + currentOperator +

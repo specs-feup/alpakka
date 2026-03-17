@@ -1,6 +1,9 @@
 package pt.up.fe.specs.alpakka.ast.stmt.instruction;
 
-public enum BinaryOperator {
+import pt.up.fe.specs.util.SpecsEnums;
+import pt.up.fe.specs.util.providers.StringProvider;
+
+public enum BinaryOperator implements StringProvider {
     // Arithmetic operations
     ADD("add", OperatorType.ARITHMETIC),
     SUB("sub", OperatorType.ARITHMETIC),
@@ -25,10 +28,6 @@ public enum BinaryOperator {
         this.type = type;
     }
 
-    public String getOpName() {
-        return opName;
-    }
-
     public OperatorType getType() {
         return type;
     }
@@ -38,19 +37,12 @@ public enum BinaryOperator {
     }
 
     public static BinaryOperator fromName(String name) {
-        if (name == null) {
-            return null;
-        }
-        
-        String lowerName = name.toLowerCase();
-        
-        for (BinaryOperator op : BinaryOperator.values()) {
-            if (lowerName.contains(op.opName)) {
-                return op;
-            }
-        }
-        
-        return null;
+        return SpecsEnums.getHelper(BinaryOperator.class).fromName(name);
+    }
+
+    @Override
+    public String getString() {
+        return opName;
     }
 
     public enum OperatorType {
@@ -58,40 +50,4 @@ public enum BinaryOperator {
         BITWISE
     }
 
-    public enum OperandType {
-        INT("int"),
-        LONG("long"),
-        FLOAT("float"),
-        DOUBLE("double");
-
-        private final String suffix;
-
-        OperandType(String suffix) {
-            this.suffix = suffix;
-        }
-
-        public String getSuffix() {
-            return suffix;
-        }
-
-        public static OperandType fromOpcodeName(String opcodeName) {
-            if (opcodeName == null) {
-                return null;
-            }
-            
-            String lowerName = opcodeName.toLowerCase();
-            
-            if (lowerName.endsWith("-long")) {
-                return LONG;
-            } else if (lowerName.endsWith("-float")) {
-                return FLOAT;
-            } else if (lowerName.endsWith("-double")) {
-                return DOUBLE;
-            } else if (lowerName.endsWith("-int")) {
-                return INT;
-            }
-            
-            return null;
-        }
-    }
 }
