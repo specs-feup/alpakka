@@ -596,7 +596,7 @@ export class ThrowStatement extends Instruction {
 }
 
   /**
-   * Smali instruction formats 23x, 22x, 12x
+   * Smali instruction formats 12x, 22b, 22s, 23x
    */
 export class BinaryOp extends Instruction {
   /**
@@ -608,7 +608,7 @@ export class BinaryOp extends Instruction {
   /**
    * Sets the operator of this instruction
    */
-  setOp(operation: string): void { return wrapJoinPoint(this._javaObject.setOp(unwrapJoinPoint(operation))); }
+  setOperator(operation: string): void { return wrapJoinPoint(this._javaObject.setOperator(unwrapJoinPoint(operation))); }
 }
 
   /**
