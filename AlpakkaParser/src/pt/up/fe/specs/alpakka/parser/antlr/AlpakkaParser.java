@@ -51,8 +51,16 @@ public class AlpakkaParser {
                 .filter(file -> SpecsIo.getExtension(file).equalsIgnoreCase("apk"))
                 .toList();
 
-        if (apkFiles.size() > 1) {
-            SpecsLogs.info("Found multiple APKs in the source files, using only the first one: " + apkFiles.get(0).getAbsolutePath());
+        if (!apkFiles.isEmpty()) {
+            if (apkFiles.size() < sources.size()) {
+                SpecsLogs.info("Found a mix of SMALI files and APK files, considering only APKs");
+            }
+
+            if (apkFiles.size() > 1) {
+                SpecsLogs.info("Found multiple APKs in the source files, using only the first one: " + apkFiles.get(0).getAbsolutePath());
+            }
+
+
             sources = List.of(apkFiles.get(0));
         }
 
