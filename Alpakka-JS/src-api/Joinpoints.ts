@@ -44,6 +44,7 @@ type PrivateMapper = {
   "SparseSwitch": typeof SparseSwitch,
   "Switch": typeof Switch,
   "ThrowStatement": typeof ThrowStatement,
+  "BinaryOp": typeof BinaryOp,
   "Goto": typeof Goto,
   "IfComparison": typeof IfComparison,
   "IfComparisonWithZero": typeof IfComparisonWithZero,
@@ -595,6 +596,22 @@ export class ThrowStatement extends Instruction {
 }
 
   /**
+   * Smali instruction formats 12x, 22b, 22s, 23x
+   */
+export class BinaryOp extends Instruction {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
+  /**
+   * Sets the operator of this instruction
+   */
+  setOperator(operation: string): void { return wrapJoinPoint(this._javaObject.setOperator(unwrapJoinPoint(operation))); }
+}
+
+  /**
    * Smali instruction formats 10t, 20t, 30t
    */
 export class Goto extends Instruction {
@@ -668,6 +685,7 @@ const JoinpointMapper = {
   sparseSwitch: SparseSwitch,
   switch: Switch,
   throwStatement: ThrowStatement,
+  binaryOp: BinaryOp,
   goto: Goto,
   ifComparison: IfComparison,
   ifComparisonWithZero: IfComparisonWithZero,

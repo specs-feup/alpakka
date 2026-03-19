@@ -1,5 +1,6 @@
 package pt.up.fe.specs.alpakka.ast.context;
 
+import com.android.tools.smali.dexlib2.Format;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import org.suikasoft.jOptions.storedefinition.StoreDefinitions;
 import pt.up.fe.specs.alpakka.ast.*;
@@ -264,6 +265,7 @@ public class SmaliFactory {
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat11x.class);
         data.set(InstructionFormat11x.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format11x);
 
         return new InstructionFormat11x(data, children);
     }
@@ -288,6 +290,7 @@ public class SmaliFactory {
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat11n.class);
         data.set(InstructionFormat11n.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format11n);
 
         return new InstructionFormat11n(data, children);
     }
@@ -296,6 +299,7 @@ public class SmaliFactory {
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat12x.class);
         data.set(InstructionFormat12x.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format12x);
 
         return new InstructionFormat12x(data, children);
     }
@@ -304,6 +308,7 @@ public class SmaliFactory {
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat21ih.class);
         data.set(InstructionFormat21ih.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format21ih);
 
         return new InstructionFormat21ih(data, children);
     }
@@ -312,6 +317,7 @@ public class SmaliFactory {
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat21lh.class);
         data.set(InstructionFormat21lh.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format21lh);
 
         return new InstructionFormat21lh(data, children);
     }
@@ -320,6 +326,7 @@ public class SmaliFactory {
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat21cField.class);
         data.set(InstructionFormat21cField.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format21c);
 
         return new InstructionFormat21cField(data, children);
     }
@@ -328,6 +335,7 @@ public class SmaliFactory {
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat21cString.class);
         data.set(InstructionFormat21cString.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format21c);
 
         return new InstructionFormat21cString(data, children);
     }
@@ -336,6 +344,7 @@ public class SmaliFactory {
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat21cType.class);
         data.set(InstructionFormat21cType.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format21c);
 
         return new InstructionFormat21cType(data, children);
     }
@@ -344,6 +353,7 @@ public class SmaliFactory {
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat21cMethodType.class);
         data.set(InstructionFormat21cMethodType.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format21c);
 
         return new InstructionFormat21cMethodType(data, children);
     }
@@ -352,6 +362,7 @@ public class SmaliFactory {
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat21s.class);
         data.set(InstructionFormat21s.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format21s);
 
         return new InstructionFormat21s(data, children);
     }
@@ -360,6 +371,7 @@ public class SmaliFactory {
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat21t.class);
         data.set(InstructionFormat21t.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format21t);
 
         return new InstructionFormat21t(data, children);
     }
@@ -368,6 +380,7 @@ public class SmaliFactory {
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat22cField.class);
         data.set(InstructionFormat22cField.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format22c);
 
         return new InstructionFormat22cField(data, children);
     }
@@ -376,6 +389,7 @@ public class SmaliFactory {
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat22cType.class);
         data.set(InstructionFormat22cType.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format22c);
 
         return new InstructionFormat22cType(data, children);
     }
@@ -384,6 +398,7 @@ public class SmaliFactory {
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat22b.class);
         data.set(InstructionFormat22b.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format22b);
 
         return new InstructionFormat22b(data, children);
     }
@@ -392,6 +407,7 @@ public class SmaliFactory {
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat22s.class);
         data.set(InstructionFormat22s.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format22s);
 
         return new InstructionFormat22s(data, children);
     }
@@ -400,6 +416,7 @@ public class SmaliFactory {
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat22t.class);
         data.set(InstructionFormat22t.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format22t);
 
         return new InstructionFormat22t(data, children);
     }
@@ -408,6 +425,7 @@ public class SmaliFactory {
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat22x.class);
         data.set(InstructionFormat22x.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format22x);
 
         return new InstructionFormat22x(data, children);
     }
@@ -416,6 +434,7 @@ public class SmaliFactory {
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat23x.class);
         data.set(InstructionFormat23x.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format23x);
 
         return new InstructionFormat23x(data, children);
     }
@@ -424,6 +443,7 @@ public class SmaliFactory {
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat31c.class);
         data.set(InstructionFormat31c.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format31c);
 
         return new InstructionFormat31c(data, children);
     }
@@ -432,6 +452,7 @@ public class SmaliFactory {
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat31i.class);
         data.set(InstructionFormat31i.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format31i);
 
         return new InstructionFormat31i(data, children);
     }
@@ -446,8 +467,8 @@ public class SmaliFactory {
 
     public SwitchStatement switchInstructionFormat(HashMap<String, Object> attributes,
                                                    List<? extends SmaliNode> children) {
-        var data = newDataStore(FillArrayStatement.class);
-        data.set(FillArrayStatement.ATTRIBUTES, attributes);
+        var data = newDataStore(SwitchStatement.class);
+        data.set(SwitchStatement.ATTRIBUTES, attributes);
 
         return new SwitchStatement(data, children);
     }
@@ -456,6 +477,7 @@ public class SmaliFactory {
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat32x.class);
         data.set(InstructionFormat32x.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format32x);
 
         return new InstructionFormat32x(data, children);
     }
@@ -464,6 +486,7 @@ public class SmaliFactory {
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat35cMethod.class);
         data.set(InstructionFormat35cMethod.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format35c);
 
         return new InstructionFormat35cMethod(data, children);
     }
@@ -472,6 +495,7 @@ public class SmaliFactory {
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat35cType.class);
         data.set(InstructionFormat35cType.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format35c);
 
         return new InstructionFormat35cType(data, children);
     }
@@ -480,6 +504,7 @@ public class SmaliFactory {
             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat3rcMethod.class);
         data.set(InstructionFormat3rcMethod.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format3rc);
 
         return new InstructionFormat3rcMethod(data, children);
     }
@@ -488,6 +513,7 @@ public class SmaliFactory {
                                                              List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat3rcType.class);
         data.set(InstructionFormat3rcType.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format3rc);
 
         return new InstructionFormat3rcType(data, children);
     }
@@ -496,6 +522,7 @@ public class SmaliFactory {
                                                                    List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat45ccMethod.class);
         data.set(InstructionFormat45ccMethod.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format45cc);
 
         return new InstructionFormat45ccMethod(data, children);
     }
@@ -504,6 +531,7 @@ public class SmaliFactory {
                                                                    List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat4rccMethod.class);
         data.set(InstructionFormat4rccMethod.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format4rcc);
 
         return new InstructionFormat4rccMethod(data, children);
     }
@@ -512,6 +540,7 @@ public class SmaliFactory {
                                                      List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat51l.class);
         data.set(InstructionFormat51l.ATTRIBUTES, attributes);
+        data.set(Instruction.FORMAT, Format.Format51l);
 
         return new InstructionFormat51l(data, children);
     }

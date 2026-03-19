@@ -15,11 +15,16 @@ package pt.up.fe.specs.alpakka.ast.stmt.instruction;
 
 import java.util.Collection;
 
+import com.android.tools.smali.dexlib2.Format;
+import com.android.tools.smali.dexlib2.Opcode;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
 
-public class InstructionFormat23x extends Instruction {
+/**
+ * Instruction format 23x: three registers (vAA, vBB, vCC).
+ */
+public class InstructionFormat23x extends BinaryOp {
 
     public InstructionFormat23x(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);

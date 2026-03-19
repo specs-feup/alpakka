@@ -2,14 +2,20 @@ package pt.up.fe.specs.alpakka.ast.stmt.instruction;
 
 import java.util.Collection;
 
+import com.android.tools.smali.dexlib2.Format;
 import com.android.tools.smali.dexlib2.Opcode;
 import com.android.tools.smali.dexlib2.Opcodes;
+import org.suikasoft.jOptions.Datakey.DataKey;
+import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
+import pt.up.fe.specs.alpakka.ast.context.SmaliContext;
 import pt.up.fe.specs.alpakka.ast.stmt.Statement;
 
 public abstract class Instruction extends Statement {
+
+    public final static DataKey<Format> FORMAT = KeyFactory.object("format", Format.class);
 
     public Instruction(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
@@ -61,6 +67,33 @@ public abstract class Instruction extends Statement {
 
     public String getOpCodeName() {
         return get(SmaliNode.ATTRIBUTES).get("instruction").toString();
+    }
+
+    private boolean isOpcodeCompatibleFormat(Opcode opcode) {
+        return opcode.format == get(FORMAT);
+    }
+
+    public void setOpcode(Opcode opcode) {
+        if (opcode == null) {
+            throw new NullPointerException("opcode");
+        }
+        if (!isOpcodeCompatibleFormat(opcode)) {
+            throw new IllegalArgumentException(
+                "Opcode '" + opcode.name + "' is not compatible");
+        }
+        get(SmaliNode.ATTRIBUTES).put("instruction", opcode.name);
+    }
+
+    public void setOpcode(String name) {
+        if (name == null) {
+            throw new NullPointerException("name");
+        }
+        var opcodes = Opcodes.getDefault();
+        var opcode = opcodes.getOpcodeByName(name);
+        if (opcode == null) {
+            throw new IllegalArgumentException("Unknown opcode: '" + name + "'");
+        }
+        setOpcode(opcode);
     }
 
 }
