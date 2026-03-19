@@ -52,7 +52,7 @@ public class AlpakkaParser {
                 .toList();
 
         if (apkFiles.size() > 1) {
-            SpecsLogs.info("Found multiple APKs in the source files, using only the first one: " + apkFiles.getFirst().getAbsolutePath());
+            SpecsLogs.info("Found multiple APKs in the source files, using only the first one: " + apkFiles.get(0).getAbsolutePath());
             sources = List.of(apkFiles.get(0));
         }
 
