@@ -1,10 +1,10 @@
 package pt.up.fe.specs.alpakka.ast.stmt.instruction;
 
-import java.util.Collection;
-
 import org.suikasoft.jOptions.Interfaces.DataStore;
-
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
+
+import java.util.Collection;
+import java.util.Objects;
 
 public abstract class BinaryOp extends Instruction {
 
@@ -21,6 +21,8 @@ public abstract class BinaryOp extends Instruction {
     }
 
     public void setOperator(String operatorName) {
+        Objects.requireNonNull(operatorName);
+
         if (operatorName.isBlank()) {
             throw new IllegalArgumentException("Operator name cannot be blank");
         }
@@ -31,6 +33,8 @@ public abstract class BinaryOp extends Instruction {
     }
 
     public void setOperator(BinaryOperator operator) {
+        Objects.requireNonNull(operator);
+
         BinaryOperator currentOperator = getOperator();
 
         OperandType currentType = getOperandType();
@@ -39,8 +43,8 @@ public abstract class BinaryOp extends Instruction {
         // TODO: test if this is necessary, or if SMALI already enforces this
         if (currentOperator.getType() != operator.getType()) {
             throw new IllegalArgumentException(
-                "Cannot change from " + currentOperator.getType() + " operator '" + currentOperator +
-                "' to " + operator.getType() + " operator '" + operator + "'");
+                    "Cannot change from " + currentOperator.getType() + " operator '" + currentOperator +
+                            "' to " + operator.getType() + " operator '" + operator + "'");
         }
 
         String newOpcodeName = operator.getOpcodeName(currentType);
