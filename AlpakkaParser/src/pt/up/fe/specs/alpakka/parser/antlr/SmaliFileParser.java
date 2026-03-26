@@ -119,6 +119,7 @@ public class SmaliFileParser {
         converters.put(smaliParser.BYTE_LITERAL, this::convertPrimitiveLiteral);
         converters.put(smaliParser.BOOL_LITERAL, this::convertPrimitiveLiteral);
         converters.put(smaliParser.NULL_LITERAL, this::convertNullLiteral);
+        converters.put(smaliParser.VOID_TYPE, this::convertVoidType);
         converters.put(smaliParser.REGISTER, this::convertRegisterReference);
         converters.put(smaliParser.I_REGISTER_LIST, this::convertRegisterList);
         converters.put(smaliParser.I_REGISTER_RANGE, this::convertRegisterRange);
@@ -649,6 +650,12 @@ public class SmaliFileParser {
         var factory = context.get(SmaliContext.FACTORY);
 
         return factory.nullLiteral();
+    }
+
+    private SmaliNode convertVoidType(Tree node) {
+        var factory = context.get(SmaliContext.FACTORY);
+
+        return factory.type("V");
     }
 
     private SmaliNode convertRegisterReference(Tree node) {

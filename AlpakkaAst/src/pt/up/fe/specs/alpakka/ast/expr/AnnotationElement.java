@@ -5,8 +5,6 @@ import java.util.Collection;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
-import pt.up.fe.specs.alpakka.ast.expr.literal.Literal;
-
 public class AnnotationElement extends Expression {
 
     public AnnotationElement(DataStore data, Collection<? extends SmaliNode> children) {
@@ -17,7 +15,7 @@ public class AnnotationElement extends Expression {
     public String getCode() {
         var attributes = get(ATTRIBUTES);
         var name = (String) attributes.get("name");
-        var value = (Literal) attributes.get("value");
+        var value = (SmaliNode) attributes.get("value");
 
         return name + " = " + value.getCode();
     }
