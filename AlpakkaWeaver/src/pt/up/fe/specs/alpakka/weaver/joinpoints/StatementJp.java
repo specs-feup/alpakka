@@ -31,6 +31,8 @@ public class StatementJp extends AStatement {
 
     @Override
     public ALineDirective getLineImpl() {
-        return SmaliJoinpoints.create(this.statement.getLineDirective(), ALineDirective.class);
+        return this.statement
+                .getLineDirective().map(node -> SmaliJoinpoints.create(node, ALineDirective.class))
+                .orElse(null);
     }
 }

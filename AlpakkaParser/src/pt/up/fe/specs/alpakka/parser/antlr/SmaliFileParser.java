@@ -15,6 +15,7 @@ import pt.up.fe.specs.alpakka.ast.expr.literal.MethodPrototype;
 import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.ClassType;
 import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.TypeDescriptor;
 import pt.up.fe.specs.alpakka.ast.stmt.LineDirective;
+import pt.up.fe.specs.alpakka.ast.stmt.Statement;
 import pt.up.fe.specs.util.SpecsIo;
 
 import java.io.File;
@@ -152,7 +153,9 @@ public class SmaliFileParser {
         var converter = converters.get(type);
 
         if (converter != null) {
-            return converter.apply(node);
+            var smaliNode = converter.apply(node);
+            processSmaliNode(smaliNode);
+            return smaliNode;
         }
 
         System.out.println("Not implemented: " + parser.getTokenNames()[type]);
@@ -167,6 +170,18 @@ public class SmaliFileParser {
         var factory = context.get(SmaliContext.FACTORY);
 
         return factory.placeholder(kind, children);
+    }
+
+    /**
+     * Post-process node.
+     *
+     * @param smaliNode
+     */
+    private void processSmaliNode(SmaliNode smaliNode) {
+        if (smaliNode instanceof Statement && lineDirective != null) {
+            smaliNode.set(Statement.LINE_DIRECTIVE, Optional.of(lineDirective));
+
+        }
     }
 
     private SmaliNode convertClassDescriptor(Tree node) {
