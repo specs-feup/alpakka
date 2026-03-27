@@ -1,6 +1,8 @@
 package pt.up.fe.specs.alpakka.ast.context;
 
 import com.android.tools.smali.dexlib2.Format;
+import org.suikasoft.jOptions.Datakey.DataKey;
+import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import org.suikasoft.jOptions.storedefinition.StoreDefinitions;
 import pt.up.fe.specs.alpakka.ast.*;
@@ -146,10 +148,12 @@ public class SmaliFactory {
         return new ParameterDirective(data, children);
     }
 
-    public AnnotationDirective annotationDirective(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+    public AnnotationDirective annotationDirective(AnnotationVisibility visibility, SmaliNode classDescriptor,
+                                                   List<? extends SmaliNode> children) {
+
         var data = newDataStore(AnnotationDirective.class);
-        data.set(AnnotationDirective.ATTRIBUTES, attributes);
+        data.put(AnnotationDirective.VISIBILITY, visibility);
+        data.put(AnnotationDirective.CLASS_DESCRIPTOR, classDescriptor);
 
         return new AnnotationDirective(data, children);
     }
