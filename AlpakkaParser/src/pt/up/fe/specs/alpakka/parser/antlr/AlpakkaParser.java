@@ -165,20 +165,29 @@ public class AlpakkaParser {
 
         node.getChildren().forEach(child -> replaceReferences(child, declarationsMap));
 
+        // Replace references in ATTRIBUTES map
         if (node.get(ATTRIBUTES) != null) {
-            node.get(ATTRIBUTES).values().forEach(value -> {
-                if (value instanceof SmaliNode) {
-                    replaceReferences((SmaliNode) value, declarationsMap);
-                } else if (value instanceof List) {
-                    ((List<?>) value).forEach(listValue -> {
-                        if (listValue instanceof SmaliNode) {
-                            replaceReferences((SmaliNode) listValue, declarationsMap);
-                        }
-                    });
-                }
-            });
+            node.get(ATTRIBUTES).values().forEach(value -> replaceReferences(value, declarationsMap));
         }
 
+        // Replace references in nodes in DataKeys
+        for (var key : node.getDataKeysWithValues()) {
+            replaceReferences(node.getValue(key.getName()), declarationsMap);
+        }
+
+    }
+
+    private void replaceReferences(Object value, Map<String, Map<String, SmaliNode>> declarationsMap) {
+        if (value instanceof SmaliNode) {
+            replaceReferences((SmaliNode) value, declarationsMap);
+            return;
+        }
+
+        if (value instanceof List<?> values) {
+            for (var element : values) {
+                replaceReferences(element, declarationsMap);
+            }
+        }
     }
 
     private Resource newResourceNode(File source, SmaliContext context) {
