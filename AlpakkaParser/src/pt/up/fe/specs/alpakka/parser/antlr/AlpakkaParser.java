@@ -79,7 +79,7 @@ public class AlpakkaParser {
         // This needs to be changed for multiple files
         var declarationsMap = new HashMap<String, Map<String, SmaliNode>>();
         collectDeclarations(classes.get(0), declarationsMap);
-        replaceReferences(classes.get(0), declarationsMap);
+        replaceReferences(classes.get(0), declarationsMap, new HashSet<>());
 
         if (classes.size() == 1 && classes.get(0) instanceof App) {
             return Optional.of((App) classes.get(0));
@@ -151,7 +151,14 @@ public class AlpakkaParser {
         node.getChildren().forEach(child -> collectDeclarations(child, declarationsMap));
     }
 
-    private void replaceReferences(SmaliNode node, Map<String, Map<String, SmaliNode>> declarationsMap) {
+    private void replaceReferences(SmaliNode node, Map<String, Map<String, SmaliNode>> declarationsMap, Set<String> seenNodes) {
+        var id = node.get(SmaliNode.ID);
+        if (seenNodes.contains(id)) {
+            return;
+        }
+
+        seenNodes.add(id);
+
         SmaliNode declaration = null;
 
         if (node instanceof Reference) {
@@ -163,29 +170,29 @@ public class AlpakkaParser {
             ((Reference) node).setDeclaration(declaration);
         }
 
-        node.getChildren().forEach(child -> replaceReferences(child, declarationsMap));
+        node.getChildren().forEach(child -> replaceReferences(child, declarationsMap, seenNodes));
 
         // Replace references in ATTRIBUTES map
         if (node.get(ATTRIBUTES) != null) {
-            node.get(ATTRIBUTES).values().forEach(value -> replaceReferencesSingle(value, declarationsMap));
+            node.get(ATTRIBUTES).values().forEach(value -> replaceReferencesSingle(value, declarationsMap, seenNodes));
         }
 
         // Replace references in nodes in DataKeys
         for (var key : node.getDataKeysWithValues()) {
-            replaceReferencesSingle(node.getValue(key.getName()), declarationsMap);
+            replaceReferencesSingle(node.getValue(key.getName()), declarationsMap, seenNodes);
         }
 
     }
 
-    private void replaceReferencesSingle(Object value, Map<String, Map<String, SmaliNode>> declarationsMap) {
+    private void replaceReferencesSingle(Object value, Map<String, Map<String, SmaliNode>> declarationsMap, Set<String> seenNodes) {
         if (value instanceof SmaliNode) {
-            replaceReferences((SmaliNode) value, declarationsMap);
+            replaceReferences((SmaliNode) value, declarationsMap, seenNodes);
             return;
         }
 
         if (value instanceof List<?> values) {
             for (var element : values) {
-                replaceReferencesSingle(element, declarationsMap);
+                replaceReferencesSingle(element, declarationsMap, seenNodes);
             }
         }
     }
