@@ -159,9 +159,8 @@ public class SmaliFactory {
     public AnnotationElement annotationElement(String name, Literal value) {
         var data = newDataStore(AnnotationElement.class);
         data.set(AnnotationElement.NAME, name);
-        data.set(AnnotationElement.VALUE, value);
 
-        return new AnnotationElement(data, null);
+        return new AnnotationElement(data, List.of(value));
     }
 
     public Label label(HashMap<String, Object> attributes) {
@@ -635,7 +634,7 @@ public class SmaliFactory {
 
     public ArrayDataDirective arrayDataDirective(Literal elementWidth,
                                                  List<? extends SmaliNode> children) {
-        
+
         var data = newDataStore(ArrayDataDirective.class);
         data.set(ArrayDataDirective.ELEMENT_WIDTH, elementWidth);
 

@@ -11,18 +11,19 @@ import java.util.Collection;
 public class AnnotationElement extends Expression {
 
     public static final DataKey<String> NAME = KeyFactory.string("name");
-
-    // TODO: Probably this should be a child
-    public static final DataKey<Literal> VALUE = KeyFactory.object("literal", Literal.class);
-
+    
     public AnnotationElement(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
+    }
+
+    public Literal getValue() {
+        return getChild(Literal.class, 0);
     }
 
     @Override
     public String getCode() {
         var name = get(NAME);
-        var value = get(VALUE);
+        var value = getValue();
 
         return name + " = " + value.getCode();
     }

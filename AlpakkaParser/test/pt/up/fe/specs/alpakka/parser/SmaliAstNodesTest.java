@@ -33,4 +33,14 @@ public class SmaliAstNodesTest extends SmaliAstTester {
     void testAnnotationDirective3() {
         testSmaliFile("AnnotationDirective3.smali");
     }
+
+    @Test
+    void testAnnotationElement1() {
+        testSmaliFile("AnnotationElement1.smali");
+    }
+
+    @Test
+    void testAnnotationElement2() {
+        testSmaliFile("AnnotationElement2.smali");
+    }
 }

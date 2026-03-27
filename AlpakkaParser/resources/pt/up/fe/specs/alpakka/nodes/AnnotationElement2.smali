@@ -1,0 +1,8 @@
+.class public Lcom/example/MyClass;
+.super Ljava/lang/Object;
+
+
+.annotation runtime Lcom/example/MyAnnotation;
+    name = "test"
+    count = 3
+.end annotation
