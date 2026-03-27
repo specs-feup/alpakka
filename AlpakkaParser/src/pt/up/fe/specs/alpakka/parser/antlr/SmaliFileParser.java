@@ -482,12 +482,10 @@ public class SmaliFileParser {
     private SmaliNode convertAnnotationElement(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
-        var attributes = new HashMap<String, Object>();
+        var name = node.getChild(0).getText();
+        var value = (Literal) convert(node.getChild(1));
 
-        attributes.put("name", node.getChild(0).getText());
-        attributes.put("value", convert(node.getChild(1)));
-
-        return factory.annotationElement(attributes);
+        return factory.annotationElement(name, value);
     }
 
     private SmaliNode convertField(Tree node) {

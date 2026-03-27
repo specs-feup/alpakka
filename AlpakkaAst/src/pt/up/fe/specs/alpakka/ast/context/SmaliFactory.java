@@ -1,8 +1,6 @@
 package pt.up.fe.specs.alpakka.ast.context;
 
 import com.android.tools.smali.dexlib2.Format;
-import org.suikasoft.jOptions.Datakey.DataKey;
-import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import org.suikasoft.jOptions.storedefinition.StoreDefinitions;
 import pt.up.fe.specs.alpakka.ast.*;
@@ -141,7 +139,7 @@ public class SmaliFactory {
     }
 
     public ParameterDirective parameterDirective(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                 List<? extends SmaliNode> children) {
         var data = newDataStore(ParameterDirective.class);
         data.set(ParameterDirective.ATTRIBUTES, attributes);
 
@@ -158,9 +156,10 @@ public class SmaliFactory {
         return new AnnotationDirective(data, children);
     }
 
-    public AnnotationElement annotationElement(HashMap<String, Object> attributes) {
+    public AnnotationElement annotationElement(String name, Literal value) {
         var data = newDataStore(AnnotationElement.class);
-        data.set(AnnotationElement.ATTRIBUTES, attributes);
+        data.set(AnnotationElement.NAME, name);
+        data.set(AnnotationElement.VALUE, value);
 
         return new AnnotationElement(data, null);
     }
@@ -229,15 +228,15 @@ public class SmaliFactory {
 
     public TypeDescriptor nonVoidType(String type) {
         switch (type.charAt(0)) {
-        case 'Z', 'B', 'S', 'C', 'I', 'J', 'F', 'D' -> {
-            var data = newDataStore(PrimitiveType.class);
-            data.set(PrimitiveType.TYPE_DESCRIPTOR, type.substring(0, 1));
-            return new PrimitiveType(data, null);
-        }
-        case 'L' -> {
-            return classType(type);
-        }
-        default -> throw new RuntimeException("Not implemented: " + type);
+            case 'Z', 'B', 'S', 'C', 'I', 'J', 'F', 'D' -> {
+                var data = newDataStore(PrimitiveType.class);
+                data.set(PrimitiveType.TYPE_DESCRIPTOR, type.substring(0, 1));
+                return new PrimitiveType(data, null);
+            }
+            case 'L' -> {
+                return classType(type);
+            }
+            default -> throw new RuntimeException("Not implemented: " + type);
         }
     }
 
@@ -266,7 +265,7 @@ public class SmaliFactory {
     }
 
     public InstructionFormat11x instructionFormat11x(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                     List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat11x.class);
         data.set(InstructionFormat11x.ATTRIBUTES, attributes);
         data.set(Instruction.FORMAT, Format.Format11x);
@@ -283,7 +282,7 @@ public class SmaliFactory {
     }
 
     public ThrowStatement throwInstructionFormat(HashMap<String, Object> attributes,
-                                                   List<? extends SmaliNode> children) {
+                                                 List<? extends SmaliNode> children) {
         var data = newDataStore(ThrowStatement.class);
         data.set(ThrowStatement.ATTRIBUTES, attributes);
 
@@ -291,7 +290,7 @@ public class SmaliFactory {
     }
 
     public InstructionFormat11n instructionFormat11n(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                     List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat11n.class);
         data.set(InstructionFormat11n.ATTRIBUTES, attributes);
         data.set(Instruction.FORMAT, Format.Format11n);
@@ -300,7 +299,7 @@ public class SmaliFactory {
     }
 
     public InstructionFormat12x instructionFormat12x(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                     List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat12x.class);
         data.set(InstructionFormat12x.ATTRIBUTES, attributes);
         data.set(Instruction.FORMAT, Format.Format12x);
@@ -309,7 +308,7 @@ public class SmaliFactory {
     }
 
     public InstructionFormat21ih instructionFormat21ih(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                       List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat21ih.class);
         data.set(InstructionFormat21ih.ATTRIBUTES, attributes);
         data.set(Instruction.FORMAT, Format.Format21ih);
@@ -318,7 +317,7 @@ public class SmaliFactory {
     }
 
     public InstructionFormat21lh instructionFormat21lh(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                       List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat21lh.class);
         data.set(InstructionFormat21lh.ATTRIBUTES, attributes);
         data.set(Instruction.FORMAT, Format.Format21lh);
@@ -327,7 +326,7 @@ public class SmaliFactory {
     }
 
     public InstructionFormat21cField instructionFormat21cField(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                               List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat21cField.class);
         data.set(InstructionFormat21cField.ATTRIBUTES, attributes);
         data.set(Instruction.FORMAT, Format.Format21c);
@@ -336,7 +335,7 @@ public class SmaliFactory {
     }
 
     public InstructionFormat21cString instructionFormat21cString(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                                 List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat21cString.class);
         data.set(InstructionFormat21cString.ATTRIBUTES, attributes);
         data.set(Instruction.FORMAT, Format.Format21c);
@@ -345,7 +344,7 @@ public class SmaliFactory {
     }
 
     public InstructionFormat21cType instructionFormat21cType(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat21cType.class);
         data.set(InstructionFormat21cType.ATTRIBUTES, attributes);
         data.set(Instruction.FORMAT, Format.Format21c);
@@ -354,7 +353,7 @@ public class SmaliFactory {
     }
 
     public InstructionFormat21cMethodType instructionFormat21cMethodType(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                                         List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat21cMethodType.class);
         data.set(InstructionFormat21cMethodType.ATTRIBUTES, attributes);
         data.set(Instruction.FORMAT, Format.Format21c);
@@ -363,7 +362,7 @@ public class SmaliFactory {
     }
 
     public InstructionFormat21s instructionFormat21s(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                     List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat21s.class);
         data.set(InstructionFormat21s.ATTRIBUTES, attributes);
         data.set(Instruction.FORMAT, Format.Format21s);
@@ -372,7 +371,7 @@ public class SmaliFactory {
     }
 
     public InstructionFormat21t instructionFormat21t(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                     List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat21t.class);
         data.set(InstructionFormat21t.ATTRIBUTES, attributes);
         data.set(Instruction.FORMAT, Format.Format21t);
@@ -381,7 +380,7 @@ public class SmaliFactory {
     }
 
     public InstructionFormat22cField instructionFormat22cField(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                               List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat22cField.class);
         data.set(InstructionFormat22cField.ATTRIBUTES, attributes);
         data.set(Instruction.FORMAT, Format.Format22c);
@@ -390,7 +389,7 @@ public class SmaliFactory {
     }
 
     public InstructionFormat22cType instructionFormat22cType(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat22cType.class);
         data.set(InstructionFormat22cType.ATTRIBUTES, attributes);
         data.set(Instruction.FORMAT, Format.Format22c);
@@ -399,7 +398,7 @@ public class SmaliFactory {
     }
 
     public InstructionFormat22b instructionFormat22b(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                     List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat22b.class);
         data.set(InstructionFormat22b.ATTRIBUTES, attributes);
         data.set(Instruction.FORMAT, Format.Format22b);
@@ -408,7 +407,7 @@ public class SmaliFactory {
     }
 
     public InstructionFormat22s instructionFormat22s(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                     List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat22s.class);
         data.set(InstructionFormat22s.ATTRIBUTES, attributes);
         data.set(Instruction.FORMAT, Format.Format22s);
@@ -417,7 +416,7 @@ public class SmaliFactory {
     }
 
     public InstructionFormat22t instructionFormat22t(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                     List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat22t.class);
         data.set(InstructionFormat22t.ATTRIBUTES, attributes);
         data.set(Instruction.FORMAT, Format.Format22t);
@@ -426,7 +425,7 @@ public class SmaliFactory {
     }
 
     public InstructionFormat22x instructionFormat22x(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                     List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat22x.class);
         data.set(InstructionFormat22x.ATTRIBUTES, attributes);
         data.set(Instruction.FORMAT, Format.Format22x);
@@ -435,7 +434,7 @@ public class SmaliFactory {
     }
 
     public InstructionFormat23x instructionFormat23x(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                     List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat23x.class);
         data.set(InstructionFormat23x.ATTRIBUTES, attributes);
         data.set(Instruction.FORMAT, Format.Format23x);
@@ -444,7 +443,7 @@ public class SmaliFactory {
     }
 
     public InstructionFormat31c instructionFormat31c(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                     List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat31c.class);
         data.set(InstructionFormat31c.ATTRIBUTES, attributes);
         data.set(Instruction.FORMAT, Format.Format31c);
@@ -453,7 +452,7 @@ public class SmaliFactory {
     }
 
     public InstructionFormat31i instructionFormat31i(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                     List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat31i.class);
         data.set(InstructionFormat31i.ATTRIBUTES, attributes);
         data.set(Instruction.FORMAT, Format.Format31i);
@@ -478,7 +477,7 @@ public class SmaliFactory {
     }
 
     public InstructionFormat32x instructionFormat32x(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                     List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat32x.class);
         data.set(InstructionFormat32x.ATTRIBUTES, attributes);
         data.set(Instruction.FORMAT, Format.Format32x);
@@ -487,7 +486,7 @@ public class SmaliFactory {
     }
 
     public InstructionFormat35cMethod instructionFormat35cMethod(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                                 List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat35cMethod.class);
         data.set(InstructionFormat35cMethod.ATTRIBUTES, attributes);
         data.set(Instruction.FORMAT, Format.Format35c);
@@ -496,7 +495,7 @@ public class SmaliFactory {
     }
 
     public InstructionFormat35cType instructionFormat35cType(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                             List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat35cType.class);
         data.set(InstructionFormat35cType.ATTRIBUTES, attributes);
         data.set(Instruction.FORMAT, Format.Format35c);
@@ -505,7 +504,7 @@ public class SmaliFactory {
     }
 
     public InstructionFormat3rcMethod instructionFormat3rcMethod(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                                 List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat3rcMethod.class);
         data.set(InstructionFormat3rcMethod.ATTRIBUTES, attributes);
         data.set(Instruction.FORMAT, Format.Format3rc);
@@ -588,7 +587,7 @@ public class SmaliFactory {
     }
 
     public SubannotationDirective subannotationDirective(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                         List<? extends SmaliNode> children) {
         var data = newDataStore(SubannotationDirective.class);
         data.set(SubannotationDirective.ATTRIBUTES, attributes);
 
@@ -635,7 +634,7 @@ public class SmaliFactory {
     }
 
     public ArrayDataDirective arrayDataDirective(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                 List<? extends SmaliNode> children) {
         var data = newDataStore(ArrayDataDirective.class);
         data.set(ArrayDataDirective.ATTRIBUTES, attributes);
 
@@ -643,7 +642,7 @@ public class SmaliFactory {
     }
 
     public PackedSwitchDirective packedSwitchDirective(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                       List<? extends SmaliNode> children) {
         var data = newDataStore(PackedSwitchDirective.class);
         data.set(PackedSwitchDirective.ATTRIBUTES, attributes);
 
@@ -651,7 +650,7 @@ public class SmaliFactory {
     }
 
     public SparseSwitchDirective sparseSwitchDirective(HashMap<String, Object> attributes,
-            List<? extends SmaliNode> children) {
+                                                       List<? extends SmaliNode> children) {
         var data = newDataStore(SparseSwitchDirective.class);
         data.set(SparseSwitchDirective.ATTRIBUTES, attributes);
 
