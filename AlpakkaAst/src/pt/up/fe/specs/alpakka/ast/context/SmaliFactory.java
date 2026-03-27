@@ -633,10 +633,11 @@ public class SmaliFactory {
         return new MethodReference(data, null);
     }
 
-    public ArrayDataDirective arrayDataDirective(HashMap<String, Object> attributes,
+    public ArrayDataDirective arrayDataDirective(Literal elementWidth,
                                                  List<? extends SmaliNode> children) {
+        
         var data = newDataStore(ArrayDataDirective.class);
-        data.set(ArrayDataDirective.ATTRIBUTES, attributes);
+        data.set(ArrayDataDirective.ELEMENT_WIDTH, elementWidth);
 
         return new ArrayDataDirective(data, children);
     }

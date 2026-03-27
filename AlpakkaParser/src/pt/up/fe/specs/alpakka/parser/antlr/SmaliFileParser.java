@@ -1185,10 +1185,9 @@ public class SmaliFileParser {
     private SmaliNode convertArrayDataDirective(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
-        var attributes = getStatementAttributes(null);
         var children = new ArrayList<SmaliNode>();
 
-        attributes.put("elementWidth", convert(node.getChild(0).getChild(0)));
+        var elementWidth = (Literal) convert(node.getChild(0).getChild(0));
 
         var arrayElements = node.getChild(1);
 
@@ -1196,7 +1195,7 @@ public class SmaliFileParser {
             children.add(convert(arrayElements.getChild(i)));
         }
 
-        return factory.arrayDataDirective(attributes, children);
+        return factory.arrayDataDirective(elementWidth, children);
     }
 
     private SmaliNode convertPackedSwitch(Tree node) {
