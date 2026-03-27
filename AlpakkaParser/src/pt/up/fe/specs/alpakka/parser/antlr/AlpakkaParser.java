@@ -167,17 +167,17 @@ public class AlpakkaParser {
 
         // Replace references in ATTRIBUTES map
         if (node.get(ATTRIBUTES) != null) {
-            node.get(ATTRIBUTES).values().forEach(value -> replaceReferences(value, declarationsMap));
+            node.get(ATTRIBUTES).values().forEach(value -> replaceReferencesSingle(value, declarationsMap));
         }
 
         // Replace references in nodes in DataKeys
         for (var key : node.getDataKeysWithValues()) {
-            replaceReferences(node.getValue(key.getName()), declarationsMap);
+            replaceReferencesSingle(node.getValue(key.getName()), declarationsMap);
         }
 
     }
 
-    private void replaceReferences(Object value, Map<String, Map<String, SmaliNode>> declarationsMap) {
+    private void replaceReferencesSingle(Object value, Map<String, Map<String, SmaliNode>> declarationsMap) {
         if (value instanceof SmaliNode) {
             replaceReferences((SmaliNode) value, declarationsMap);
             return;
@@ -185,7 +185,7 @@ public class AlpakkaParser {
 
         if (value instanceof List<?> values) {
             for (var element : values) {
-                replaceReferences(element, declarationsMap);
+                replaceReferencesSingle(element, declarationsMap);
             }
         }
     }
