@@ -4,14 +4,12 @@ import org.suikasoft.jOptions.Datakey.DataKey;
 import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
-import pt.up.fe.specs.alpakka.ast.expr.literal.Literal;
 
 import java.util.Collection;
 
 public class ArrayDataDirective extends Statement {
 
-    // TODO: Literal should be a child
-    public static final DataKey<Literal> ELEMENT_WIDTH = KeyFactory.object("elementWidth", Literal.class);
+    public static final DataKey<Integer> ELEMENT_WIDTH = KeyFactory.integer("elementWidth");
 
     public ArrayDataDirective(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
@@ -25,7 +23,7 @@ public class ArrayDataDirective extends Statement {
 
         var width = get(ELEMENT_WIDTH);
 
-        sb.append(".array-data " + width.getCode() + "\n");
+        sb.append(".array-data " + width + "\n");
 
         for (int i = 0; i < getChildren().size(); i++) {
             sb.append(indentCode(getChildren().get(i).getCode()) + "\n");

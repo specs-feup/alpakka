@@ -1202,7 +1202,8 @@ public class SmaliFileParser {
 
         var children = new ArrayList<SmaliNode>();
 
-        var elementWidth = (Literal) convert(node.getChild(0).getChild(0));
+        var elementWidthNode = (Literal) convert(node.getChild(0).getChild(0));
+        var elementWidth = Integer.parseInt(elementWidthNode.getCode());
 
         var arrayElements = node.getChild(1);
 

@@ -632,7 +632,7 @@ public class SmaliFactory {
         return new MethodReference(data, null);
     }
 
-    public ArrayDataDirective arrayDataDirective(Literal elementWidth,
+    public ArrayDataDirective arrayDataDirective(int elementWidth,
                                                  List<? extends SmaliNode> children) {
 
         var data = newDataStore(ArrayDataDirective.class);
