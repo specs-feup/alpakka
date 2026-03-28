@@ -147,13 +147,13 @@ public class SmaliFactory {
     }
 
     public AnnotationDirective annotationDirective(AnnotationVisibility visibility, SmaliNode classDescriptor,
-                                                   List<? extends SmaliNode> children) {
+                                                   List<? extends AnnotationElement> annotationElements) {
 
         var data = newDataStore(AnnotationDirective.class);
         data.put(AnnotationDirective.VISIBILITY, visibility);
         data.put(AnnotationDirective.CLASS_DESCRIPTOR, classDescriptor);
 
-        return new AnnotationDirective(data, children);
+        return new AnnotationDirective(data, annotationElements);
     }
 
     public AnnotationElement annotationElement(String name, Literal value) {

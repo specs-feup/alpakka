@@ -8,6 +8,7 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.Tree;
 import pt.up.fe.specs.alpakka.ast.*;
 import pt.up.fe.specs.alpakka.ast.context.SmaliContext;
+import pt.up.fe.specs.alpakka.ast.expr.AnnotationElement;
 import pt.up.fe.specs.alpakka.ast.expr.FieldReference;
 import pt.up.fe.specs.alpakka.ast.expr.LabelRef;
 import pt.up.fe.specs.alpakka.ast.expr.MethodReference;
@@ -466,18 +467,17 @@ public class SmaliFileParser {
         var factory = context.get(SmaliContext.FACTORY);
 
 
-        var children = new ArrayList<SmaliNode>();
-
         var visibility = AnnotationVisibility.getFromString(node.getChild(0).getText());
 
         var subannotation = node.getChild(1);
         var classDescriptor = convert(subannotation.getChild(0));
 
+        var annotationElements = new ArrayList<AnnotationElement>();
         for (int i = 1; i < subannotation.getChildCount(); i++) {
-            children.add(convert(subannotation.getChild(i)));
+            annotationElements.add((AnnotationElement) convert(subannotation.getChild(i)));
         }
 
-        return factory.annotationDirective(visibility, classDescriptor, children);
+        return factory.annotationDirective(visibility, classDescriptor, annotationElements);
     }
 
     private SmaliNode convertSubannotationDirective(Tree node) {
