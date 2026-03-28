@@ -47,7 +47,7 @@
     <joinpoint class="methodPrototype" extends="literal" tooltip="Method prototype"/>
 
     <!-- TYPE DESCRIPTORS -->
-    <joinpoint class="typeDescriptor" extends="literal" tooltip="Type descriptor"/>
+    <joinpoint class="typeDescriptor" tooltip="Type descriptor"/>
 
     <joinpoint class="classType" extends="typeDescriptor" tooltip="Class descriptor"/>
 

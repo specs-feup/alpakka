@@ -16,6 +16,7 @@ import pt.up.fe.specs.alpakka.ast.stmt.instruction.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 public class SmaliFactory {
 
@@ -133,7 +134,7 @@ public class SmaliFactory {
 
     public CatchDirective catchDirective(TypeDescriptor exceptionType, List<? extends LabelRef> children) {
         var data = newDataStore(CatchDirective.class);
-        data.set(CatchDirective.EXCEPTION_TYPE, exceptionType);
+        data.set(CatchDirective.EXCEPTION_TYPE, Optional.ofNullable(exceptionType));
 
         return new CatchDirective(data, children);
     }

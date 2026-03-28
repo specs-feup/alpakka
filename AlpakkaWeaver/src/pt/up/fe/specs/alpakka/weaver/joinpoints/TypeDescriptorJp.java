@@ -9,7 +9,6 @@ public class TypeDescriptorJp extends ATypeDescriptor {
     private final TypeDescriptor type;
 
     public TypeDescriptorJp(TypeDescriptor type) {
-        super(new LiteralJp(type));
         this.type = type;
     }
 

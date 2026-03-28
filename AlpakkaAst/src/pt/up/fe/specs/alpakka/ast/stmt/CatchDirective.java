@@ -21,10 +21,11 @@ import pt.up.fe.specs.alpakka.ast.expr.LabelRef;
 import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.TypeDescriptor;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public class CatchDirective extends Statement {
 
-    public static final DataKey<TypeDescriptor> EXCEPTION_TYPE = KeyFactory.object("exceptionType", TypeDescriptor.class);
+    public static final DataKey<Optional<TypeDescriptor>> EXCEPTION_TYPE = KeyFactory.optional("exceptionType");
 
     public CatchDirective(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
@@ -33,7 +34,7 @@ public class CatchDirective extends Statement {
     @Override
     public String getCode() {
         var sb = new StringBuilder();
-        var type = (TypeDescriptor) getExceptionTypeDescriptor();
+        var type = getExceptionTypeDescriptor().orElse(null);
         var tryStartLabel = getTryStartLabelRef();
         var tryEndLabel = getTryEndLabelRef();
         var catchLabel = getCatchLabelRef();
@@ -58,7 +59,7 @@ public class CatchDirective extends Statement {
         return sb.toString();
     }
 
-    public TypeDescriptor getExceptionTypeDescriptor() {
+    public Optional<TypeDescriptor> getExceptionTypeDescriptor() {
         return get(EXCEPTION_TYPE);
     }
 
