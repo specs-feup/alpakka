@@ -9,6 +9,7 @@ import org.antlr.runtime.tree.Tree;
 import pt.up.fe.specs.alpakka.ast.*;
 import pt.up.fe.specs.alpakka.ast.context.SmaliContext;
 import pt.up.fe.specs.alpakka.ast.expr.FieldReference;
+import pt.up.fe.specs.alpakka.ast.expr.LabelRef;
 import pt.up.fe.specs.alpakka.ast.expr.MethodReference;
 import pt.up.fe.specs.alpakka.ast.expr.literal.Literal;
 import pt.up.fe.specs.alpakka.ast.expr.literal.MethodPrototype;
@@ -413,18 +414,18 @@ public class SmaliFileParser {
     private SmaliNode convertCatches(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
-        var attributes = getStatementAttributes(null);
-        var children = new ArrayList<SmaliNode>();
+        //var attributes = getStatementAttributes(null);
+        var children = new ArrayList<LabelRef>();
 
         var i = 0;
-
+        TypeDescriptor exceptionType = null;
         if (node.getChild(i).getType() != smaliParser.SIMPLE_NAME) {
             // Non void type descriptor
             if (node.getChild(i).getType() == smaliParser.ARRAY_TYPE_PREFIX) {
                 i++;
-                attributes.put("nonVoidTypeDescriptor", factory.arrayType(node.getChild(i).getText()));
+                exceptionType = factory.arrayType(node.getChild(i).getText());
             } else {
-                attributes.put("nonVoidTypeDescriptor", factory.nonVoidType(node.getChild(i).getText()));
+                exceptionType = factory.nonVoidType(node.getChild(i).getText());
             }
             i++;
         }
@@ -435,7 +436,7 @@ public class SmaliFileParser {
             children.add(factory.labelRef(labelRefAttributes));
         }
 
-        return factory.catchDirective(attributes, children);
+        return factory.catchDirective(exceptionType, children);
     }
 
     private SmaliNode convertParameter(Tree node) {
@@ -1200,18 +1201,18 @@ public class SmaliFileParser {
     private SmaliNode convertArrayDataDirective(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
-        var children = new ArrayList<SmaliNode>();
 
         var elementWidthNode = (Literal) convert(node.getChild(0).getChild(0));
         var elementWidth = Integer.parseInt(elementWidthNode.getCode());
 
         var arrayElements = node.getChild(1);
 
+        var elements = new ArrayList<Literal>();
         for (int i = 0; i < arrayElements.getChildCount(); i++) {
-            children.add(convert(arrayElements.getChild(i)));
+            elements.add((Literal) convert(arrayElements.getChild(i)));
         }
 
-        return factory.arrayDataDirective(elementWidth, children);
+        return factory.arrayDataDirective(elementWidth, elements);
     }
 
     private SmaliNode convertPackedSwitch(Tree node) {

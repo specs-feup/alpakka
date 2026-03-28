@@ -131,9 +131,9 @@ public class SmaliFactory {
         return new RestartLocalDirective(data, children);
     }
 
-    public CatchDirective catchDirective(HashMap<String, Object> attributes, List<? extends SmaliNode> children) {
+    public CatchDirective catchDirective(TypeDescriptor exceptionType, List<? extends LabelRef> children) {
         var data = newDataStore(CatchDirective.class);
-        data.set(CatchDirective.ATTRIBUTES, attributes);
+        data.set(CatchDirective.EXCEPTION_TYPE, exceptionType);
 
         return new CatchDirective(data, children);
     }
@@ -633,12 +633,12 @@ public class SmaliFactory {
     }
 
     public ArrayDataDirective arrayDataDirective(int elementWidth,
-                                                 List<? extends SmaliNode> children) {
+                                                 List<? extends Literal> elements) {
 
         var data = newDataStore(ArrayDataDirective.class);
         data.set(ArrayDataDirective.ELEMENT_WIDTH, elementWidth);
 
-        return new ArrayDataDirective(data, children);
+        return new ArrayDataDirective(data, elements);
     }
 
     public PackedSwitchDirective packedSwitchDirective(HashMap<String, Object> attributes,

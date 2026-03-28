@@ -1,0 +1,22 @@
+.class public Lcom/example/MyClass;
+.super Ljava/lang/Object;
+
+.method public static example()V
+    .registers 2
+
+    :try_start
+    const/4 v0, 0x1
+    div-int/2addr v0, v0  # harmless, just placeholder
+    :try_end
+
+    goto :end
+
+    :catch_block
+    move-exception v1
+    return-void
+
+    :end
+    return-void
+
+    .catch Ljava/lang/Exception; {:try_start .. :try_end} :catch_block
+.end method

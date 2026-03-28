@@ -48,4 +48,9 @@ public class SmaliAstNodesTest extends SmaliAstTester {
     void testArrayDataDirective1() {
         testSmaliFile("ArrayDataDirective1.smali");
     }
+
+    @Test
+    void testCatchDirective1() {
+        testSmaliFile("CatchDirective1.smali");
+    }
 }
