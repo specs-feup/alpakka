@@ -1,23 +1,30 @@
 package pt.up.fe.specs.alpakka.ast.expr;
 
-import java.util.Collection;
-
+import org.suikasoft.jOptions.Datakey.DataKey;
+import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
-
 import pt.up.fe.specs.alpakka.ast.MethodNode;
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
 
+import java.util.Collection;
+
 public class LabelRef extends Expression implements Reference {
 
-    public static String TYPE_LABEL = "label";
+    private static final String TYPE_LABEL = "label";
+
+    public static final DataKey<String> LABEL = KeyFactory.string("label");
 
     public LabelRef(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
     }
 
+    public static String typeLabel() {
+        return TYPE_LABEL;
+    }
+
     @Override
     public String getCode() {
-        var name = get(ATTRIBUTES).get("label");
+        var name = get(LABEL);
         return ":" + name;
     }
 

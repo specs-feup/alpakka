@@ -135,7 +135,7 @@ public class AlpakkaParser {
 
     private void collectDeclarations(SmaliNode node, Map<String, Map<String, SmaliNode>> declarationsMap) {
         if (node instanceof Label) {
-            declarationsMap.computeIfAbsent(LabelRef.TYPE_LABEL, k -> new HashMap<>())
+            declarationsMap.computeIfAbsent(LabelRef.typeLabel(), k -> new HashMap<>())
                     .put(((Label) node).getLabelReferenceName(), node);
         } else if (node instanceof FieldNode) {
             declarationsMap.computeIfAbsent(FieldReference.TYPE_LABEL, k -> new HashMap<>())

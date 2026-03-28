@@ -431,9 +431,7 @@ public class SmaliFileParser {
         }
 
         for (; i < node.getChildCount(); i++) {
-            var labelRefAttributes = new HashMap<String, Object>();
-            labelRefAttributes.put("label", node.getChild(i).getText());
-            children.add(factory.labelRef(labelRefAttributes));
+            children.add(factory.labelRef(node.getChild(i).getText()));
         }
 
         return factory.catchDirective(exceptionType, children);
@@ -808,10 +806,7 @@ public class SmaliFileParser {
             i++;
         }
 
-        var labelRefAttributes = new HashMap<String, Object>();
-        labelRefAttributes.put("label", node.getChild(i).getText());
-
-        children.add(factory.labelRef(labelRefAttributes));
+        children.add(factory.labelRef(node.getChild(i).getText()));
 
         return children;
     }
@@ -1236,10 +1231,7 @@ public class SmaliFileParser {
         var packedSwitchElements = node.getChild(1);
 
         for (int i = 0; i < packedSwitchElements.getChildCount(); i++) {
-            var labelRefAttributes = new HashMap<String, Object>();
-            labelRefAttributes.put("label", packedSwitchElements.getChild(i).getText());
-
-            children.add(factory.labelRef(labelRefAttributes));
+            children.add(factory.labelRef(packedSwitchElements.getChild(i).getText()));
         }
 
         return factory.packedSwitchDirective(attributes, children);
@@ -1256,11 +1248,8 @@ public class SmaliFileParser {
             var elementChildren = new ArrayList<SmaliNode>();
 
             elementChildren.add(convert(sparseSwitchElements.getChild(i)));
-
-            var labelRefAttributes = new HashMap<String, Object>();
-            labelRefAttributes.put("label", sparseSwitchElements.getChild(i + 1).getText());
-
-            elementChildren.add(factory.labelRef(labelRefAttributes));
+            
+            elementChildren.add(factory.labelRef(sparseSwitchElements.getChild(i + 1).getText()));
 
             children.add(factory.sparseSwitchElement(elementChildren));
         }

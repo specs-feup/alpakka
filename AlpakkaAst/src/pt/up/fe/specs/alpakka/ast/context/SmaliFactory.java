@@ -553,9 +553,9 @@ public class SmaliFactory {
         return new InstructionFormat51l(data, children);
     }
 
-    public LabelRef labelRef(HashMap<String, Object> attributes) {
+    public LabelRef labelRef(String label) {
         var data = newDataStore(LabelRef.class);
-        data.set(LabelRef.ATTRIBUTES, attributes);
+        data.set(LabelRef.LABEL, label);
 
         return new LabelRef(data, null);
     }

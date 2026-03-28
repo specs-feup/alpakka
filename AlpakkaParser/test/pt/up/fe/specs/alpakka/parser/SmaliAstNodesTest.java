@@ -55,6 +55,11 @@ public class SmaliAstNodesTest extends SmaliAstTester {
     }
 
     @Test
+    void testLabelRef1() {
+        testSmaliFile("LabelRef1.smali");
+    }
+
+    @Test
     void testPrimitiveLiteral1() {
         testSmaliFile("PrimitiveLiteral1.smali");
     }

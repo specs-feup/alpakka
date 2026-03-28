@@ -1,0 +1,107 @@
+.class public Lcom/example/LabelRefTest;
+.super Ljava/lang/Object;
+
+.method public static test(I)I
+	.registers 4
+
+	goto :entry
+
+	const/4 v0, -0x1
+
+	return v0
+
+	:entry
+	const/4 v0, 0x0
+
+	if-ltz p0, :negative
+
+	if-eqz p0, :zero
+
+	if-gtz p0, :positive
+
+	goto :done
+
+	:negative
+	const/4 v0, -0x1
+
+	goto :done
+
+	:zero
+	const/4 v0, 0x0
+
+	goto :done
+
+	:positive
+	packed-switch p0, :pswitch_data
+
+	const/4 v0, 0x7
+
+	goto :done
+
+	:case_one
+	const/4 v0, 0x1
+
+	goto :done
+
+	:case_two
+	const/4 v0, 0x2
+
+	goto :done
+
+	:case_three
+	const/4 v0, 0x3
+
+	goto :done
+
+	:after_packed
+	sparse-switch p0, :sswitch_data
+
+	const/16 v0, 0x63
+
+	goto :done
+
+	:s_case_ten
+	const/16 v0, 0xa
+
+	goto :done
+
+	:s_case_hundred
+	const/16 v0, 0x64
+
+	goto :done
+
+	:try_demo
+	:try_start
+	const/4 v1, 0x1
+
+	div-int/2addr v1, p0
+
+	move v0, v1
+
+	goto :after_try
+
+	:try_end
+	.catch Ljava/lang/ArithmeticException; {:try_start .. :try_end} :catch_arith
+
+	:catch_arith
+	const/16 v0, -0xa
+
+	:after_try
+	goto :done
+
+	:done
+	return v0
+
+	:pswitch_data
+	.packed-switch 0x1
+		:case_one
+		:case_two
+		:case_three
+	.end packed-switch
+
+	:sswitch_data
+	.sparse-switch
+		0xa -> :s_case_ten
+		0x64 -> :s_case_hundred
+	.end sparse-switch
+.end method
