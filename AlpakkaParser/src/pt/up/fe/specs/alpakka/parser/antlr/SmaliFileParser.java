@@ -499,7 +499,7 @@ public class SmaliFileParser {
         var factory = context.get(SmaliContext.FACTORY);
 
         var name = node.getChild(0).getText();
-        var value = (Literal) convert(node.getChild(1));
+        var value = convert(node.getChild(1));
 
         return factory.annotationElement(name, value);
     }

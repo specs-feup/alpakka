@@ -157,7 +157,7 @@ public class SmaliFactory {
         return new AnnotationDirective(data, annotationElements);
     }
 
-    public AnnotationElement annotationElement(String name, Literal value) {
+    public AnnotationElement annotationElement(String name, SmaliNode value) {
         var data = newDataStore(AnnotationElement.class);
         data.set(AnnotationElement.NAME, name);
 
