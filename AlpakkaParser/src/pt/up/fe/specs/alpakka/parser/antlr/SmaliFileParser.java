@@ -8,10 +8,7 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.runtime.tree.Tree;
 import pt.up.fe.specs.alpakka.ast.*;
 import pt.up.fe.specs.alpakka.ast.context.SmaliContext;
-import pt.up.fe.specs.alpakka.ast.expr.AnnotationElement;
-import pt.up.fe.specs.alpakka.ast.expr.FieldReference;
-import pt.up.fe.specs.alpakka.ast.expr.LabelRef;
-import pt.up.fe.specs.alpakka.ast.expr.MethodReference;
+import pt.up.fe.specs.alpakka.ast.expr.*;
 import pt.up.fe.specs.alpakka.ast.expr.literal.EncodedArray;
 import pt.up.fe.specs.alpakka.ast.expr.literal.Literal;
 import pt.up.fe.specs.alpakka.ast.expr.literal.MethodPrototype;
@@ -20,6 +17,7 @@ import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.TypeDescriptor;
 import pt.up.fe.specs.alpakka.ast.stmt.LineDirective;
 import pt.up.fe.specs.alpakka.ast.stmt.Statement;
 import pt.up.fe.specs.util.SpecsIo;
+import pt.up.fe.specs.util.exceptions.NotImplementedException;
 
 import java.io.File;
 import java.io.StringReader;
@@ -580,11 +578,24 @@ public class SmaliFileParser {
 
         var array = factory.encodedArray(children);
 
-        // TODO: If type is first child, should be removed from children?
-        if (!children.isEmpty())
-            array.setType(factory.arrayType(((TypeDescriptor) children.get(0))));
-
+        if (!children.isEmpty()) {
+            var child = children.get(0);
+            var type = getType(child);
+            array.setType(factory.arrayType((type)));
+        }
         return array;
+    }
+
+    private TypeDescriptor getType(SmaliNode node) {
+        if (node instanceof Expression expr) {
+            return expr.getType();
+        }
+
+        if (node instanceof TypeDescriptor type) {
+            return type;
+        }
+
+        throw new NotImplementedException(node);
     }
 
     private SmaliNode convertEnum(Tree node) {
