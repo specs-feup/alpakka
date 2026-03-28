@@ -227,26 +227,31 @@ public class SmaliFactory {
     }
 
     public TypeDescriptor nonVoidType(String type) {
-        switch (type.charAt(0)) {
-            case 'Z', 'B', 'S', 'C', 'I', 'J', 'F', 'D' -> {
-                var data = newDataStore(PrimitiveType.class);
-                data.set(PrimitiveType.TYPE_DESCRIPTOR, type.substring(0, 1));
-                return new PrimitiveType(data, null);
-            }
-            case 'L' -> {
-                return classType(type);
-            }
-            default -> throw new RuntimeException("Not implemented: " + type);
+        if (type.equals("V")) {
+            throw new RuntimeException("Void type is not allowed here");
         }
+
+        return type(type);
     }
 
     public TypeDescriptor type(String type) {
-        if (type.charAt(0) == 'V') {
-            var data = newDataStore(PrimitiveType.class);
-            data.set(PrimitiveType.TYPE_DESCRIPTOR, "V");
-            return new PrimitiveType(data, null);
-        } else
-            return nonVoidType(type);
+        if (type.length() == 1) {
+            switch (type) {
+                case "Z", "B", "S", "C", "I", "J", "F", "D", "V" -> {
+                    var data = newDataStore(PrimitiveType.class);
+                    data.set(PrimitiveType.TYPE_DESCRIPTOR, type);
+                    return new PrimitiveType(data, null);
+                }
+
+                default -> throw new RuntimeException("Single char type not implemented: " + type);
+            }
+        }
+
+        if (type.startsWith("L")) {
+            return classType(type);
+        }
+
+        throw new RuntimeException("Type not implemented: " + type);
     }
 
     public NopStatement nopInstructionFormat(HashMap<String, Object> attributes) {
