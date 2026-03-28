@@ -593,9 +593,9 @@ public class SmaliFactory {
         return new SubannotationDirective(data, children);
     }
 
-    public PrimitiveLiteral primitiveLiteral(HashMap<String, Object> attributes) {
+    public PrimitiveLiteral primitiveLiteral(String value) {
         var data = newDataStore(PrimitiveLiteral.class);
-        data.set(PrimitiveLiteral.ATTRIBUTES, attributes);
+        data.set(PrimitiveLiteral.VALUE, value);
 
         return new PrimitiveLiteral(data, null);
     }

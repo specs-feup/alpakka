@@ -603,10 +603,9 @@ public class SmaliFileParser {
     private SmaliNode convertPrimitiveLiteral(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
-        var literalAttributes = new HashMap<String, Object>();
-        literalAttributes.put("value", node.getText());
+        var value = node.getText();
 
-        var literalExpr = factory.primitiveLiteral(literalAttributes);
+        var literalExpr = factory.primitiveLiteral(value);
 
         switch (node.getType()) {
             case smaliParser.LONG_LITERAL -> literalExpr.setType(factory.type("J"));
@@ -624,10 +623,10 @@ public class SmaliFileParser {
     private SmaliNode convertCharLiteral(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
-        var literalAttributes = new HashMap<String, Object>();
-        literalAttributes.put("value", "'" + escapeString(node.getText().substring(1, node.getText().length() - 1)) + "'");
 
-        var literalExpr = factory.primitiveLiteral(literalAttributes);
+        var value = "'" + escapeString(node.getText().substring(1, node.getText().length() - 1)) + "'";
+
+        var literalExpr = factory.primitiveLiteral(value);
 
         literalExpr.setType(factory.type("C"));
 
@@ -637,11 +636,9 @@ public class SmaliFileParser {
     private SmaliNode convertStringLiteral(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
-        var literalAttributes = new HashMap<String, Object>();
-        literalAttributes.put("value",
-                "\"" + escapeString(node.getText().substring(1, node.getText().length() - 1)) + "\"");
+        var value = "\"" + escapeString(node.getText().substring(1, node.getText().length() - 1)) + "\"";
 
-        var literalExpr = factory.primitiveLiteral(literalAttributes);
+        var literalExpr = factory.primitiveLiteral(value);
 
         literalExpr.setType(factory.classType("Ljava/lang/String;"));
 
