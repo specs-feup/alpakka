@@ -12,6 +12,7 @@ import pt.up.fe.specs.alpakka.ast.expr.AnnotationElement;
 import pt.up.fe.specs.alpakka.ast.expr.FieldReference;
 import pt.up.fe.specs.alpakka.ast.expr.LabelRef;
 import pt.up.fe.specs.alpakka.ast.expr.MethodReference;
+import pt.up.fe.specs.alpakka.ast.expr.literal.EncodedArray;
 import pt.up.fe.specs.alpakka.ast.expr.literal.Literal;
 import pt.up.fe.specs.alpakka.ast.expr.literal.MethodPrototype;
 import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.ClassType;
@@ -568,7 +569,7 @@ public class SmaliFileParser {
         return factory.encodedMethod(children);
     }
 
-    private SmaliNode convertArray(Tree node) {
+    private EncodedArray convertArray(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
         var children = new ArrayList<SmaliNode>();
@@ -579,8 +580,9 @@ public class SmaliFileParser {
 
         var array = factory.encodedArray(children);
 
+        // TODO: If type is first child, should be removed from children?
         if (!children.isEmpty())
-            array.setType(factory.arrayType(((Literal) children.get(0)).getType()));
+            array.setType(factory.arrayType(((TypeDescriptor) children.get(0))));
 
         return array;
     }
