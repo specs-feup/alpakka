@@ -187,6 +187,22 @@ public class SmaliFileParser {
         }
     }
 
+
+    private List<SmaliNode> convertChildren(Tree node) {
+        var children = new ArrayList<SmaliNode>();
+
+        for (int i = 1; i < node.getChildCount(); i++) {
+            children.add(convert(node.getChild(i)));
+        }
+
+        return children;
+    }
+
+    private Opcode getOpcode(Tree node) {
+        var opcodeName = node.getChild(0).getText();
+        return SmaliNode.getOpcode(opcodeName);
+    }
+
     private SmaliNode convertClassDescriptor(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
         return factory.classType(node.getText());
@@ -841,21 +857,16 @@ public class SmaliFileParser {
         return factory.gotoInstructionFormat(attributes, children);
     }
 
+
     private SmaliNode convertStatementFormat11x(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
-        var opcodeName = node.getChild(0).getText();
-        var opcode = SmaliNode.getOpcode(opcodeName);
-
-        var children = new ArrayList<SmaliNode>();
-
-        for (int i = 1; i < node.getChildCount(); i++) {
-            children.add(convert(node.getChild(i)));
-        }
+        var opcode = getOpcode(node);
+        var children = convertChildren(node);
 
         return switch (opcode) {
             case RETURN_OBJECT, RETURN_WIDE, RETURN ->
-                    factory.returnInstructionFormat(getStatementAttributes(opcodeName), children);
+                    factory.returnInstructionFormat(getStatementAttributes(opcode.name), children);
             case THROW -> factory.genericInstruction(ReturnStatement.class, opcode, lineDirective, children);
             default -> factory.genericInstruction(InstructionFormat11x.class, opcode, lineDirective, children);
         };
