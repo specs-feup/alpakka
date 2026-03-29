@@ -10,7 +10,7 @@ import java.util.Collection;
 
 public class FieldReference extends Expression implements Reference {
 
-    private static String TYPE_LABEL = "field";
+    private static final String TYPE_LABEL = "field";
 
     public static String fieldLabel() {
         return TYPE_LABEL;

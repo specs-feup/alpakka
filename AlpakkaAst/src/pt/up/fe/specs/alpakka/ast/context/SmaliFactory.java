@@ -1,8 +1,7 @@
 package pt.up.fe.specs.alpakka.ast.context;
 
 import com.android.tools.smali.dexlib2.Format;
-import org.suikasoft.jOptions.Datakey.DataKey;
-import org.suikasoft.jOptions.Datakey.KeyFactory;
+import com.android.tools.smali.dexlib2.Opcode;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import org.suikasoft.jOptions.storedefinition.StoreDefinitions;
 import pt.up.fe.specs.alpakka.ast.*;
@@ -14,6 +13,7 @@ import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.PrimitiveType;
 import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.TypeDescriptor;
 import pt.up.fe.specs.alpakka.ast.stmt.*;
 import pt.up.fe.specs.alpakka.ast.stmt.instruction.*;
+import pt.up.fe.specs.util.SpecsSystem;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -278,13 +278,15 @@ public class SmaliFactory {
         return new GotoStatement(data, children);
     }
 
-    public InstructionFormat11x instructionFormat11x(HashMap<String, Object> attributes,
-                                                     List<? extends SmaliNode> children) {
-        var data = newDataStore(InstructionFormat11x.class);
-        data.set(InstructionFormat11x.ATTRIBUTES, attributes);
-        data.set(Instruction.FORMAT, Format.Format11x);
+    public <T extends Instruction> T genericInstruction(Class<T> instructionClass, Opcode opcode, LineDirective lineDirective,
+                                                        List<? extends SmaliNode> children) {
 
-        return new InstructionFormat11x(data, children);
+        var data = newDataStore(instructionClass)
+                .put(InstructionFormat11x.LINE_DIRECTIVE, Optional.ofNullable(lineDirective))
+                .put(InstructionFormat11x.OPCODE, opcode)
+                .put(InstructionFormat11x.FORMAT, Format.Format11x);
+
+        return SpecsSystem.newInstance(instructionClass, data, children);
     }
 
     public ReturnStatement returnInstructionFormat(HashMap<String, Object> attributes,

@@ -1,6 +1,7 @@
 package pt.up.fe.specs.alpakka.parser.antlr;
 
 import com.android.tools.smali.dexlib2.Opcode;
+import com.android.tools.smali.dexlib2.Opcodes;
 import com.android.tools.smali.smali.smaliFlexLexer;
 import com.android.tools.smali.smali.smaliParser;
 import org.antlr.runtime.CommonTokenStream;
@@ -16,6 +17,7 @@ import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.ClassType;
 import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.TypeDescriptor;
 import pt.up.fe.specs.alpakka.ast.stmt.LineDirective;
 import pt.up.fe.specs.alpakka.ast.stmt.Statement;
+import pt.up.fe.specs.alpakka.ast.stmt.instruction.InstructionFormat11x;
 import pt.up.fe.specs.util.SpecsIo;
 import pt.up.fe.specs.util.exceptions.NotImplementedException;
 
@@ -542,7 +544,7 @@ public class SmaliFileParser {
                 }
             }
         }
-        
+
         return factory.fieldNode(memberName, fieldType, accessOrRestrictionList, children);
     }
 
@@ -842,24 +844,25 @@ public class SmaliFileParser {
     private SmaliNode convertStatementFormat11x(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
-        var opcode = node.getChild(0).getText();
-
-        var attributes = getStatementAttributes(opcode);
+        var opcodeName = node.getChild(0).getText();
+        var attributes = getStatementAttributes(opcodeName);
         var children = new ArrayList<SmaliNode>();
 
         for (int i = 1; i < node.getChildCount(); i++) {
             children.add(convert(node.getChild(i)));
         }
 
-        if (opcode.equals(Opcode.RETURN_OBJECT.name) ||
-                opcode.equals(Opcode.RETURN_WIDE.name) ||
-                opcode.equals(Opcode.RETURN.name)) {
+        if (opcodeName.equals(Opcode.RETURN_OBJECT.name) ||
+                opcodeName.equals(Opcode.RETURN_WIDE.name) ||
+                opcodeName.equals(Opcode.RETURN.name)) {
             return factory.returnInstructionFormat(attributes, children);
-        } else if (opcode.equals(Opcode.THROW.name)) {
+        } else if (opcodeName.equals(Opcode.THROW.name)) {
             return factory.throwInstructionFormat(attributes, children);
         }
+        
+        var opcode = Opcodes.getDefault().getOpcodeByName(opcodeName);
 
-        return factory.instructionFormat11x(attributes, children);
+        return factory.genericInstruction(InstructionFormat11x.class, opcode, lineDirective, children);
     }
 
     private SmaliNode convertStatementFormat11n(Tree node) {
