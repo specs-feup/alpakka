@@ -16,8 +16,10 @@ import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.ClassType;
 import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.TypeDescriptor;
 import pt.up.fe.specs.alpakka.ast.stmt.LineDirective;
 import pt.up.fe.specs.alpakka.ast.stmt.Statement;
+import pt.up.fe.specs.alpakka.ast.stmt.instruction.Instruction;
 import pt.up.fe.specs.alpakka.ast.stmt.instruction.InstructionFormat11x;
 import pt.up.fe.specs.alpakka.ast.stmt.instruction.ReturnStatement;
+import pt.up.fe.specs.alpakka.ast.stmt.instruction.ThrowStatement;
 import pt.up.fe.specs.util.SpecsIo;
 import pt.up.fe.specs.util.exceptions.NotImplementedException;
 
@@ -27,6 +29,18 @@ import java.util.*;
 import java.util.function.Function;
 
 public class SmaliFileParser {
+
+    private static final Map<Opcode, Class<? extends Instruction>> OPCODE_TO_INSTRUCTION;
+
+    static {
+        OPCODE_TO_INSTRUCTION = new HashMap<>();
+
+        OPCODE_TO_INSTRUCTION.put(Opcode.RETURN_OBJECT, ReturnStatement.class);
+        OPCODE_TO_INSTRUCTION.put(Opcode.RETURN_WIDE, ReturnStatement.class);
+        OPCODE_TO_INSTRUCTION.put(Opcode.RETURN, ReturnStatement.class);
+        OPCODE_TO_INSTRUCTION.put(Opcode.THROW, ThrowStatement.class);
+    }
+
 
     private final smaliParser parser;
     private final SmaliContext context;
@@ -74,7 +88,7 @@ public class SmaliFileParser {
         converters.put(smaliParser.I_LABEL, this::convertLabel);
         converters.put(smaliParser.I_STATEMENT_FORMAT10x, this::convertStatementFormat10x);
         converters.put(smaliParser.I_STATEMENT_FORMAT10t, this::convertGotoStatementFormat);
-        converters.put(smaliParser.I_STATEMENT_FORMAT11x, this::convertStatementFormat11x);
+        converters.put(smaliParser.I_STATEMENT_FORMAT11x, node -> convertInstruction(node, InstructionFormat11x.class));
         converters.put(smaliParser.I_STATEMENT_FORMAT11n, this::convertStatementFormat11n);
         converters.put(smaliParser.I_STATEMENT_FORMAT12x, this::convertStatementFormat12x);
         converters.put(smaliParser.I_STATEMENT_FORMAT20t, this::convertGotoStatementFormat);
@@ -858,18 +872,17 @@ public class SmaliFileParser {
     }
 
 
-    private SmaliNode convertStatementFormat11x(Tree node) {
+    private <T extends Instruction> SmaliNode convertInstruction(Tree node, Class<T> defaultClass) {
         var factory = context.get(SmaliContext.FACTORY);
 
         var opcode = getOpcode(node);
         var children = convertChildren(node);
 
-        return switch (opcode) {
-            case RETURN_OBJECT, RETURN_WIDE, RETURN ->
-                    factory.returnInstructionFormat(getStatementAttributes(opcode.name), children);
-            case THROW -> factory.genericInstruction(ReturnStatement.class, opcode, lineDirective, children);
-            default -> factory.genericInstruction(InstructionFormat11x.class, opcode, lineDirective, children);
-        };
+        var instructionClass = OPCODE_TO_INSTRUCTION.get(opcode);
+
+        return instructionClass != null ?
+                factory.genericInstruction(instructionClass, opcode, lineDirective, children)
+                : factory.genericInstruction(defaultClass, opcode, lineDirective, children);
     }
 
     private SmaliNode convertStatementFormat11n(Tree node) {
