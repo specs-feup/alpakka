@@ -27,17 +27,23 @@ public abstract class SmaliAstTester {
         return OUTPUT_FOLDERNAME;
     }
 
-    File setUpResource(String resource) {
+    private String getOutputFoldername(String resourceName) {
+        return OUTPUT_FOLDERNAME + "/" + resourceName + "/";
+    }
+
+    File setUpResource(String basePackage, String resourceName) {
+
+        var resource = basePackage + resourceName;
 
         // Copy resources under test
-        File outputFolder = SpecsIo.mkdir(OUTPUT_FOLDERNAME);
+        File outputFolder = SpecsIo.mkdir(getOutputFoldername(resourceName));
         File copiedFile = SpecsIo.resourceCopy(resource, outputFolder, false, true);
         Assertions.assertTrue(copiedFile.isFile(), "Could not copy resource '" + resource + "'");
         return copiedFile;
     }
 
     void testSmaliFile(String resourceName) {
-        var file = setUpResource(basePackage + resourceName);
+        var file = setUpResource(basePackage, resourceName);
 
         testSmaliFile(file);
     }
@@ -49,21 +55,22 @@ public abstract class SmaliAstTester {
 
         var smaliRoot = new AlpakkaParser().parse(List.of(resourceFile), parserOptions).orElseThrow();
 
-        var directory = SpecsIo.mkdir(OUTPUT_FOLDERNAME + "/outputFirst");
+        var directory = SpecsIo.mkdir(getOutputFoldername(resourceFile.getName()) + "/outputFirst");
         SpecsIo.write(new File(directory, resourceFile.getName()), smaliRoot.getChildren().get(0).getCode());
-
+        System.out.println("CODE:\n" + smaliRoot.getChildren().get(0).getCode());
         // Parse output again, check if files are the same
         File firstOutput = new File(directory, resourceFile.getName());
 
         var smaliRoot2 = new AlpakkaParser().parse(List.of(firstOutput), parserOptions).orElseThrow();
-
-        var secondDirectory = SpecsIo.mkdir(OUTPUT_FOLDERNAME + "/outputSecond");
+        System.out.println("RESOURCE: " + resourceFile.getName());
+        System.out.println("SECOND OUTPUT: " + smaliRoot2.getChildren().get(0).getCode());
+        var secondDirectory = SpecsIo.mkdir(getOutputFoldername(resourceFile.getName()) + "/outputSecond");
         SpecsIo.write(new File(secondDirectory, resourceFile.getName()), smaliRoot2.getChildren().get(0).getCode());
 
-        Map<String, File> outputFiles1 = SpecsIo.getFiles(new File(OUTPUT_FOLDERNAME + "/outputFirst"))
+        Map<String, File> outputFiles1 = SpecsIo.getFiles(new File(getOutputFoldername(resourceFile.getName()) + "/outputFirst"))
                 .stream().collect(Collectors.toMap(File::getName, file -> file));
 
-        Map<String, File> outputFiles2 = SpecsIo.getFiles(new File(OUTPUT_FOLDERNAME + "/outputSecond"))
+        Map<String, File> outputFiles2 = SpecsIo.getFiles(new File(getOutputFoldername(resourceFile.getName()) + "/outputSecond"))
                 .stream().collect(Collectors.toMap(File::getName, file -> file));
 
         for (String name : outputFiles1.keySet()) {

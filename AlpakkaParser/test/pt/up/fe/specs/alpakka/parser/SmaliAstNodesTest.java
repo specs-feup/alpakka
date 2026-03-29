@@ -1,6 +1,7 @@
 package pt.up.fe.specs.alpakka.parser;
 
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import pt.up.fe.specs.util.SpecsIo;
 
@@ -12,6 +13,8 @@ public class SmaliAstNodesTest extends SmaliAstTester {
         super("pt/up/fe/specs/alpakka/nodes/");
     }
 
+
+    @BeforeAll
     @AfterAll
     static void clear() {
         File outputFolder = SpecsIo.mkdir(getOutputFoldername());

@@ -296,43 +296,6 @@ public class SmaliFactory {
         return new ReturnStatement(data, children);
     }
 
-
-    public InstructionFormat11n instructionFormat11n(HashMap<String, Object> attributes,
-                                                     List<? extends SmaliNode> children) {
-        var data = newDataStore(InstructionFormat11n.class);
-        data.set(InstructionFormat11n.ATTRIBUTES, attributes);
-        data.set(Instruction.FORMAT, Format.Format11n);
-
-        return new InstructionFormat11n(data, children);
-    }
-
-    public InstructionFormat12x instructionFormat12x(HashMap<String, Object> attributes,
-                                                     List<? extends SmaliNode> children) {
-        var data = newDataStore(InstructionFormat12x.class);
-        data.set(InstructionFormat12x.ATTRIBUTES, attributes);
-        data.set(Instruction.FORMAT, Format.Format12x);
-
-        return new InstructionFormat12x(data, children);
-    }
-
-    public InstructionFormat21ih instructionFormat21ih(HashMap<String, Object> attributes,
-                                                       List<? extends SmaliNode> children) {
-        var data = newDataStore(InstructionFormat21ih.class);
-        data.set(InstructionFormat21ih.ATTRIBUTES, attributes);
-        data.set(Instruction.FORMAT, Format.Format21ih);
-
-        return new InstructionFormat21ih(data, children);
-    }
-
-    public InstructionFormat21lh instructionFormat21lh(HashMap<String, Object> attributes,
-                                                       List<? extends SmaliNode> children) {
-        var data = newDataStore(InstructionFormat21lh.class);
-        data.set(InstructionFormat21lh.ATTRIBUTES, attributes);
-        data.set(Instruction.FORMAT, Format.Format21lh);
-
-        return new InstructionFormat21lh(data, children);
-    }
-
     public InstructionFormat21cField instructionFormat21cField(HashMap<String, Object> attributes,
                                                                List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat21cField.class);
@@ -342,15 +305,6 @@ public class SmaliFactory {
         return new InstructionFormat21cField(data, children);
     }
 
-    public InstructionFormat21cString instructionFormat21cString(HashMap<String, Object> attributes,
-                                                                 List<? extends SmaliNode> children) {
-        var data = newDataStore(InstructionFormat21cString.class);
-        data.set(InstructionFormat21cString.ATTRIBUTES, attributes);
-        data.set(Instruction.FORMAT, Format.Format21c);
-
-        return new InstructionFormat21cString(data, children);
-    }
-
     public InstructionFormat21cType instructionFormat21cType(HashMap<String, Object> attributes,
                                                              List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat21cType.class);
@@ -358,24 +312,6 @@ public class SmaliFactory {
         data.set(Instruction.FORMAT, Format.Format21c);
 
         return new InstructionFormat21cType(data, children);
-    }
-
-    public InstructionFormat21cMethodType instructionFormat21cMethodType(HashMap<String, Object> attributes,
-                                                                         List<? extends SmaliNode> children) {
-        var data = newDataStore(InstructionFormat21cMethodType.class);
-        data.set(InstructionFormat21cMethodType.ATTRIBUTES, attributes);
-        data.set(Instruction.FORMAT, Format.Format21c);
-
-        return new InstructionFormat21cMethodType(data, children);
-    }
-
-    public InstructionFormat21s instructionFormat21s(HashMap<String, Object> attributes,
-                                                     List<? extends SmaliNode> children) {
-        var data = newDataStore(InstructionFormat21s.class);
-        data.set(InstructionFormat21s.ATTRIBUTES, attributes);
-        data.set(Instruction.FORMAT, Format.Format21s);
-
-        return new InstructionFormat21s(data, children);
     }
 
     public InstructionFormat21t instructionFormat21t(HashMap<String, Object> attributes,
@@ -405,24 +341,6 @@ public class SmaliFactory {
         return new InstructionFormat22cType(data, children);
     }
 
-    public InstructionFormat22b instructionFormat22b(HashMap<String, Object> attributes,
-                                                     List<? extends SmaliNode> children) {
-        var data = newDataStore(InstructionFormat22b.class);
-        data.set(InstructionFormat22b.ATTRIBUTES, attributes);
-        data.set(Instruction.FORMAT, Format.Format22b);
-
-        return new InstructionFormat22b(data, children);
-    }
-
-    public InstructionFormat22s instructionFormat22s(HashMap<String, Object> attributes,
-                                                     List<? extends SmaliNode> children) {
-        var data = newDataStore(InstructionFormat22s.class);
-        data.set(InstructionFormat22s.ATTRIBUTES, attributes);
-        data.set(Instruction.FORMAT, Format.Format22s);
-
-        return new InstructionFormat22s(data, children);
-    }
-
     public InstructionFormat22t instructionFormat22t(HashMap<String, Object> attributes,
                                                      List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat22t.class);
@@ -432,15 +350,6 @@ public class SmaliFactory {
         return new InstructionFormat22t(data, children);
     }
 
-    public InstructionFormat22x instructionFormat22x(HashMap<String, Object> attributes,
-                                                     List<? extends SmaliNode> children) {
-        var data = newDataStore(InstructionFormat22x.class);
-        data.set(InstructionFormat22x.ATTRIBUTES, attributes);
-        data.set(Instruction.FORMAT, Format.Format22x);
-
-        return new InstructionFormat22x(data, children);
-    }
-
     public InstructionFormat23x instructionFormat23x(HashMap<String, Object> attributes,
                                                      List<? extends SmaliNode> children) {
         var data = newDataStore(InstructionFormat23x.class);
@@ -448,24 +357,6 @@ public class SmaliFactory {
         data.set(Instruction.FORMAT, Format.Format23x);
 
         return new InstructionFormat23x(data, children);
-    }
-
-    public InstructionFormat31c instructionFormat31c(HashMap<String, Object> attributes,
-                                                     List<? extends SmaliNode> children) {
-        var data = newDataStore(InstructionFormat31c.class);
-        data.set(InstructionFormat31c.ATTRIBUTES, attributes);
-        data.set(Instruction.FORMAT, Format.Format31c);
-
-        return new InstructionFormat31c(data, children);
-    }
-
-    public InstructionFormat31i instructionFormat31i(HashMap<String, Object> attributes,
-                                                     List<? extends SmaliNode> children) {
-        var data = newDataStore(InstructionFormat31i.class);
-        data.set(InstructionFormat31i.ATTRIBUTES, attributes);
-        data.set(Instruction.FORMAT, Format.Format31i);
-
-        return new InstructionFormat31i(data, children);
     }
 
     public FillArrayStatement fillArrayInstructionFormat(HashMap<String, Object> attributes,
@@ -482,15 +373,6 @@ public class SmaliFactory {
         data.set(SwitchStatement.ATTRIBUTES, attributes);
 
         return new SwitchStatement(data, children);
-    }
-
-    public InstructionFormat32x instructionFormat32x(HashMap<String, Object> attributes,
-                                                     List<? extends SmaliNode> children) {
-        var data = newDataStore(InstructionFormat32x.class);
-        data.set(InstructionFormat32x.ATTRIBUTES, attributes);
-        data.set(Instruction.FORMAT, Format.Format32x);
-
-        return new InstructionFormat32x(data, children);
     }
 
     public InstructionFormat35cMethod instructionFormat35cMethod(HashMap<String, Object> attributes,
@@ -545,15 +427,6 @@ public class SmaliFactory {
         data.set(Instruction.FORMAT, Format.Format4rcc);
 
         return new InstructionFormat4rccMethod(data, children);
-    }
-
-    public InstructionFormat51l instructionFormat51l(HashMap<String, Object> attributes,
-                                                     List<? extends SmaliNode> children) {
-        var data = newDataStore(InstructionFormat51l.class);
-        data.set(InstructionFormat51l.ATTRIBUTES, attributes);
-        data.set(Instruction.FORMAT, Format.Format51l);
-
-        return new InstructionFormat51l(data, children);
     }
 
     public LabelRef labelRef(String label) {
