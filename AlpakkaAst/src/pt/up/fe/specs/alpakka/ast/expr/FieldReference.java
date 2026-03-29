@@ -1,15 +1,24 @@
 package pt.up.fe.specs.alpakka.ast.expr;
 
-import java.util.Collection;
-
+import org.suikasoft.jOptions.Datakey.DataKey;
+import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
-
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
 import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.TypeDescriptor;
 
+import java.util.Collection;
+
 public class FieldReference extends Expression implements Reference {
 
-    public static String TYPE_LABEL = "field";
+    private static String TYPE_LABEL = "field";
+
+    public static String fieldLabel() {
+        return TYPE_LABEL;
+    }
+
+    public static final DataKey<String> MEMBER_NAME = KeyFactory.string("memberName");
+    public static final DataKey<TypeDescriptor> BASE_TYPE = KeyFactory.object("baseType", TypeDescriptor.class);
+    public static final DataKey<TypeDescriptor> REFERENCE_TYPE = KeyFactory.object("referenceType", TypeDescriptor.class);
 
     public FieldReference(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);

@@ -18,7 +18,7 @@ public class LabelRef extends Expression implements Reference {
         super(data, children);
     }
 
-    public static String typeLabel() {
+    public static String label() {
         return TYPE_LABEL;
     }
 

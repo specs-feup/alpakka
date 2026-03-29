@@ -185,13 +185,6 @@ public class SmaliFactory {
         return new MethodNode(data, children);
     }
 
-    public static final DataKey<String> MEMBER_NAME = KeyFactory.string("memberName");
-
-    public static final DataKey<TypeDescriptor> FIELD_TYPE = KeyFactory.object("fieldType", TypeDescriptor.class);
-
-    public static final DataKey<List<Modifier>> MODIFIERS = KeyFactory.list("accessOrRestrictionList", Modifier.class);
-
-
     public FieldNode fieldNode(String memberName, TypeDescriptor fieldType, List<Modifier> modifiers, List<? extends SmaliNode> children) {
         var data = newDataStore(FieldNode.class)
                 .put(FieldNode.MEMBER_NAME, memberName)
