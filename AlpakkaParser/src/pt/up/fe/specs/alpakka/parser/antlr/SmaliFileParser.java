@@ -196,13 +196,16 @@ public class SmaliFileParser {
         var accessList = new ArrayList<AccessSpec>();
         var implementsDescriptors = new ArrayList<ClassType>();
 
-        var attributes = new HashMap<String, Object>();
         var children = new ArrayList<SmaliNode>();
+
+        ClassType classDescriptor = null;
+        ClassType superDescriptor = null;
+        String source = null;
 
         for (int i = 0; i < node.getChildCount(); i++) {
             switch (node.getChild(i).getType()) {
                 case smaliParser.CLASS_DESCRIPTOR -> {
-                    attributes.put("classDescriptor", convert(node.getChild(i)));
+                    classDescriptor = (ClassType) convert(node.getChild(i));
                 }
                 case smaliParser.I_ACCESS_LIST -> {
                     for (int j = 0; j < node.getChild(i).getChildCount(); j++) {
@@ -210,13 +213,13 @@ public class SmaliFileParser {
                     }
                 }
                 case smaliParser.I_SUPER -> {
-                    attributes.put("superClassDescriptor", convert(node.getChild(i).getChild(0)));
+                    superDescriptor = (ClassType) convert(node.getChild(i).getChild(0));
                 }
                 case smaliParser.I_IMPLEMENTS -> {
                     implementsDescriptors.add((ClassType) convert(node.getChild(i).getChild(0)));
                 }
                 case smaliParser.I_SOURCE -> {
-                    attributes.put("source", convert(node.getChild(i).getChild(0)));
+                    source = convert(node.getChild(i).getChild(0)).getCode();
                 }
                 case smaliParser.I_METHODS, smaliParser.I_FIELDS, smaliParser.I_ANNOTATIONS -> {
                     for (int j = 0; j < node.getChild(i).getChildCount(); j++) {
@@ -226,11 +229,8 @@ public class SmaliFileParser {
             }
         }
 
-        attributes.put("accessList", accessList);
-        attributes.put("implementsDescriptors", implementsDescriptors);
-        attributes.put("dexClass", dexClass);
 
-        return factory.classNode(attributes, children);
+        return factory.classNode(classDescriptor, superDescriptor, accessList, implementsDescriptors, dexClass, source, children);
     }
 
     private void todo(String todo) {
@@ -1248,7 +1248,7 @@ public class SmaliFileParser {
             var elementChildren = new ArrayList<SmaliNode>();
 
             elementChildren.add(convert(sparseSwitchElements.getChild(i)));
-            
+
             elementChildren.add(factory.labelRef(sparseSwitchElements.getChild(i + 1).getText()));
 
             children.add(factory.sparseSwitchElement(elementChildren));

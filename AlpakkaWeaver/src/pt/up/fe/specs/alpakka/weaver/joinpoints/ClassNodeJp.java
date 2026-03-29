@@ -10,38 +10,40 @@ import pt.up.fe.specs.alpakka.weaver.abstracts.joinpoints.AMethodNode;
 
 public class ClassNodeJp extends AClassNode {
 
-	private final ClassNode classNode;
+    private final ClassNode classNode;
 
-	public ClassNodeJp(ClassNode classNode) {
-		this.classNode = classNode;
-	}
+    public ClassNodeJp(ClassNode classNode) {
+        this.classNode = classNode;
+    }
 
-	@Override
-	public SmaliNode getNode() {
-		return classNode;
-	}
+    @Override
+    public SmaliNode getNode() {
+        return classNode;
+    }
 
-	@Override
-	public AMethodNode[] getMethodsArrayImpl() {
-		return classNode.getMethods().stream()
-				.map(method -> SmaliJoinpoints.create(method, AMethodNode.class))
-				.toArray(AMethodNode[]::new);
-	}
+    @Override
+    public AMethodNode[] getMethodsArrayImpl() {
+        return classNode.getMethods().stream()
+                .map(method -> SmaliJoinpoints.create(method, AMethodNode.class))
+                .toArray(AMethodNode[]::new);
+    }
 
-	@Override
-	public AFieldNode[] getFieldsArrayImpl() {
-		return classNode.getFields().stream()
-				.map(field -> SmaliJoinpoints.create(field, AFieldNode.class))
-				.toArray(AFieldNode[]::new);
-	}
+    @Override
+    public AFieldNode[] getFieldsArrayImpl() {
+        return classNode.getFields().stream()
+                .map(field -> SmaliJoinpoints.create(field, AFieldNode.class))
+                .toArray(AFieldNode[]::new);
+    }
 
-	@Override
-	public AClassType getClassDescriptorImpl() {
-		return SmaliJoinpoints.create(classNode.getClassDescriptor(), AClassType.class);
-	}
+    @Override
+    public AClassType getClassDescriptorImpl() {
+        return SmaliJoinpoints.create(classNode.getClassDescriptor(), AClassType.class);
+    }
 
-	@Override
-	public AClassType getSuperClassDescriptorImpl() {
-		return SmaliJoinpoints.create(classNode.getSuperClass(), AClassType.class);
-	}
+    @Override
+    public AClassType getSuperClassDescriptorImpl() {
+        return classNode.getSuperClass()
+                .map(node -> SmaliJoinpoints.create(node, AClassType.class))
+                .orElse(null);
+    }
 }

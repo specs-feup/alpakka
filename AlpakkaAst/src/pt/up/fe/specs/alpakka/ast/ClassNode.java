@@ -1,15 +1,30 @@
 package pt.up.fe.specs.alpakka.ast;
 
+import org.suikasoft.jOptions.Datakey.DataKey;
+import org.suikasoft.jOptions.Datakey.KeyFactory;
+import org.suikasoft.jOptions.Interfaces.DataStore;
+import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.ClassType;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.suikasoft.jOptions.Interfaces.DataStore;
-
-import pt.up.fe.specs.alpakka.ast.expr.literal.Literal;
-import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.ClassType;
+import java.util.Optional;
 
 public class ClassNode extends SmaliNode {
+
+
+    public static final DataKey<ClassType> CLASS_DESCRIPTOR = KeyFactory.object("classDescriptor", ClassType.class);
+
+    public static final DataKey<Optional<ClassType>> SUPER_DESCRIPTOR = KeyFactory.optional("superClassDescriptor");
+
+    public static final DataKey<List<AccessSpec>> ACCESS_LIST = KeyFactory.list("accessList", AccessSpec.class);
+
+    public static final DataKey<List<ClassType>> IMPLEMENTS_DESCRIPTORS = KeyFactory.list("implementsDescriptors", ClassType.class);
+
+    public static final DataKey<Optional<String>> DEX_CLASS = KeyFactory.optional("dexClass");
+
+    public static final DataKey<Optional<String>> SOURCE = KeyFactory.optional("source");
+
 
     public ClassNode(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, reorderClassItems(children));
@@ -31,12 +46,12 @@ public class ClassNode extends SmaliNode {
 
     @Override
     public String getCode() {
-        var attributes = get(ATTRIBUTES);
-        var accessList = (List<AccessSpec>) attributes.get("accessList");
+        var accessList = get(ACCESS_LIST);
         var classDescriptor = getClassDescriptor();
-        var superClassDescriptor = getSuperClass();
-        var implementsDescriptors = (List<ClassType>) attributes.get("implementsDescriptors");
-        var source = (Literal) attributes.get("source");
+        var superClassDescriptor = getSuperClass().orElse(null);
+        var implementsDescriptors = get(IMPLEMENTS_DESCRIPTORS);
+        var source = get(SOURCE).orElse(null);
+
 
         var builder = new StringBuilder();
         builder.append(".class ");
@@ -61,7 +76,7 @@ public class ClassNode extends SmaliNode {
 
         if (source != null) {
             builder.append(".source ");
-            builder.append(source.getCode());
+            builder.append(source);
             builder.append("\n");
         }
 
@@ -73,11 +88,11 @@ public class ClassNode extends SmaliNode {
     }
 
     public ClassType getClassDescriptor() {
-        return (ClassType) get(ATTRIBUTES).get("classDescriptor");
+        return get(CLASS_DESCRIPTOR);
     }
 
     public String getDexClassName() {
-        return get(ATTRIBUTES).get("dexClass") != null ? (String) get(ATTRIBUTES).get("dexClass") : "";
+        return get(DEX_CLASS).orElse("");
     }
 
     public List<MethodNode> getMethods() {
@@ -94,8 +109,8 @@ public class ClassNode extends SmaliNode {
                 .toList();
     }
 
-    public ClassType getSuperClass() {
-        return (ClassType) get(ATTRIBUTES).get("superClassDescriptor");
+    public Optional<ClassType> getSuperClass() {
+        return get(SUPER_DESCRIPTOR);
     }
 
 }

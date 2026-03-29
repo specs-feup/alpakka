@@ -76,10 +76,15 @@ public class SmaliFactory {
         return new Placeholder(data, children);
     }
 
-    public ClassNode classNode(HashMap<String, Object> attributes, List<? extends SmaliNode> children) {
-        var data = newDataStore(ClassNode.class);
-        data.set(ClassNode.ATTRIBUTES, attributes);
-
+    public ClassNode classNode(ClassType classDescriptor, ClassType superDescriptor, List<AccessSpec> accessList, List<ClassType> implementsDescriptors, String dexClass, String source, List<? extends SmaliNode> children) {
+        var data = newDataStore(ClassNode.class)
+                .put(ClassNode.CLASS_DESCRIPTOR, classDescriptor)
+                .put(ClassNode.SUPER_DESCRIPTOR, Optional.ofNullable(superDescriptor))
+                .put(ClassNode.ACCESS_LIST, accessList)
+                .put(ClassNode.IMPLEMENTS_DESCRIPTORS, implementsDescriptors)
+                .put(ClassNode.DEX_CLASS, Optional.ofNullable(dexClass))
+                .put(ClassNode.SOURCE, Optional.ofNullable(source));
+        
         return new ClassNode(data, children);
     }
 

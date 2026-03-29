@@ -55,6 +55,61 @@ public class SmaliAstNodesTest extends SmaliAstTester {
     }
 
     @Test
+    void testClassNode1() {
+        testSmaliFile("ClassNode1.smali");
+    }
+
+    @Test
+    void testClassNode2() {
+        testSmaliFile("ClassNode2.smali");
+    }
+
+    @Test
+    void testClassNode3() {
+        testSmaliFile("ClassNode3.smali");
+    }
+
+    @Test
+    void testClassNode4() {
+        testSmaliFile("ClassNode4.smali");
+    }
+
+    @Test
+    void testClassNode5() {
+        testSmaliFile("ClassNode5.smali");
+    }
+
+    @Test
+    void testClassNode6() {
+        testSmaliFile("ClassNode6.smali");
+    }
+
+    @Test
+    void testClassNode7() {
+        testSmaliFile("ClassNode7.smali");
+    }
+
+    @Test
+    void testClassNode8() {
+        testSmaliFile("ClassNode8.smali");
+    }
+
+    @Test
+    void testClassNode9() {
+        testSmaliFile("ClassNode9.smali");
+    }
+
+    @Test
+    void testClassNode10() {
+        testSmaliFile("ClassNode10.smali");
+    }
+
+    @Test
+    void testClassNode11() {
+        testSmaliFile("ClassNode11.smali");
+    }
+
+    @Test
     void testLabelRef1() {
         testSmaliFile("LabelRef1.smali");
     }
