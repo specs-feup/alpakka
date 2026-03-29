@@ -1,14 +1,22 @@
 package pt.up.fe.specs.alpakka.ast;
 
+import org.suikasoft.jOptions.Datakey.DataKey;
+import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import pt.up.fe.specs.alpakka.ast.expr.literal.Literal;
 import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.TypeDescriptor;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class FieldNode extends SmaliNode {
+
+    public static final DataKey<String> MEMBER_NAME = KeyFactory.string("memberName");
+
+    public static final DataKey<TypeDescriptor> FIELD_TYPE = KeyFactory.object("fieldType", TypeDescriptor.class);
+
+    public static final DataKey<List<Modifier>> MODIFIERS = KeyFactory.list("accessOrRestrictionList", Modifier.class);
+
 
     public FieldNode(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
@@ -52,11 +60,11 @@ public class FieldNode extends SmaliNode {
     }
 
     public String getFieldName() {
-        return (String) get(ATTRIBUTES).get("memberName");
+        return get(MEMBER_NAME);
     }
 
     public TypeDescriptor getFieldType() {
-        return (TypeDescriptor) get(ATTRIBUTES).get("fieldType");
+        return get(FIELD_TYPE);
     }
 
     public String getFieldReferenceName() {
@@ -75,7 +83,7 @@ public class FieldNode extends SmaliNode {
     }
 
     public List<Modifier> getAccessList() {
-        return (ArrayList<Modifier>) get(ATTRIBUTES).get("accessOrRestrictionList");
+        return get(MODIFIERS);
     }
 
     public boolean isStatic() {

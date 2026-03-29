@@ -504,8 +504,9 @@ public class SmaliFileParser {
     private SmaliNode convertField(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
-        var fieldAttributes = new HashMap<String, Object>();
         var accessOrRestrictionList = new ArrayList<Modifier>();
+        String memberName = null;
+        TypeDescriptor fieldType = null;
 
         var children = new ArrayList<SmaliNode>();
 
@@ -517,16 +518,16 @@ public class SmaliFileParser {
                     }
                 }
                 case smaliParser.SIMPLE_NAME -> {
-                    fieldAttributes.put("memberName", node.getChild(i).getText());
+                    memberName = node.getChild(i).getText();
                 }
                 case smaliParser.I_FIELD_TYPE -> {
                     // Non void type descriptor
                     for (int j = 0; j < node.getChild(i).getChildCount(); j++) {
                         if (node.getChild(i).getChild(j).getType() == smaliParser.ARRAY_TYPE_PREFIX) {
                             j++;
-                            fieldAttributes.put("fieldType", factory.arrayType(node.getChild(i).getChild(j).getText()));
+                            fieldType = factory.arrayType(node.getChild(i).getChild(j).getText());
                         } else {
-                            fieldAttributes.put("fieldType", factory.nonVoidType(node.getChild(i).getChild(j).getText()));
+                            fieldType = factory.nonVoidType(node.getChild(i).getChild(j).getText());
                         }
                     }
                 }
@@ -541,10 +542,8 @@ public class SmaliFileParser {
                 }
             }
         }
-
-        fieldAttributes.put("accessOrRestrictionList", accessOrRestrictionList);
-
-        return factory.fieldNode(fieldAttributes, children);
+        
+        return factory.fieldNode(memberName, fieldType, accessOrRestrictionList, children);
     }
 
     private SmaliNode convertEncodedField(Tree node) {

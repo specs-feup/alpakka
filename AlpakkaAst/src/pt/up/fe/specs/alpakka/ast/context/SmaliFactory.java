@@ -1,6 +1,8 @@
 package pt.up.fe.specs.alpakka.ast.context;
 
 import com.android.tools.smali.dexlib2.Format;
+import org.suikasoft.jOptions.Datakey.DataKey;
+import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import org.suikasoft.jOptions.storedefinition.StoreDefinitions;
 import pt.up.fe.specs.alpakka.ast.*;
@@ -84,7 +86,7 @@ public class SmaliFactory {
                 .put(ClassNode.IMPLEMENTS_DESCRIPTORS, implementsDescriptors)
                 .put(ClassNode.DEX_CLASS, Optional.ofNullable(dexClass))
                 .put(ClassNode.SOURCE, Optional.ofNullable(source));
-        
+
         return new ClassNode(data, children);
     }
 
@@ -183,9 +185,18 @@ public class SmaliFactory {
         return new MethodNode(data, children);
     }
 
-    public FieldNode fieldNode(HashMap<String, Object> attributes, List<? extends SmaliNode> children) {
-        var data = newDataStore(FieldNode.class);
-        data.set(FieldNode.ATTRIBUTES, attributes);
+    public static final DataKey<String> MEMBER_NAME = KeyFactory.string("memberName");
+
+    public static final DataKey<TypeDescriptor> FIELD_TYPE = KeyFactory.object("fieldType", TypeDescriptor.class);
+
+    public static final DataKey<List<Modifier>> MODIFIERS = KeyFactory.list("accessOrRestrictionList", Modifier.class);
+
+
+    public FieldNode fieldNode(String memberName, TypeDescriptor fieldType, List<Modifier> modifiers, List<? extends SmaliNode> children) {
+        var data = newDataStore(FieldNode.class)
+                .put(FieldNode.MEMBER_NAME, memberName)
+                .put(FieldNode.FIELD_TYPE, fieldType)
+                .put(FieldNode.MODIFIERS, modifiers);
 
         return new FieldNode(data, children);
     }
