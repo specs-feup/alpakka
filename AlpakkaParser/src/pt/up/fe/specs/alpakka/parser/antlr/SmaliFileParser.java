@@ -1,7 +1,6 @@
 package pt.up.fe.specs.alpakka.parser.antlr;
 
 import com.android.tools.smali.dexlib2.Opcode;
-import com.android.tools.smali.dexlib2.Opcodes;
 import com.android.tools.smali.smali.smaliFlexLexer;
 import com.android.tools.smali.smali.smaliParser;
 import org.antlr.runtime.CommonTokenStream;
@@ -19,7 +18,6 @@ import pt.up.fe.specs.alpakka.ast.stmt.LineDirective;
 import pt.up.fe.specs.alpakka.ast.stmt.Statement;
 import pt.up.fe.specs.alpakka.ast.stmt.instruction.InstructionFormat11x;
 import pt.up.fe.specs.alpakka.ast.stmt.instruction.ReturnStatement;
-import pt.up.fe.specs.alpakka.ast.stmt.instruction.ThrowStatement;
 import pt.up.fe.specs.util.SpecsIo;
 import pt.up.fe.specs.util.exceptions.NotImplementedException;
 
@@ -847,7 +845,7 @@ public class SmaliFileParser {
         var factory = context.get(SmaliContext.FACTORY);
 
         var opcodeName = node.getChild(0).getText();
-        var opcode = Opcodes.getDefault().getOpcodeByName(opcodeName);
+        var opcode = SmaliNode.getOpcode(opcodeName);
 
         var children = new ArrayList<SmaliNode>();
 
@@ -855,16 +853,12 @@ public class SmaliFileParser {
             children.add(convert(node.getChild(i)));
         }
 
-        if (opcode == Opcode.RETURN_OBJECT || opcode == Opcode.RETURN_WIDE || opcode == Opcode.RETURN) {
-            return factory.genericInstruction(ReturnStatement.class, opcode, lineDirective, children);
-        }
-
-        if (opcode == Opcode.THROW) {
-            return factory.genericInstruction(ThrowStatement.class, opcode, lineDirective, children);
-        }
-
-
-        return factory.genericInstruction(InstructionFormat11x.class, opcode, lineDirective, children);
+        return switch (opcode) {
+            case RETURN_OBJECT, RETURN_WIDE, RETURN ->
+                    factory.returnInstructionFormat(getStatementAttributes(opcodeName), children);
+            case THROW -> factory.genericInstruction(ReturnStatement.class, opcode, lineDirective, children);
+            default -> factory.genericInstruction(InstructionFormat11x.class, opcode, lineDirective, children);
+        };
     }
 
     private SmaliNode convertStatementFormat11n(Tree node) {

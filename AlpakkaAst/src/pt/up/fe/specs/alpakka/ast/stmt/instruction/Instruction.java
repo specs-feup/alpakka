@@ -24,8 +24,8 @@ public abstract class Instruction extends Statement {
 
         // TODO: Remove after ATTRIBUTES refactoring. Guarantees that OPCODE is always set
         if (hasValue(ATTRIBUTES)) {
-            var opcodeText = get(ATTRIBUTES).get("instruction").toString();
-            set(OPCODE, Opcodes.getDefault().getOpcodeByName(opcodeText));
+            var opcodeName = get(ATTRIBUTES).get("instruction").toString();
+            set(OPCODE, getOpcode(opcodeName));
         }
     }
 
