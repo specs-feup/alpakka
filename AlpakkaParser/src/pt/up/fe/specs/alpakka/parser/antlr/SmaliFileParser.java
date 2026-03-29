@@ -16,10 +16,7 @@ import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.ClassType;
 import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.TypeDescriptor;
 import pt.up.fe.specs.alpakka.ast.stmt.LineDirective;
 import pt.up.fe.specs.alpakka.ast.stmt.Statement;
-import pt.up.fe.specs.alpakka.ast.stmt.instruction.Instruction;
-import pt.up.fe.specs.alpakka.ast.stmt.instruction.InstructionFormat11x;
-import pt.up.fe.specs.alpakka.ast.stmt.instruction.ReturnStatement;
-import pt.up.fe.specs.alpakka.ast.stmt.instruction.ThrowStatement;
+import pt.up.fe.specs.alpakka.ast.stmt.instruction.*;
 import pt.up.fe.specs.util.SpecsIo;
 import pt.up.fe.specs.util.exceptions.NotImplementedException;
 
@@ -89,7 +86,7 @@ public class SmaliFileParser {
         converters.put(smaliParser.I_STATEMENT_FORMAT10x, this::convertStatementFormat10x);
         converters.put(smaliParser.I_STATEMENT_FORMAT10t, this::convertGotoStatementFormat);
         converters.put(smaliParser.I_STATEMENT_FORMAT11x, node -> convertInstruction(node, InstructionFormat11x.class));
-        converters.put(smaliParser.I_STATEMENT_FORMAT11n, this::convertStatementFormat11n);
+        converters.put(smaliParser.I_STATEMENT_FORMAT11n, node -> convertInstruction(node, InstructionFormat11n.class));
         converters.put(smaliParser.I_STATEMENT_FORMAT12x, this::convertStatementFormat12x);
         converters.put(smaliParser.I_STATEMENT_FORMAT20t, this::convertGotoStatementFormat);
         converters.put(smaliParser.I_STATEMENT_FORMAT21ih, this::convertStatementFormat21ih);
@@ -885,18 +882,6 @@ public class SmaliFileParser {
                 : factory.genericInstruction(defaultClass, opcode, lineDirective, children);
     }
 
-    private SmaliNode convertStatementFormat11n(Tree node) {
-        var factory = context.get(SmaliContext.FACTORY);
-
-        var attributes = getStatementAttributes(node.getChild(0).getText());
-        var children = new ArrayList<SmaliNode>();
-
-        for (int i = 1; i < node.getChildCount(); i++) {
-            children.add(convert(node.getChild(i)));
-        }
-
-        return factory.instructionFormat11n(attributes, children);
-    }
 
     private SmaliNode convertStatementFormat12x(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);

@@ -123,7 +123,12 @@ public class SmaliAstNodesTest extends SmaliAstTester {
     void testInstructionFormat10x() {
         testSmaliFile("InstructionFormat10x.smali");
     }
-    
+
+    @Test
+    void testInstructionFormat11n() {
+        testSmaliFile("InstructionFormat11n.smali");
+    }
+
     @Test
     void testInstructionFormat11x() {
         testSmaliFile("InstructionFormat11x.smali");
