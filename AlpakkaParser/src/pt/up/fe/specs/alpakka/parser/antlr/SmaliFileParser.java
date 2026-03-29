@@ -18,6 +18,8 @@ import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.TypeDescriptor;
 import pt.up.fe.specs.alpakka.ast.stmt.LineDirective;
 import pt.up.fe.specs.alpakka.ast.stmt.Statement;
 import pt.up.fe.specs.alpakka.ast.stmt.instruction.InstructionFormat11x;
+import pt.up.fe.specs.alpakka.ast.stmt.instruction.ReturnStatement;
+import pt.up.fe.specs.alpakka.ast.stmt.instruction.ThrowStatement;
 import pt.up.fe.specs.util.SpecsIo;
 import pt.up.fe.specs.util.exceptions.NotImplementedException;
 
@@ -845,22 +847,22 @@ public class SmaliFileParser {
         var factory = context.get(SmaliContext.FACTORY);
 
         var opcodeName = node.getChild(0).getText();
-        var attributes = getStatementAttributes(opcodeName);
+        var opcode = Opcodes.getDefault().getOpcodeByName(opcodeName);
+
         var children = new ArrayList<SmaliNode>();
 
         for (int i = 1; i < node.getChildCount(); i++) {
             children.add(convert(node.getChild(i)));
         }
 
-        if (opcodeName.equals(Opcode.RETURN_OBJECT.name) ||
-                opcodeName.equals(Opcode.RETURN_WIDE.name) ||
-                opcodeName.equals(Opcode.RETURN.name)) {
-            return factory.returnInstructionFormat(attributes, children);
-        } else if (opcodeName.equals(Opcode.THROW.name)) {
-            return factory.throwInstructionFormat(attributes, children);
+        if (opcode == Opcode.RETURN_OBJECT || opcode == Opcode.RETURN_WIDE || opcode == Opcode.RETURN) {
+            return factory.genericInstruction(ReturnStatement.class, opcode, lineDirective, children);
         }
-        
-        var opcode = Opcodes.getDefault().getOpcodeByName(opcodeName);
+
+        if (opcode == Opcode.THROW) {
+            return factory.genericInstruction(ThrowStatement.class, opcode, lineDirective, children);
+        }
+
 
         return factory.genericInstruction(InstructionFormat11x.class, opcode, lineDirective, children);
     }

@@ -282,9 +282,8 @@ public class SmaliFactory {
                                                         List<? extends SmaliNode> children) {
 
         var data = newDataStore(instructionClass)
-                .put(InstructionFormat11x.LINE_DIRECTIVE, Optional.ofNullable(lineDirective))
-                .put(InstructionFormat11x.OPCODE, opcode)
-                .put(InstructionFormat11x.FORMAT, Format.Format11x);
+                .put(Instruction.LINE_DIRECTIVE, Optional.ofNullable(lineDirective))
+                .put(Instruction.OPCODE, opcode);
 
         return SpecsSystem.newInstance(instructionClass, data, children);
     }
@@ -297,13 +296,6 @@ public class SmaliFactory {
         return new ReturnStatement(data, children);
     }
 
-    public ThrowStatement throwInstructionFormat(HashMap<String, Object> attributes,
-                                                 List<? extends SmaliNode> children) {
-        var data = newDataStore(ThrowStatement.class);
-        data.set(ThrowStatement.ATTRIBUTES, attributes);
-
-        return new ThrowStatement(data, children);
-    }
 
     public InstructionFormat11n instructionFormat11n(HashMap<String, Object> attributes,
                                                      List<? extends SmaliNode> children) {

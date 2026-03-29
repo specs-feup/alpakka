@@ -15,10 +15,18 @@ public abstract class Instruction extends Statement {
 
     public final static DataKey<Opcode> OPCODE = KeyFactory.enumeration("opcode", Opcode.class);
 
+    // TODO: It is possible to obtain FORMAT from OPCODE, remove after it is no longer used
+    @Deprecated
     public final static DataKey<Format> FORMAT = KeyFactory.enumeration("format", Format.class);
 
     public Instruction(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
+
+        // TODO: Remove after ATTRIBUTES refactoring. Guarantees that OPCODE is always set
+        if (hasValue(ATTRIBUTES)) {
+            var opcodeText = get(ATTRIBUTES).get("instruction").toString();
+            set(OPCODE, Opcodes.getDefault().getOpcodeByName(opcodeText));
+        }
     }
 
     @Override
@@ -66,15 +74,11 @@ public abstract class Instruction extends Statement {
     }
 
     public String getOpCodeName() {
-        if (hasValue(SmaliNode.ATTRIBUTES)) {
-            return get(SmaliNode.ATTRIBUTES).get("instruction").toString();
-        }
-
         return get(OPCODE).name;
     }
 
     private boolean isOpcodeCompatibleFormat(Opcode opcode) {
-        return opcode.format == get(FORMAT);
+        return opcode.format == get(OPCODE).format;
     }
 
     public void setOpcode(Opcode opcode) {
@@ -86,11 +90,7 @@ public abstract class Instruction extends Statement {
                     "Opcode '" + opcode.name + "' is not compatible");
         }
 
-        if (hasValue(SmaliNode.ATTRIBUTES)) {
-            get(SmaliNode.ATTRIBUTES).put("instruction", opcode.name);
-        } else {
-            set(OPCODE, opcode);
-        }
+        set(OPCODE, opcode);
     }
 
     public void setOpcode(String name) {
