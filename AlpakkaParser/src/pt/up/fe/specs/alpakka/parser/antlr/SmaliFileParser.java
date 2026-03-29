@@ -202,7 +202,7 @@ public class SmaliFileParser {
     }
 
 
-    private List<SmaliNode> convertChildren(Tree node) {
+    private List<SmaliNode> convertInstructionChildren(Tree node) {
         var children = new ArrayList<SmaliNode>();
 
         for (int i = 1; i < node.getChildCount(); i++) {
@@ -876,7 +876,7 @@ public class SmaliFileParser {
         var factory = context.get(SmaliContext.FACTORY);
 
         var opcode = getOpcode(node);
-        var children = convertChildren(node);
+        var children = convertInstructionChildren(node);
 
         var instructionClass = OPCODE_TO_INSTRUCTION.get(opcode);
 
