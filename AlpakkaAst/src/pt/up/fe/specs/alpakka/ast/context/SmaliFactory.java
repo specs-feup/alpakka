@@ -1,6 +1,8 @@
 package pt.up.fe.specs.alpakka.ast.context;
 
 import com.android.tools.smali.dexlib2.Opcode;
+import org.suikasoft.jOptions.Datakey.DataKey;
+import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import org.suikasoft.jOptions.storedefinition.StoreDefinitions;
 import pt.up.fe.specs.alpakka.ast.*;
@@ -119,9 +121,9 @@ public class SmaliFactory {
         return new EpilogueDirective(data, null);
     }
 
-    public LocalDirective localDirective(HashMap<String, Object> attributes) {
-        var data = newDataStore(LocalDirective.class);
-        data.set(LocalDirective.ATTRIBUTES, attributes);
+    public LocalDirective localDirective(RegisterReference register) {
+        var data = newDataStore(LocalDirective.class)
+                .put(LocalDirective.REGISTER, register);
 
         return new LocalDirective(data, null);
     }

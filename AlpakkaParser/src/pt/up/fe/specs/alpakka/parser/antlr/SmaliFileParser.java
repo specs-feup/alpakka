@@ -15,6 +15,7 @@ import pt.up.fe.specs.alpakka.ast.expr.literal.MethodPrototype;
 import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.ClassType;
 import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.TypeDescriptor;
 import pt.up.fe.specs.alpakka.ast.stmt.LineDirective;
+import pt.up.fe.specs.alpakka.ast.stmt.LocalDirective;
 import pt.up.fe.specs.alpakka.ast.stmt.Statement;
 import pt.up.fe.specs.alpakka.ast.stmt.instruction.*;
 import pt.up.fe.specs.util.SpecsIo;
@@ -297,29 +298,47 @@ public class SmaliFileParser {
 
     private SmaliNode convertLocalDirective(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
-        var attributes = getStatementAttributes(null);
 
-        attributes.put("register", convert(node.getChild(0)));
+        var register = (RegisterReference) convert(node.getChild(0));
+
+        String name = null;
+        TypeDescriptor type = null;
+        String signature = null;
 
         if (node.getChildCount() > 1) {
-            attributes.put("literal", convert(node.getChild(1)));
+            name = convert(node.getChild(1)).getCode();
 
             var i = 2;
 
             if (node.getChild(i).getType() == smaliParser.ARRAY_TYPE_PREFIX) {
                 i++;
-                attributes.put("typeDescriptor", factory.arrayType(node.getChild(i).getText()));
+                type = factory.arrayType(node.getChild(i).getText());
             } else {
-                attributes.put("typeDescriptor", factory.type(node.getChild(i).getText()));
+                type = factory.type(node.getChild(i).getText());
             }
 
             i++;
+
             if (node.getChildCount() > i) {
-                attributes.put("signature", convert(node.getChild(i)));
+                signature = convert(node.getChild(i)).getCode();
             }
         }
 
-        return factory.localDirective(attributes);
+
+        var localDirective = factory.localDirective(register);
+
+        if (name != null) {
+            Objects.requireNonNull(type, "If name is set, type must also be set");
+            localDirective.setOptional(LocalDirective.NAME, name);
+            localDirective.setOptional(LocalDirective.TYPE, type);
+
+        }
+
+        if (signature != null) {
+            localDirective.setOptional(LocalDirective.SIGNATURE, signature);
+        }
+
+        return localDirective;
     }
 
     private SmaliNode convertEndLocalDirective(Tree node) {
