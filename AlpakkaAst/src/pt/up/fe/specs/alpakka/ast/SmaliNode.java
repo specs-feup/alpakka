@@ -11,9 +11,10 @@ import pt.up.fe.specs.alpakka.ast.context.SmaliContext;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public abstract class SmaliNode extends DataNode<SmaliNode> {
+
+    private static final Map<String, Opcode> OPCODE_CACHE = new HashMap<>();
 
     /// DATAKEYS BEGIN
 
@@ -37,20 +38,28 @@ public abstract class SmaliNode extends DataNode<SmaliNode> {
     }
 
     public static Opcode getOpcode(String opcodeName) {
-        var opcode = Opcodes.getDefault().getOpcodeByName(opcodeName);
+        // Check cache
+        var opcode = OPCODE_CACHE.get(opcodeName);
         if (opcode != null) {
+            return opcode;
+        }
+
+
+        opcode = Opcodes.getDefault().getOpcodeByName(opcodeName);
+        if (opcode != null) {
+            OPCODE_CACHE.put(opcodeName, opcode);
             return opcode;
         }
 
         for (int api = 21; api <= 40; api++) {
             opcode = Opcodes.forApi(api).getOpcodeByName(opcodeName);
             if (opcode != null) {
+                OPCODE_CACHE.put(opcodeName, opcode);
                 return opcode;
             }
         }
 
-        Objects.requireNonNull(opcode, "Opcode not found for name: " + opcodeName);
-        return opcode;
+        throw new RuntimeException("Opcode not found for name: " + opcodeName);
     }
 
     @Override
