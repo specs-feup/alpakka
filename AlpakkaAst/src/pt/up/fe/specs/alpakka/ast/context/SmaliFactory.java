@@ -1,8 +1,6 @@
 package pt.up.fe.specs.alpakka.ast.context;
 
 import com.android.tools.smali.dexlib2.Opcode;
-import org.suikasoft.jOptions.Datakey.DataKey;
-import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import org.suikasoft.jOptions.storedefinition.StoreDefinitions;
 import pt.up.fe.specs.alpakka.ast.*;
@@ -18,6 +16,7 @@ import pt.up.fe.specs.alpakka.ast.stmt.instruction.NopStatement;
 import pt.up.fe.specs.alpakka.ast.stmt.instruction.ReturnStatement;
 import pt.up.fe.specs.util.SpecsSystem;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -60,9 +59,11 @@ public class SmaliFactory {
         return new Resource(data, null);
     }
 
-    public Manifest manifest(HashMap<String, Object> attributes) {
-        var data = newDataStore(Manifest.class);
-        data.set(Manifest.ATTRIBUTES, attributes);
+    public Manifest manifest(File source, String packageName, HashMap<String, List<String>> components) {
+        var data = newDataStore(Manifest.class)
+                .put(Manifest.SOURCE, source)
+                .put(Manifest.PACKAGE_NAME, packageName)
+                .put(Manifest.COMPONENTS, components);
 
         return new Manifest(data, null);
     }

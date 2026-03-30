@@ -206,9 +206,8 @@ public class AlpakkaParser {
 
     private Manifest newManifestNode(File source, SmaliContext context) {
         var factory = context.get(SmaliContext.FACTORY);
-        var attributes = new HashMap<String, Object>();
-        attributes.put("file", source);
-        attributes.put("packageName", getPackageNameFromManifest(source.getAbsolutePath()));
+
+        var packageName = getPackageNameFromManifest(source.getAbsolutePath());
 
         var components = new HashMap<String, List<String>>();
         var manifest = parseXML(source);
@@ -229,9 +228,7 @@ public class AlpakkaParser {
             }
         }
 
-        attributes.put("components", components);
-
-        return factory.manifest(attributes);
+        return factory.manifest(source, packageName, components);
     }
 
     private App decompileApk(File apkFile, SmaliContext context, List<String> options) {
