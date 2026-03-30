@@ -1,0 +1,11 @@
+.class public Lfixture/InstructionFormat32x;
+.super Ljava/lang/Object;
+
+.method public static test()V
+	.registers 17
+
+	move-object/16 v16, v0
+
+	return-void 
+.end method
+

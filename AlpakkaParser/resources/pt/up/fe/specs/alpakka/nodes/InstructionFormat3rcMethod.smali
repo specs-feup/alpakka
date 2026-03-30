@@ -1,0 +1,13 @@
+.class public Lfixture/InstructionFormat3rcMethod;
+.super Ljava/lang/Object;
+
+.method public static test()V
+    .registers 3
+
+    const/4 v0, 0x4
+    const/4 v1, 0x7
+    invoke-static/range {v0 .. v1}, Ljava/lang/Math;->max(II)I
+    move-result v2
+
+    return-void
+.end method

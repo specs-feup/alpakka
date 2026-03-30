@@ -1,0 +1,25 @@
+.class public Lfixture/SparseSwitchDirective1;
+.super Ljava/lang/Object;
+
+.method public static test(I)V
+    .registers 2
+
+    sparse-switch p0, :sswitch_data
+
+    goto :end
+
+    :case_a
+    return-void
+
+    :case_b
+    return-void
+
+    :end
+    return-void
+
+    :sswitch_data
+    .sparse-switch
+        0x1 -> :case_a
+        0x7 -> :case_b
+    .end sparse-switch
+.end method

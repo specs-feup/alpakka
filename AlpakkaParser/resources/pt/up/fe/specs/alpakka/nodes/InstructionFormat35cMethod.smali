@@ -1,0 +1,12 @@
+.class public Lfixture/InstructionFormat35cMethod;
+.super Ljava/lang/Object;
+
+.method public static test()V
+    .registers 2
+
+    const/4 v0, 0x5
+    invoke-static {v0}, Ljava/lang/Integer;->valueOf(I)Ljava/lang/Integer;
+    move-result-object v1
+
+    return-void
+.end method

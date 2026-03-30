@@ -38,6 +38,17 @@ public abstract class SmaliNode extends DataNode<SmaliNode> {
 
     public static Opcode getOpcode(String opcodeName) {
         var opcode = Opcodes.getDefault().getOpcodeByName(opcodeName);
+        if (opcode != null) {
+            return opcode;
+        }
+
+        for (int api = 21; api <= 40; api++) {
+            opcode = Opcodes.forApi(api).getOpcodeByName(opcodeName);
+            if (opcode != null) {
+                return opcode;
+            }
+        }
+
         Objects.requireNonNull(opcode, "Opcode not found for name: " + opcodeName);
         return opcode;
     }

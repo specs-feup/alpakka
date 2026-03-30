@@ -1,0 +1,25 @@
+.class public Lfixture/PackedSwitchDirective1;
+.super Ljava/lang/Object;
+
+.method public static test(I)V
+    .registers 2
+
+    packed-switch p0, :pswitch_data
+
+    goto :end
+
+    :case_0
+    return-void
+
+    :case_1
+    return-void
+
+    :end
+    return-void
+
+    :pswitch_data
+    .packed-switch 0x0
+        :case_0
+        :case_1
+    .end packed-switch
+.end method
