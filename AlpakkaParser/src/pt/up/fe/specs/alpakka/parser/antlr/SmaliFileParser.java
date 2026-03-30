@@ -36,6 +36,8 @@ public class SmaliFileParser {
         OPCODE_TO_INSTRUCTION.put(Opcode.RETURN_WIDE, ReturnStatement.class);
         OPCODE_TO_INSTRUCTION.put(Opcode.RETURN, ReturnStatement.class);
         OPCODE_TO_INSTRUCTION.put(Opcode.THROW, ThrowStatement.class);
+        OPCODE_TO_INSTRUCTION.put(Opcode.NOP, NopStatement.class);
+        OPCODE_TO_INSTRUCTION.put(Opcode.RETURN_VOID, ReturnStatement.class);
     }
 
 
@@ -83,12 +85,12 @@ public class SmaliFileParser {
         converters.put(smaliParser.I_END_LOCAL, this::convertEndLocalDirective);
         converters.put(smaliParser.I_RESTART_LOCAL, this::convertRestartLocalDirective);
         converters.put(smaliParser.I_LABEL, this::convertLabel);
-        converters.put(smaliParser.I_STATEMENT_FORMAT10x, this::convertStatementFormat10x);
-        converters.put(smaliParser.I_STATEMENT_FORMAT10t, this::convertGotoStatementFormat);
+        converters.put(smaliParser.I_STATEMENT_FORMAT10x, this::convertInstruction);
+        converters.put(smaliParser.I_STATEMENT_FORMAT10t, node -> convertInstruction(node, this::convertLabelReferenceStatement, GotoStatement.class));
         converters.put(smaliParser.I_STATEMENT_FORMAT11x, node -> convertInstruction(node, InstructionFormat11x.class));
         converters.put(smaliParser.I_STATEMENT_FORMAT11n, node -> convertInstruction(node, InstructionFormat11n.class));
         converters.put(smaliParser.I_STATEMENT_FORMAT12x, node -> convertInstruction(node, InstructionFormat12x.class));
-        converters.put(smaliParser.I_STATEMENT_FORMAT20t, this::convertGotoStatementFormat);
+        converters.put(smaliParser.I_STATEMENT_FORMAT20t, node -> convertInstruction(node, this::convertLabelReferenceStatement, GotoStatement.class));
         converters.put(smaliParser.I_STATEMENT_FORMAT21ih, node -> convertInstruction(node, InstructionFormat21ih.class));
         converters.put(smaliParser.I_STATEMENT_FORMAT21lh, node -> convertInstruction(node, InstructionFormat21lh.class));
         converters.put(smaliParser.I_STATEMENT_FORMAT21c_FIELD, this::convertStatementFormat21cField);
@@ -105,7 +107,7 @@ public class SmaliFileParser {
         converters.put(smaliParser.I_STATEMENT_FORMAT22t, this::convertStatementFormat22t);
         converters.put(smaliParser.I_STATEMENT_FORMAT22x, node -> convertInstruction(node, InstructionFormat22x.class));
         converters.put(smaliParser.I_STATEMENT_FORMAT23x, node -> convertInstruction(node, InstructionFormat23x.class));
-        converters.put(smaliParser.I_STATEMENT_FORMAT30t, this::convertGotoStatementFormat);
+        converters.put(smaliParser.I_STATEMENT_FORMAT30t, node -> convertInstruction(node, this::convertLabelReferenceStatement, GotoStatement.class));
         converters.put(smaliParser.I_STATEMENT_FORMAT31c, node -> convertInstruction(node, InstructionFormat31c.class));
         converters.put(smaliParser.I_STATEMENT_FORMAT31i, node -> convertInstruction(node, InstructionFormat31i.class));
         converters.put(smaliParser.I_STATEMENT_FORMAT31t, this::convertStatementFormat31t);
@@ -859,27 +861,32 @@ public class SmaliFileParser {
         return factory.returnInstructionFormat(attributes, new ArrayList<>());
     }
 
-    private SmaliNode convertGotoStatementFormat(Tree node) {
-        var factory = context.get(SmaliContext.FACTORY);
 
-        var attributes = getStatementAttributes(node.getChild(0).getText());
-        var children = convertLabelReferenceStatement(node);
+//    private List<SmaliNode> convertLabelReferenceStatement(Tree node)
 
-        return factory.gotoInstructionFormat(attributes, children);
+    private <T extends Instruction> SmaliNode convertInstruction(Tree node) {
+        return convertInstruction(node, null);
     }
 
-
     private <T extends Instruction> SmaliNode convertInstruction(Tree node, Class<T> defaultClass) {
+        return convertInstruction(node, this::convertInstructionChildren, defaultClass);
+    }
+
+    private <T extends Instruction> SmaliNode convertInstruction(Tree node, Function<Tree, List<SmaliNode>> childrenConverter, Class<T> defaultClass) {
         var factory = context.get(SmaliContext.FACTORY);
 
         var opcode = getOpcode(node);
-        var children = convertInstructionChildren(node);
+        var children = childrenConverter.apply(node);
 
         var instructionClass = OPCODE_TO_INSTRUCTION.get(opcode);
 
-        return instructionClass != null ?
-                factory.genericInstruction(instructionClass, opcode, lineDirective, children)
-                : factory.genericInstruction(defaultClass, opcode, lineDirective, children);
+        if (instructionClass != null) {
+            return factory.genericInstruction(instructionClass, opcode, lineDirective, children);
+        }
+
+        Objects.requireNonNull(defaultClass, () -> "Could not find a mapping for opcode " + opcode + " and no default class was provided");
+
+        return factory.genericInstruction(defaultClass, opcode, lineDirective, children);
     }
 
 

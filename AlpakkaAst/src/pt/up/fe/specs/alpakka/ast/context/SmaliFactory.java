@@ -270,14 +270,6 @@ public class SmaliFactory {
         return new NopStatement(data, null);
     }
 
-    public GotoStatement gotoInstructionFormat(HashMap<String, Object> attributes,
-                                               List<? extends SmaliNode> children) {
-        var data = newDataStore(GotoStatement.class);
-        data.set(GotoStatement.ATTRIBUTES, attributes);
-
-        return new GotoStatement(data, children);
-    }
-
     public <T extends Instruction> T genericInstruction(Class<T> instructionClass, Opcode opcode, LineDirective lineDirective,
                                                         List<? extends SmaliNode> children) {
 
