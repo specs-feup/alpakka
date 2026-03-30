@@ -38,6 +38,7 @@ public class SmaliFileParser {
         OPCODE_TO_INSTRUCTION.put(Opcode.THROW, ThrowStatement.class);
         OPCODE_TO_INSTRUCTION.put(Opcode.NOP, NopStatement.class);
         OPCODE_TO_INSTRUCTION.put(Opcode.RETURN_VOID, ReturnStatement.class);
+        OPCODE_TO_INSTRUCTION.put(Opcode.FILL_ARRAY_DATA, FillArrayStatement.class);
     }
 
 
@@ -93,15 +94,15 @@ public class SmaliFileParser {
         converters.put(smaliParser.I_STATEMENT_FORMAT20t, node -> convertInstruction(node, this::convertLabelReferenceStatement, GotoStatement.class));
         converters.put(smaliParser.I_STATEMENT_FORMAT21ih, node -> convertInstruction(node, InstructionFormat21ih.class));
         converters.put(smaliParser.I_STATEMENT_FORMAT21lh, node -> convertInstruction(node, InstructionFormat21lh.class));
-        converters.put(smaliParser.I_STATEMENT_FORMAT21c_FIELD, this::convertStatementFormat21cField);
+        converters.put(smaliParser.I_STATEMENT_FORMAT21c_FIELD, node -> convertInstruction(node, this::convertFieldReferenceStatement, InstructionFormat21cField.class));
         converters.put(smaliParser.I_STATEMENT_FORMAT21c_STRING, node -> convertInstruction(node, InstructionFormat21cString.class));
-        converters.put(smaliParser.I_STATEMENT_FORMAT21c_TYPE, this::convertStatementFormat21cType);
+        converters.put(smaliParser.I_STATEMENT_FORMAT21c_TYPE, node -> convertInstruction(node, this::convertTypeReferenceStatement, InstructionFormat21cType.class));
         // converters.put(smaliParser.I_STATEMENT_FORMAT21c_METHOD_HANDLE, this::convertStatementFormat21cMethodHandle);
         converters.put(smaliParser.I_STATEMENT_FORMAT21c_METHOD_TYPE, node -> convertInstruction(node, InstructionFormat21cMethodType.class));
         converters.put(smaliParser.I_STATEMENT_FORMAT21s, node -> convertInstruction(node, InstructionFormat21s.class));
-        converters.put(smaliParser.I_STATEMENT_FORMAT21t, this::convertStatementFormat21t);
-        converters.put(smaliParser.I_STATEMENT_FORMAT22c_FIELD, this::convertStatementFormat22cField);
-        converters.put(smaliParser.I_STATEMENT_FORMAT22c_TYPE, this::convertStatementFormat22cType);
+        converters.put(smaliParser.I_STATEMENT_FORMAT21t, node -> convertInstruction(node, this::convertLabelReferenceStatement, InstructionFormat21t.class));
+        converters.put(smaliParser.I_STATEMENT_FORMAT22c_FIELD, node -> convertInstruction(node, this::convertFieldReferenceStatement, InstructionFormat22cField.class));
+        converters.put(smaliParser.I_STATEMENT_FORMAT22c_TYPE, node -> convertInstruction(node, this::convertTypeReferenceStatement, InstructionFormat22cType.class));
         converters.put(smaliParser.I_STATEMENT_FORMAT22b, node -> convertInstruction(node, InstructionFormat22b.class));
         converters.put(smaliParser.I_STATEMENT_FORMAT22s, node -> convertInstruction(node, InstructionFormat22s.class));
         converters.put(smaliParser.I_STATEMENT_FORMAT22t, node -> convertInstruction(node, this::convertLabelReferenceStatement, InstructionFormat22t.class));
@@ -110,16 +111,16 @@ public class SmaliFileParser {
         converters.put(smaliParser.I_STATEMENT_FORMAT30t, node -> convertInstruction(node, this::convertLabelReferenceStatement, GotoStatement.class));
         converters.put(smaliParser.I_STATEMENT_FORMAT31c, node -> convertInstruction(node, InstructionFormat31c.class));
         converters.put(smaliParser.I_STATEMENT_FORMAT31i, node -> convertInstruction(node, InstructionFormat31i.class));
-        converters.put(smaliParser.I_STATEMENT_FORMAT31t, this::convertStatementFormat31t);
+        converters.put(smaliParser.I_STATEMENT_FORMAT31t, node -> convertInstruction(node, this::convertLabelReferenceStatement, SwitchStatement.class));
         converters.put(smaliParser.I_STATEMENT_FORMAT32x, node -> convertInstruction(node, InstructionFormat32x.class));
         // converters.put(smaliParser.I_STATEMENT_FORMAT35c_CALL_SITE, this::convertStatementFormat35cCallSite);
-        converters.put(smaliParser.I_STATEMENT_FORMAT35c_METHOD, this::convertStatementFormat35cMethod);
+        converters.put(smaliParser.I_STATEMENT_FORMAT35c_METHOD, node -> convertInstruction(node, this::convertMethodChildren, InstructionFormat35cMethod.class));
         converters.put(smaliParser.I_STATEMENT_FORMAT35c_TYPE, node -> convertInstruction(node, this::convertTypeReferenceStatement, InstructionFormat35cType.class));
         // converters.put(smaliParser.I_STATEMENT_FORMAT3rc_CALL_SITE, this::convertStatementFormat3rcCallSite);
-        converters.put(smaliParser.I_STATEMENT_FORMAT3rc_METHOD, this::convertStatementFormat3rcMethod);
-        converters.put(smaliParser.I_STATEMENT_FORMAT3rc_TYPE, this::convertStatementFormat3rcType);
-        converters.put(smaliParser.I_STATEMENT_FORMAT45cc_METHOD, this::convertStatementFormat45ccMethod);
-        converters.put(smaliParser.I_STATEMENT_FORMAT4rcc_METHOD, this::convertStatementFormat4rccMethod);
+        converters.put(smaliParser.I_STATEMENT_FORMAT3rc_METHOD, node -> convertInstruction(node, this::convertMethodChildren, InstructionFormat3rcMethod.class));
+        converters.put(smaliParser.I_STATEMENT_FORMAT3rc_TYPE, node -> convertInstruction(node, this::convertTypeReferenceStatement, InstructionFormat3rcType.class));
+        converters.put(smaliParser.I_STATEMENT_FORMAT45cc_METHOD, node -> convertInstruction(node, this::convertFormat4Children, InstructionFormat45ccMethod.class));
+        converters.put(smaliParser.I_STATEMENT_FORMAT4rcc_METHOD, node -> convertInstruction(node, this::convertFormat4Children, InstructionFormat4rccMethod.class));
         converters.put(smaliParser.I_STATEMENT_FORMAT51l, node -> convertInstruction(node, InstructionFormat51l.class));
         converters.put(smaliParser.I_ENCODED_FIELD, this::convertEncodedField);
         converters.put(smaliParser.I_ENCODED_METHOD, this::convertEncodedMethod);
@@ -887,118 +888,25 @@ public class SmaliFileParser {
         var instructionClass = OPCODE_TO_INSTRUCTION.get(opcode);
 
         if (instructionClass != null) {
-            return factory.genericInstruction(instructionClass, opcode, lineDirective, children);
+            return factory.genericInstruction(instructionClass, opcode, children);
         }
 
         Objects.requireNonNull(defaultClass, () -> "Could not find a mapping for opcode " + opcode + " and no default class was provided");
 
-        return factory.genericInstruction(defaultClass, opcode, lineDirective, children);
+        return factory.genericInstruction(defaultClass, opcode, children);
     }
 
-
-    private SmaliNode convertStatementFormat21cField(Tree node) {
-        var factory = context.get(SmaliContext.FACTORY);
-
-        var attributes = getStatementAttributes(node.getChild(0).getText());
-
-        var children = convertFieldReferenceStatement(node);
-
-        return factory.instructionFormat21cField(attributes, children);
-    }
-
-
-    private SmaliNode convertStatementFormat21cType(Tree node) {
-        var factory = context.get(SmaliContext.FACTORY);
-
-        var attributes = getStatementAttributes(node.getChild(0).getText());
-        var children = convertTypeReferenceStatement(node);
-
-        return factory.instructionFormat21cType(attributes, children);
-    }
-
-    private SmaliNode convertStatementFormat21t(Tree node) {
-        var factory = context.get(SmaliContext.FACTORY);
-
-        var attributes = getStatementAttributes(node.getChild(0).getText());
-        var children = convertLabelReferenceStatement(node);
-
-        return factory.instructionFormat21t(attributes, children);
-    }
-
-
-    private SmaliNode convertStatementFormat22cField(Tree node) {
-        var factory = context.get(SmaliContext.FACTORY);
-
-        var attributes = getStatementAttributes(node.getChild(0).getText());
-
-        var children = convertFieldReferenceStatement(node);
-
-        return factory.instructionFormat22cField(attributes, children);
-    }
-
-    private SmaliNode convertStatementFormat22cType(Tree node) {
-        var factory = context.get(SmaliContext.FACTORY);
-
-        var attributes = getStatementAttributes(node.getChild(0).getText());
-        var children = convertTypeReferenceStatement(node);
-
-        return factory.instructionFormat22cType(attributes, children);
-    }
-
-    private SmaliNode convertStatementFormat31t(Tree node) {
-        var factory = context.get(SmaliContext.FACTORY);
-
-        var opcode = node.getChild(0).getText();
-
-        var attributes = getStatementAttributes(opcode);
-        var children = convertLabelReferenceStatement(node);
-
-        if (opcode.equals(Opcode.FILL_ARRAY_DATA.name)) {
-            return factory.fillArrayInstructionFormat(attributes, children);
-        }
-
-        return factory.switchInstructionFormat(attributes, children);
-    }
-
-    private SmaliNode convertStatementFormat35cMethod(Tree node) {
-        var factory = context.get(SmaliContext.FACTORY);
-
-        var attributes = getStatementAttributes(node.getChild(0).getText());
+    private List<SmaliNode> convertMethodChildren(Tree node) {
         var children = new ArrayList<SmaliNode>();
 
         children.add(convert(node.getChild(1)));
 
         children.add(convertMethodReference(node, 2));
 
-        return factory.instructionFormat35cMethod(attributes, children);
+        return children;
     }
 
-    private SmaliNode convertStatementFormat3rcMethod(Tree node) {
-        var factory = context.get(SmaliContext.FACTORY);
-
-        var attributes = getStatementAttributes(node.getChild(0).getText());
-        var children = new ArrayList<SmaliNode>();
-
-        children.add(convert(node.getChild(1)));
-
-        children.add(convertMethodReference(node, 2));
-
-        return factory.instructionFormat3rcMethod(attributes, children);
-    }
-
-    private SmaliNode convertStatementFormat3rcType(Tree node) {
-        var factory = context.get(SmaliContext.FACTORY);
-
-        var attributes = getStatementAttributes(node.getChild(0).getText());
-        var children = convertTypeReferenceStatement(node);
-
-        return factory.instructionFormat3rcType(attributes, children);
-    }
-
-    private SmaliNode convertStatementFormat45ccMethod(Tree node) {
-        var factory = context.get(SmaliContext.FACTORY);
-
-        var attributes = getStatementAttributes(node.getChild(0).getText());
+    private List<SmaliNode> convertFormat4Children(Tree node) {
         var children = new ArrayList<SmaliNode>();
 
         children.add(convert(node.getChild(1)));
@@ -1007,22 +915,7 @@ public class SmaliFileParser {
 
         children.add(convert(node.getChild(node.getChildCount() - 1)));
 
-        return factory.instructionFormat45ccMethod(attributes, children);
-    }
-
-    private SmaliNode convertStatementFormat4rccMethod(Tree node) {
-        var factory = context.get(SmaliContext.FACTORY);
-
-        var attributes = getStatementAttributes(node.getChild(0).getText());
-        var children = new ArrayList<SmaliNode>();
-
-        children.add(convert(node.getChild(1)));
-
-        children.add(convertMethodReference(node, 2));
-
-        children.add(convert(node.getChild(node.getChildCount() - 1)));
-
-        return factory.instructionFormat4rccMethod(attributes, children);
+        return children;
     }
 
     private SmaliNode convertArrayDataDirective(Tree node) {

@@ -1,6 +1,5 @@
 package pt.up.fe.specs.alpakka.ast.stmt.instruction;
 
-import com.android.tools.smali.dexlib2.Format;
 import com.android.tools.smali.dexlib2.Opcode;
 import com.android.tools.smali.dexlib2.Opcodes;
 import org.suikasoft.jOptions.Datakey.DataKey;
@@ -14,10 +13,6 @@ import java.util.Collection;
 public abstract class Instruction extends Statement {
 
     public final static DataKey<Opcode> OPCODE = KeyFactory.enumeration("opcode", Opcode.class);
-
-    // TODO: It is possible to obtain FORMAT from OPCODE, remove after it is no longer used
-    @Deprecated
-    public final static DataKey<Format> FORMAT = KeyFactory.enumeration("format", Format.class);
 
     public Instruction(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
