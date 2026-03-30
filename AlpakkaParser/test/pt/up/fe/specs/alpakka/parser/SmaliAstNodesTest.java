@@ -1,19 +1,27 @@
 package pt.up.fe.specs.alpakka.parser;
-
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import pt.up.fe.specs.util.SpecsIo;
-
 import java.io.File;
-
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Set;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 public class SmaliAstNodesTest extends SmaliAstTester {
-
+    private static final String BASE_PACKAGE = "pt/up/fe/specs/alpakka/nodes/";
+    private static final String FIXTURES_RESOURCE = "pt/up/fe/specs/alpakka/nodes";
     public SmaliAstNodesTest() {
-        super("pt/up/fe/specs/alpakka/nodes/");
+        super(BASE_PACKAGE);
     }
-
-
     @BeforeAll
     @AfterAll
     static void clear() {
@@ -21,134 +29,44 @@ public class SmaliAstNodesTest extends SmaliAstTester {
         SpecsIo.deleteFolderContents(outputFolder);
         outputFolder.delete();
     }
-
     @Test
-    void testAnnotationDirective1() {
-        testSmaliFile("AnnotationDirective1.smali");
+    void fixturesHaveMatchingExpectedOutputs() {
+        Set<String> smaliFixtures = listFixtureNames(name -> name.endsWith(".smali"))
+                .collect(Collectors.toSet());
+        Assertions.assertFalse(smaliFixtures.isEmpty(), "Could not find any SMALI fixtures in '" + FIXTURES_RESOURCE + "'");
+        Set<String> expectedOutputs = listFixtureNames(name -> name.endsWith(".smali.txt"))
+                .map(name -> name.substring(0, name.length() - ".txt".length()))
+                .collect(Collectors.toSet());
+        Assertions.assertEquals(smaliFixtures, expectedOutputs,
+                "The fixture inventory is out of sync: every '.smali' fixture should have exactly one matching '.txt' expected output");
     }
-
-    @Test
-    void testAnnotationDirective2() {
-        testSmaliFile("AnnotationDirective2.smali");
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("smaliFixtures")
+    void testSmaliFixture(String resourceName) {
+        testSmaliFile(resourceName);
     }
-
-    @Test
-    void testAnnotationDirective3() {
-        testSmaliFile("AnnotationDirective3.smali");
+    private static Stream<String> smaliFixtures() {
+        return listFixtureNames(name -> name.endsWith(".smali"));
     }
-
-    @Test
-    void testAnnotationElement1() {
-        testSmaliFile("AnnotationElement1.smali");
+    private static Stream<String> listFixtureNames(Predicate<String> filter) {
+        Path fixturesFolder = getFixturesFolder();
+        try {
+            return Files.list(fixturesFolder)
+                    .filter(Files::isRegularFile)
+                    .map(path -> path.getFileName().toString())
+                    .filter(filter)
+                    .sorted();
+        } catch (IOException e) {
+            throw new UncheckedIOException("Could not list SMALI fixtures under '" + fixturesFolder + "'", e);
+        }
     }
-
-    @Test
-    void testAnnotationElement2() {
-        testSmaliFile("AnnotationElement2.smali");
-    }
-
-    @Test
-    void testArrayDataDirective1() {
-        testSmaliFile("ArrayDataDirective1.smali");
-    }
-
-    @Test
-    void testCatchDirective1() {
-        testSmaliFile("CatchDirective1.smali");
-    }
-
-    @Test
-    void testClassNode1() {
-        testSmaliFile("ClassNode1.smali");
-    }
-
-    @Test
-    void testClassNode2() {
-        testSmaliFile("ClassNode2.smali");
-    }
-
-    @Test
-    void testClassNode3() {
-        testSmaliFile("ClassNode3.smali");
-    }
-
-    @Test
-    void testClassNode4() {
-        testSmaliFile("ClassNode4.smali");
-    }
-
-    @Test
-    void testClassNode5() {
-        testSmaliFile("ClassNode5.smali");
-    }
-
-    @Test
-    void testClassNode6() {
-        testSmaliFile("ClassNode6.smali");
-    }
-
-    @Test
-    void testClassNode7() {
-        testSmaliFile("ClassNode7.smali");
-    }
-
-    @Test
-    void testClassNode8() {
-        testSmaliFile("ClassNode8.smali");
-    }
-
-    @Test
-    void testClassNode9() {
-        testSmaliFile("ClassNode9.smali");
-    }
-
-    @Test
-    void testClassNode10() {
-        testSmaliFile("ClassNode10.smali");
-    }
-
-    @Test
-    void testClassNode11() {
-        testSmaliFile("ClassNode11.smali");
-    }
-
-    @Test
-    void testFieldNode1() {
-        testSmaliFile("FieldNode1.smali");
-    }
-
-    @Test
-    void testFieldReference1() {
-        testSmaliFile("FieldReference1.smali");
-    }
-
-    @Test
-    void testInstructionFormat10x() {
-        testSmaliFile("InstructionFormat10x.smali");
-    }
-
-    @Test
-    void testInstructionFormat11n() {
-        testSmaliFile("InstructionFormat11n.smali");
-    }
-
-    @Test
-    void testInstructionFormat12x() {
-        testSmaliFile("InstructionFormat12x.smali");
-    }
-
-    @Test
-    void testInstructionFormat11x() {
-        testSmaliFile("InstructionFormat11x.smali");
-    }
-
-    @Test
-    void testLabelRef1() {
-        testSmaliFile("LabelRef1.smali");
-    }
-
-    @Test
-    void testPrimitiveLiteral1() {
-        testSmaliFile("PrimitiveLiteral1.smali");
+    private static Path getFixturesFolder() {
+        try {
+            var resource = SmaliAstNodesTest.class.getClassLoader().getResource(FIXTURES_RESOURCE);
+            Assertions.assertNotNull(resource, "Could not find fixture folder '" + FIXTURES_RESOURCE + "'");
+            return Path.of(resource.toURI());
+        } catch (URISyntaxException e) {
+            throw new IllegalStateException("Could not resolve fixture folder '" + FIXTURES_RESOURCE + "'", e);
+        }
     }
 }
