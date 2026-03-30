@@ -405,10 +405,8 @@ public class SmaliFactory {
     }
 
     public LiteralStatement literalStmt(String code) {
-        var attributes = new HashMap<String, Object>();
-        attributes.put("code", code);
-        var data = newDataStore(LiteralStatement.class);
-        data.set(LiteralStatement.ATTRIBUTES, attributes);
+        var data = newDataStore(LiteralStatement.class)
+                .put(LiteralStatement.CODE, code);
 
         return new LiteralStatement(data, null);
     }
