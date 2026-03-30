@@ -1,8 +1,6 @@
 package pt.up.fe.specs.alpakka.ast.context;
 
 import com.android.tools.smali.dexlib2.Opcode;
-import org.suikasoft.jOptions.Datakey.DataKey;
-import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import org.suikasoft.jOptions.storedefinition.StoreDefinitions;
 import pt.up.fe.specs.alpakka.ast.*;
@@ -100,9 +98,9 @@ public class SmaliFactory {
         return new RegistersDirective(data, null);
     }
 
-    public LineDirective lineDirective(HashMap<String, Object> attributes) {
-        var data = newDataStore(LineDirective.class);
-        data.set(LineDirective.ATTRIBUTES, attributes);
+    public LineDirective lineDirective(int line) {
+        var data = newDataStore(LineDirective.class)
+                .put(LineDirective.LINE, line);
 
         return new LineDirective(data, null);
     }
@@ -266,9 +264,8 @@ public class SmaliFactory {
         throw new RuntimeException("Type not implemented: " + type);
     }
 
-    public NopStatement nopInstructionFormat(HashMap<String, Object> attributes) {
+    public NopStatement nopInstructionFormat() {
         var data = newDataStore(NopStatement.class);
-        data.set(NopStatement.ATTRIBUTES, attributes);
 
         return new NopStatement(data, null);
     }

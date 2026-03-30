@@ -275,11 +275,10 @@ public class SmaliFileParser {
 
     private SmaliNode convertLineDirective(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
-        var attributes = getStatementAttributes(null);
 
-        attributes.put("line", convert(node.getChild(0)));
+        var line = Integer.parseInt(convert(node.getChild(0)).getCode());
 
-        return factory.lineDirective(attributes);
+        return factory.lineDirective(line);
     }
 
     private SmaliNode convertPrologueDirective(Tree node) {
@@ -755,8 +754,6 @@ public class SmaliFileParser {
     private SmaliNode convertFieldReference(Tree node, Integer position) {
         var factory = context.get(SmaliContext.FACTORY);
 
-        var fieldReferenceAttributes = new HashMap<String, Object>();
-
         var i = position;
 
         TypeDescriptor baseType = null;
@@ -862,19 +859,6 @@ public class SmaliFileParser {
         attributes.put("instruction", instruction);
         attributes.put("lineDirective", lineDirective);
         return attributes;
-    }
-
-    private SmaliNode convertStatementFormat10x(Tree node) {
-        var opcode = node.getChild(0).getText();
-
-        var factory = context.get(SmaliContext.FACTORY);
-        var attributes = getStatementAttributes(opcode);
-
-        if (opcode.equals(Opcode.NOP.name)) {
-            return factory.nopInstructionFormat(attributes);
-        }
-
-        return factory.returnInstructionFormat(attributes, new ArrayList<>());
     }
 
 

@@ -45,9 +45,7 @@ public abstract class Instruction extends Statement {
     }
 
     private Opcode getOpcode() {
-        // TODO: Specify the sdk version
-        var opcodes = Opcodes.getDefault();
-        return opcodes.getOpcodeByName(getOpCodeName());
+        return SmaliNode.getOpcode(getOpCodeName());
     }
 
     public boolean canThrow() {
