@@ -759,29 +759,38 @@ public class SmaliFileParser {
 
         var i = position;
 
+        TypeDescriptor baseType = null;
         if (node.getChild(i).getType() != smaliParser.SIMPLE_NAME) {
             // Reference type descriptor
             if (node.getChild(i).getType() == smaliParser.CLASS_DESCRIPTOR) {
-                fieldReferenceAttributes.put("referenceTypeDescriptor", convert(node.getChild(i)));
+                baseType = (TypeDescriptor) convert(node.getChild(i));
             } else {
                 i++;
-                fieldReferenceAttributes.put("referenceTypeDescriptor", factory.arrayType(node.getChild(i).getText()));
+                baseType = factory.arrayType(node.getChild(i).getText());
             }
             i++;
         }
 
-        fieldReferenceAttributes.put("memberName", node.getChild(i).getText());
+        var memberName = node.getChild(i).getText();
         i++;
 
         // Non void type descriptor
+        TypeDescriptor fieldType = null;
         if (node.getChild(i).getType() == smaliParser.ARRAY_TYPE_PREFIX) {
             i++;
-            fieldReferenceAttributes.put("nonVoidTypeDescriptor", factory.arrayType(node.getChild(i).getText()));
+            fieldType = factory.arrayType(node.getChild(i).getText());
         } else {
-            fieldReferenceAttributes.put("nonVoidTypeDescriptor", factory.nonVoidType(node.getChild(i).getText()));
+            fieldType = factory.nonVoidType(node.getChild(i).getText());
         }
 
-        return factory.fieldReference(fieldReferenceAttributes);
+        var fieldReference = factory.fieldReference(memberName, fieldType);
+
+        if (baseType != null) {
+            fieldReference.set(FieldReference.BASE_TYPE, Optional.of(baseType));
+        }
+
+
+        return fieldReference;
     }
 
     private MethodReference convertMethodReference(Tree node, Integer position) {
