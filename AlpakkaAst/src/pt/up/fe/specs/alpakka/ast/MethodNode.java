@@ -1,19 +1,26 @@
 package pt.up.fe.specs.alpakka.ast;
 
+import org.suikasoft.jOptions.Datakey.DataKey;
+import org.suikasoft.jOptions.Datakey.KeyFactory;
+import org.suikasoft.jOptions.Interfaces.DataStore;
+import pt.up.fe.specs.alpakka.ast.expr.literal.MethodPrototype;
+import pt.up.fe.specs.alpakka.ast.stmt.*;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import org.suikasoft.jOptions.Interfaces.DataStore;
-
-import pt.up.fe.specs.alpakka.ast.expr.literal.MethodPrototype;
-import pt.up.fe.specs.alpakka.ast.stmt.AnnotationDirective;
-import pt.up.fe.specs.alpakka.ast.stmt.CatchDirective;
-import pt.up.fe.specs.alpakka.ast.stmt.Label;
-import pt.up.fe.specs.alpakka.ast.stmt.ParameterDirective;
-import pt.up.fe.specs.alpakka.ast.stmt.RegistersDirective;
+import java.util.Optional;
 
 public class MethodNode extends SmaliNode {
+
+    public static final DataKey<String> NAME = KeyFactory.string("name");
+
+    public static final DataKey<Optional<RegistersDirective>> LOCALS = KeyFactory.optional("locals");
+
+    public static final DataKey<MethodPrototype> PROTOTYPE = KeyFactory.object("prototype", MethodPrototype.class);
+
+    public static final DataKey<List<Modifier>> MODIFIERS = KeyFactory.list("modifiers", Modifier.class);
+
 
     public MethodNode(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, reorderMethodItems(children));
@@ -51,9 +58,7 @@ public class MethodNode extends SmaliNode {
         sb.append(prototype.getCode());
         sb.append("\n");
 
-        if (registersDirective != null) {
-            sb.append(indentCode(registersDirective.getCode())).append("\n");
-        }
+        registersDirective.ifPresent(locals -> sb.append(indentCode(locals.getCode())).append("\n"));
 
         var childrenExceptCatch = getChildren().stream()
                 .filter(c -> !(c instanceof CatchDirective))
@@ -86,7 +91,7 @@ public class MethodNode extends SmaliNode {
     }
 
     public String getMethodName() {
-        return (String) get(ATTRIBUTES).get("name");
+        return get(NAME);
     }
 
     public String getMethodReferenceName() {
@@ -103,16 +108,16 @@ public class MethodNode extends SmaliNode {
         return sb.toString();
     }
 
-    public RegistersDirective getRegistersDirective() {
-        return (RegistersDirective) get(ATTRIBUTES).get("registersOrLocals");
+    public Optional<RegistersDirective> getRegistersDirective() {
+        return get(LOCALS);
     }
 
     public MethodPrototype getPrototype() {
-        return (MethodPrototype) get(ATTRIBUTES).get("prototype");
+        return get(PROTOTYPE);
     }
 
     public List<Modifier> getAccessList() {
-        return (ArrayList<Modifier>) get(ATTRIBUTES).get("accessOrRestrictionList");
+        return get(MODIFIERS);
     }
 
     public boolean isStatic() {

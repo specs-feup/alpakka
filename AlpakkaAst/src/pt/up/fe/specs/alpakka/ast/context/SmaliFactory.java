@@ -1,6 +1,8 @@
 package pt.up.fe.specs.alpakka.ast.context;
 
 import com.android.tools.smali.dexlib2.Opcode;
+import org.suikasoft.jOptions.Datakey.DataKey;
+import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import org.suikasoft.jOptions.storedefinition.StoreDefinitions;
 import pt.up.fe.specs.alpakka.ast.*;
@@ -182,9 +184,11 @@ public class SmaliFactory {
         return new Label(data, null);
     }
 
-    public MethodNode methodNode(HashMap<String, Object> attributes, List<? extends SmaliNode> children) {
-        var data = newDataStore(MethodNode.class);
-        data.set(MethodNode.ATTRIBUTES, attributes);
+    public MethodNode methodNode(String name, MethodPrototype prototype, List<Modifier> modifiers, List<? extends SmaliNode> children) {
+        var data = newDataStore(MethodNode.class)
+                .put(MethodNode.NAME, name)
+                .put(MethodNode.PROTOTYPE, prototype)
+                .put(MethodNode.MODIFIERS, modifiers);
 
         return new MethodNode(data, children);
     }

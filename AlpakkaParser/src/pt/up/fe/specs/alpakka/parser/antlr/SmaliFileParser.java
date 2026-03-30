@@ -16,6 +16,7 @@ import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.ClassType;
 import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.TypeDescriptor;
 import pt.up.fe.specs.alpakka.ast.stmt.LineDirective;
 import pt.up.fe.specs.alpakka.ast.stmt.LocalDirective;
+import pt.up.fe.specs.alpakka.ast.stmt.RegistersDirective;
 import pt.up.fe.specs.alpakka.ast.stmt.Statement;
 import pt.up.fe.specs.alpakka.ast.stmt.instruction.*;
 import pt.up.fe.specs.util.SpecsIo;
@@ -413,22 +414,26 @@ public class SmaliFileParser {
     private SmaliNode convertMethod(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
-        var methodAttributes = new HashMap<String, Object>();
-        var accessOrRestrictionList = new ArrayList<Modifier>();
 
         var children = new ArrayList<SmaliNode>();
+
+        String name = null;
+        MethodPrototype prototype = null;
+        List<Modifier> modifiers = new ArrayList<>();
+
+        RegistersDirective locals = null;
 
         for (int i = 0; i < node.getChildCount(); i++) {
             switch (node.getChild(i).getType()) {
                 case smaliParser.SIMPLE_NAME -> {
-                    methodAttributes.put("name", node.getChild(i).getText());
+                    name = node.getChild(i).getText();
                 }
                 case smaliParser.I_METHOD_PROTOTYPE -> {
-                    methodAttributes.put("prototype", convert(node.getChild(i)));
+                    prototype = (MethodPrototype) convert(node.getChild(i));
                 }
                 case smaliParser.I_ACCESS_OR_RESTRICTION_LIST -> {
                     for (int j = 0; j < node.getChild(i).getChildCount(); j++) {
-                        accessOrRestrictionList.add(getAccessSpecOrHiddenApiRestriction(node.getChild(i).getChild(j)));
+                        modifiers.add(getAccessSpecOrHiddenApiRestriction(node.getChild(i).getChild(j)));
                     }
                 }
                 case smaliParser.I_REGISTERS, smaliParser.I_LOCALS -> {
@@ -436,7 +441,7 @@ public class SmaliFileParser {
                     directiveAttributes.put("type", parser.getTokenNames()[node.getChild(i).getType()]);
                     directiveAttributes.put("value", convert(node.getChild(i).getChild(0)));
 
-                    methodAttributes.put("registersOrLocals", factory.registersDirective(directiveAttributes));
+                    locals = factory.registersDirective(directiveAttributes);
                 }
                 case smaliParser.I_ORDERED_METHOD_ITEMS -> {
                     for (int j = 0; j < node.getChild(i).getChildCount(); j++) {
@@ -456,9 +461,13 @@ public class SmaliFileParser {
             }
         }
 
-        methodAttributes.put("accessOrRestrictionList", accessOrRestrictionList);
+        Objects.requireNonNull(name);
+        Objects.requireNonNull(prototype);
+        
+        var method = factory.methodNode(name, prototype, modifiers, children);
+        method.setOptional(MethodNode.LOCALS, locals);
 
-        return factory.methodNode(methodAttributes, children);
+        return method;
     }
 
     private SmaliNode convertCatches(Tree node) {
