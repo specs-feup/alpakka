@@ -343,11 +343,10 @@ public class SmaliFileParser {
 
     private SmaliNode convertLabel(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
-        var attributes = getStatementAttributes(null);
 
-        attributes.put("label", node.getChild(0).getText());
+        var label = node.getChild(0).getText();
 
-        return factory.label(attributes);
+        return factory.label(label);
     }
 
     private MethodPrototype convertMethodPrototype(Tree node) {

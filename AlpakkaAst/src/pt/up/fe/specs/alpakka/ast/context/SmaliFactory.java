@@ -171,9 +171,9 @@ public class SmaliFactory {
         return new AnnotationElement(data, List.of(value));
     }
 
-    public Label label(HashMap<String, Object> attributes) {
-        var data = newDataStore(Label.class);
-        data.set(Label.ATTRIBUTES, attributes);
+    public Label label(String label) {
+        var data = newDataStore(Label.class)
+                .put(Label.LABEL, label);
 
         return new Label(data, null);
     }
