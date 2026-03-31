@@ -282,16 +282,14 @@ public class SmaliFileParser {
 
     private SmaliNode convertPrologueDirective(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
-        var attributes = getStatementAttributes(null);
 
-        return factory.prologueDirective(attributes);
+        return factory.prologueDirective();
     }
 
     private SmaliNode convertEpilogueDirective(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
-        var attributes = getStatementAttributes(null);
 
-        return factory.epilogueDirective(attributes);
+        return factory.epilogueDirective();
     }
 
     private SmaliNode convertLocalDirective(Tree node) {
@@ -341,22 +339,12 @@ public class SmaliFileParser {
 
     private SmaliNode convertEndLocalDirective(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
-        var attributes = getStatementAttributes(null);
-        var children = new ArrayList<SmaliNode>();
-
-        children.add(convert(node.getChild(0)));
-
-        return factory.endLocalDirective(attributes, children);
+        return factory.endLocalDirective(List.of(convert(node.getChild(0))));
     }
 
     private SmaliNode convertRestartLocalDirective(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
-        var attributes = getStatementAttributes(null);
-        var children = new ArrayList<SmaliNode>();
-
-        children.add(convert(node.getChild(0)));
-
-        return factory.restartLocalDirective(attributes, children);
+        return factory.restartLocalDirective(List.of(convert(node.getChild(0))));
     }
 
     private SmaliNode convertLabel(Tree node) {
@@ -540,7 +528,6 @@ public class SmaliFileParser {
     private SmaliNode convertSubannotationDirective(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
-        var attributes = new HashMap<String, Object>();
         var children = new ArrayList<SmaliNode>();
 
         var type = (ClassType) convert(node.getChild(0));
@@ -982,7 +969,6 @@ public class SmaliFileParser {
     private SmaliNode convertSparseSwitch(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
-        var attributes = getStatementAttributes(null);
         var children = new ArrayList<SmaliNode>();
         var sparseSwitchElements = node.getChild(0);
 
@@ -996,7 +982,7 @@ public class SmaliFileParser {
             children.add(factory.sparseSwitchElement(elementChildren));
         }
 
-        return factory.sparseSwitchDirective(attributes, children);
+        return factory.sparseSwitchDirective(children);
     }
 
 }

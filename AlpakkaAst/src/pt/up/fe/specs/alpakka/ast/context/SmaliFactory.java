@@ -109,16 +109,14 @@ public class SmaliFactory {
         return new LineDirective(data, null);
     }
 
-    public PrologueDirective prologueDirective(HashMap<String, Object> attributes) {
+    public PrologueDirective prologueDirective() {
         var data = newDataStore(PrologueDirective.class);
-        data.set(PrologueDirective.ATTRIBUTES, attributes);
 
         return new PrologueDirective(data, null);
     }
 
-    public EpilogueDirective epilogueDirective(HashMap<String, Object> attributes) {
+    public EpilogueDirective epilogueDirective() {
         var data = newDataStore(EpilogueDirective.class);
-        data.set(EpilogueDirective.ATTRIBUTES, attributes);
 
         return new EpilogueDirective(data, null);
     }
@@ -130,16 +128,14 @@ public class SmaliFactory {
         return new LocalDirective(data, null);
     }
 
-    public EndLocalDirective endLocalDirective(HashMap<String, Object> attributes, List<? extends SmaliNode> children) {
+    public EndLocalDirective endLocalDirective(List<? extends SmaliNode> children) {
         var data = newDataStore(EndLocalDirective.class);
-        data.set(EndLocalDirective.ATTRIBUTES, attributes);
 
         return new EndLocalDirective(data, children);
     }
 
-    public RestartLocalDirective restartLocalDirective(HashMap<String, Object> attributes, List<? extends SmaliNode> children) {
+    public RestartLocalDirective restartLocalDirective(List<? extends SmaliNode> children) {
         var data = newDataStore(RestartLocalDirective.class);
-        data.set(RestartLocalDirective.ATTRIBUTES, attributes);
 
         return new RestartLocalDirective(data, children);
     }
@@ -286,14 +282,6 @@ public class SmaliFactory {
         return SpecsSystem.newInstance(instructionClass, data, children);
     }
 
-    public ReturnStatement returnInstructionFormat(HashMap<String, Object> attributes,
-                                                   List<? extends SmaliNode> children) {
-        var data = newDataStore(ReturnStatement.class);
-        data.set(ReturnStatement.ATTRIBUTES, attributes);
-
-        return new ReturnStatement(data, children);
-    }
-
     public LabelRef labelRef(String label) {
         var data = newDataStore(LabelRef.class);
         data.set(LabelRef.LABEL, label);
@@ -398,10 +386,8 @@ public class SmaliFactory {
         return new PackedSwitchDirective(data, children);
     }
 
-    public SparseSwitchDirective sparseSwitchDirective(HashMap<String, Object> attributes,
-                                                       List<? extends SmaliNode> children) {
+    public SparseSwitchDirective sparseSwitchDirective(List<? extends SmaliNode> children) {
         var data = newDataStore(SparseSwitchDirective.class);
-        data.set(SparseSwitchDirective.ATTRIBUTES, attributes);
 
         return new SparseSwitchDirective(data, children);
     }

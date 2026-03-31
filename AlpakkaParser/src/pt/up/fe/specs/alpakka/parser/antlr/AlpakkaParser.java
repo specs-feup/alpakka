@@ -179,11 +179,6 @@ public class AlpakkaParser {
 
         // Replace references in nodes in DataKeys
         for (var key : node.getDataKeysWithValues()) {
-            // Skip if key is not part of the node definition
-            if (!node.getStoreDefinition().hasKey(key.getName())) {
-                continue;
-            }
-
             replaceReferencesSingle(node.get(key), declarationsMap, seenNodes);
         }
 
