@@ -13,7 +13,6 @@ import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.TypeDescriptor;
 import pt.up.fe.specs.alpakka.ast.stmt.*;
 import pt.up.fe.specs.alpakka.ast.stmt.instruction.Instruction;
 import pt.up.fe.specs.alpakka.ast.stmt.instruction.NopStatement;
-import pt.up.fe.specs.alpakka.ast.stmt.instruction.ReturnStatement;
 import pt.up.fe.specs.util.SpecsSystem;
 
 import java.io.File;
@@ -68,9 +67,9 @@ public class SmaliFactory {
         return new Manifest(data, null);
     }
 
-    public App app(HashMap<String, Object> attributes, List<? extends SmaliNode> children) {
-        var data = newDataStore(App.class);
-        data.set(App.ATTRIBUTES, attributes);
+    public App app(Integer sdkVersion, List<? extends SmaliNode> children) {
+        var data = newDataStore(App.class)
+                .put(App.SDK_VERSION, sdkVersion);
 
         return new App(data, children);
     }

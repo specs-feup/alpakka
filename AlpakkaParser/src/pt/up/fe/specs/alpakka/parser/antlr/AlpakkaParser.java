@@ -19,7 +19,6 @@ import brut.androlib.exceptions.AndrolibException;
 import brut.directory.DirectoryException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
-import org.yaml.snakeyaml.Yaml;
 import pt.up.fe.specs.alpakka.ast.*;
 import pt.up.fe.specs.alpakka.ast.context.SmaliContext;
 import pt.up.fe.specs.alpakka.ast.expr.FieldReference;
@@ -36,8 +35,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static pt.up.fe.specs.alpakka.ast.SmaliNode.ATTRIBUTES;
 
@@ -88,13 +85,11 @@ public class AlpakkaParser {
                     .filter(option -> option.startsWith("-targetSdkVersion"))
                     .map(option -> Integer.parseInt(option.substring("-targetSdkVersion".length())))
                     .findFirst()
-                    .orElse(20);
+                    .orElse(App.getDefaultSdkVersion());
 
             var factory = context.get(SmaliContext.FACTORY);
-            var attributes = new HashMap<String, Object>();
-            attributes.put("sdkInfo", new HashMap<String, Object>().put("targetSdkVersion", targetSdkVersion));
 
-            return Optional.of(factory.app(attributes, classes));
+            return Optional.of(factory.app(targetSdkVersion, classes));
         }
     }
 
@@ -243,13 +238,16 @@ public class AlpakkaParser {
             throw new RuntimeException("Error decompiling APK", e);
         }
 
-        var attributes = getAttributesFromYaml(outputFolder.getAbsolutePath() + "/apktool.yml");
+        var yamlFile = new File(outputFolder.getAbsolutePath() + "/apktool.yml");
+        var attributes = App.getAttributesFromYaml(yamlFile);
 
         var sdkInfo = (HashMap<String, Object>) attributes.get("sdkInfo");
 
+        Integer sdkVersion = App.getDefaultSdkVersion();
         if (sdkInfo != null) {
             options.removeIf(option -> option.startsWith("-targetSdkVersion"));
             options.add("-targetSdkVersion" + sdkInfo.get("targetSdkVersion"));
+            sdkVersion = Integer.valueOf(sdkInfo.get("targetSdkVersion").toString());
         }
 
         var decompiledFiles = SpecsIo.getFilesRecursive(outputFolder);
@@ -264,29 +262,13 @@ public class AlpakkaParser {
 
         var factory = context.get(SmaliContext.FACTORY);
 
-        return factory.app(attributes, children);
+        var app = factory.app(sdkVersion, children);
+
+        app.setOptional(App.APKTOOL_YAML, yamlFile);
+
+        return app;
     }
 
-    private HashMap<String, Object> getAttributesFromYaml(String yamlFilePath) {
-        var cleanYaml = fixYamlContent(SpecsIo.read(yamlFilePath));
-
-        var yaml = new Yaml();
-
-        return yaml.load(cleanYaml);
-    }
-
-    private static String fixYamlContent(String content) {
-        String regex = "(\\s*:\\s*)(@[^\\s]+)";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(content);
-
-        StringBuffer result = new StringBuffer();
-        while (matcher.find()) {
-            matcher.appendReplacement(result, "$1\"$2\"");
-        }
-        matcher.appendTail(result);
-        return result.toString();
-    }
 
     private String getPackageNameFromManifest(String filePath) {
         var inputFile = new File(filePath);
