@@ -432,11 +432,10 @@ public class SmaliFileParser {
                     }
                 }
                 case smaliParser.I_REGISTERS, smaliParser.I_LOCALS -> {
-                    var directiveAttributes = new HashMap<String, Object>();
-                    directiveAttributes.put("type", parser.getTokenNames()[node.getChild(i).getType()]);
-                    directiveAttributes.put("value", convert(node.getChild(i).getChild(0)));
+                    var type = parser.getTokenNames()[node.getChild(i).getType()];
+                    var value = Integer.valueOf(convert(node.getChild(i).getChild(0)).getCode());
 
-                    locals = factory.registersDirective(directiveAttributes);
+                    locals = factory.registersDirective(type, value);
                 }
                 case smaliParser.I_ORDERED_METHOD_ITEMS -> {
                     for (int j = 0; j < node.getChild(i).getChildCount(); j++) {

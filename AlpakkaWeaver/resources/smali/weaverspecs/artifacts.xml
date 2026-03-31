@@ -198,7 +198,7 @@
 
     <artifact class="registersDirective">
         <attribute name="type" type="String"/>
-        <attribute name="value" type="primitiveLiteral">
+        <attribute name="value" type="integer">
             <def/>
         </attribute>
     </artifact>

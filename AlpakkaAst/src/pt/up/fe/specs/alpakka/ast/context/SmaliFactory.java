@@ -94,9 +94,10 @@ public class SmaliFactory {
         return new ClassNode(data, children);
     }
 
-    public RegistersDirective registersDirective(HashMap<String, Object> attributes) {
-        var data = newDataStore(RegistersDirective.class);
-        data.set(RegistersDirective.ATTRIBUTES, attributes);
+    public RegistersDirective registersDirective(String type, Integer value) {
+        var data = newDataStore(RegistersDirective.class)
+                .put(RegistersDirective.TYPE, type)
+                .put(RegistersDirective.VALUE, value);
 
         return new RegistersDirective(data, null);
     }

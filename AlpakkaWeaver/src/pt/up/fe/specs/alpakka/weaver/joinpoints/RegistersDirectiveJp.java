@@ -2,8 +2,6 @@ package pt.up.fe.specs.alpakka.weaver.joinpoints;
 
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
 import pt.up.fe.specs.alpakka.ast.stmt.RegistersDirective;
-import pt.up.fe.specs.alpakka.weaver.SmaliJoinpoints;
-import pt.up.fe.specs.alpakka.weaver.abstracts.joinpoints.APrimitiveLiteral;
 import pt.up.fe.specs.alpakka.weaver.abstracts.joinpoints.ARegistersDirective;
 
 public class RegistersDirectiveJp extends ARegistersDirective {
@@ -26,7 +24,7 @@ public class RegistersDirectiveJp extends ARegistersDirective {
     }
 
     @Override
-    public APrimitiveLiteral getValueImpl() {
-        return SmaliJoinpoints.create(this.registers.getValue(), APrimitiveLiteral.class);
+    public Integer getValueImpl() {
+        return this.registers.getValue();
     }
 }
