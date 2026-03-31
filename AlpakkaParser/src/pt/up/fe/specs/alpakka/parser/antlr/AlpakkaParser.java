@@ -179,7 +179,7 @@ public class AlpakkaParser {
 
         // Replace references in nodes in DataKeys
         for (var key : node.getDataKeysWithValues()) {
-            replaceReferencesSingle(node.getValue(key.getName()), declarationsMap, seenNodes);
+            replaceReferencesSingle(node.get(key), declarationsMap, seenNodes);
         }
 
     }
