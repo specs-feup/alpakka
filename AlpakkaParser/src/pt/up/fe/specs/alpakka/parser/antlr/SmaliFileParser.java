@@ -373,15 +373,15 @@ public class SmaliFileParser {
     private MethodPrototype convertMethodPrototype(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
-        var prototypeAttributes = new HashMap<String, Object>();
+        TypeDescriptor returnType = null;
         var parameters = new ArrayList<TypeDescriptor>();
         for (int j = 0; j < node.getChildCount(); j++) {
             if (node.getChild(j).getType() == smaliParser.I_METHOD_RETURN_TYPE) {
                 // Type descriptor
                 if (node.getChild(j).getChild(0).getType() == smaliParser.ARRAY_TYPE_PREFIX) {
-                    prototypeAttributes.put("returnType", factory.arrayType(node.getChild(j).getChild(1).getText()));
+                    returnType = factory.arrayType(node.getChild(j).getChild(1).getText());
                 } else {
-                    prototypeAttributes.put("returnType", factory.type(node.getChild(j).getChild(0).getText()));
+                    returnType = factory.type(node.getChild(j).getChild(0).getText());
                 }
             } else if (node.getChild(j).getType() == smaliParser.PARAM_LIST_OR_ID_PRIMITIVE_TYPE) {
                 todo(parser.getTokenNames()[node.getChild(j).getType()]);
@@ -396,9 +396,7 @@ public class SmaliFileParser {
             }
         }
 
-        prototypeAttributes.put("parameters", parameters);
-
-        return factory.methodPrototype(prototypeAttributes);
+        return factory.methodPrototype(returnType, parameters);
     }
 
     private Modifier getAccessSpecOrHiddenApiRestriction(Tree node) {
@@ -463,7 +461,7 @@ public class SmaliFileParser {
 
         Objects.requireNonNull(name);
         Objects.requireNonNull(prototype);
-        
+
         var method = factory.methodNode(name, prototype, modifiers, children);
         method.setOptional(MethodNode.LOCALS, locals);
 
