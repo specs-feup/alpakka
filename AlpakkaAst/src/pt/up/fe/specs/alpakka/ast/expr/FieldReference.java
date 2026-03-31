@@ -1,15 +1,25 @@
 package pt.up.fe.specs.alpakka.ast.expr;
 
-import java.util.Collection;
-
+import org.suikasoft.jOptions.Datakey.DataKey;
+import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
-
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
 import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.TypeDescriptor;
 
+import java.util.Collection;
+import java.util.Optional;
+
 public class FieldReference extends Expression implements Reference {
 
-    public static String TYPE_LABEL = "field";
+    private static final String TYPE_LABEL = "field";
+
+    public static String fieldLabel() {
+        return TYPE_LABEL;
+    }
+
+    public static final DataKey<String> MEMBER_NAME = KeyFactory.string("memberName");
+    public static final DataKey<Optional<TypeDescriptor>> BASE_TYPE = KeyFactory.optional("baseType");
+    public static final DataKey<TypeDescriptor> FIELD_TYPE = KeyFactory.object("fieldType", TypeDescriptor.class);
 
     public FieldReference(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
@@ -19,15 +29,11 @@ public class FieldReference extends Expression implements Reference {
     public String getCode() {
         var sb = new StringBuilder();
 
-        var attributes = get(ATTRIBUTES);
-
         var referenceTypeDescriptor = getParentClassDescriptor();
-        var member = attributes.get("memberName");
+        var member = get(MEMBER_NAME);
         var nonVoidTypeDescriptor = getFieldReferenceType();
 
-        if (referenceTypeDescriptor != null) {
-            sb.append(referenceTypeDescriptor.getCode()).append("->");
-        }
+        referenceTypeDescriptor.ifPresent(type -> sb.append(type.getCode()).append("->"));
 
         sb.append(member).append(":");
 
@@ -36,12 +42,12 @@ public class FieldReference extends Expression implements Reference {
         return sb.toString();
     }
 
-    public TypeDescriptor getParentClassDescriptor() {
-        return (TypeDescriptor) get(ATTRIBUTES).get("referenceTypeDescriptor");
+    public Optional<TypeDescriptor> getParentClassDescriptor() {
+        return get(BASE_TYPE);
     }
 
     public TypeDescriptor getFieldReferenceType() {
-        return (TypeDescriptor) get(ATTRIBUTES).get("nonVoidTypeDescriptor");
+        return get(FIELD_TYPE);
     }
 
     @Override

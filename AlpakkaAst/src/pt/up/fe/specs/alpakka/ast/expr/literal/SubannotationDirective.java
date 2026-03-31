@@ -1,11 +1,9 @@
 package pt.up.fe.specs.alpakka.ast.expr.literal;
 
-import java.util.Collection;
-
 import org.suikasoft.jOptions.Interfaces.DataStore;
-
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
-import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.ClassType;
+
+import java.util.Collection;
 
 public class SubannotationDirective extends Literal {
 
@@ -16,7 +14,7 @@ public class SubannotationDirective extends Literal {
     @Override
     public String getCode() {
         var sb = new StringBuilder();
-        var classDescriptor = (ClassType) get(SmaliNode.ATTRIBUTES).get("classDescriptor");
+        var classDescriptor = get(TYPE).orElseThrow();
 
         sb.append(".subannotation ").append(classDescriptor.getCode()).append("\n");
 

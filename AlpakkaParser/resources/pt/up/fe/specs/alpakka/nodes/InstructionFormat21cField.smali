@@ -1,0 +1,12 @@
+.class public Lfixture/InstructionFormat21cField;
+.super Ljava/lang/Object;
+
+.field public static value:I
+
+.method public static test()V
+    .registers 1
+
+    sget v0, Lfixture/InstructionFormat21cField;->value:I
+
+    return-void
+.end method

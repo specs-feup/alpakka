@@ -1,0 +1,5 @@
+.class public Lcom/example/MyClass;
+.super Ljava/lang/Object;
+
+.annotation runtime Ljava/lang/Deprecated;
+.end annotation

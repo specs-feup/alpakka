@@ -1,0 +1,10 @@
+.class public Lfixture/InstructionFormat45ccMethod;
+.super Ljava/lang/Object;
+
+.method public static test(Ljava/lang/invoke/MethodHandle;Ljava/lang/Object;)V
+    .registers 2
+
+    invoke-polymorphic {p0, p1}, Ljava/lang/invoke/MethodHandle;->invoke(Ljava/lang/Object;)Ljava/lang/Object;, (Ljava/lang/Object;)Ljava/lang/Object;
+
+    return-void
+.end method

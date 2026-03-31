@@ -23,7 +23,7 @@ public class CatchJp extends ACatch {
 
     @Override
     public ATypeDescriptor getExceptionImpl() {
-        return SmaliJoinpoints.create(this.catchDir.getExceptionTypeDescriptor(), ATypeDescriptor.class);
+        return this.catchDir.getExceptionTypeDescriptor().map(type -> SmaliJoinpoints.create(type, ATypeDescriptor.class)).orElse(null);
     }
 
     @Override

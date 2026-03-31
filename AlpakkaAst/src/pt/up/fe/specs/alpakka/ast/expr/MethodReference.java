@@ -1,15 +1,28 @@
 package pt.up.fe.specs.alpakka.ast.expr;
 
+import org.suikasoft.jOptions.Datakey.DataKey;
+import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
 import pt.up.fe.specs.alpakka.ast.expr.literal.MethodPrototype;
 import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.TypeDescriptor;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public class MethodReference extends Expression implements Reference {
 
-    public static String TYPE_LABEL = "method";
+    private static final String TYPE_LABEL = "method";
+
+    public static String methodLabel() {
+        return TYPE_LABEL;
+    }
+
+    public static final DataKey<String> METHOD_NAME = KeyFactory.string("methodName");
+
+    public static final DataKey<MethodPrototype> METHOD_TYPE = KeyFactory.object("methodType", MethodPrototype.class);
+
+    public static final DataKey<Optional<TypeDescriptor>> BASE_TYPE = KeyFactory.optional("baseType");
 
     public MethodReference(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
@@ -17,15 +30,13 @@ public class MethodReference extends Expression implements Reference {
 
     @Override
     public String getCode() {
-        var referenceTypeDescriptor = getParentClassDescriptor();
+        var baseType = getBaseType();
         var member = getMethodName();
         var prototype = getPrototype();
 
         var sb = new StringBuilder();
 
-        if (referenceTypeDescriptor != null) {
-            sb.append(referenceTypeDescriptor.getCode()).append("->");
-        }
+        baseType.ifPresent(type -> sb.append(type.getCode()).append("->"));
 
         sb.append(member);
 
@@ -34,16 +45,16 @@ public class MethodReference extends Expression implements Reference {
         return sb.toString();
     }
 
-    public TypeDescriptor getParentClassDescriptor() {
-        return (TypeDescriptor) get(SmaliNode.ATTRIBUTES).get("referenceTypeDescriptor");
+    public Optional<TypeDescriptor> getBaseType() {
+        return get(BASE_TYPE);
     }
 
     public String getMethodName() {
-        return (String) get(SmaliNode.ATTRIBUTES).get("memberName");
+        return get(METHOD_NAME);
     }
 
     public MethodPrototype getPrototype() {
-        return (MethodPrototype) get(SmaliNode.ATTRIBUTES).get("prototype");
+        return get(METHOD_TYPE);
     }
 
     @Override

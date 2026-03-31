@@ -1,21 +1,18 @@
 package pt.up.fe.specs.alpakka.ast.stmt.instruction;
 
-import java.util.Collection;
-
-import com.android.tools.smali.dexlib2.Format;
 import com.android.tools.smali.dexlib2.Opcode;
 import com.android.tools.smali.dexlib2.Opcodes;
 import org.suikasoft.jOptions.Datakey.DataKey;
 import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
-
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
-import pt.up.fe.specs.alpakka.ast.context.SmaliContext;
 import pt.up.fe.specs.alpakka.ast.stmt.Statement;
+
+import java.util.Collection;
 
 public abstract class Instruction extends Statement {
 
-    public final static DataKey<Format> FORMAT = KeyFactory.object("format", Format.class);
+    public final static DataKey<Opcode> OPCODE = KeyFactory.enumeration("opcode", Opcode.class);
 
     public Instruction(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
@@ -42,9 +39,7 @@ public abstract class Instruction extends Statement {
     }
 
     private Opcode getOpcode() {
-        // TODO: Specify the sdk version
-        var opcodes = Opcodes.getDefault();
-        return opcodes.getOpcodeByName(getOpCodeName());
+        return SmaliNode.getOpcode(getOpCodeName());
     }
 
     public boolean canThrow() {
@@ -66,11 +61,11 @@ public abstract class Instruction extends Statement {
     }
 
     public String getOpCodeName() {
-        return get(SmaliNode.ATTRIBUTES).get("instruction").toString();
+        return get(OPCODE).name;
     }
 
     private boolean isOpcodeCompatibleFormat(Opcode opcode) {
-        return opcode.format == get(FORMAT);
+        return opcode.format == get(OPCODE).format;
     }
 
     public void setOpcode(Opcode opcode) {
@@ -79,9 +74,10 @@ public abstract class Instruction extends Statement {
         }
         if (!isOpcodeCompatibleFormat(opcode)) {
             throw new IllegalArgumentException(
-                "Opcode '" + opcode.name + "' is not compatible");
+                    "Opcode '" + opcode.name + "' is not compatible");
         }
-        get(SmaliNode.ATTRIBUTES).put("instruction", opcode.name);
+
+        set(OPCODE, opcode);
     }
 
     public void setOpcode(String name) {

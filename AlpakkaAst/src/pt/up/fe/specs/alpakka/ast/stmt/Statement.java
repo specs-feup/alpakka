@@ -1,12 +1,16 @@
 package pt.up.fe.specs.alpakka.ast.stmt;
 
-import java.util.Collection;
-
+import org.suikasoft.jOptions.Datakey.DataKey;
+import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
-
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
 
+import java.util.Collection;
+import java.util.Optional;
+
 public abstract class Statement extends SmaliNode {
+
+    public static final DataKey<Optional<LineDirective>> LINE_DIRECTIVE = KeyFactory.optional("lineDirective");
 
     public Statement(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
@@ -15,7 +19,7 @@ public abstract class Statement extends SmaliNode {
     protected String getLine() {
         var lineDirective = getLineDirective();
 
-        return lineDirective != null ? lineDirective.getCode() + "\n" : "";
+        return lineDirective.map(node -> node.getCode() + "\n").orElse("");
     }
 
     public Statement getNextStatement() {
@@ -40,8 +44,8 @@ public abstract class Statement extends SmaliNode {
         return previousChild instanceof Statement ? (Statement) previousChild : null;
     }
 
-    public LineDirective getLineDirective() {
-        return (LineDirective) get(ATTRIBUTES).get("lineDirective");
+    public Optional<LineDirective> getLineDirective() {
+        return get(LINE_DIRECTIVE);
     }
 
 }

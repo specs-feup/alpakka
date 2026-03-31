@@ -1,0 +1,11 @@
+.class public Lfixture/InstructionFormat51l;
+.super Ljava/lang/Object;
+
+.method public static test()V
+	.registers 2
+
+	const-wide v0, 0x1122334455667788L
+
+	return-void 
+.end method
+

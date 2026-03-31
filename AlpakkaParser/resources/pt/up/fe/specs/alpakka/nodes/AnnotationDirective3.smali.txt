@@ -1,0 +1,12 @@
+.class public Lcom/example/MyClass;
+.super Ljava/lang/Object;
+
+.method public myMethod()V
+	.locals 0
+
+	.annotation runtime Ljava/lang/Deprecated;
+	.end annotation
+
+	.line 42
+	return-void
+.end method

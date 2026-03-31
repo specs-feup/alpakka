@@ -1,0 +1,11 @@
+.class public Lfixture/InstructionFormat23x;
+.super Ljava/lang/Object;
+
+.method public static test()V
+	.registers 3
+
+	add-int v0, v1, v2
+
+	return-void 
+.end method
+

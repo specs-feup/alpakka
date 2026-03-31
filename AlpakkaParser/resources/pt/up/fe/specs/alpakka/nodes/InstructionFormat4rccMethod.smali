@@ -1,0 +1,10 @@
+.class public Lfixture/InstructionFormat4rccMethod;
+.super Ljava/lang/Object;
+
+.method public static test(Ljava/lang/invoke/MethodHandle;Ljava/lang/Object;)V
+    .registers 2
+
+    invoke-polymorphic/range {p0 .. p1}, Ljava/lang/invoke/MethodHandle;->invoke(Ljava/lang/Object;)Ljava/lang/Object;, (Ljava/lang/Object;)Ljava/lang/Object;
+
+    return-void
+.end method

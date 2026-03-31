@@ -1,0 +1,13 @@
+.class public Lfixture/InstructionFormat21t;
+.super Ljava/lang/Object;
+
+.method public static test(I)V
+    .registers 1
+
+    if-eqz p0, :zero
+
+    return-void
+
+    :zero
+    return-void
+.end method

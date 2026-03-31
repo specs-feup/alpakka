@@ -1,0 +1,210 @@
+.class public final LFormat12xTest;
+.super Ljava/lang/Object;
+
+# Comprehensive test file for Dalvik/DEX format 12x instructions.
+# Keeps all encoded registers in v0..v15.
+
+.method public constructor <init>()V
+    .registers 1
+
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+    return-void
+.end method
+
+.method public static runAll()V
+    .registers 0
+
+    invoke-static {}, LFormat12xTest;->testMove12x()V
+    invoke-static {}, LFormat12xTest;->testArrayLength12x()V
+    invoke-static {}, LFormat12xTest;->testUnopInt12x()V
+    invoke-static {}, LFormat12xTest;->testUnopLong12x()V
+    invoke-static {}, LFormat12xTest;->testUnopFloat12x()V
+    invoke-static {}, LFormat12xTest;->testUnopDouble12x()V
+    invoke-static {}, LFormat12xTest;->testConversions12x()V
+    invoke-static {}, LFormat12xTest;->testBinop2AddrInt12x()V
+    invoke-static {}, LFormat12xTest;->testBinop2AddrLong12x()V
+    invoke-static {}, LFormat12xTest;->testBinop2AddrFloat12x()V
+    invoke-static {}, LFormat12xTest;->testBinop2AddrDouble12x()V
+
+    return-void
+.end method
+
+.method public static testMove12x()V
+    .registers 16
+
+    # move
+    const/4 v0, 0x1
+    move v1, v0
+    move v2, v1
+
+    # move-wide
+    const-wide/16 v4, 0x1234
+    move-wide v6, v4
+
+    # overlap cases explicitly mentioned as legal by the spec
+    # source = v8/v9
+    const-wide/16 v8, 0x55
+    move-wide v7, v8    # destination starts at N-1
+    move-wide v9, v8    # destination starts at N+1
+
+    # move-object
+    const-string v10, "format12x"
+    move-object v11, v10
+    move-object v12, v11
+
+    return-void
+.end method
+
+.method public static testArrayLength12x()V
+    .registers 4
+
+    const/4 v0, 0x5
+    new-array v1, v0, [I
+    array-length v2, v1
+
+    return-void
+.end method
+
+.method public static testUnopInt12x()V
+    .registers 4
+
+    const/16 v0, 0x1234
+    neg-int v1, v0
+    not-int v2, v0
+    int-to-byte v1, v0
+    int-to-char v2, v0
+    int-to-short v3, v0
+
+    return-void
+.end method
+
+.method public static testUnopLong12x()V
+    .registers 8
+
+    const-wide/16 v0, 0x7
+    neg-long v2, v0
+    not-long v4, v0
+
+    return-void
+.end method
+
+.method public static testUnopFloat12x()V
+    .registers 4
+
+    const/high16 v0, 0x4040    # 3.0f
+    neg-float v1, v0
+
+    return-void
+.end method
+
+.method public static testUnopDouble12x()V
+    .registers 6
+
+    const-wide/high16 v0, 0x4008    # 3.0
+    neg-double v2, v0
+
+    return-void
+.end method
+
+.method public static testConversions12x()V
+    .registers 16
+
+    # int source
+    const/16 v0, 0x2a
+    int-to-long v1, v0
+    int-to-float v3, v0
+    int-to-double v4, v0
+
+    # long source
+    const-wide/16 v6, 0x64
+    long-to-int v8, v6
+    long-to-float v9, v6
+    long-to-double v10, v6
+
+    # float source
+    const/high16 v12, 0x4020   # 2.5f
+    float-to-int v13, v12
+    float-to-long v14, v12
+
+    # reuse a low pair for double source
+    const-wide/high16 v0, 0x4004    # 2.5
+    double-to-int v2, v0
+    double-to-long v3, v0
+    double-to-float v5, v0
+
+    return-void
+.end method
+
+.method public static testBinop2AddrInt12x()V
+    .registers 4
+
+    const/16 v0, 0x21
+    const/4 v1, 0x3
+
+    add-int/2addr v0, v1
+    sub-int/2addr v0, v1
+    mul-int/2addr v0, v1
+    div-int/2addr v0, v1
+    rem-int/2addr v0, v1
+    and-int/2addr v0, v1
+    or-int/2addr v0, v1
+    xor-int/2addr v0, v1
+    shl-int/2addr v0, v1
+    shr-int/2addr v0, v1
+    ushr-int/2addr v0, v1
+
+    return-void
+.end method
+
+.method public static testBinop2AddrLong12x()V
+    .registers 6
+
+    # v0/v1 = lhs long, v2/v3 = rhs long, v4 = shift distance
+    const-wide/16 v0, 0x21
+    const-wide/16 v2, 0x3
+    const/4 v4, 0x2
+
+    add-long/2addr v0, v2
+    sub-long/2addr v0, v2
+    mul-long/2addr v0, v2
+    div-long/2addr v0, v2
+    rem-long/2addr v0, v2
+    and-long/2addr v0, v2
+    or-long/2addr v0, v2
+    xor-long/2addr v0, v2
+    shl-long/2addr v0, v4
+    shr-long/2addr v0, v4
+    ushr-long/2addr v0, v4
+
+    return-void
+.end method
+
+.method public static testBinop2AddrFloat12x()V
+    .registers 4
+
+    const/high16 v0, 0x40a0   # 5.0f
+    const/high16 v1, 0x4000   # 2.0f
+
+    add-float/2addr v0, v1
+    sub-float/2addr v0, v1
+    mul-float/2addr v0, v1
+    div-float/2addr v0, v1
+    rem-float/2addr v0, v1
+
+    return-void
+.end method
+
+.method public static testBinop2AddrDouble12x()V
+    .registers 8
+
+    const-wide/high16 v0, 0x4014    # 5.0
+    const-wide/high16 v2, 0x4000    # 2.0
+
+    add-double/2addr v0, v2
+    sub-double/2addr v0, v2
+    mul-double/2addr v0, v2
+    div-double/2addr v0, v2
+    rem-double/2addr v0, v2
+
+    return-void
+.end method

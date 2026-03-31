@@ -1,0 +1,10 @@
+.class public Lfixture/InstructionFormat21cType;
+.super Ljava/lang/Object;
+
+.method public static test()V
+    .registers 1
+
+    const-class v0, Ljava/lang/String;
+
+    return-void
+.end method

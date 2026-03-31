@@ -1,0 +1,17 @@
+.class public Lfixture/InstructionFormat3rcType;
+.super Ljava/lang/Object;
+
+.method public static test()[I
+	.registers 3
+
+	const/4 v0, 0x3
+
+	const/4 v1, 0x4
+
+	filled-new-array/range {v0 .. v1}, [I
+
+	move-result-object v2
+
+	return-object v2
+.end method
+

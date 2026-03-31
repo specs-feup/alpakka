@@ -1,13 +1,17 @@
 package pt.up.fe.specs.alpakka.ast.stmt;
 
+import org.suikasoft.jOptions.Datakey.DataKey;
+import org.suikasoft.jOptions.Datakey.KeyFactory;
+import org.suikasoft.jOptions.Interfaces.DataStore;
+import pt.up.fe.specs.alpakka.ast.SmaliNode;
+
 import java.util.Collection;
 
-import org.suikasoft.jOptions.Interfaces.DataStore;
-
-import pt.up.fe.specs.alpakka.ast.SmaliNode;
-import pt.up.fe.specs.alpakka.ast.expr.literal.PrimitiveLiteral;
-
 public class RegistersDirective extends Statement {
+
+    public static final DataKey<String> TYPE = KeyFactory.string("type");
+
+    public static final DataKey<Integer> VALUE = KeyFactory.integer("value");
 
     public RegistersDirective(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
@@ -28,17 +32,17 @@ public class RegistersDirective extends Statement {
             sb.append(".locals ");
         }
 
-        sb.append(value.getCode());
+        sb.append(value);
 
         return sb.toString();
     }
 
     public String getType() {
-        return (String) get(SmaliNode.ATTRIBUTES).get("type");
+        return get(TYPE);
     }
 
-    public PrimitiveLiteral getValue() {
-        return (PrimitiveLiteral) get(SmaliNode.ATTRIBUTES).get("value");
+    public Integer getValue() {
+        return get(VALUE);
     }
 
 }

@@ -8,6 +8,8 @@ import org.lara.language.specification.dsl.LanguageSpecification;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import pt.up.fe.specs.alpakka.ast.App;
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
+import pt.up.fe.specs.alpakka.ast.context.SmaliContext;
+import pt.up.fe.specs.alpakka.ast.context.SmaliFactory;
 import pt.up.fe.specs.alpakka.parser.antlr.AlpakkaParser;
 import pt.up.fe.specs.alpakka.weaver.abstracts.ASmaliWeaverJoinPoint;
 import pt.up.fe.specs.alpakka.weaver.abstracts.weaver.ASmaliWeaver;
@@ -15,7 +17,10 @@ import pt.up.fe.specs.alpakka.weaver.options.SmaliWeaverOption;
 import pt.up.fe.specs.alpakka.weaver.options.SmaliWeaverOptions;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * Weaver Implementation for SmaliWeaver<br>
@@ -84,7 +89,7 @@ public class SmaliWeaver extends ASmaliWeaver {
         });
 
         root = new AlpakkaParser().parse(smaliFiles, buildParserOptions(args))
-                .orElse(new App(DataStore.newInstance(App.class), List.of()));
+                .orElse(new SmaliFactory(new SmaliContext()).app(App.getDefaultSdkVersion(), List.of()));
 
         System.out.println("SOURCES: " + sources);
         System.out.println("ARGS: " + args);

@@ -1,0 +1,146 @@
+.class public Lfixture/SingleFileFields;
+.super Ljava/lang/Object;
+
+# --------------------------------------------------
+# Instance fields
+# --------------------------------------------------
+
+.field public i:I
+.field public z:Z
+.field public j:J
+.field public d:D
+.field public s:Ljava/lang/String;
+.field public obj:Ljava/lang/Object;
+.field public arr:[I
+
+# --------------------------------------------------
+# Static fields
+# --------------------------------------------------
+
+.field public static si:I
+.field public static sz:Z
+.field public static sj:J
+.field public static sd:D
+.field public static ss:Ljava/lang/String;
+.field public static sobj:Ljava/lang/Object;
+.field public static sarr:[Ljava/lang/String;
+
+.field public static final MAGIC:I = 0x2a
+.field public static final GREETING:Ljava/lang/String; = "hello"
+
+.method public constructor <init>()V
+    .registers 1
+
+    invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+    return-void
+.end method
+
+.method public static exerciseInstance(Lfixture/SingleFileFields;)V
+    .registers 8
+
+    # int
+    const/4 v0, 0x7
+    iput v0, p0, Lfixture/SingleFileFields;->i:I
+    iget v1, p0, Lfixture/SingleFileFields;->i:I
+
+    # boolean
+    const/4 v0, 0x1
+    iput-boolean v0, p0, Lfixture/SingleFileFields;->z:Z
+    iget-boolean v1, p0, Lfixture/SingleFileFields;->z:Z
+
+    # object
+    const-string v0, "abc"
+    iput-object v0, p0, Lfixture/SingleFileFields;->s:Ljava/lang/String;
+    iget-object v1, p0, Lfixture/SingleFileFields;->s:Ljava/lang/String;
+
+    const-string v0, "boxed"
+    iput-object v0, p0, Lfixture/SingleFileFields;->obj:Ljava/lang/Object;
+    iget-object v1, p0, Lfixture/SingleFileFields;->obj:Ljava/lang/Object;
+
+    # array
+    const/4 v0, 0x3
+    new-array v0, v0, [I
+    iput-object v0, p0, Lfixture/SingleFileFields;->arr:[I
+    iget-object v1, p0, Lfixture/SingleFileFields;->arr:[I
+
+    # long
+    const-wide/16 v2, 0x1234
+    iput-wide v2, p0, Lfixture/SingleFileFields;->j:J
+    iget-wide v4, p0, Lfixture/SingleFileFields;->j:J
+
+    # double
+    const-wide/high16 v2, 0x4008000000000000L    # 3.0
+    iput-wide v2, p0, Lfixture/SingleFileFields;->d:D
+    iget-wide v4, p0, Lfixture/SingleFileFields;->d:D
+
+    return-void
+.end method
+
+.method public static exerciseStatic()V
+    .registers 8
+
+    # int
+    const/16 v0, 0x63
+    sput v0, Lfixture/SingleFileFields;->si:I
+    sget v1, Lfixture/SingleFileFields;->si:I
+
+    # boolean
+    const/4 v0, 0x1
+    sput-boolean v0, Lfixture/SingleFileFields;->sz:Z
+    sget-boolean v1, Lfixture/SingleFileFields;->sz:Z
+
+    # object
+    const-string v0, "xyz"
+    sput-object v0, Lfixture/SingleFileFields;->ss:Ljava/lang/String;
+    sget-object v1, Lfixture/SingleFileFields;->ss:Ljava/lang/String;
+
+    const-string v0, "obj"
+    sput-object v0, Lfixture/SingleFileFields;->sobj:Ljava/lang/Object;
+    sget-object v1, Lfixture/SingleFileFields;->sobj:Ljava/lang/Object;
+
+    # array
+    const/4 v0, 0x2
+    new-array v0, v0, [Ljava/lang/String;
+    sput-object v0, Lfixture/SingleFileFields;->sarr:[Ljava/lang/String;
+    sget-object v1, Lfixture/SingleFileFields;->sarr:[Ljava/lang/String;
+
+    # long
+    const-wide/16 v2, 0x55
+    sput-wide v2, Lfixture/SingleFileFields;->sj:J
+    sget-wide v4, Lfixture/SingleFileFields;->sj:J
+
+    # double
+    const-wide/high16 v2, 0x4014000000000000L    # 5.0
+    sput-wide v2, Lfixture/SingleFileFields;->sd:D
+    sget-wide v4, Lfixture/SingleFileFields;->sd:D
+
+    # static finals
+    sget v1, Lfixture/SingleFileFields;->MAGIC:I
+    sget-object v1, Lfixture/SingleFileFields;->GREETING:Ljava/lang/String;
+
+    return-void
+.end method
+
+.method public static badWrongOpcodeForObject(Lfixture/SingleFileFields;)V
+    .registers 2
+
+    # invalid: should be iget-object
+    iget v0, p0, Lfixture/SingleFileFields;->s:Ljava/lang/String;
+    return-void
+.end method
+
+.method public static badWrongOpcodeForWide(Lfixture/SingleFileFields;)V
+    .registers 2
+
+    # invalid: should be iget-wide
+    iget v0, p0, Lfixture/SingleFileFields;->j:J
+    return-void
+.end method
+
+.method public static badWrongOpcodeForStaticObject()V
+    .registers 1
+
+    # invalid: should be sget-object
+    sget v0, Lfixture/SingleFileFields;->ss:Ljava/lang/String;
+    return-void
+.end method

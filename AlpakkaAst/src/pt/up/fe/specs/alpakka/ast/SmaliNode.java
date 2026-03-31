@@ -1,17 +1,20 @@
 package pt.up.fe.specs.alpakka.ast;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
+import com.android.tools.smali.dexlib2.Opcode;
+import com.android.tools.smali.dexlib2.Opcodes;
 import org.suikasoft.jOptions.Datakey.DataKey;
 import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import org.suikasoft.jOptions.treenode.DataNode;
-
 import pt.up.fe.specs.alpakka.ast.context.SmaliContext;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class SmaliNode extends DataNode<SmaliNode> {
+
+    private static final Map<String, Opcode> OPCODE_CACHE = new HashMap<>();
 
     /// DATAKEYS BEGIN
 
@@ -24,14 +27,36 @@ public abstract class SmaliNode extends DataNode<SmaliNode> {
      * Context of the tree.
      */
     public final static DataKey<SmaliContext> CONTEXT = KeyFactory.object("context", SmaliContext.class);
-
-    public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-            HashMap::new);
-
+    
     /// DATAKEYS END
 
     public SmaliNode(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
+    }
+
+    public static Opcode getOpcode(String opcodeName) {
+        // Check cache
+        var opcode = OPCODE_CACHE.get(opcodeName);
+        if (opcode != null) {
+            return opcode;
+        }
+
+
+        opcode = Opcodes.getDefault().getOpcodeByName(opcodeName);
+        if (opcode != null) {
+            OPCODE_CACHE.put(opcodeName, opcode);
+            return opcode;
+        }
+
+        for (int api = 21; api <= 40; api++) {
+            opcode = Opcodes.forApi(api).getOpcodeByName(opcodeName);
+            if (opcode != null) {
+                OPCODE_CACHE.put(opcodeName, opcode);
+                return opcode;
+            }
+        }
+
+        throw new RuntimeException("Opcode not found for name: " + opcodeName);
     }
 
     @Override

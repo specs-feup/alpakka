@@ -1,11 +1,11 @@
 /**
  * Copyright 2024 SPeCS.
- * 
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- * 
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p>
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
@@ -17,19 +17,66 @@ import brut.androlib.ApkBuilder;
 import brut.androlib.Config;
 import brut.common.BrutException;
 import brut.directory.ExtFile;
+import org.suikasoft.jOptions.Datakey.DataKey;
+import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import pt.up.fe.specs.util.SpecsIo;
 
 import java.io.File;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class App extends SmaliNode {
 
+    private static final int DEFAULT_SDK_VERSION = 20;
+
+    public static int getDefaultSdkVersion() {
+        return DEFAULT_SDK_VERSION;
+    }
+
+    public static final DataKey<Integer> SDK_VERSION = KeyFactory.integer("sdkVersion");
+
+    public static final DataKey<Optional<File>> APKTOOL_YAML = KeyFactory.optional("apktoolYaml");
+
     public App(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
+    }
+
+    public static HashMap<String, Object> getAttributesFromYaml(File yamlFile) {
+        var cleanYaml = fixYamlContent(SpecsIo.read(yamlFile));
+
+        var yaml = new Yaml();
+
+        return yaml.load(cleanYaml);
+    }
+
+    private static String fixYamlContent(String content) {
+        String regex = "(\\s*:\\s*)(@[^\\s]+)";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(content);
+
+        StringBuilder result = new StringBuilder();
+        while (matcher.find()) {
+            matcher.appendReplacement(result, "$1\"$2\"");
+        }
+        matcher.appendTail(result);
+        return result.toString();
+    }
+
+    private Map<String, Object> getYamlMap() {
+        var yamlFile = get(APKTOOL_YAML);
+        if (yamlFile.isPresent()) {
+            return getAttributesFromYaml(yamlFile.get());
+        }
+
+        var attributes = new HashMap<String, Object>();
+
+        attributes.put("sdkInfo", new HashMap<String, Object>().put("targetSdkVersion", get(SDK_VERSION)));
+
+        return attributes;
     }
 
     public void buildApk(String outputName) {
@@ -52,7 +99,7 @@ public class App extends SmaliNode {
             }
         }
 
-        var attributes = get(ATTRIBUTES);
+        var attributes = getYamlMap();
         var options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         var yaml = new Yaml(options);

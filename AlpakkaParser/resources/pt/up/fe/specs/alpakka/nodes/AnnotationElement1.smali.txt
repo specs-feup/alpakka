@@ -1,0 +1,13 @@
+.class public Lcom/example/MyClass;
+.super Ljava/lang/Object;
+
+.method public myMethod()V
+	.locals 0
+
+	.annotation runtime Lcom/example/MyAnnotation;
+		value = "Hello, world"
+	.end annotation
+
+	.line 10
+	return-void
+.end method

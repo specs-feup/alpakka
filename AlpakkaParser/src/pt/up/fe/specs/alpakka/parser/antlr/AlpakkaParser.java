@@ -19,7 +19,6 @@ import brut.androlib.exceptions.AndrolibException;
 import brut.directory.DirectoryException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
-import org.yaml.snakeyaml.Yaml;
 import pt.up.fe.specs.alpakka.ast.*;
 import pt.up.fe.specs.alpakka.ast.context.SmaliContext;
 import pt.up.fe.specs.alpakka.ast.expr.FieldReference;
@@ -36,10 +35,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import static pt.up.fe.specs.alpakka.ast.SmaliNode.ATTRIBUTES;
 
 public class AlpakkaParser {
 
@@ -79,7 +74,7 @@ public class AlpakkaParser {
         // This needs to be changed for multiple files
         var declarationsMap = new HashMap<String, Map<String, SmaliNode>>();
         collectDeclarations(classes.get(0), declarationsMap);
-        replaceReferences(classes.get(0), declarationsMap);
+        replaceReferences(classes.get(0), declarationsMap, new HashSet<>());
 
         if (classes.size() == 1 && classes.get(0) instanceof App) {
             return Optional.of((App) classes.get(0));
@@ -88,13 +83,11 @@ public class AlpakkaParser {
                     .filter(option -> option.startsWith("-targetSdkVersion"))
                     .map(option -> Integer.parseInt(option.substring("-targetSdkVersion".length())))
                     .findFirst()
-                    .orElse(20);
+                    .orElse(App.getDefaultSdkVersion());
 
             var factory = context.get(SmaliContext.FACTORY);
-            var attributes = new HashMap<String, Object>();
-            attributes.put("sdkInfo", new HashMap<String, Object>().put("targetSdkVersion", targetSdkVersion));
 
-            return Optional.of(factory.app(attributes, classes));
+            return Optional.of(factory.app(targetSdkVersion, classes));
         }
     }
 
@@ -135,13 +128,13 @@ public class AlpakkaParser {
 
     private void collectDeclarations(SmaliNode node, Map<String, Map<String, SmaliNode>> declarationsMap) {
         if (node instanceof Label) {
-            declarationsMap.computeIfAbsent(LabelRef.TYPE_LABEL, k -> new HashMap<>())
+            declarationsMap.computeIfAbsent(LabelRef.label(), k -> new HashMap<>())
                     .put(((Label) node).getLabelReferenceName(), node);
         } else if (node instanceof FieldNode) {
-            declarationsMap.computeIfAbsent(FieldReference.TYPE_LABEL, k -> new HashMap<>())
+            declarationsMap.computeIfAbsent(FieldReference.fieldLabel(), k -> new HashMap<>())
                     .put(((FieldNode) node).getFieldReferenceName(), node);
         } else if (node instanceof MethodNode) {
-            declarationsMap.computeIfAbsent(MethodReference.TYPE_LABEL, k -> new HashMap<>())
+            declarationsMap.computeIfAbsent(MethodReference.methodLabel(), k -> new HashMap<>())
                     .put(((MethodNode) node).getMethodReferenceName(), node);
         } else if (node instanceof ClassNode) {
             declarationsMap.computeIfAbsent(ClassType.TYPE_LABEL, k -> new HashMap<>())
@@ -151,7 +144,14 @@ public class AlpakkaParser {
         node.getChildren().forEach(child -> collectDeclarations(child, declarationsMap));
     }
 
-    private void replaceReferences(SmaliNode node, Map<String, Map<String, SmaliNode>> declarationsMap) {
+    private void replaceReferences(SmaliNode node, Map<String, Map<String, SmaliNode>> declarationsMap, Set<String> seenNodes) {
+        var id = node.get(SmaliNode.ID);
+        if (seenNodes.contains(id)) {
+            return;
+        }
+
+        seenNodes.add(id);
+
         SmaliNode declaration = null;
 
         if (node instanceof Reference) {
@@ -163,36 +163,37 @@ public class AlpakkaParser {
             ((Reference) node).setDeclaration(declaration);
         }
 
-        node.getChildren().forEach(child -> replaceReferences(child, declarationsMap));
+        node.getChildren().forEach(child -> replaceReferences(child, declarationsMap, seenNodes));
 
-        if (node.get(ATTRIBUTES) != null) {
-            node.get(ATTRIBUTES).values().forEach(value -> {
-                if (value instanceof SmaliNode) {
-                    replaceReferences((SmaliNode) value, declarationsMap);
-                } else if (value instanceof List) {
-                    ((List<?>) value).forEach(listValue -> {
-                        if (listValue instanceof SmaliNode) {
-                            replaceReferences((SmaliNode) listValue, declarationsMap);
-                        }
-                    });
-                }
-            });
+        // Replace references in nodes in DataKeys
+        for (var key : node.getDataKeysWithValues()) {
+            replaceReferencesSingle(node.get(key), declarationsMap, seenNodes);
         }
 
     }
 
+    private void replaceReferencesSingle(Object value, Map<String, Map<String, SmaliNode>> declarationsMap, Set<String> seenNodes) {
+        if (value instanceof SmaliNode) {
+            replaceReferences((SmaliNode) value, declarationsMap, seenNodes);
+            return;
+        }
+
+        if (value instanceof List<?> values) {
+            for (var element : values) {
+                replaceReferencesSingle(element, declarationsMap, seenNodes);
+            }
+        }
+    }
+
     private Resource newResourceNode(File source, SmaliContext context) {
         var factory = context.get(SmaliContext.FACTORY);
-        var attributes = new HashMap<String, Object>();
-        attributes.put("file", source);
-        return factory.resource(attributes);
+        return factory.resource(source);
     }
 
     private Manifest newManifestNode(File source, SmaliContext context) {
         var factory = context.get(SmaliContext.FACTORY);
-        var attributes = new HashMap<String, Object>();
-        attributes.put("file", source);
-        attributes.put("packageName", getPackageNameFromManifest(source.getAbsolutePath()));
+
+        var packageName = getPackageNameFromManifest(source.getAbsolutePath());
 
         var components = new HashMap<String, List<String>>();
         var manifest = parseXML(source);
@@ -213,9 +214,7 @@ public class AlpakkaParser {
             }
         }
 
-        attributes.put("components", components);
-
-        return factory.manifest(attributes);
+        return factory.manifest(source, packageName, components);
     }
 
     private App decompileApk(File apkFile, SmaliContext context, List<String> options) {
@@ -232,13 +231,16 @@ public class AlpakkaParser {
             throw new RuntimeException("Error decompiling APK", e);
         }
 
-        var attributes = getAttributesFromYaml(outputFolder.getAbsolutePath() + "/apktool.yml");
+        var yamlFile = new File(outputFolder.getAbsolutePath() + "/apktool.yml");
+        var attributes = App.getAttributesFromYaml(yamlFile);
 
         var sdkInfo = (HashMap<String, Object>) attributes.get("sdkInfo");
 
+        Integer sdkVersion = App.getDefaultSdkVersion();
         if (sdkInfo != null) {
             options.removeIf(option -> option.startsWith("-targetSdkVersion"));
             options.add("-targetSdkVersion" + sdkInfo.get("targetSdkVersion"));
+            sdkVersion = Integer.valueOf(sdkInfo.get("targetSdkVersion").toString());
         }
 
         var decompiledFiles = SpecsIo.getFilesRecursive(outputFolder);
@@ -253,29 +255,13 @@ public class AlpakkaParser {
 
         var factory = context.get(SmaliContext.FACTORY);
 
-        return factory.app(attributes, children);
+        var app = factory.app(sdkVersion, children);
+
+        app.setOptional(App.APKTOOL_YAML, yamlFile);
+
+        return app;
     }
 
-    private HashMap<String, Object> getAttributesFromYaml(String yamlFilePath) {
-        var cleanYaml = fixYamlContent(SpecsIo.read(yamlFilePath));
-
-        var yaml = new Yaml();
-
-        return yaml.load(cleanYaml);
-    }
-
-    private static String fixYamlContent(String content) {
-        String regex = "(\\s*:\\s*)(@[^\\s]+)";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(content);
-
-        StringBuffer result = new StringBuffer();
-        while (matcher.find()) {
-            matcher.appendReplacement(result, "$1\"$2\"");
-        }
-        matcher.appendTail(result);
-        return result.toString();
-    }
 
     private String getPackageNameFromManifest(String filePath) {
         var inputFile = new File(filePath);
