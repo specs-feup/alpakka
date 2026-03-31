@@ -332,10 +332,10 @@ public class SmaliFactory {
         return new EncodedEnum(data, children);
     }
 
-    public SubannotationDirective subannotationDirective(HashMap<String, Object> attributes,
+    public SubannotationDirective subannotationDirective(ClassType type,
                                                          List<? extends SmaliNode> children) {
-        var data = newDataStore(SubannotationDirective.class);
-        data.set(SubannotationDirective.ATTRIBUTES, attributes);
+        var data = newDataStore(SubannotationDirective.class)
+                .setOptional(SubannotationDirective.TYPE, type);
 
         return new SubannotationDirective(data, children);
     }

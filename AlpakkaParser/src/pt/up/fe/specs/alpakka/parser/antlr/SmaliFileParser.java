@@ -543,13 +543,13 @@ public class SmaliFileParser {
         var attributes = new HashMap<String, Object>();
         var children = new ArrayList<SmaliNode>();
 
-        attributes.put("classDescriptor", convert(node.getChild(0)));
+        var type = (ClassType) convert(node.getChild(0));
 
         for (int i = 1; i < node.getChildCount(); i++) {
             children.add(convert(node.getChild(i)));
         }
 
-        return factory.subannotationDirective(attributes, children);
+        return factory.subannotationDirective(type, children);
     }
 
     private SmaliNode convertAnnotationElement(Tree node) {
