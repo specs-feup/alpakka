@@ -234,9 +234,9 @@ public class AlpakkaParser {
         var yamlFile = new File(outputFolder.getAbsolutePath() + "/apktool.yml");
         var attributes = App.getAttributesFromYaml(yamlFile);
 
-        var sdkInfo = (HashMap<String, Object>) attributes.get("sdkInfo");
-
         Integer sdkVersion = App.getDefaultSdkVersion();
+
+        var sdkInfo = (HashMap<String, Object>) attributes.get("sdkInfo");
         if (sdkInfo != null) {
             options.removeIf(option -> option.startsWith("-targetSdkVersion"));
             options.add("-targetSdkVersion" + sdkInfo.get("targetSdkVersion"));
