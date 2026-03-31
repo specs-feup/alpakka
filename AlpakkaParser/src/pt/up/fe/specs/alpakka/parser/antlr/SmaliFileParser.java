@@ -818,26 +818,32 @@ public class SmaliFileParser {
 
     private MethodReference convertMethodReference(Tree node, Integer position) {
         var factory = context.get(SmaliContext.FACTORY);
-        var methodReferenceAttributes = new HashMap<String, Object>();
 
+        TypeDescriptor baseType = null;
         int i = position;
         if (node.getChild(i).getType() != smaliParser.SIMPLE_NAME) {
             // Reference type descriptor
             if (node.getChild(i).getType() == smaliParser.CLASS_DESCRIPTOR) {
-                methodReferenceAttributes.put("referenceTypeDescriptor", convert(node.getChild(i)));
+                baseType = (TypeDescriptor) convert(node.getChild(i));
             } else {
                 i++;
-                methodReferenceAttributes.put("referenceTypeDescriptor", factory.arrayType(node.getChild(i).getText()));
+                baseType = factory.arrayType(node.getChild(i).getText());
             }
             i++;
         }
 
-        methodReferenceAttributes.put("memberName", node.getChild(i).getText());
+        var methodName = node.getChild(i).getText();
         i++;
 
-        methodReferenceAttributes.put("prototype", convert(node.getChild(i)));
+        var methodType = (MethodPrototype) convert(node.getChild(i));
 
-        return factory.methodReference(methodReferenceAttributes);
+        var methodReference = factory.methodReference(methodName, methodType);
+
+        if (baseType != null) {
+            methodReference.setOptional(MethodReference.BASE_TYPE, baseType);
+        }
+
+        return methodReference;
     }
 
     private List<SmaliNode> convertTypeReferenceStatement(Tree node) {

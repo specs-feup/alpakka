@@ -141,7 +141,7 @@ public class AlpakkaParser {
             declarationsMap.computeIfAbsent(FieldReference.fieldLabel(), k -> new HashMap<>())
                     .put(((FieldNode) node).getFieldReferenceName(), node);
         } else if (node instanceof MethodNode) {
-            declarationsMap.computeIfAbsent(MethodReference.TYPE_LABEL, k -> new HashMap<>())
+            declarationsMap.computeIfAbsent(MethodReference.methodLabel(), k -> new HashMap<>())
                     .put(((MethodNode) node).getMethodReferenceName(), node);
         } else if (node instanceof ClassNode) {
             declarationsMap.computeIfAbsent(ClassType.TYPE_LABEL, k -> new HashMap<>())

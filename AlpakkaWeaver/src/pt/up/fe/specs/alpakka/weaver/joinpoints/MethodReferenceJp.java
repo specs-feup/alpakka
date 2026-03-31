@@ -23,7 +23,7 @@ public class MethodReferenceJp extends AMethodReference {
 
     @Override
     public ATypeDescriptor getParentClassDescriptorImpl() {
-        return SmaliJoinpoints.create(this.methodReference.getParentClassDescriptor(), ATypeDescriptor.class);
+        return SmaliJoinpoints.create(this.methodReference.getBaseType().orElse(null), ATypeDescriptor.class);
     }
 
     @Override

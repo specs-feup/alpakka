@@ -174,7 +174,7 @@
     </artifact>
 
     <artifact class="lineDirective">
-        <attribute name="value" type="literal"/>
+        <attribute name="value" type="Integer"/>
     </artifact>
 
     <artifact class="label">
