@@ -52,9 +52,9 @@ public class SmaliFactory {
         return "id_" + number;
     }
 
-    public Resource resource(HashMap<String, Object> attributes) {
-        var data = newDataStore(Resource.class);
-        data.set(Resource.ATTRIBUTES, attributes);
+    public Resource resource(File source) {
+        var data = newDataStore(Resource.class)
+                .put(Resource.SOURCE, source);
 
         return new Resource(data, null);
     }

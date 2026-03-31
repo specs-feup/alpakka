@@ -24,8 +24,6 @@ import java.util.List;
 
 public class Manifest extends Resource {
 
-    public static final DataKey<File> SOURCE = KeyFactory.file("source");
-
     public static final DataKey<String> PACKAGE_NAME = KeyFactory.string("packageName");
 
     public static final DataKey<HashMap<String, List<String>>> COMPONENTS = KeyFactory.generic("components", () -> new HashMap<String, List<String>>())
