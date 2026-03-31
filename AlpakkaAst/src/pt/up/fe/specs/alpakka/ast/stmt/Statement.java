@@ -45,11 +45,6 @@ public abstract class Statement extends SmaliNode {
     }
 
     public Optional<LineDirective> getLineDirective() {
-        // TODO: remove when no ATTRIBUTES are used
-        if (hasValue(ATTRIBUTES) && get(ATTRIBUTES).get("lineDirective") != null) {
-            return Optional.of((LineDirective) get(ATTRIBUTES).get("lineDirective"));
-        }
-
         return get(LINE_DIRECTIVE);
     }
 

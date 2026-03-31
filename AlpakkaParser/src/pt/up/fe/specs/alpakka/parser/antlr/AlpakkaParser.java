@@ -36,8 +36,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import static pt.up.fe.specs.alpakka.ast.SmaliNode.ATTRIBUTES;
-
 public class AlpakkaParser {
 
     private static final String DECOMPILATION_FOLDERNAME = "decompiledApp";
@@ -166,11 +164,6 @@ public class AlpakkaParser {
         }
 
         node.getChildren().forEach(child -> replaceReferences(child, declarationsMap, seenNodes));
-
-        // Replace references in ATTRIBUTES map
-        if (node.get(ATTRIBUTES) != null) {
-            node.get(ATTRIBUTES).values().forEach(value -> replaceReferencesSingle(value, declarationsMap, seenNodes));
-        }
 
         // Replace references in nodes in DataKeys
         for (var key : node.getDataKeysWithValues()) {

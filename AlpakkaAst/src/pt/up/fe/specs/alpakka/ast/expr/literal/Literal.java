@@ -18,11 +18,6 @@ public abstract class Literal extends Expression {
 
     @Override
     public String getCode() {
-        // TODO: remove when no ATTRIBUTES are used
-        if (hasValue(ATTRIBUTES) && get(ATTRIBUTES).containsKey("value")) {
-            return (String) get(ATTRIBUTES).get("value");
-        }
-
         return get(VALUE);
     }
 

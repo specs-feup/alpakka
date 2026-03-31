@@ -99,7 +99,7 @@ public class App extends SmaliNode {
             }
         }
 
-        var attributes = get(ATTRIBUTES);
+        var attributes = getYamlMap();
         var options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         var yaml = new Yaml(options);

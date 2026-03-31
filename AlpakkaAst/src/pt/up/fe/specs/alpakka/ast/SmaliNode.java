@@ -27,10 +27,7 @@ public abstract class SmaliNode extends DataNode<SmaliNode> {
      * Context of the tree.
      */
     public final static DataKey<SmaliContext> CONTEXT = KeyFactory.object("context", SmaliContext.class);
-
-    public static final DataKey<Map<String, Object>> ATTRIBUTES = KeyFactory.generic("attributes",
-            HashMap::new);
-
+    
     /// DATAKEYS END
 
     public SmaliNode(DataStore data, Collection<? extends SmaliNode> children) {

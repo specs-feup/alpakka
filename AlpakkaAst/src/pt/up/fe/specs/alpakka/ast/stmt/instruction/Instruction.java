@@ -16,12 +16,6 @@ public abstract class Instruction extends Statement {
 
     public Instruction(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
-
-        // TODO: Remove after ATTRIBUTES refactoring. Guarantees that OPCODE is always set
-        if (hasValue(ATTRIBUTES)) {
-            var opcodeName = get(ATTRIBUTES).get("instruction").toString();
-            set(OPCODE, getOpcode(opcodeName));
-        }
     }
 
     @Override
