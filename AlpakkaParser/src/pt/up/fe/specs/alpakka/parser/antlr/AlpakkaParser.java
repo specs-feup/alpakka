@@ -179,6 +179,11 @@ public class AlpakkaParser {
 
         // Replace references in nodes in DataKeys
         for (var key : node.getDataKeysWithValues()) {
+            // Skip if key is not part of the node definition
+            if (!node.getStoreDefinition().hasKey(key.getName())) {
+                continue;
+            }
+
             replaceReferencesSingle(node.get(key), declarationsMap, seenNodes);
         }
 
@@ -199,9 +204,7 @@ public class AlpakkaParser {
 
     private Resource newResourceNode(File source, SmaliContext context) {
         var factory = context.get(SmaliContext.FACTORY);
-        var attributes = new HashMap<String, Object>();
-        attributes.put("file", source);
-        return factory.resource(attributes);
+        return factory.resource(source);
     }
 
     private Manifest newManifestNode(File source, SmaliContext context) {
