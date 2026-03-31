@@ -50,7 +50,9 @@ public class App extends SmaliNode {
 
         var yaml = new Yaml();
 
-        return yaml.load(cleanYaml);
+        HashMap<String, Object> map = yaml.load(cleanYaml);
+
+        return map != null ? map : new HashMap<>();
     }
 
     private static String fixYamlContent(String content) {
@@ -73,8 +75,9 @@ public class App extends SmaliNode {
         }
 
         var attributes = new HashMap<String, Object>();
-
-        attributes.put("sdkInfo", new HashMap<String, Object>().put("targetSdkVersion", get(SDK_VERSION)));
+        var sdkInfo = new HashMap<String, Object>();
+        sdkInfo.put("targetSdkVersion", get(SDK_VERSION));
+        attributes.put("sdkInfo", sdkInfo);
 
         return attributes;
     }
