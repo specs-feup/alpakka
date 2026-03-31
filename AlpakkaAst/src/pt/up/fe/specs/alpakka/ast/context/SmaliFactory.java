@@ -150,10 +150,10 @@ public class SmaliFactory {
         return new CatchDirective(data, children);
     }
 
-    public ParameterDirective parameterDirective(HashMap<String, Object> attributes,
+    public ParameterDirective parameterDirective(RegisterReference register,
                                                  List<? extends SmaliNode> children) {
-        var data = newDataStore(ParameterDirective.class);
-        data.set(ParameterDirective.ATTRIBUTES, attributes);
+        var data = newDataStore(ParameterDirective.class)
+                .put(ParameterDirective.REGISTER, register);
 
         return new ParameterDirective(data, children);
     }

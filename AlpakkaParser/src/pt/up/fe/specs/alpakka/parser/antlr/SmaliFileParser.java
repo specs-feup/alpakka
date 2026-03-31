@@ -14,10 +14,7 @@ import pt.up.fe.specs.alpakka.ast.expr.literal.Literal;
 import pt.up.fe.specs.alpakka.ast.expr.literal.MethodPrototype;
 import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.ClassType;
 import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.TypeDescriptor;
-import pt.up.fe.specs.alpakka.ast.stmt.LineDirective;
-import pt.up.fe.specs.alpakka.ast.stmt.LocalDirective;
-import pt.up.fe.specs.alpakka.ast.stmt.RegistersDirective;
-import pt.up.fe.specs.alpakka.ast.stmt.Statement;
+import pt.up.fe.specs.alpakka.ast.stmt.*;
 import pt.up.fe.specs.alpakka.ast.stmt.instruction.*;
 import pt.up.fe.specs.util.SpecsIo;
 import pt.up.fe.specs.util.exceptions.NotImplementedException;
@@ -502,11 +499,12 @@ public class SmaliFileParser {
 
         var i = 0;
 
-        attributes.put("register", convert(node.getChild(i)));
+        var register = (RegisterReference) convert(node.getChild(i));
         i++;
 
+        String name = null;
         if (node.getChild(i).getType() == smaliParser.STRING_LITERAL) {
-            attributes.put("string", convert(node.getChild(i)));
+            name = convert(node.getChild(i)).getCode();
             i++;
         }
 
@@ -514,7 +512,13 @@ public class SmaliFileParser {
             children.add(convert(node.getChild(i).getChild(j)));
         }
 
-        return factory.parameterDirective(attributes, children);
+        var paramDirective = factory.parameterDirective(register, children);
+
+        if (name != null) {
+            paramDirective.setOptional(ParameterDirective.NAME, name);
+        }
+
+        return paramDirective;
     }
 
     private SmaliNode convertAnnotation(Tree node) {
