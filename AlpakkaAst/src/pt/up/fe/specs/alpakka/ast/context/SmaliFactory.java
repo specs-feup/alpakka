@@ -1,8 +1,6 @@
 package pt.up.fe.specs.alpakka.ast.context;
 
 import com.android.tools.smali.dexlib2.Opcode;
-import org.suikasoft.jOptions.Datakey.DataKey;
-import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import org.suikasoft.jOptions.storedefinition.StoreDefinitions;
 import pt.up.fe.specs.alpakka.ast.*;
@@ -391,10 +389,10 @@ public class SmaliFactory {
         return new ArrayDataDirective(data, elements);
     }
 
-    public PackedSwitchDirective packedSwitchDirective(HashMap<String, Object> attributes,
+    public PackedSwitchDirective packedSwitchDirective(String value,
                                                        List<? extends SmaliNode> children) {
-        var data = newDataStore(PackedSwitchDirective.class);
-        data.set(PackedSwitchDirective.ATTRIBUTES, attributes);
+        var data = newDataStore(PackedSwitchDirective.class)
+                .put(PackedSwitchDirective.VALUE, value);
 
         return new PackedSwitchDirective(data, children);
     }

@@ -963,10 +963,9 @@ public class SmaliFileParser {
     private SmaliNode convertPackedSwitch(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
-        var attributes = getStatementAttributes(null);
         var children = new ArrayList<SmaliNode>();
 
-        attributes.put("key", convert(node.getChild(0).getChild(0)));
+        var value = convert(node.getChild(0).getChild(0)).getCode();
 
         var packedSwitchElements = node.getChild(1);
 
@@ -974,7 +973,7 @@ public class SmaliFileParser {
             children.add(factory.labelRef(packedSwitchElements.getChild(i).getText()));
         }
 
-        return factory.packedSwitchDirective(attributes, children);
+        return factory.packedSwitchDirective(value, children);
     }
 
     private SmaliNode convertSparseSwitch(Tree node) {

@@ -1,13 +1,15 @@
 package pt.up.fe.specs.alpakka.ast.stmt;
 
+import org.suikasoft.jOptions.Datakey.DataKey;
+import org.suikasoft.jOptions.Datakey.KeyFactory;
+import org.suikasoft.jOptions.Interfaces.DataStore;
+import pt.up.fe.specs.alpakka.ast.SmaliNode;
+
 import java.util.Collection;
 
-import org.suikasoft.jOptions.Interfaces.DataStore;
-
-import pt.up.fe.specs.alpakka.ast.SmaliNode;
-import pt.up.fe.specs.alpakka.ast.expr.literal.Literal;
-
 public class PackedSwitchDirective extends Statement {
+
+    public static final DataKey<String> VALUE = KeyFactory.string("value");
 
     public PackedSwitchDirective(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
@@ -19,9 +21,9 @@ public class PackedSwitchDirective extends Statement {
 
         sb.append(getLine());
 
-        var key = (Literal) get(ATTRIBUTES).get("key");
+        var value = get(VALUE);
 
-        sb.append(".packed-switch " + key.getCode() + "\n");
+        sb.append(".packed-switch " + value + "\n");
 
         for (int i = 0; i < getChildren().size(); i++) {
             sb.append(indentCode(getChildren().get(i).getCode()) + "\n");
