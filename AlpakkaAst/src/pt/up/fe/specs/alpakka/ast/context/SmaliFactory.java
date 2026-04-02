@@ -13,12 +13,16 @@ import pt.up.fe.specs.alpakka.ast.type.*;
 import pt.up.fe.specs.util.SpecsSystem;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class SmaliFactory {
+
+    private static final Map<String, TypeDescriptor> TYPE_CACHE;
+
+    static {
+        TYPE_CACHE = new HashMap<>();
+    }
 
     private final SmaliContext context;
     private int idCounter;
@@ -194,14 +198,25 @@ public class SmaliFactory {
     }
 
     public MethodPrototype methodPrototype(TypeDescriptor returnType, List<TypeDescriptor> parameters) {
+        var id = "M#" + returnType.getCode() + "#" + parameters.stream().map(TypeDescriptor::getCode).collect(Collectors.joining());
+        if (TYPE_CACHE.containsKey(id)) {
+            return (MethodPrototype) TYPE_CACHE.get(id);
+        }
+
         var data = newDataStore(MethodPrototype.class)
                 .put(MethodPrototype.RETURN_TYPE, returnType)
                 .put(MethodPrototype.PARAMETERS, parameters);
 
-        return new MethodPrototype(data, null);
+        var methodPrototype = new MethodPrototype(data, null);
+        TYPE_CACHE.put(id, methodPrototype);
+        return methodPrototype;
     }
 
     public ClassType classType(String type) {
+        if (TYPE_CACHE.containsKey(type)) {
+            return (ClassType) TYPE_CACHE.get(type);
+        }
+
         var data = newDataStore(ClassType.class);
         var classDescriptor = type.substring(1, type.length() - 1);
         var lastSlash = classDescriptor.lastIndexOf('/');
@@ -213,26 +228,32 @@ public class SmaliFactory {
 
         data.set(ClassType.CLASS_NAME, classDescriptor.substring(lastSlash + 1));
 
-        return new ClassType(data, null);
+        var classType = new ClassType(data, null);
+        TYPE_CACHE.put(type, classType);
+        return classType;
     }
 
     public ArrayType arrayType(String type) {
-        var data = newDataStore(ArrayType.class);
-
-        var children = new ArrayList<SmaliNode>();
-        children.add(nonVoidType(type));
-
-        return new ArrayType(data, children);
+        var elementType = nonVoidType(type);
+        return arrayType(elementType);
     }
 
     public ArrayType arrayType(TypeDescriptor type) {
+        Objects.requireNonNull(type);
+
+        var id = "[" + type.getCode();
+        if (TYPE_CACHE.containsKey(id)) {
+            return (ArrayType) TYPE_CACHE.get(id);
+        }
+
         var data = newDataStore(ArrayType.class);
 
         var children = new ArrayList<SmaliNode>();
-        if (type != null)
-            children.add(type);
+        children.add(type);
 
-        return new ArrayType(data, children);
+        var arrayType = new ArrayType(data, children);
+        TYPE_CACHE.put(id, arrayType);
+        return arrayType;
     }
 
     public TypeDescriptor nonVoidType(String type) {
@@ -244,12 +265,18 @@ public class SmaliFactory {
     }
 
     public TypeDescriptor type(String type) {
+        if (TYPE_CACHE.containsKey(type)) {
+            return TYPE_CACHE.get(type);
+        }
+
         if (type.length() == 1) {
             switch (type) {
                 case "Z", "B", "S", "C", "I", "J", "F", "D", "V" -> {
                     var data = newDataStore(PrimitiveType.class);
                     data.set(PrimitiveType.TYPE_DESCRIPTOR, type);
-                    return new PrimitiveType(data, null);
+                    var primitiveType = new PrimitiveType(data, null);
+                    TYPE_CACHE.put(type, primitiveType);
+                    return primitiveType;
                 }
 
                 default -> throw new RuntimeException("Single char type not implemented: " + type);
