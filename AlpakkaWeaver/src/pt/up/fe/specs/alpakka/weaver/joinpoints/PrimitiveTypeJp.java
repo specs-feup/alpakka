@@ -1,7 +1,7 @@
 package pt.up.fe.specs.alpakka.weaver.joinpoints;
 
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
-import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.PrimitiveType;
+import pt.up.fe.specs.alpakka.ast.type.PrimitiveType;
 import pt.up.fe.specs.alpakka.weaver.abstracts.joinpoints.APrimitiveType;
 
 public class PrimitiveTypeJp extends APrimitiveType {

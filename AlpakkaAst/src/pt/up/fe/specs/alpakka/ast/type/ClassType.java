@@ -1,4 +1,4 @@
-package pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor;
+package pt.up.fe.specs.alpakka.ast.type;
 
 import org.suikasoft.jOptions.Datakey.DataKey;
 import org.suikasoft.jOptions.Datakey.KeyFactory;
@@ -41,5 +41,5 @@ public class ClassType extends TypeDescriptor {
 
         return sb.toString();
     }
-	
+
 }

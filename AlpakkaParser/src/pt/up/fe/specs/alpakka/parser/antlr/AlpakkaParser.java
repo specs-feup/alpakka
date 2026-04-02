@@ -25,8 +25,8 @@ import pt.up.fe.specs.alpakka.ast.expr.FieldReference;
 import pt.up.fe.specs.alpakka.ast.expr.LabelRef;
 import pt.up.fe.specs.alpakka.ast.expr.MethodReference;
 import pt.up.fe.specs.alpakka.ast.expr.Reference;
-import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.ClassType;
 import pt.up.fe.specs.alpakka.ast.stmt.Label;
+import pt.up.fe.specs.alpakka.ast.type.ClassType;
 import pt.up.fe.specs.util.SpecsIo;
 import pt.up.fe.specs.util.SpecsLogs;
 

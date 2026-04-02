@@ -1,12 +1,11 @@
-package pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor;
-
-import java.util.Collection;
+package pt.up.fe.specs.alpakka.ast.type;
 
 import org.suikasoft.jOptions.Datakey.DataKey;
 import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
-
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
+
+import java.util.Collection;
 
 public class PrimitiveType extends TypeDescriptor {
 

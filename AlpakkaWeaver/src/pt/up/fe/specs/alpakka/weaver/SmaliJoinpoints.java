@@ -1,11 +1,11 @@
 /**
  * Copyright 2016 SPeCS.
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
@@ -15,15 +15,15 @@ package pt.up.fe.specs.alpakka.weaver;
 
 import pt.up.fe.specs.alpakka.ast.*;
 import pt.up.fe.specs.alpakka.ast.expr.*;
-import pt.up.fe.specs.alpakka.ast.stmt.*;
-import pt.up.fe.specs.alpakka.ast.stmt.instruction.*;
 import pt.up.fe.specs.alpakka.ast.expr.literal.Literal;
 import pt.up.fe.specs.alpakka.ast.expr.literal.MethodPrototype;
 import pt.up.fe.specs.alpakka.ast.expr.literal.PrimitiveLiteral;
-import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.ArrayType;
-import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.ClassType;
-import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.PrimitiveType;
-import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.TypeDescriptor;
+import pt.up.fe.specs.alpakka.ast.stmt.*;
+import pt.up.fe.specs.alpakka.ast.stmt.instruction.*;
+import pt.up.fe.specs.alpakka.ast.type.ArrayType;
+import pt.up.fe.specs.alpakka.ast.type.ClassType;
+import pt.up.fe.specs.alpakka.ast.type.PrimitiveType;
+import pt.up.fe.specs.alpakka.ast.type.TypeDescriptor;
 import pt.up.fe.specs.alpakka.weaver.abstracts.ASmaliWeaverJoinPoint;
 import pt.up.fe.specs.alpakka.weaver.abstracts.joinpoints.AJoinPoint;
 import pt.up.fe.specs.alpakka.weaver.joinpoints.*;
@@ -33,6 +33,7 @@ import pt.up.fe.specs.util.classmap.FunctionClassMap;
 public class SmaliJoinpoints {
 
     private static final FunctionClassMap<SmaliNode, ASmaliWeaverJoinPoint> JOINPOINT_FACTORY;
+
     static {
         JOINPOINT_FACTORY = new FunctionClassMap<>();
         JOINPOINT_FACTORY.put(App.class, ProgramJp::new);

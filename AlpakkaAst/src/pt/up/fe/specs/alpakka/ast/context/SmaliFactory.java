@@ -6,13 +6,13 @@ import org.suikasoft.jOptions.storedefinition.StoreDefinitions;
 import pt.up.fe.specs.alpakka.ast.*;
 import pt.up.fe.specs.alpakka.ast.expr.*;
 import pt.up.fe.specs.alpakka.ast.expr.literal.*;
-import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.ArrayType;
-import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.ClassType;
-import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.PrimitiveType;
-import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.TypeDescriptor;
 import pt.up.fe.specs.alpakka.ast.stmt.*;
 import pt.up.fe.specs.alpakka.ast.stmt.instruction.Instruction;
 import pt.up.fe.specs.alpakka.ast.stmt.instruction.NopStatement;
+import pt.up.fe.specs.alpakka.ast.type.ArrayType;
+import pt.up.fe.specs.alpakka.ast.type.ClassType;
+import pt.up.fe.specs.alpakka.ast.type.PrimitiveType;
+import pt.up.fe.specs.alpakka.ast.type.TypeDescriptor;
 import pt.up.fe.specs.util.SpecsSystem;
 
 import java.io.File;

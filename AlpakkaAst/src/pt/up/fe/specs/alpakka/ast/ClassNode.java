@@ -3,7 +3,7 @@ package pt.up.fe.specs.alpakka.ast;
 import org.suikasoft.jOptions.Datakey.DataKey;
 import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
-import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.ClassType;
+import pt.up.fe.specs.alpakka.ast.type.ClassType;
 
 import java.util.ArrayList;
 import java.util.Collection;

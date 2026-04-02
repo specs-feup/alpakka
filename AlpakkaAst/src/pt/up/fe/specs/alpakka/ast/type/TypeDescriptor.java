@@ -1,4 +1,4 @@
-package pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor;
+package pt.up.fe.specs.alpakka.ast.type;
 
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
