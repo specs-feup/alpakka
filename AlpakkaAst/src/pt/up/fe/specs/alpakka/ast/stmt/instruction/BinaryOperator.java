@@ -37,7 +37,9 @@ public enum BinaryOperator implements StringProvider {
     }
 
     public static BinaryOperator fromName(String name) {
-        return SpecsEnums.getHelper(BinaryOperator.class).fromName(name);
+        int dashIndex = name.indexOf('-');
+        String baseName = dashIndex >= 0 ? name.substring(0, dashIndex) : name;
+        return SpecsEnums.getHelper(BinaryOperator.class).fromName(baseName);
     }
 
     @Override
