@@ -9,10 +9,7 @@ import pt.up.fe.specs.alpakka.ast.expr.literal.*;
 import pt.up.fe.specs.alpakka.ast.stmt.*;
 import pt.up.fe.specs.alpakka.ast.stmt.instruction.Instruction;
 import pt.up.fe.specs.alpakka.ast.stmt.instruction.NopStatement;
-import pt.up.fe.specs.alpakka.ast.type.ArrayType;
-import pt.up.fe.specs.alpakka.ast.type.ClassType;
-import pt.up.fe.specs.alpakka.ast.type.PrimitiveType;
-import pt.up.fe.specs.alpakka.ast.type.TypeDescriptor;
+import pt.up.fe.specs.alpakka.ast.type.*;
 import pt.up.fe.specs.util.SpecsSystem;
 
 import java.io.File;
