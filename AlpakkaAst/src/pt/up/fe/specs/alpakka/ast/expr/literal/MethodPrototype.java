@@ -9,7 +9,7 @@ import pt.up.fe.specs.alpakka.ast.type.TypeDescriptor;
 import java.util.Collection;
 import java.util.List;
 
-public class MethodPrototype extends Literal {
+public class MethodPrototype extends TypeDescriptor {
 
     public static final DataKey<List<TypeDescriptor>> PARAMETERS = KeyFactory.list("parameters", TypeDescriptor.class);
 

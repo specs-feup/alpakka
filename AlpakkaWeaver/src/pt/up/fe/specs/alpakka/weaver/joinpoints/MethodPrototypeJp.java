@@ -11,7 +11,7 @@ public class MethodPrototypeJp extends AMethodPrototype {
     private final MethodPrototype methodPrototype;
 
     public MethodPrototypeJp(MethodPrototype methodPrototype) {
-        super(new LiteralJp(methodPrototype));
+        super(new TypeDescriptorJp(methodPrototype));
         this.methodPrototype = methodPrototype;
     }
 
