@@ -22,6 +22,15 @@ public class SmaliFactory {
 
     static {
         TYPE_CACHE = new HashMap<>();
+        // Disables cache
+        /*
+        TYPE_CACHE = new HashMap<>() {
+            @Override
+            public TypeDescriptor put(String k, TypeDescriptor v) {
+                return null;
+            }
+        };
+         */
     }
 
     private final SmaliContext context;
