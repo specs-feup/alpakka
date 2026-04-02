@@ -26,6 +26,9 @@ import java.util.function.Function;
 
 public class SmaliFileParser {
 
+    private static int NODE_COUNT = 0;
+    private static int FILE_COUNT = 0;
+
     private static final Map<Opcode, Class<? extends Instruction>> OPCODE_TO_INSTRUCTION;
 
     static {
@@ -155,7 +158,31 @@ public class SmaliFileParser {
             if (parser.getNumberOfSyntaxErrors() > 0) {
                 throw new RuntimeException("Syntax errors");
             }
+  /*
+            var nodes = AntlrUtils.getDescendants(root);
 
+
+            //System.out.println("TOTAL NODES: " + nodes.size());
+            NODE_COUNT += nodes.size();
+            FILE_COUNT += 1;
+
+            System.out.println("So far: " + NODE_COUNT + " nodes, " + FILE_COUNT + " files");
+
+   */
+            /*
+            var counter = new AccumulatorMap<String>();
+            for (var node : nodes) {
+                counter.add(smaliParser.tokenNames[node.getType()]);
+            }
+
+            System.out.println("STATS:");
+            var keys = new ArrayList<>(counter.getAccMap().keySet());
+            Collections.sort(keys);
+
+            for (var key : keys) {
+                System.out.println(key + ": " + counter.getCount(key) + " (" + SpecsStrings.toPercentage(counter.getRatio(key)) + ")");
+            }
+*/
             return Optional.of(convert(root));
         } catch (RecognitionException e) {
             e.printStackTrace();

@@ -92,6 +92,7 @@ public class AlpakkaParser {
     }
 
     private Optional<SmaliNode> parseSingleFile(File source, SmaliContext context, List<String> options) {
+        SpecsLogs.debug(() -> "Parsing file " + source.getName());
         if (source.getPath().equals(DECOMPILATION_FOLDERNAME + File.separator + "apktool.yml")) {
             return Optional.empty();
         }
