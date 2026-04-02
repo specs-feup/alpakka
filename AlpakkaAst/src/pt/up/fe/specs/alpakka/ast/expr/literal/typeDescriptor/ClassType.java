@@ -1,66 +1,45 @@
 package pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor;
 
-import java.util.Collection;
-
 import org.suikasoft.jOptions.Datakey.DataKey;
 import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
-
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
-import pt.up.fe.specs.alpakka.ast.expr.Reference;
 
-public class ClassType extends TypeDescriptor implements Reference {
+import java.util.Collection;
 
-	public static String TYPE_LABEL = "class";
+public class ClassType extends TypeDescriptor {
 
-	public static final DataKey<String> CLASS_NAME = KeyFactory.string("className");
-	public static final DataKey<String> PACKAGE_NAME = KeyFactory.string("packageName");
+    public static String TYPE_LABEL = "class";
 
-	public ClassType(DataStore data, Collection<? extends SmaliNode> children) {
-		super(data, children);
-	}
+    public static final DataKey<String> CLASS_NAME = KeyFactory.string("className");
+    public static final DataKey<String> PACKAGE_NAME = KeyFactory.string("packageName");
 
-	public String getPackageName() {
-		return get(PACKAGE_NAME);
-	}
+    public ClassType(DataStore data, Collection<? extends SmaliNode> children) {
+        super(data, children);
+    }
 
-	public String getClassName() {
-		return get(CLASS_NAME);
-	}
+    public String getPackageName() {
+        return get(PACKAGE_NAME);
+    }
 
-	@Override
-	public String getCode() {
-		var sb = new StringBuilder();
-		var packageName = get(PACKAGE_NAME);
+    public String getClassName() {
+        return get(CLASS_NAME);
+    }
 
-		sb.append("L");
+    @Override
+    public String getCode() {
+        var sb = new StringBuilder();
+        var packageName = get(PACKAGE_NAME);
 
-		if (!packageName.isEmpty()) {
-			sb.append(packageName).append("/");
-		}
+        sb.append("L");
 
-		sb.append(get(CLASS_NAME)).append(";");
+        if (!packageName.isEmpty()) {
+            sb.append(packageName).append("/");
+        }
 
-		return sb.toString();
-	}
+        sb.append(get(CLASS_NAME)).append(";");
 
-	@Override
-	public void setDeclaration(SmaliNode decl) {
-		set(DECL, decl);
-	}
-
-	@Override
-	public SmaliNode getDeclaration() {
-		return get(DECL);
-	}
-
-	@Override
-	public String getName() {
-		return this.getCode();
-	}
-
-	@Override
-	public String getTypeLabel() {
-		return TYPE_LABEL;
-	}
+        return sb.toString();
+    }
+	
 }
