@@ -18,19 +18,19 @@ import java.util.stream.Collectors;
 
 public class SmaliFactory {
 
+    private static final boolean ENABLE_TYPE_CACHE = true;
     private static final Map<String, TypeDescriptor> TYPE_CACHE;
 
     static {
-        TYPE_CACHE = new HashMap<>();
-        // Disables cache
-        /*
-        TYPE_CACHE = new HashMap<>() {
+        TYPE_CACHE = ENABLE_TYPE_CACHE ? new HashMap<>()
+                // Disables cache
+                : new HashMap<>() {
             @Override
             public TypeDescriptor put(String k, TypeDescriptor v) {
                 return null;
             }
         };
-         */
+
     }
 
     private final SmaliContext context;
