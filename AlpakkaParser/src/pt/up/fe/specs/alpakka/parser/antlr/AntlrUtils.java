@@ -6,21 +6,20 @@ import pt.up.fe.specs.util.SpecsLogs;
 import pt.up.fe.specs.util.SpecsStrings;
 import pt.up.fe.specs.util.collections.AccumulatorMapL;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
 
 public class AntlrUtils {
 
     private long nodeCount;
     private long fileCount;
+    private final Set<String> seenNodes;
     private final AccumulatorMapL<String> histogram;
 
     public AntlrUtils() {
         nodeCount = 0;
         fileCount = 0;
+        seenNodes = new HashSet<>();
         histogram = new AccumulatorMapL<>();
     }
 
@@ -49,10 +48,10 @@ public class AntlrUtils {
 
         // Nodes as attributes
         var attributesNodes = new ArrayList<SmaliNode>();
-        var seenNodes = new HashSet<String>();
+        var seenBefore = seenNodes.size();
         nodes.forEach(node -> seenNodes.add(node.get(SmaliNode.ID)));
 
-        if (seenNodes.size() != nodes.size()) {
+        if (seenNodes.size() - seenBefore != nodes.size()) {
             SpecsLogs.warn("Total AST nodes (" + nodes.size() + ") different from unique AST nodes (" + seenNodes.size() + ")");
         }
 
