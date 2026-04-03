@@ -54,7 +54,6 @@ public class SmaliFileParser {
     private final String dexClass;
 
 
-
     public SmaliFileParser(File source, SmaliContext context, Integer targetSdkVersion) {
         var lex = new smaliFlexLexer(new StringReader(SpecsIo.read(source)), targetSdkVersion);
         this.parser = new smaliParser(new CommonTokenStream(lex));
@@ -484,8 +483,7 @@ public class SmaliFileParser {
     private SmaliNode convertParameter(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
-        var attributes = getStatementAttributes(null);
-        var children = new ArrayList<SmaliNode>();
+        var annotations = new ArrayList<AnnotationDirective>();
 
         var i = 0;
 
@@ -499,10 +497,10 @@ public class SmaliFileParser {
         }
 
         for (int j = 0; j < node.getChild(i).getChildCount(); j++) {
-            children.add(convert(node.getChild(i).getChild(j)));
+            annotations.add((AnnotationDirective) convert(node.getChild(i).getChild(j)));
         }
 
-        var paramDirective = factory.parameterDirective(register, children);
+        var paramDirective = factory.parameterDirective(register, annotations);
 
         if (name != null) {
             paramDirective.setOptional(ParameterDirective.NAME, name);
@@ -878,14 +876,6 @@ public class SmaliFileParser {
 
         return children;
     }
-
-    private HashMap<String, Object> getStatementAttributes(String instruction) {
-        var attributes = new HashMap<String, Object>();
-        attributes.put("instruction", instruction);
-        attributes.put("lineDirective", lineDirective);
-        return attributes;
-    }
-
 
 //    private List<SmaliNode> convertLabelReferenceStatement(Tree node)
 

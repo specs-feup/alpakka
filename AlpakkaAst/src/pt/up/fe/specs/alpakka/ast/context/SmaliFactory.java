@@ -10,6 +10,7 @@ import pt.up.fe.specs.alpakka.ast.stmt.*;
 import pt.up.fe.specs.alpakka.ast.stmt.instruction.Instruction;
 import pt.up.fe.specs.alpakka.ast.stmt.instruction.NopStatement;
 import pt.up.fe.specs.alpakka.ast.type.*;
+import pt.up.fe.specs.util.SpecsCollections;
 import pt.up.fe.specs.util.SpecsSystem;
 
 import java.io.File;
@@ -124,10 +125,9 @@ public class SmaliFactory {
     }
 
     public LocalDirective localDirective(RegisterReference register) {
-        var data = newDataStore(LocalDirective.class)
-                .put(LocalDirective.REGISTER, register);
+        var data = newDataStore(LocalDirective.class);
 
-        return new LocalDirective(data, null);
+        return new LocalDirective(data, List.of(register));
     }
 
     public EndLocalDirective endLocalDirective(List<? extends SmaliNode> children) {
@@ -150,11 +150,9 @@ public class SmaliFactory {
     }
 
     public ParameterDirective parameterDirective(RegisterReference register,
-                                                 List<? extends SmaliNode> children) {
-        var data = newDataStore(ParameterDirective.class)
-                .put(ParameterDirective.REGISTER, register);
-
-        return new ParameterDirective(data, children);
+                                                 List<? extends AnnotationDirective> annotations) {
+        var data = newDataStore(ParameterDirective.class);
+        return new ParameterDirective(data, SpecsCollections.concat(register, annotations));
     }
 
     public AnnotationDirective annotationDirective(AnnotationVisibility visibility, SmaliNode classDescriptor,
@@ -278,7 +276,7 @@ public class SmaliFactory {
                     var data = newDataStore(PrimitiveType.class);
                     data.set(PrimitiveType.TYPE_DESCRIPTOR, type);
                     var primitiveType = new PrimitiveType(data, null);
-                    typeCache.put(type, primitiveType);
+                    updateCache(type, primitiveType);
                     return primitiveType;
                 }
 

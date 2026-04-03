@@ -25,8 +25,6 @@ import java.util.Optional;
 
 public class LocalDirective extends Statement {
 
-    public static final DataKey<RegisterReference> REGISTER = KeyFactory.object("register", RegisterReference.class);
-
     public static final DataKey<Optional<String>> NAME = KeyFactory.optional("name");
     public static final DataKey<Optional<TypeDescriptor>> TYPE = KeyFactory.optional("type");
 
@@ -36,11 +34,15 @@ public class LocalDirective extends Statement {
         super(data, children);
     }
 
+    public RegisterReference getRegister() {
+        return getChild(RegisterReference.class);
+    }
+
     @Override
     public String getCode() {
         var sb = new StringBuilder();
 
-        var register = get(REGISTER);
+        var register = getRegister();
         var name = get(NAME);
         var type = get(TYPE);
         var signature = get(SIGNATURE);
