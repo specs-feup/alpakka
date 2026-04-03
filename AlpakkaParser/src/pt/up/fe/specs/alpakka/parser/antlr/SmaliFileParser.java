@@ -219,7 +219,7 @@ public class SmaliFileParser {
         return SmaliNode.getOpcode(opcodeName);
     }
 
-    private SmaliNode convertClassDescriptor(Tree node) {
+    private ClassType convertClassDescriptor(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
         return factory.classType(node.getText());
     }
@@ -239,7 +239,7 @@ public class SmaliFileParser {
         for (int i = 0; i < node.getChildCount(); i++) {
             switch (node.getChild(i).getType()) {
                 case smaliParser.CLASS_DESCRIPTOR -> {
-                    classDescriptor = (ClassType) convert(node.getChild(i));
+                    classDescriptor = convertClassDescriptor(node.getChild(i));
                 }
                 case smaliParser.I_ACCESS_LIST -> {
                     for (int j = 0; j < node.getChild(i).getChildCount(); j++) {
@@ -247,10 +247,11 @@ public class SmaliFileParser {
                     }
                 }
                 case smaliParser.I_SUPER -> {
-                    superDescriptor = (ClassType) convert(node.getChild(i).getChild(0));
+                    superDescriptor = convertClassDescriptor(
+                            node.getChild(i).getChild(0));
                 }
                 case smaliParser.I_IMPLEMENTS -> {
-                    implementsDescriptors.add((ClassType) convert(node.getChild(i).getChild(0)));
+                    implementsDescriptors.add(convertClassDescriptor(node.getChild(i).getChild(0)));
                 }
                 case smaliParser.I_SOURCE -> {
                     source = convert(node.getChild(i).getChild(0)).getCode();
@@ -383,6 +384,7 @@ public class SmaliFileParser {
             }
         }
 
+        Objects.requireNonNull(returnType);
         return factory.methodPrototype(returnType, parameters);
     }
 
@@ -516,7 +518,7 @@ public class SmaliFileParser {
         var visibility = AnnotationVisibility.getFromString(node.getChild(0).getText());
 
         var subannotation = node.getChild(1);
-        var classDescriptor = convert(subannotation.getChild(0));
+        var classDescriptor = convertClassDescriptor(subannotation.getChild(0));
 
         var annotationElements = new ArrayList<AnnotationElement>();
         for (int i = 1; i < subannotation.getChildCount(); i++) {
@@ -544,9 +546,11 @@ public class SmaliFileParser {
         var factory = context.get(SmaliContext.FACTORY);
 
         var name = node.getChild(0).getText();
-        var value = convert(node.getChild(1));
+        var valueNode = convert(node.getChild(1));
+        var valueType = getType(valueNode);
+        var value = valueNode.getCode();
 
-        return factory.annotationElement(name, value);
+        return factory.annotationElement(name, value, valueType);
     }
 
     private SmaliNode convertField(Tree node) {

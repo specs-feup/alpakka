@@ -18,6 +18,7 @@ import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import pt.up.fe.specs.alpakka.ast.AnnotationVisibility;
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
+import pt.up.fe.specs.alpakka.ast.type.ClassType;
 
 import java.util.Collection;
 
@@ -25,7 +26,7 @@ public class AnnotationDirective extends Statement {
 
     public static final DataKey<AnnotationVisibility> VISIBILITY = KeyFactory.enumeration("visibility", AnnotationVisibility.class);
 
-    public static final DataKey<SmaliNode> CLASS_DESCRIPTOR = KeyFactory.object("classDescriptor", SmaliNode.class);
+    public static final DataKey<ClassType> CLASS_DESCRIPTOR = KeyFactory.object("classDescriptor", ClassType.class);
 
     public AnnotationDirective(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);

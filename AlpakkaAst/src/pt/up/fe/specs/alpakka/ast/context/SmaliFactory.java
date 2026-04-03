@@ -155,7 +155,7 @@ public class SmaliFactory {
         return new ParameterDirective(data, SpecsCollections.concat(register, annotations));
     }
 
-    public AnnotationDirective annotationDirective(AnnotationVisibility visibility, SmaliNode classDescriptor,
+    public AnnotationDirective annotationDirective(AnnotationVisibility visibility, ClassType classDescriptor,
                                                    List<? extends AnnotationElement> annotationElements) {
 
         var data = newDataStore(AnnotationDirective.class);
@@ -165,11 +165,13 @@ public class SmaliFactory {
         return new AnnotationDirective(data, annotationElements);
     }
 
-    public AnnotationElement annotationElement(String name, SmaliNode value) {
+    public AnnotationElement annotationElement(String name, String value, TypeDescriptor type) {
         var data = newDataStore(AnnotationElement.class);
         data.set(AnnotationElement.NAME, name);
+        data.set(AnnotationElement.VALUE, value);
+        data.setOptional(Expression.TYPE, type);
 
-        return new AnnotationElement(data, List.of(value));
+        return new AnnotationElement(data, List.of());
     }
 
     public Label label(String label) {
@@ -258,6 +260,10 @@ public class SmaliFactory {
     }
 
     public TypeDescriptor nonVoidType(String type) {
+        if (typeCache.containsKey(type)) {
+            return typeCache.get(type);
+        }
+
         if (type.equals("V")) {
             throw new RuntimeException("Void type is not allowed here");
         }
