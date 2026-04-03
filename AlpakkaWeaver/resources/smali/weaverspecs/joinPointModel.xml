@@ -54,7 +54,7 @@
     <joinpoint class="primitiveType" extends="typeDescriptor" tooltip="Primitive descriptor"/>
 
     <joinpoint class="methodPrototype" extends="typeDescriptor" tooltip="Method prototype"/>
-    
+
     <!-- STATEMENTS -->
     <joinpoint class="statement" tooltip="Statement"/>
 

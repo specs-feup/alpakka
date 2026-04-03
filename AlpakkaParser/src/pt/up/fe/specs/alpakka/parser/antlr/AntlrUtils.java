@@ -2,6 +2,7 @@ package pt.up.fe.specs.alpakka.parser.antlr;
 
 import org.antlr.runtime.tree.Tree;
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
+import pt.up.fe.specs.util.SpecsLogs;
 import pt.up.fe.specs.util.SpecsStrings;
 import pt.up.fe.specs.util.collections.AccumulatorMapL;
 
@@ -40,7 +41,7 @@ public class AntlrUtils {
     public void registerNode(SmaliNode root) {
         var nodes = root.getDescendantsAndSelf(SmaliNode.class);
 
-        nodeCount += nodes.size() + 1;
+        nodeCount += nodes.size();
         fileCount += 1;
 
         var currentHistogram = getHistogram(nodes, node -> node.getClass().getName()).getAccMap();
@@ -52,7 +53,7 @@ public class AntlrUtils {
         nodes.forEach(node -> seenNodes.add(node.get(SmaliNode.ID)));
 
         if (seenNodes.size() != nodes.size()) {
-            System.out.println("Total AST nodes (" + nodes.size() + ") different from unique AST nodes (" + seenNodes.size() + ")");
+            SpecsLogs.warn("Total AST nodes (" + nodes.size() + ") different from unique AST nodes (" + seenNodes.size() + ")");
         }
 
         for (var node : nodes) {

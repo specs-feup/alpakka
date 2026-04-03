@@ -38,13 +38,19 @@ import java.util.*;
 
 public class AlpakkaParser {
 
-    private static final boolean DEBUG = true;
-
     private static final String DECOMPILATION_FOLDERNAME = "decompiledApp";
+
+    private final SmaliContext context;
 
     private final AntlrUtils antlrUtils;
 
+
     public AlpakkaParser() {
+        this(new SmaliContext());
+    }
+
+    public AlpakkaParser(SmaliContext context) {
+        this.context = context;
         antlrUtils = new AntlrUtils();
     }
 
@@ -67,15 +73,13 @@ public class AlpakkaParser {
             sources = List.of(apkFiles.get(0));
         }
 
-        var context = new SmaliContext();
-
         var classes = sources.stream()
                 .map(file -> parseSingleFile(file, context, options))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .toList();
 
-        if (DEBUG) {
+        if (context.get(SmaliContext.IS_DEBUG)) {
             antlrUtils.printHistogram();
         }
 
@@ -133,7 +137,7 @@ public class AlpakkaParser {
                     yield Optional.of(newResourceNode(source, context));
                 } else {
                     var root = new SmaliFileParser(source, context, targetSdkVersion).parse();
-                    if (DEBUG && root.isPresent()) {
+                    if (context.get(SmaliContext.IS_DEBUG) && root.isPresent()) {
                         antlrUtils.registerNode(root.get());
                         antlrUtils.printNodeCount();
                     }

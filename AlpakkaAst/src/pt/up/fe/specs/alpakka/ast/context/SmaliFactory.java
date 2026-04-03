@@ -18,9 +18,6 @@ import java.util.stream.Collectors;
 
 public class SmaliFactory {
 
-    private static final boolean ENABLE_TYPE_CACHE = false;
-
-
     private final SmaliContext context;
     private int idCounter;
     private final Map<String, TypeDescriptor> typeCache;
@@ -28,14 +25,7 @@ public class SmaliFactory {
     public SmaliFactory(SmaliContext context) {
         this.context = context;
         idCounter = 0;
-        typeCache = ENABLE_TYPE_CACHE ? new HashMap<>()
-                // Disables cache
-                : new HashMap<>() {
-            @Override
-            public TypeDescriptor put(String k, TypeDescriptor v) {
-                return null;
-            }
-        };
+        typeCache = new HashMap<>();
     }
 
     public DataStore newDataStore(Class<? extends SmaliNode> nodeClass) {
@@ -50,6 +40,12 @@ public class SmaliFactory {
         data.set(SmaliNode.ID, id);
 
         return data;
+    }
+
+    private void updateCache(String type, TypeDescriptor classType) {
+        if (context.get(SmaliContext.CACHE_TYPES)) {
+            typeCache.put(type, classType);
+        }
     }
 
     private String nextId() {
@@ -214,7 +210,7 @@ public class SmaliFactory {
                 .put(MethodPrototype.PARAMETERS, parameters);
 
         var methodPrototype = new MethodPrototype(data, null);
-        typeCache.put(id, methodPrototype);
+        updateCache(id, methodPrototype);
         return methodPrototype;
     }
 
@@ -235,9 +231,10 @@ public class SmaliFactory {
         data.set(ClassType.CLASS_NAME, classDescriptor.substring(lastSlash + 1));
 
         var classType = new ClassType(data, null);
-        typeCache.put(type, classType);
+        updateCache(type, classType);
         return classType;
     }
+
 
     public ArrayType arrayType(String type) {
         var elementType = nonVoidType(type);
@@ -258,7 +255,7 @@ public class SmaliFactory {
         children.add(type);
 
         var arrayType = new ArrayType(data, children);
-        typeCache.put(id, arrayType);
+        updateCache(id, arrayType);
         return arrayType;
     }
 
