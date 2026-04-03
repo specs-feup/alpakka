@@ -18,11 +18,17 @@ import java.util.stream.Collectors;
 
 public class SmaliFactory {
 
-    private static final boolean ENABLE_TYPE_CACHE = true;
-    private static final Map<String, TypeDescriptor> TYPE_CACHE;
+    private static final boolean ENABLE_TYPE_CACHE = false;
 
-    static {
-        TYPE_CACHE = ENABLE_TYPE_CACHE ? new HashMap<>()
+
+    private final SmaliContext context;
+    private int idCounter;
+    private final Map<String, TypeDescriptor> typeCache;
+
+    public SmaliFactory(SmaliContext context) {
+        this.context = context;
+        idCounter = 0;
+        typeCache = ENABLE_TYPE_CACHE ? new HashMap<>()
                 // Disables cache
                 : new HashMap<>() {
             @Override
@@ -30,15 +36,6 @@ public class SmaliFactory {
                 return null;
             }
         };
-
-    }
-
-    private final SmaliContext context;
-    private int idCounter;
-
-    public SmaliFactory(SmaliContext context) {
-        this.context = context;
-        idCounter = 0;
     }
 
     public DataStore newDataStore(Class<? extends SmaliNode> nodeClass) {
@@ -208,8 +205,8 @@ public class SmaliFactory {
 
     public MethodPrototype methodPrototype(TypeDescriptor returnType, List<TypeDescriptor> parameters) {
         var id = "M#" + returnType.getCode() + "#" + parameters.stream().map(TypeDescriptor::getCode).collect(Collectors.joining());
-        if (TYPE_CACHE.containsKey(id)) {
-            return (MethodPrototype) TYPE_CACHE.get(id);
+        if (typeCache.containsKey(id)) {
+            return (MethodPrototype) typeCache.get(id);
         }
 
         var data = newDataStore(MethodPrototype.class)
@@ -217,13 +214,13 @@ public class SmaliFactory {
                 .put(MethodPrototype.PARAMETERS, parameters);
 
         var methodPrototype = new MethodPrototype(data, null);
-        TYPE_CACHE.put(id, methodPrototype);
+        typeCache.put(id, methodPrototype);
         return methodPrototype;
     }
 
     public ClassType classType(String type) {
-        if (TYPE_CACHE.containsKey(type)) {
-            return (ClassType) TYPE_CACHE.get(type);
+        if (typeCache.containsKey(type)) {
+            return (ClassType) typeCache.get(type);
         }
 
         var data = newDataStore(ClassType.class);
@@ -238,7 +235,7 @@ public class SmaliFactory {
         data.set(ClassType.CLASS_NAME, classDescriptor.substring(lastSlash + 1));
 
         var classType = new ClassType(data, null);
-        TYPE_CACHE.put(type, classType);
+        typeCache.put(type, classType);
         return classType;
     }
 
@@ -251,8 +248,8 @@ public class SmaliFactory {
         Objects.requireNonNull(type);
 
         var id = "[" + type.getCode();
-        if (TYPE_CACHE.containsKey(id)) {
-            return (ArrayType) TYPE_CACHE.get(id);
+        if (typeCache.containsKey(id)) {
+            return (ArrayType) typeCache.get(id);
         }
 
         var data = newDataStore(ArrayType.class);
@@ -261,7 +258,7 @@ public class SmaliFactory {
         children.add(type);
 
         var arrayType = new ArrayType(data, children);
-        TYPE_CACHE.put(id, arrayType);
+        typeCache.put(id, arrayType);
         return arrayType;
     }
 
@@ -274,8 +271,8 @@ public class SmaliFactory {
     }
 
     public TypeDescriptor type(String type) {
-        if (TYPE_CACHE.containsKey(type)) {
-            return TYPE_CACHE.get(type);
+        if (typeCache.containsKey(type)) {
+            return typeCache.get(type);
         }
 
         if (type.length() == 1) {
@@ -284,7 +281,7 @@ public class SmaliFactory {
                     var data = newDataStore(PrimitiveType.class);
                     data.set(PrimitiveType.TYPE_DESCRIPTOR, type);
                     var primitiveType = new PrimitiveType(data, null);
-                    TYPE_CACHE.put(type, primitiveType);
+                    typeCache.put(type, primitiveType);
                     return primitiveType;
                 }
 

@@ -38,7 +38,15 @@ import java.util.*;
 
 public class AlpakkaParser {
 
+    private static final boolean DEBUG = true;
+
     private static final String DECOMPILATION_FOLDERNAME = "decompiledApp";
+
+    private final AntlrUtils antlrUtils;
+
+    public AlpakkaParser() {
+        antlrUtils = new AntlrUtils();
+    }
 
     public Optional<App> parse(List<File> sources, List<String> options) {
         // Check if there are multiple APK files in the sources
@@ -66,6 +74,10 @@ public class AlpakkaParser {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .toList();
+
+        if (DEBUG) {
+            antlrUtils.printHistogram();
+        }
 
         if (classes.isEmpty()) {
             return Optional.empty();
@@ -120,7 +132,13 @@ public class AlpakkaParser {
                 if (!source.getPath().contains(packageFilter)) {
                     yield Optional.of(newResourceNode(source, context));
                 } else {
-                    yield new SmaliFileParser(source, context, targetSdkVersion).parse();
+                    var root = new SmaliFileParser(source, context, targetSdkVersion).parse();
+                    if (DEBUG && root.isPresent()) {
+                        antlrUtils.registerNode(root.get());
+                        antlrUtils.printNodeCount();
+                    }
+
+                    yield root;
                 }
             }
             default -> Optional.of(newResourceNode(source, context));
