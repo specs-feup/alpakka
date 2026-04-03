@@ -10,14 +10,10 @@ import java.util.Collection;
 public class AnnotationElement extends Expression {
 
     public static final DataKey<String> NAME = KeyFactory.string("name");
-    public static final DataKey<String> VALUE = KeyFactory.string("literal");
+    public static final DataKey<String> VALUE = KeyFactory.string("value");
 
     public AnnotationElement(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
-    }
-
-    public SmaliNode getValue() {
-        return getChild(SmaliNode.class, 0);
     }
 
     @Override
