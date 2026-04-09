@@ -69,6 +69,8 @@ public class SmaliJoinpoints {
         JOINPOINT_FACTORY.put(RegistersDirective.class, RegistersDirectiveJp::new);
         JOINPOINT_FACTORY.put(Label.class, LabelJp::new);
         JOINPOINT_FACTORY.put(LineDirective.class, LineDirectiveJp::new);
+        JOINPOINT_FACTORY.put(PackedSwitch.class, PackedSwitchBlockJp::new);
+        JOINPOINT_FACTORY.put(PackedSwitchCase.class, PackedSwitchCaseJp::new);
         JOINPOINT_FACTORY.put(Statement.class, StatementJp::new);
         JOINPOINT_FACTORY.put(Resource.class, ResourceNodeJp::new);
         JOINPOINT_FACTORY.put(Placeholder.class, PlaceholderJp::new);

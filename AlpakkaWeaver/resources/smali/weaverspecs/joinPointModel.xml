@@ -81,6 +81,10 @@
 
     <joinpoint class="packedSwitch" extends="statement" tooltip="Packed switch directive"/>
 
+    <joinpoint class="packedSwitchBlock" extends="statement" tooltip="Full packed switch construct (instruction + cases + directive)"/>
+
+    <joinpoint class="packedSwitchCase" extends="statement" tooltip="Single case in a packed switch construct"/>
+
     <joinpoint class="returnStatement" extends="instruction" tooltip="Smali instruction formats 10x, 11x"/>
 
     <joinpoint class="throwStatement" extends="instruction" tooltip="Smali instruction format 11x"/>
