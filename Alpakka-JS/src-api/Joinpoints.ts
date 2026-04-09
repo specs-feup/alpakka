@@ -415,7 +415,7 @@ export class Statement extends Joinpoint {
   /**
    * Type descriptor
    */
-export class TypeDescriptor extends Literal {
+export class TypeDescriptor extends Joinpoint {
   /**
    * @internal
    */
@@ -506,7 +506,7 @@ export class LineDirective extends Statement {
   static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
     name: null,
   };
-  get value(): Literal { return wrapJoinPoint(this._javaObject.getValue()) }
+  get value(): number { return wrapJoinPoint(this._javaObject.getValue()) }
 }
 
   /**
@@ -544,7 +544,7 @@ export class RegistersDirective extends Statement {
     name: null,
   };
   get type(): string { return wrapJoinPoint(this._javaObject.getType()) }
-  get value(): PrimitiveLiteral { return wrapJoinPoint(this._javaObject.getValue()) }
+  get value(): number { return wrapJoinPoint(this._javaObject.getValue()) }
 }
 
   /**

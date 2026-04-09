@@ -13,6 +13,7 @@ import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.TypeDescriptor;
 import pt.up.fe.specs.alpakka.ast.stmt.*;
 import pt.up.fe.specs.alpakka.ast.stmt.instruction.Instruction;
 import pt.up.fe.specs.alpakka.ast.stmt.instruction.NopStatement;
+import pt.up.fe.specs.alpakka.ast.stmt.instruction.SwitchStatement;
 import pt.up.fe.specs.util.SpecsSystem;
 
 import java.io.File;
@@ -383,6 +384,50 @@ public class SmaliFactory {
                 .put(PackedSwitchDirective.VALUE, value);
 
         return new PackedSwitchDirective(data, children);
+    }
+
+    public List<Statement> packedSwitch(String register, int numCases) {
+        var prefix = "pswitch_" + nextId().replace("id_", "");
+        var cases  = new ArrayList<PackedSwitchCase>(numCases);
+        for (int i = 0; i < numCases; i++) {
+            cases.add(packedSwitchCase(List.of(label(prefix + "_" + i))));
+        }
+        return buildPackedSwitch(register, prefix, cases);
+    }
+
+    public List<Statement> packedSwitch(String register, List<PackedSwitchCase> cases) {
+        return buildPackedSwitch(register, "pswitch_" + nextId().replace("id_", ""), cases);
+    }
+
+    private List<Statement> buildPackedSwitch(String register, String prefix, List<PackedSwitchCase> cases) {
+        var dataLabelName = prefix + "_data";
+
+        var regNode      = register(register);
+        var dataLabelRef = labelRef(dataLabelName);
+        var switchStmt   = genericInstruction(SwitchStatement.class,
+                                Opcode.PACKED_SWITCH, List.of(regNode, dataLabelRef));
+
+        var allStatements = new ArrayList<Statement>();
+        var caseLabelRefs = new ArrayList<LabelRef>(cases.size());
+
+        allStatements.add(switchStmt);
+
+        for (var switchCase : cases) {
+            var caseLabelName = switchCase.getLabel().getLabelName();
+            caseLabelRefs.add(labelRef(caseLabelName));
+            allStatements.add(label(caseLabelName));
+            allStatements.addAll(switchCase.getBodyStatements());
+        }
+
+        allStatements.add(label(dataLabelName));
+        allStatements.add(packedSwitchDirective("0x0", caseLabelRefs));
+
+        return allStatements;
+    }
+
+    public PackedSwitchCase packedSwitchCase(List<? extends SmaliNode> children) {
+        var data = newDataStore(PackedSwitchCase.class);
+        return new PackedSwitchCase(data, children);
     }
 
     public SparseSwitchDirective sparseSwitchDirective(List<? extends SmaliNode> children) {
