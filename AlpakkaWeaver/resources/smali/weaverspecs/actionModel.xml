@@ -52,4 +52,9 @@
     <parameter name="operation" type="String" />
   </action>
 
+  <!-- registersDirective operations -->
+  <action name="setValue" class="registersDirective" tooltip="Sets the register count value">
+    <parameter name="value" type="int" />
+  </action>
+
 </actions>

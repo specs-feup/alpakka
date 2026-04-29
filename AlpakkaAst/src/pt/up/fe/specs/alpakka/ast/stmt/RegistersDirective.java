@@ -45,4 +45,8 @@ public class RegistersDirective extends Statement {
         return get(VALUE);
     }
 
+    public void setValue(int value) {
+        set(VALUE, value);
+    }
+
 }

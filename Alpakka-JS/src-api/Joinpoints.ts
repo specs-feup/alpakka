@@ -545,6 +545,7 @@ export class RegistersDirective extends Statement {
   };
   get type(): string { return wrapJoinPoint(this._javaObject.getType()) }
   get value(): number { return wrapJoinPoint(this._javaObject.getValue()) }
+  setValue(value: number): void { return this._javaObject.setValue(unwrapJoinPoint(value)); }
 }
 
   /**
