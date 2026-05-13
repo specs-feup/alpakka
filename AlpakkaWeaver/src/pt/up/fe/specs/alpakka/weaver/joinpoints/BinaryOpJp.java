@@ -19,6 +19,11 @@ public class BinaryOpJp extends ABinaryOp {
   }
 
   @Override
+  public String getOperatorImpl() {
+    return this.opInstruction.getOperator().getString();
+  }
+
+  @Override
   public void setOperatorImpl(String operator) {
     this.opInstruction.setOperator(operator);
   }

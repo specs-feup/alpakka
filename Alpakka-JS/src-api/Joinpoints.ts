@@ -606,6 +606,7 @@ export class BinaryOp extends Instruction {
   static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
     name: null,
   };
+  get operator(): string { return wrapJoinPoint(this._javaObject.getOperator()) }
   /**
    * Sets the operator of this instruction
    */

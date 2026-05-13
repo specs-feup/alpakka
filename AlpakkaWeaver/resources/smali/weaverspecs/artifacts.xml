@@ -204,6 +204,10 @@
     </artifact>
 
     <!-- INSTRUCTIONS -->
+    <artifact class="binaryOp">
+        <attribute name="operator" type="String"/>
+    </artifact>
+
     <artifact class="instruction">
         <attribute name="canThrow" type="boolean"/>
         <attribute name="setsResult" type="boolean"/>
