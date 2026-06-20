@@ -221,12 +221,24 @@ public class SmaliFactory {
     }
 
     public ArrayType arrayType(String type) {
-        var data = newDataStore(ArrayType.class);
+        // `type` may carry leading '[' brackets indicating array dimensions
+        // (e.g. "[[I" for int[][]). Callers that pass only the base type with
+        // no brackets get a single dimension, preserving legacy behaviour.
+        int dims = 0;
+        while (dims < type.length() && type.charAt(dims) == '[') {
+            dims++;
+        }
+        var base = dims > 0 ? type.substring(dims) : type;
+        var wrap = dims > 0 ? dims : 1;
 
-        var children = new ArrayList<SmaliNode>();
-        children.add(nonVoidType(type));
+        ArrayType result = null;
+        for (int d = 0; d < wrap; d++) {
+            var children = new ArrayList<SmaliNode>();
+            children.add(d == 0 ? nonVoidType(base) : result);
+            result = new ArrayType(newDataStore(ArrayType.class), children);
+        }
 
-        return new ArrayType(data, children);
+        return result;
     }
 
     public ArrayType arrayType(TypeDescriptor type) {

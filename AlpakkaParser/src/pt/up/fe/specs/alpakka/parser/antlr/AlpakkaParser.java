@@ -17,6 +17,7 @@ import brut.androlib.ApkDecoder;
 import brut.androlib.Config;
 import brut.androlib.exceptions.AndrolibException;
 import brut.directory.DirectoryException;
+import brut.directory.ExtFile;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import pt.up.fe.specs.alpakka.ast.*;
@@ -220,14 +221,14 @@ public class AlpakkaParser {
     private App decompileApk(File apkFile, SmaliContext context, List<String> options) {
         var outputFolder = SpecsIo.mkdir(DECOMPILATION_FOLDERNAME);
 
-        var config = Config.getDefaultConfig();
-        config.forceDelete = true;
+        var config = new Config();
+        config.setForceDelete(true);
 
-        var decoder = new ApkDecoder(config, apkFile);
+        var decoder = new ApkDecoder(new ExtFile(apkFile), config);
 
         try {
             decoder.decode(outputFolder);
-        } catch (AndrolibException | IOException | DirectoryException e) {
+        } catch (AndrolibException e) {
             throw new RuntimeException("Error decompiling APK", e);
         }
 

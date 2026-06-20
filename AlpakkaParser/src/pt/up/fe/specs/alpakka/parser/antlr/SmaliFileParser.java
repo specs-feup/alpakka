@@ -308,7 +308,7 @@ public class SmaliFileParser {
 
             if (node.getChild(i).getType() == smaliParser.ARRAY_TYPE_PREFIX) {
                 i++;
-                type = factory.arrayType(node.getChild(i).getText());
+                type = factory.arrayType(node.getChild(i - 1).getText() + node.getChild(i).getText());
             } else {
                 type = factory.type(node.getChild(i).getText());
             }
@@ -364,7 +364,7 @@ public class SmaliFileParser {
             if (node.getChild(j).getType() == smaliParser.I_METHOD_RETURN_TYPE) {
                 // Type descriptor
                 if (node.getChild(j).getChild(0).getType() == smaliParser.ARRAY_TYPE_PREFIX) {
-                    returnType = factory.arrayType(node.getChild(j).getChild(1).getText());
+                    returnType = factory.arrayType(node.getChild(j).getChild(0).getText() + node.getChild(j).getChild(1).getText());
                 } else {
                     returnType = factory.type(node.getChild(j).getChild(0).getText());
                 }
@@ -374,7 +374,7 @@ public class SmaliFileParser {
                 // Non void type descriptor
                 if (node.getChild(j).getType() == smaliParser.ARRAY_TYPE_PREFIX) {
                     j++;
-                    parameters.add(factory.arrayType(node.getChild(j).getText()));
+                    parameters.add(factory.arrayType(node.getChild(j - 1).getText() + node.getChild(j).getText()));
                 } else {
                     parameters.add(factory.nonVoidType(node.getChild(j).getText()));
                 }
@@ -464,7 +464,7 @@ public class SmaliFileParser {
             // Non void type descriptor
             if (node.getChild(i).getType() == smaliParser.ARRAY_TYPE_PREFIX) {
                 i++;
-                exceptionType = factory.arrayType(node.getChild(i).getText());
+                exceptionType = factory.arrayType(node.getChild(i - 1).getText() + node.getChild(i).getText());
             } else {
                 exceptionType = factory.nonVoidType(node.getChild(i).getText());
             }
@@ -572,7 +572,7 @@ public class SmaliFileParser {
                     for (int j = 0; j < node.getChild(i).getChildCount(); j++) {
                         if (node.getChild(i).getChild(j).getType() == smaliParser.ARRAY_TYPE_PREFIX) {
                             j++;
-                            fieldType = factory.arrayType(node.getChild(i).getChild(j).getText());
+                            fieldType = factory.arrayType(node.getChild(i).getChild(j - 1).getText() + node.getChild(i).getChild(j).getText());
                         } else {
                             fieldType = factory.nonVoidType(node.getChild(i).getChild(j).getText());
                         }
@@ -779,7 +779,7 @@ public class SmaliFileParser {
                 baseType = (TypeDescriptor) convert(node.getChild(i));
             } else {
                 i++;
-                baseType = factory.arrayType(node.getChild(i).getText());
+                baseType = factory.arrayType(node.getChild(i - 1).getText() + node.getChild(i).getText());
             }
             i++;
         }
@@ -791,7 +791,7 @@ public class SmaliFileParser {
         TypeDescriptor fieldType = null;
         if (node.getChild(i).getType() == smaliParser.ARRAY_TYPE_PREFIX) {
             i++;
-            fieldType = factory.arrayType(node.getChild(i).getText());
+            fieldType = factory.arrayType(node.getChild(i - 1).getText() + node.getChild(i).getText());
         } else {
             fieldType = factory.nonVoidType(node.getChild(i).getText());
         }
@@ -817,7 +817,7 @@ public class SmaliFileParser {
                 baseType = (TypeDescriptor) convert(node.getChild(i));
             } else {
                 i++;
-                baseType = factory.arrayType(node.getChild(i).getText());
+                baseType = factory.arrayType(node.getChild(i - 1).getText() + node.getChild(i).getText());
             }
             i++;
         }
@@ -852,7 +852,7 @@ public class SmaliFileParser {
         // Non void type descriptor
         if (node.getChild(i).getType() == smaliParser.ARRAY_TYPE_PREFIX) {
             i++;
-            children.add(factory.arrayType(node.getChild(i).getText()));
+            children.add(factory.arrayType(node.getChild(i - 1).getText() + node.getChild(i).getText()));
         } else {
             children.add(factory.nonVoidType(node.getChild(i).getText()));
         }

@@ -109,7 +109,7 @@ public class App extends SmaliNode {
         var apktoolYml = new File(outputFolder, "apktool.yml");
         SpecsIo.write(apktoolYml, yaml.dump(attributes));
 
-        var config = Config.getDefaultConfig();
+        var config = new Config();
 
         var outName = outputName.isBlank() ? "output.apk" : outputName;
         if (!outName.endsWith(".apk")) {
@@ -119,7 +119,7 @@ public class App extends SmaliNode {
         var outputFile = new File(outName);
 
         try {
-            new ApkBuilder(config, new ExtFile(outputFolder)).build(outputFile);
+            new ApkBuilder(new ExtFile(outputFolder), config).build(outputFile);
         } catch (BrutException e) {
             throw new RuntimeException("Could not build apk", e);
         }

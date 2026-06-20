@@ -27,4 +27,8 @@ public class RegistersDirectiveJp extends ARegistersDirective {
     public Integer getValueImpl() {
         return this.registers.getValue();
     }
+
+    public void setValue(int value) {
+        this.registers.setValue(value);
+    }
 }

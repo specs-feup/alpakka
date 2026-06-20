@@ -105,6 +105,13 @@ public abstract class ASmaliWeaverJoinPoint extends AJoinPoint {
     }
 
     @Override
+    public AJoinPoint detachImpl() {
+        this.getNode().detach();
+
+        return this;
+    }
+
+    @Override
     public AJoinPoint insertBeforeImpl(AJoinPoint node) {
         NodeInsertUtils.insertBefore(this.getNode(), node.getNode());
 
