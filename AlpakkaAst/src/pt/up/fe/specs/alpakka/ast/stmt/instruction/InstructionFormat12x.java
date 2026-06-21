@@ -19,7 +19,7 @@ import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
 
-public class InstructionFormat12x extends Instruction {
+public class InstructionFormat12x extends BinaryOp {
 
     public InstructionFormat12x(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);

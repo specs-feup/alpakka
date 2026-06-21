@@ -23,4 +23,9 @@ public class BinaryOpJp extends ABinaryOp {
     this.opInstruction.setOperator(operator);
   }
 
+  /** Base operator name (e.g. "add", "sub", "mul", "div"), read by the JS `operator` getter. */
+  public String getOperatorName() {
+    return this.opInstruction.getOperatorName();
+  }
+
 }

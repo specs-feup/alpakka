@@ -20,6 +20,13 @@ public enum OperandType {
 
         String lowerName = opcodeName.toLowerCase();
 
+        // Strip any addressing/encoding variant suffix (e.g. "/lit8", "/lit16",
+        // "/2addr") so the operand type can be determined for every form.
+        int slash = lowerName.indexOf('/');
+        if (slash >= 0) {
+            lowerName = lowerName.substring(0, slash);
+        }
+
         if (lowerName.endsWith("-long")) {
             return LONG;
         } else if (lowerName.endsWith("-float")) {

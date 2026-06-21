@@ -217,6 +217,7 @@ public class SmaliFileParser {
         return SmaliNode.getOpcode(opcodeName);
     }
 
+
     private SmaliNode convertClassDescriptor(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
         return factory.classType(node.getText());

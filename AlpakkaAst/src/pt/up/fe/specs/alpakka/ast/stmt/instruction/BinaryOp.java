@@ -16,6 +16,15 @@ public abstract class BinaryOp extends Instruction {
         return BinaryOperator.fromName(getOpCodeName());
     }
 
+    /** Base operator name (e.g. "add", "sub", "mul", "div"), or null if this opcode is not a binary operator. */
+    public String getOperatorName() {
+        try {
+            return getOperator().getString();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public OperandType getOperandType() {
         return OperandType.fromOpcodeName(getOpCodeName());
     }
@@ -47,7 +56,14 @@ public abstract class BinaryOp extends Instruction {
                             "' to " + operator.getType() + " operator '" + operator + "'");
         }
 
-        String newOpcodeName = operator.getOpcodeName(currentType);
+        // Preserve the original addressing/encoding variant (e.g. "/lit8",
+        // "/2addr") so literal and two-address forms round-trip. For target
+        // operators that have no such opcode (e.g. sub-int/lit8), setOpcode
+        // rejects the unknown name and the caller falls back (literal negation).
+        String opcode = getOpCodeName();
+        int slash = opcode.indexOf('/');
+        String variant = slash >= 0 ? opcode.substring(slash) : "";
+        String newOpcodeName = operator.getOpcodeName(currentType) + variant;
         setOpcode(newOpcodeName);
     }
 }
