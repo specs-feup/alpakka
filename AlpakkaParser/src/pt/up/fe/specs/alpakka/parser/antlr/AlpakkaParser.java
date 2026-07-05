@@ -223,6 +223,10 @@ public class AlpakkaParser {
 
         var config = new Config();
         config.setForceDelete(true);
+        try {
+            config.setDecodeResources(Config.DECODE_RESOURCES_NONE);
+            config.setForceDecodeManifest(Config.FORCE_DECODE_MANIFEST_FULL);
+        } catch (Exception ignored) {}
 
         var decoder = new ApkDecoder(new ExtFile(apkFile), config);
 

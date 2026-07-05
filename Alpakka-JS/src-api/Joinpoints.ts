@@ -544,7 +544,8 @@ export class RegistersDirective extends Statement {
     name: null,
   };
   get type(): string { return wrapJoinPoint(this._javaObject.getType()) }
-  get value(): PrimitiveLiteral { return wrapJoinPoint(this._javaObject.getValue()) }
+  get value(): number { return wrapJoinPoint(this._javaObject.getValue()) }
+  setValue(value: number): void { return wrapJoinPoint(this._javaObject.setValue(unwrapJoinPoint(value))); }
 }
 
   /**
@@ -608,6 +609,7 @@ export class BinaryOp extends Instruction {
   /**
    * Sets the operator of this instruction
    */
+  get operator(): string { return wrapJoinPoint(this._javaObject.getOperatorName()) }
   setOperator(operation: string): void { return wrapJoinPoint(this._javaObject.setOperator(unwrapJoinPoint(operation))); }
 }
 
