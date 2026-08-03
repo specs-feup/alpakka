@@ -151,6 +151,9 @@
     <artifact class="classType">
         <attribute name="className" type="String"/>
         <attribute name="packageName" type="String"/>
+        <attribute name="decl" type="classNode">
+            <def/>
+        </attribute>
     </artifact>
 
     <artifact class="arrayType"/>
