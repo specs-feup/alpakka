@@ -114,7 +114,8 @@ jobs:
       matrix:
         #node-version: ['latest', '22.x', '20.x']
         node-version: ['22.x', '20.x']
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        # Windows temporarily not on windows-latest, until latest LARA PRs are merged
+        os: [ubuntu-latest, windows-2022, macos-latest]
 
     runs-on: ${{ matrix.os }}
 
