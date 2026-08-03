@@ -296,6 +296,11 @@ public class SmaliFactory {
         throw new RuntimeException("Type not implemented: " + type);
     }
 
+    public NullType nullType() {
+        var data = newDataStore(NullType.class);
+        return new NullType(data, List.of());
+    }
+
     public NopStatement nopInstructionFormat() {
         var data = newDataStore(NopStatement.class);
 
@@ -367,6 +372,7 @@ public class SmaliFactory {
 
     public NullLiteral nullLiteral() {
         var data = newDataStore(NullLiteral.class);
+        data.set(NullLiteral.TYPE, nullType());
 
         return new NullLiteral(data, null);
     }
