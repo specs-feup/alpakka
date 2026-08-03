@@ -343,10 +343,10 @@ public class SmaliFactory {
         return new EncodedArray(data, children);
     }
 
-    public EncodedEnum encodedEnum(List<? extends SmaliNode> children) {
+    public EncodedEnum encodedEnum(FieldReference fieldReference) {
         var data = newDataStore(EncodedEnum.class);
-
-        return new EncodedEnum(data, children);
+        
+        return new EncodedEnum(data, List.of(fieldReference));
     }
 
     public SubannotationDirective subannotationDirective(ClassType type,

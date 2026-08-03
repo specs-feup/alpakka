@@ -651,16 +651,9 @@ public class SmaliFileParser {
     private SmaliNode convertEnum(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
-        var children = new ArrayList<SmaliNode>();
+        var fieldReference = convertFieldReference(node, 0);
 
-        children.add(convertFieldReference(node, 0));
-
-        var parsedEnum = factory.encodedEnum(children);
-
-        if (!children.isEmpty())
-            parsedEnum.setType(((FieldReference) children.get(0)).getFieldReferenceType());
-
-        return parsedEnum;
+        return factory.encodedEnum(fieldReference);
     }
 
     private SmaliNode convertPrimitiveLiteral(Tree node) {
@@ -773,7 +766,7 @@ public class SmaliFileParser {
         return children;
     }
 
-    private SmaliNode convertFieldReference(Tree node, Integer position) {
+    private FieldReference convertFieldReference(Tree node, Integer position) {
         var factory = context.get(SmaliContext.FACTORY);
 
         var i = position;

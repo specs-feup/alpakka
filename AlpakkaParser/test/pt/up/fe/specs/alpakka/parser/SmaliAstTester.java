@@ -15,6 +15,8 @@ public abstract class SmaliAstTester {
 
     private static final String OUTPUT_FOLDERNAME = "temp-smali-ast";
 
+    private static final boolean SHOW_AST = false;
+
     private final String basePackage;
     //private final String outputFoldername;
 
@@ -58,6 +60,10 @@ public abstract class SmaliAstTester {
         parserOptions.add("-targetSdkVersion" + "20");
 
         var smaliRoot = new AlpakkaParser().parse(List.of(resourceFile), parserOptions).orElseThrow();
+
+        if (SHOW_AST) {
+            System.out.println("AST:\n" + smaliRoot.toTree());
+        }
 
         var directory = SpecsIo.mkdir(getOutputFoldername(resourceFile.getName()) + "/outputFirst");
         SpecsIo.write(new File(directory, resourceFile.getName()), smaliRoot.getChildren().get(0).getCode());
