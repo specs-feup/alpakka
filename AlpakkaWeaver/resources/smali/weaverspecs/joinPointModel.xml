@@ -27,17 +27,17 @@
 
     <joinpoint class="registerReference" extends="expression" tooltip="Register reference"/>
 
-    <joinpoint class="labelReference" extends="expression" tooltip="Label reference"/>
+    <joinpoint class="labelReference" tooltip="Label reference"/>
 
-    <joinpoint class="methodReference" extends="expression" tooltip="Method reference"/>
+    <joinpoint class="methodReference" tooltip="Method reference"/>
 
     <joinpoint class="fieldReference" extends="expression" tooltip="Field reference"/>
 
-    <joinpoint class="sparseSwitchElement" extends="expression" tooltip="Sparse switch element"/>
+    <joinpoint class="sparseSwitchElement" tooltip="Sparse switch element"/>
 
-    <joinpoint class="registerList" extends="expression" tooltip="Register list"/>
+    <joinpoint class="registerList" tooltip="Register list"/>
 
-    <joinpoint class="registerRange" extends="expression" tooltip="Register range"/>
+    <joinpoint class="registerRange" tooltip="Register range"/>
 
     <!-- LITERALS -->
     <joinpoint class="literal" extends="expression" tooltip="Literal"/>

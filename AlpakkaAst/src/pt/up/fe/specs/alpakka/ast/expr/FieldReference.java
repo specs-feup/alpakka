@@ -19,7 +19,6 @@ public class FieldReference extends Expression implements Reference {
 
     public static final DataKey<String> MEMBER_NAME = KeyFactory.string("memberName");
     public static final DataKey<Optional<TypeDescriptor>> BASE_TYPE = KeyFactory.optional("baseType");
-    public static final DataKey<TypeDescriptor> FIELD_TYPE = KeyFactory.object("fieldType", TypeDescriptor.class);
 
     public FieldReference(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
@@ -47,7 +46,7 @@ public class FieldReference extends Expression implements Reference {
     }
 
     public TypeDescriptor getFieldReferenceType() {
-        return get(FIELD_TYPE);
+        return get(TYPE);
     }
 
     @Override

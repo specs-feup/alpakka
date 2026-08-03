@@ -8,7 +8,7 @@ import pt.up.fe.specs.alpakka.ast.SmaliNode;
 
 import java.util.Collection;
 
-public class LabelRef extends Expression implements Reference {
+public class LabelRef extends SmaliNode implements Reference {
 
     private static final String TYPE_LABEL = "label";
 

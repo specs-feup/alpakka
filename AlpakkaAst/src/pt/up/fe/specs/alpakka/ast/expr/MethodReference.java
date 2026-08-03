@@ -10,7 +10,7 @@ import pt.up.fe.specs.alpakka.ast.type.TypeDescriptor;
 import java.util.Collection;
 import java.util.Optional;
 
-public class MethodReference extends Expression implements Reference {
+public class MethodReference extends SmaliNode implements Reference {
 
     private static final String TYPE_LABEL = "method";
 

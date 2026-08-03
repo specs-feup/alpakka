@@ -18,7 +18,7 @@ import pt.up.fe.specs.alpakka.ast.SmaliNode;
 
 import java.util.Collection;
 
-public class EncodedMethod extends Literal {
+public class EncodedMethod extends SmaliNode {
 
     public EncodedMethod(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);

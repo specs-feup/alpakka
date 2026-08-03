@@ -547,10 +547,9 @@ public class SmaliFileParser {
 
         var name = node.getChild(0).getText();
         var valueNode = convert(node.getChild(1));
-        var valueType = getType(valueNode);
         var value = valueNode.getCode();
 
-        return factory.annotationElement(name, value, valueType);
+        return factory.annotationElement(name, value);
     }
 
     private SmaliNode convertField(Tree node) {
@@ -627,11 +626,13 @@ public class SmaliFileParser {
 
         var array = factory.encodedArray(children);
 
+        /*
         if (!children.isEmpty()) {
             var child = children.get(0);
             var type = getType(child);
             array.setType(factory.arrayType((type)));
         }
+         */
         return array;
     }
 

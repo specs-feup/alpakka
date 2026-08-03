@@ -165,11 +165,10 @@ public class SmaliFactory {
         return new AnnotationDirective(data, annotationElements);
     }
 
-    public AnnotationElement annotationElement(String name, String value, TypeDescriptor type) {
+    public AnnotationElement annotationElement(String name, String value) {
         var data = newDataStore(AnnotationElement.class);
         data.set(AnnotationElement.NAME, name);
         data.set(AnnotationElement.VALUE, value);
-        data.setOptional(Expression.TYPE, type);
 
         return new AnnotationElement(data, List.of());
     }
@@ -353,7 +352,7 @@ public class SmaliFactory {
     public SubannotationDirective subannotationDirective(ClassType type,
                                                          List<? extends SmaliNode> children) {
         var data = newDataStore(SubannotationDirective.class)
-                .setOptional(SubannotationDirective.TYPE, type);
+                .set(SubannotationDirective.TYPE, type);
 
         return new SubannotationDirective(data, children);
     }
@@ -386,7 +385,7 @@ public class SmaliFactory {
     public FieldReference fieldReference(String memberName, TypeDescriptor fieldType) {
         var data = newDataStore(FieldReference.class)
                 .put(FieldReference.MEMBER_NAME, memberName)
-                .put(FieldReference.FIELD_TYPE, fieldType);
+                .put(FieldReference.TYPE, fieldType);
 
         return new FieldReference(data, null);
     }
@@ -424,7 +423,6 @@ public class SmaliFactory {
 
     public SparseSwitchElement sparseSwitchElement(List<? extends SmaliNode> children) {
         var data = newDataStore(SparseSwitchElement.class);
-
         return new SparseSwitchElement(data, children);
     }
 

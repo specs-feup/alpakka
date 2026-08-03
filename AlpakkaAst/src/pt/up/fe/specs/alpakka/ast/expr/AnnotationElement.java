@@ -7,7 +7,7 @@ import pt.up.fe.specs.alpakka.ast.SmaliNode;
 
 import java.util.Collection;
 
-public class AnnotationElement extends Expression {
+public class AnnotationElement extends SmaliNode {
 
     public static final DataKey<String> NAME = KeyFactory.string("name");
     public static final DataKey<String> VALUE = KeyFactory.string("value");

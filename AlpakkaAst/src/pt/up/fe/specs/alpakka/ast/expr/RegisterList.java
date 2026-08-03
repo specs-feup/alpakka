@@ -1,34 +1,33 @@
 package pt.up.fe.specs.alpakka.ast.expr;
 
-import java.util.Collection;
-
 import org.suikasoft.jOptions.Interfaces.DataStore;
-
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
 
-public class RegisterList extends Expression {
+import java.util.Collection;
 
-	public RegisterList(DataStore data, Collection<? extends SmaliNode> children) {
-		super(data, children);
-	}
+public class RegisterList extends SmaliNode {
 
-	@Override
-	public String getCode() {
-		var children = getChildren();
+    public RegisterList(DataStore data, Collection<? extends SmaliNode> children) {
+        super(data, children);
+    }
 
-		var sb = new StringBuilder();
+    @Override
+    public String getCode() {
+        var children = getChildren();
 
-		sb.append("{");
+        var sb = new StringBuilder();
 
-		for (var child : children) {
-			sb.append(child.getCode());
-			if (children.indexOf(child) < children.size() - 1)
-				sb.append(", ");
-		}
+        sb.append("{");
 
-		sb.append("}");
+        for (var child : children) {
+            sb.append(child.getCode());
+            if (children.indexOf(child) < children.size() - 1)
+                sb.append(", ");
+        }
 
-		return sb.toString();
-	}
+        sb.append("}");
+
+        return sb.toString();
+    }
 
 }
