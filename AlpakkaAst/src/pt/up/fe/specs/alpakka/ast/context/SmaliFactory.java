@@ -345,7 +345,7 @@ public class SmaliFactory {
 
     public EncodedEnum encodedEnum(FieldReference fieldReference) {
         var data = newDataStore(EncodedEnum.class);
-        
+
         return new EncodedEnum(data, List.of(fieldReference));
     }
 
@@ -357,9 +357,10 @@ public class SmaliFactory {
         return new SubannotationDirective(data, children);
     }
 
-    public PrimitiveLiteral primitiveLiteral(String value) {
+    public PrimitiveLiteral primitiveLiteral(String value, TypeDescriptor type) {
         var data = newDataStore(PrimitiveLiteral.class);
         data.set(PrimitiveLiteral.VALUE, value);
+        data.set(PrimitiveLiteral.TYPE, type);
 
         return new PrimitiveLiteral(data, null);
     }

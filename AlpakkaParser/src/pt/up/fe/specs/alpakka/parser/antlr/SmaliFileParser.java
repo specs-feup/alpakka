@@ -661,19 +661,18 @@ public class SmaliFileParser {
 
         var value = node.getText();
 
-        var literalExpr = factory.primitiveLiteral(value);
+        var type = switch (node.getType()) {
+            case smaliParser.LONG_LITERAL -> factory.type("J");
+            case smaliParser.INTEGER_LITERAL -> factory.type("I");
+            case smaliParser.BYTE_LITERAL -> factory.type("B");
+            case smaliParser.BOOL_LITERAL -> factory.type("Z");
+            case smaliParser.SHORT_LITERAL -> factory.type("S");
+            case smaliParser.FLOAT_LITERAL -> factory.type("F");
+            case smaliParser.DOUBLE_LITERAL -> factory.type("D");
+            default -> throw new IllegalStateException("Unexpected value: " + node.getType());
+        };
 
-        switch (node.getType()) {
-            case smaliParser.LONG_LITERAL -> literalExpr.setType(factory.type("J"));
-            case smaliParser.INTEGER_LITERAL -> literalExpr.setType(factory.type("I"));
-            case smaliParser.BYTE_LITERAL -> literalExpr.setType(factory.type("B"));
-            case smaliParser.BOOL_LITERAL -> literalExpr.setType(factory.type("Z"));
-            case smaliParser.SHORT_LITERAL -> literalExpr.setType(factory.type("S"));
-            case smaliParser.FLOAT_LITERAL -> literalExpr.setType(factory.type("F"));
-            case smaliParser.DOUBLE_LITERAL -> literalExpr.setType(factory.type("D"));
-        }
-
-        return literalExpr;
+        return factory.primitiveLiteral(value, type);
     }
 
     private SmaliNode convertCharLiteral(Tree node) {
@@ -681,24 +680,18 @@ public class SmaliFileParser {
 
 
         var value = "'" + escapeString(node.getText().substring(1, node.getText().length() - 1)) + "'";
+        var type = factory.type("C");
 
-        var literalExpr = factory.primitiveLiteral(value);
-
-        literalExpr.setType(factory.type("C"));
-
-        return literalExpr;
+        return factory.primitiveLiteral(value, type);
     }
 
     private SmaliNode convertStringLiteral(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
         var value = "\"" + escapeString(node.getText().substring(1, node.getText().length() - 1)) + "\"";
+        var type = factory.classType("Ljava/lang/String;");
 
-        var literalExpr = factory.primitiveLiteral(value);
-
-        literalExpr.setType(factory.classType("Ljava/lang/String;"));
-
-        return literalExpr;
+        return factory.primitiveLiteral(value, type);
     }
 
     private String escapeString(String string) {
