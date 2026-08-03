@@ -7,7 +7,7 @@ import pt.up.fe.specs.alpakka.ast.SmaliNode;
 
 import java.util.Collection;
 
-public class ClassType extends TypeDescriptor {
+public class ClassType extends Type {
 
     public static String TYPE_LABEL = "class";
 

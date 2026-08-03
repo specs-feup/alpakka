@@ -8,11 +8,11 @@ import pt.up.fe.specs.alpakka.ast.SmaliNode;
 import java.util.Collection;
 import java.util.List;
 
-public class MethodPrototype extends TypeDescriptor {
+public class MethodPrototype extends Type {
 
-    public static final DataKey<List<TypeDescriptor>> PARAMETERS = KeyFactory.list("parameters", TypeDescriptor.class);
+    public static final DataKey<List<Type>> PARAMETERS = KeyFactory.list("parameters", Type.class);
 
-    public static final DataKey<TypeDescriptor> RETURN_TYPE = KeyFactory.object("returnType", TypeDescriptor.class);
+    public static final DataKey<Type> RETURN_TYPE = KeyFactory.object("returnType", Type.class);
 
     public MethodPrototype(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
@@ -33,11 +33,11 @@ public class MethodPrototype extends TypeDescriptor {
         return builder.toString();
     }
 
-    public List<TypeDescriptor> getParameters() {
+    public List<Type> getParameters() {
         return get(PARAMETERS);
     }
 
-    public TypeDescriptor getReturnType() {
+    public Type getReturnType() {
         return get(RETURN_TYPE);
     }
 

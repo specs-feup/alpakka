@@ -15,7 +15,7 @@ import pt.up.fe.specs.alpakka.ast.stmt.*;
 import pt.up.fe.specs.alpakka.ast.stmt.instruction.*;
 import pt.up.fe.specs.alpakka.ast.type.ClassType;
 import pt.up.fe.specs.alpakka.ast.type.MethodPrototype;
-import pt.up.fe.specs.alpakka.ast.type.TypeDescriptor;
+import pt.up.fe.specs.alpakka.ast.type.Type;
 import pt.up.fe.specs.util.SpecsIo;
 import pt.up.fe.specs.util.exceptions.NotImplementedException;
 
@@ -301,7 +301,7 @@ public class SmaliFileParser {
         var register = (RegisterReference) convert(node.getChild(0));
 
         String name = null;
-        TypeDescriptor type = null;
+        Type type = null;
         String signature = null;
 
         if (node.getChildCount() > 1) {
@@ -361,8 +361,8 @@ public class SmaliFileParser {
     private MethodPrototype convertMethodPrototype(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
-        TypeDescriptor returnType = null;
-        var parameters = new ArrayList<TypeDescriptor>();
+        Type returnType = null;
+        var parameters = new ArrayList<Type>();
         for (int j = 0; j < node.getChildCount(); j++) {
             if (node.getChild(j).getType() == smaliParser.I_METHOD_RETURN_TYPE) {
                 // Type descriptor
@@ -463,7 +463,7 @@ public class SmaliFileParser {
         var children = new ArrayList<LabelRef>();
 
         var i = 0;
-        TypeDescriptor exceptionType = null;
+        Type exceptionType = null;
         if (node.getChild(i).getType() != smaliParser.SIMPLE_NAME) {
             // Non void type descriptor
             if (node.getChild(i).getType() == smaliParser.ARRAY_TYPE_PREFIX) {
@@ -557,7 +557,7 @@ public class SmaliFileParser {
 
         var accessOrRestrictionList = new ArrayList<Modifier>();
         String memberName = null;
-        TypeDescriptor fieldType = null;
+        Type fieldType = null;
 
         var children = new ArrayList<SmaliNode>();
 
@@ -636,12 +636,12 @@ public class SmaliFileParser {
         return array;
     }
 
-    private TypeDescriptor getType(SmaliNode node) {
+    private Type getType(SmaliNode node) {
         if (node instanceof Expression expr) {
             return expr.getType();
         }
 
-        if (node instanceof TypeDescriptor type) {
+        if (node instanceof Type type) {
             return type;
         }
 
@@ -764,11 +764,11 @@ public class SmaliFileParser {
 
         var i = position;
 
-        TypeDescriptor baseType = null;
+        Type baseType = null;
         if (node.getChild(i).getType() != smaliParser.SIMPLE_NAME) {
             // Reference type descriptor
             if (node.getChild(i).getType() == smaliParser.CLASS_DESCRIPTOR) {
-                baseType = (TypeDescriptor) convert(node.getChild(i));
+                baseType = (Type) convert(node.getChild(i));
             } else {
                 i++;
                 baseType = factory.arrayType(node.getChild(i).getText());
@@ -780,7 +780,7 @@ public class SmaliFileParser {
         i++;
 
         // Non void type descriptor
-        TypeDescriptor fieldType = null;
+        Type fieldType = null;
         if (node.getChild(i).getType() == smaliParser.ARRAY_TYPE_PREFIX) {
             i++;
             fieldType = factory.arrayType(node.getChild(i).getText());
@@ -801,12 +801,12 @@ public class SmaliFileParser {
     private MethodReference convertMethodReference(Tree node, Integer position) {
         var factory = context.get(SmaliContext.FACTORY);
 
-        TypeDescriptor baseType = null;
+        Type baseType = null;
         int i = position;
         if (node.getChild(i).getType() != smaliParser.SIMPLE_NAME) {
             // Reference type descriptor
             if (node.getChild(i).getType() == smaliParser.CLASS_DESCRIPTOR) {
-                baseType = (TypeDescriptor) convert(node.getChild(i));
+                baseType = (Type) convert(node.getChild(i));
             } else {
                 i++;
                 baseType = factory.arrayType(node.getChild(i).getText());

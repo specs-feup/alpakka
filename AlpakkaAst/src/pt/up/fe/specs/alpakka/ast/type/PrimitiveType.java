@@ -7,7 +7,7 @@ import pt.up.fe.specs.alpakka.ast.SmaliNode;
 
 import java.util.Collection;
 
-public class PrimitiveType extends TypeDescriptor {
+public class PrimitiveType extends Type {
 
     public static final DataKey<String> TYPE_DESCRIPTOR = KeyFactory.string("typeDescriptor");
 

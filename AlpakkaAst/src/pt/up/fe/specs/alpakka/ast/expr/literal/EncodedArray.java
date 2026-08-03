@@ -16,7 +16,7 @@ package pt.up.fe.specs.alpakka.ast.expr.literal;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
 import pt.up.fe.specs.alpakka.ast.expr.Expression;
-import pt.up.fe.specs.alpakka.ast.type.TypeDescriptor;
+import pt.up.fe.specs.alpakka.ast.type.Type;
 import pt.up.fe.specs.util.SpecsCheck;
 
 import java.util.Collection;
@@ -50,7 +50,7 @@ public class EncodedArray extends SmaliNode {
         return sb.toString();
     }
 
-    public TypeDescriptor getType() {
+    public Type getType() {
         SpecsCheck.checkArgument(!getChildren().isEmpty(), () -> "Encoded array must have at least one element to determine type");
 
         var child = getChildren().get(0);

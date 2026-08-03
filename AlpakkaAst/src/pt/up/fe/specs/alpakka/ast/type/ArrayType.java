@@ -5,7 +5,7 @@ import pt.up.fe.specs.alpakka.ast.SmaliNode;
 
 import java.util.Collection;
 
-public class ArrayType extends TypeDescriptor {
+public class ArrayType extends Type {
 
     public ArrayType(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
