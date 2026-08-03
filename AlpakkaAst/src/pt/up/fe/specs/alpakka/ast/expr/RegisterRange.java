@@ -6,7 +6,7 @@ import org.suikasoft.jOptions.Interfaces.DataStore;
 
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
 
-public class RegisterRange extends Expression {
+public class RegisterRange extends SmaliNode {
 
     public RegisterRange(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);

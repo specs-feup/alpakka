@@ -9,7 +9,6 @@ public class RegisterRangeJp extends ARegisterRange {
     private final RegisterRange rRange;
 
     public RegisterRangeJp(RegisterRange rRange) {
-        super(new ExpressionJp(rRange));
         this.rRange = rRange;
     }
 

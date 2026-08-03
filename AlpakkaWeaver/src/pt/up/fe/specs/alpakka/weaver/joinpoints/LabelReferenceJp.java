@@ -11,7 +11,6 @@ public class LabelReferenceJp extends ALabelReference {
     private final LabelRef labelReference;
 
     public LabelReferenceJp(LabelRef labelReference) {
-        super(new ExpressionJp(labelReference));
         this.labelReference = labelReference;
     }
 

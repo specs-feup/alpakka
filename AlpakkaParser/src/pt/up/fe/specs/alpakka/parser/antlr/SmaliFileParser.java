@@ -11,11 +11,11 @@ import pt.up.fe.specs.alpakka.ast.context.SmaliContext;
 import pt.up.fe.specs.alpakka.ast.expr.*;
 import pt.up.fe.specs.alpakka.ast.expr.literal.EncodedArray;
 import pt.up.fe.specs.alpakka.ast.expr.literal.Literal;
-import pt.up.fe.specs.alpakka.ast.expr.literal.MethodPrototype;
-import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.ClassType;
-import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.TypeDescriptor;
 import pt.up.fe.specs.alpakka.ast.stmt.*;
 import pt.up.fe.specs.alpakka.ast.stmt.instruction.*;
+import pt.up.fe.specs.alpakka.ast.type.ClassType;
+import pt.up.fe.specs.alpakka.ast.type.MethodPrototype;
+import pt.up.fe.specs.alpakka.ast.type.TypeDescriptor;
 import pt.up.fe.specs.util.SpecsIo;
 import pt.up.fe.specs.util.exceptions.NotImplementedException;
 
@@ -25,6 +25,7 @@ import java.util.*;
 import java.util.function.Function;
 
 public class SmaliFileParser {
+
 
     private static final Map<Opcode, Class<? extends Instruction>> OPCODE_TO_INSTRUCTION;
 
@@ -51,6 +52,7 @@ public class SmaliFileParser {
     private LineDirective lineDirective = null;
 
     private final String dexClass;
+
 
     public SmaliFileParser(File source, SmaliContext context, Integer targetSdkVersion) {
         var lex = new smaliFlexLexer(new StringReader(SpecsIo.read(source)), targetSdkVersion);
@@ -217,7 +219,7 @@ public class SmaliFileParser {
         return SmaliNode.getOpcode(opcodeName);
     }
 
-    private SmaliNode convertClassDescriptor(Tree node) {
+    private ClassType convertClassDescriptor(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
         return factory.classType(node.getText());
     }
@@ -237,7 +239,7 @@ public class SmaliFileParser {
         for (int i = 0; i < node.getChildCount(); i++) {
             switch (node.getChild(i).getType()) {
                 case smaliParser.CLASS_DESCRIPTOR -> {
-                    classDescriptor = (ClassType) convert(node.getChild(i));
+                    classDescriptor = convertClassDescriptor(node.getChild(i));
                 }
                 case smaliParser.I_ACCESS_LIST -> {
                     for (int j = 0; j < node.getChild(i).getChildCount(); j++) {
@@ -245,10 +247,11 @@ public class SmaliFileParser {
                     }
                 }
                 case smaliParser.I_SUPER -> {
-                    superDescriptor = (ClassType) convert(node.getChild(i).getChild(0));
+                    superDescriptor = convertClassDescriptor(
+                            node.getChild(i).getChild(0));
                 }
                 case smaliParser.I_IMPLEMENTS -> {
-                    implementsDescriptors.add((ClassType) convert(node.getChild(i).getChild(0)));
+                    implementsDescriptors.add(convertClassDescriptor(node.getChild(i).getChild(0)));
                 }
                 case smaliParser.I_SOURCE -> {
                     source = convert(node.getChild(i).getChild(0)).getCode();
@@ -381,6 +384,7 @@ public class SmaliFileParser {
             }
         }
 
+        Objects.requireNonNull(returnType);
         return factory.methodPrototype(returnType, parameters);
     }
 
@@ -481,8 +485,7 @@ public class SmaliFileParser {
     private SmaliNode convertParameter(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
-        var attributes = getStatementAttributes(null);
-        var children = new ArrayList<SmaliNode>();
+        var annotations = new ArrayList<AnnotationDirective>();
 
         var i = 0;
 
@@ -496,10 +499,10 @@ public class SmaliFileParser {
         }
 
         for (int j = 0; j < node.getChild(i).getChildCount(); j++) {
-            children.add(convert(node.getChild(i).getChild(j)));
+            annotations.add((AnnotationDirective) convert(node.getChild(i).getChild(j)));
         }
 
-        var paramDirective = factory.parameterDirective(register, children);
+        var paramDirective = factory.parameterDirective(register, annotations);
 
         if (name != null) {
             paramDirective.setOptional(ParameterDirective.NAME, name);
@@ -515,7 +518,7 @@ public class SmaliFileParser {
         var visibility = AnnotationVisibility.getFromString(node.getChild(0).getText());
 
         var subannotation = node.getChild(1);
-        var classDescriptor = convert(subannotation.getChild(0));
+        var classDescriptor = convertClassDescriptor(subannotation.getChild(0));
 
         var annotationElements = new ArrayList<AnnotationElement>();
         for (int i = 1; i < subannotation.getChildCount(); i++) {
@@ -543,7 +546,8 @@ public class SmaliFileParser {
         var factory = context.get(SmaliContext.FACTORY);
 
         var name = node.getChild(0).getText();
-        var value = convert(node.getChild(1));
+        var valueNode = convert(node.getChild(1));
+        var value = valueNode.getCode();
 
         return factory.annotationElement(name, value);
     }
@@ -622,11 +626,13 @@ public class SmaliFileParser {
 
         var array = factory.encodedArray(children);
 
+        /*
         if (!children.isEmpty()) {
             var child = children.get(0);
             var type = getType(child);
             array.setType(factory.arrayType((type)));
         }
+         */
         return array;
     }
 
@@ -875,14 +881,6 @@ public class SmaliFileParser {
 
         return children;
     }
-
-    private HashMap<String, Object> getStatementAttributes(String instruction) {
-        var attributes = new HashMap<String, Object>();
-        attributes.put("instruction", instruction);
-        attributes.put("lineDirective", lineDirective);
-        return attributes;
-    }
-
 
 //    private List<SmaliNode> convertLabelReferenceStatement(Tree node)
 

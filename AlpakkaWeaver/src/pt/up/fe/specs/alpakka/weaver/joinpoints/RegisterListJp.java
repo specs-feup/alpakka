@@ -9,7 +9,6 @@ public class RegisterListJp extends ARegisterList {
     private final RegisterList rList;
 
     public RegisterListJp(RegisterList rList) {
-        super(new ExpressionJp(rList));
         this.rList = rList;
     }
 

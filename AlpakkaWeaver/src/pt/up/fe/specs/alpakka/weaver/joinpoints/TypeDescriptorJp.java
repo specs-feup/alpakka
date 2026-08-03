@@ -1,7 +1,7 @@
 package pt.up.fe.specs.alpakka.weaver.joinpoints;
 
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
-import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.TypeDescriptor;
+import pt.up.fe.specs.alpakka.ast.type.TypeDescriptor;
 import pt.up.fe.specs.alpakka.weaver.abstracts.joinpoints.ATypeDescriptor;
 
 public class TypeDescriptorJp extends ATypeDescriptor {

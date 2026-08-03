@@ -11,7 +11,6 @@ public class SparseSwitchElementJp extends ASparseSwitchElement {
     private final SparseSwitchElement element;
 
     public SparseSwitchElementJp(SparseSwitchElement element) {
-        super(new ExpressionJp(element));
         this.element = element;
     }
 

@@ -12,7 +12,6 @@ public class MethodReferenceJp extends AMethodReference {
     private final MethodReference methodReference;
 
     public MethodReferenceJp(MethodReference methodReference) {
-        super(new ExpressionJp(methodReference));
         this.methodReference = methodReference;
     }
 

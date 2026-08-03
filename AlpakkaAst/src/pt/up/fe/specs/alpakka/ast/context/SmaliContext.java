@@ -8,6 +8,9 @@ public class SmaliContext extends ADataClass<SmaliContext> {
 
     public final static DataKey<SmaliFactory> FACTORY = KeyFactory.object("factory", SmaliFactory.class);
 
+    public final static DataKey<Boolean> IS_DEBUG = KeyFactory.bool("isDebug");
+    public final static DataKey<Boolean> CACHE_TYPES = KeyFactory.bool("cacheTypes");
+
     public SmaliContext() {
 
         // Initialize factory

@@ -3,8 +3,8 @@ package pt.up.fe.specs.alpakka.ast;
 import org.suikasoft.jOptions.Datakey.DataKey;
 import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
-import pt.up.fe.specs.alpakka.ast.expr.literal.MethodPrototype;
 import pt.up.fe.specs.alpakka.ast.stmt.*;
+import pt.up.fe.specs.alpakka.ast.type.MethodPrototype;
 
 import java.util.ArrayList;
 import java.util.Collection;

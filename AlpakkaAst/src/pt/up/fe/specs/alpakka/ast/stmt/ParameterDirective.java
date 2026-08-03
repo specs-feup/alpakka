@@ -20,21 +20,29 @@ import pt.up.fe.specs.alpakka.ast.SmaliNode;
 import pt.up.fe.specs.alpakka.ast.expr.RegisterReference;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public class ParameterDirective extends Statement {
 
-    public static final DataKey<RegisterReference> REGISTER = KeyFactory.object("register", RegisterReference.class);
     public static final DataKey<Optional<String>> NAME = KeyFactory.optional("name");
 
     public ParameterDirective(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
     }
 
+    public RegisterReference getRegister() {
+        return getChild(RegisterReference.class);
+    }
+
+    public List<AnnotationDirective> getAnnotations() {
+        return getChildren(AnnotationDirective.class, 1);
+    }
+
     @Override
     public String getCode() {
         var sb = new StringBuilder();
-        var register = get(REGISTER);
+        var register = getRegister();
         var name = get(NAME);
 
         sb.append(getLine());
@@ -45,7 +53,7 @@ public class ParameterDirective extends Statement {
 
         sb.append("\n");
 
-        for (var child : getChildren()) {
+        for (var child : getAnnotations()) {
             sb.append(indentCode(child.getCode()) + "\n");
         }
 

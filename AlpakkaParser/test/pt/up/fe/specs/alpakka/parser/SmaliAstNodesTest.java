@@ -156,116 +156,145 @@ public class SmaliAstNodesTest extends SmaliAstTester {
     void testMethodNode1() {
         testSmaliFile("MethodNode1.smali");
     }
+
     @Test
     void testSubannotationDirective1() {
         testSmaliFile("SubannotationDirective1.smali");
     }
+
     @Test
     void testPackedSwitchDirective1() {
         testSmaliFile("PackedSwitchDirective1.smali");
     }
+
     @Test
     void testSparseSwitchDirective1() {
         testSmaliFile("SparseSwitchDirective1.smali");
     }
+
     @Test
     void testInstructionFormat21cField() {
         testSmaliFile("InstructionFormat21cField.smali");
     }
+
     @Test
     void testInstructionFormat21cMethodType() {
         testSmaliFile("InstructionFormat21cMethodType.smali");
     }
+
     @Test
     void testInstructionFormat21cString() {
         testSmaliFile("InstructionFormat21cString.smali");
     }
+
     @Test
     void testInstructionFormat21cType() {
         testSmaliFile("InstructionFormat21cType.smali");
     }
+
     @Test
     void testInstructionFormat21ih() {
         testSmaliFile("InstructionFormat21ih.smali");
     }
+
     @Test
     void testInstructionFormat21lh() {
         testSmaliFile("InstructionFormat21lh.smali");
     }
+
     @Test
     void testInstructionFormat21s() {
         testSmaliFile("InstructionFormat21s.smali");
     }
+
     @Test
     void testInstructionFormat21t() {
         testSmaliFile("InstructionFormat21t.smali");
     }
+
     @Test
     void testInstructionFormat22b() {
         testSmaliFile("InstructionFormat22b.smali");
     }
+
     @Test
     void testInstructionFormat22cField() {
         testSmaliFile("InstructionFormat22cField.smali");
     }
+
     @Test
     void testInstructionFormat22cType() {
         testSmaliFile("InstructionFormat22cType.smali");
     }
+
     @Test
     void testInstructionFormat22s() {
         testSmaliFile("InstructionFormat22s.smali");
     }
+
     @Test
     void testInstructionFormat22t() {
         testSmaliFile("InstructionFormat22t.smali");
     }
+
     @Test
     void testInstructionFormat22x() {
         testSmaliFile("InstructionFormat22x.smali");
     }
+
     @Test
     void testInstructionFormat23x() {
         testSmaliFile("InstructionFormat23x.smali");
     }
+
     @Test
     void testInstructionFormat31c() {
         testSmaliFile("InstructionFormat31c.smali");
     }
+
     @Test
     void testInstructionFormat31i() {
         testSmaliFile("InstructionFormat31i.smali");
     }
+
     @Test
     void testInstructionFormat32x() {
         testSmaliFile("InstructionFormat32x.smali");
     }
+
     @Test
     void testInstructionFormat35cMethod() {
         testSmaliFile("InstructionFormat35cMethod.smali");
     }
+
     @Test
     void testInstructionFormat35cType() {
         testSmaliFile("InstructionFormat35cType.smali");
     }
+
     @Test
     void testInstructionFormat3rcMethod() {
         testSmaliFile("InstructionFormat3rcMethod.smali");
     }
+
     @Test
     void testInstructionFormat3rcType() {
         testSmaliFile("InstructionFormat3rcType.smali");
     }
+
     @Test
     void testInstructionFormat45ccMethod() {
         testSmaliFile("InstructionFormat45ccMethod.smali");
     }
+
     @Test
     void testInstructionFormat4rccMethod() {
         testSmaliFile("InstructionFormat4rccMethod.smali");
     }
+
     @Test
     void testInstructionFormat51l() {
         testSmaliFile("InstructionFormat51l.smali");
     }
+
 }

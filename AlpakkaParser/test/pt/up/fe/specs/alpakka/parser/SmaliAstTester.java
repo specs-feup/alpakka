@@ -31,6 +31,10 @@ public abstract class SmaliAstTester {
         return OUTPUT_FOLDERNAME + "/" + resourceName + "/";
     }
 
+    public File setUpResource(String resourceName) {
+        return setUpResource(basePackage, resourceName);
+    }
+
     File setUpResource(String basePackage, String resourceName) {
 
         var resource = basePackage + resourceName;

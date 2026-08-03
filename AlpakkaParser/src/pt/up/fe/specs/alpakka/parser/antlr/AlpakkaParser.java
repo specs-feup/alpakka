@@ -25,8 +25,8 @@ import pt.up.fe.specs.alpakka.ast.expr.FieldReference;
 import pt.up.fe.specs.alpakka.ast.expr.LabelRef;
 import pt.up.fe.specs.alpakka.ast.expr.MethodReference;
 import pt.up.fe.specs.alpakka.ast.expr.Reference;
-import pt.up.fe.specs.alpakka.ast.expr.literal.typeDescriptor.ClassType;
 import pt.up.fe.specs.alpakka.ast.stmt.Label;
+import pt.up.fe.specs.alpakka.ast.type.ClassType;
 import pt.up.fe.specs.util.SpecsIo;
 import pt.up.fe.specs.util.SpecsLogs;
 
@@ -39,6 +39,20 @@ import java.util.*;
 public class AlpakkaParser {
 
     private static final String DECOMPILATION_FOLDERNAME = "decompiledApp";
+
+    private final SmaliContext context;
+
+    private final AntlrUtils antlrUtils;
+
+
+    public AlpakkaParser() {
+        this(new SmaliContext());
+    }
+
+    public AlpakkaParser(SmaliContext context) {
+        this.context = context;
+        antlrUtils = new AntlrUtils();
+    }
 
     public Optional<App> parse(List<File> sources, List<String> options) {
         // Check if there are multiple APK files in the sources
@@ -59,13 +73,15 @@ public class AlpakkaParser {
             sources = List.of(apkFiles.get(0));
         }
 
-        var context = new SmaliContext();
-
         var classes = sources.stream()
                 .map(file -> parseSingleFile(file, context, options))
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .toList();
+
+        if (context.get(SmaliContext.IS_DEBUG)) {
+            antlrUtils.printHistogram();
+        }
 
         if (classes.isEmpty()) {
             return Optional.empty();
@@ -92,6 +108,7 @@ public class AlpakkaParser {
     }
 
     private Optional<SmaliNode> parseSingleFile(File source, SmaliContext context, List<String> options) {
+        SpecsLogs.debug(() -> "Parsing file " + source.getName());
         if (source.getPath().equals(DECOMPILATION_FOLDERNAME + File.separator + "apktool.yml")) {
             return Optional.empty();
         }
@@ -119,7 +136,13 @@ public class AlpakkaParser {
                 if (!source.getPath().contains(packageFilter)) {
                     yield Optional.of(newResourceNode(source, context));
                 } else {
-                    yield new SmaliFileParser(source, context, targetSdkVersion).parse();
+                    var root = new SmaliFileParser(source, context, targetSdkVersion).parse();
+                    if (context.get(SmaliContext.IS_DEBUG) && root.isPresent()) {
+                        antlrUtils.registerNode(root.get());
+                        antlrUtils.printNodeCount();
+                    }
+
+                    yield root;
                 }
             }
             default -> Optional.of(newResourceNode(source, context));

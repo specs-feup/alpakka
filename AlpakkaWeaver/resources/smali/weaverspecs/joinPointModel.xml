@@ -27,24 +27,22 @@
 
     <joinpoint class="registerReference" extends="expression" tooltip="Register reference"/>
 
-    <joinpoint class="labelReference" extends="expression" tooltip="Label reference"/>
+    <joinpoint class="labelReference" tooltip="Label reference"/>
 
-    <joinpoint class="methodReference" extends="expression" tooltip="Method reference"/>
+    <joinpoint class="methodReference" tooltip="Method reference"/>
 
     <joinpoint class="fieldReference" extends="expression" tooltip="Field reference"/>
 
-    <joinpoint class="sparseSwitchElement" extends="expression" tooltip="Sparse switch element"/>
+    <joinpoint class="sparseSwitchElement" tooltip="Sparse switch element"/>
 
-    <joinpoint class="registerList" extends="expression" tooltip="Register list"/>
+    <joinpoint class="registerList" tooltip="Register list"/>
 
-    <joinpoint class="registerRange" extends="expression" tooltip="Register range"/>
+    <joinpoint class="registerRange" tooltip="Register range"/>
 
     <!-- LITERALS -->
     <joinpoint class="literal" extends="expression" tooltip="Literal"/>
 
     <joinpoint class="primitiveLiteral" extends="literal" tooltip="Primitive literal"/>
-
-    <joinpoint class="methodPrototype" extends="literal" tooltip="Method prototype"/>
 
     <!-- TYPE DESCRIPTORS -->
     <joinpoint class="typeDescriptor" tooltip="Type descriptor"/>
@@ -54,6 +52,8 @@
     <joinpoint class="arrayType" extends="typeDescriptor" tooltip="Array descriptor"/>
 
     <joinpoint class="primitiveType" extends="typeDescriptor" tooltip="Primitive descriptor"/>
+
+    <joinpoint class="methodPrototype" extends="typeDescriptor" tooltip="Method prototype"/>
 
     <!-- STATEMENTS -->
     <joinpoint class="statement" tooltip="Statement"/>

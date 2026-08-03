@@ -7,24 +7,21 @@ import pt.up.fe.specs.alpakka.ast.SmaliNode;
 
 import java.util.Collection;
 
-public class AnnotationElement extends Expression {
+public class AnnotationElement extends SmaliNode {
 
     public static final DataKey<String> NAME = KeyFactory.string("name");
+    public static final DataKey<String> VALUE = KeyFactory.string("value");
 
     public AnnotationElement(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
     }
 
-    public SmaliNode getValue() {
-        return getChild(SmaliNode.class, 0);
-    }
-
     @Override
     public String getCode() {
         var name = get(NAME);
-        var value = getValue();
+        var value = get(VALUE);
 
-        return name + " = " + value.getCode();
+        return name + " = " + value;
     }
 
 }
