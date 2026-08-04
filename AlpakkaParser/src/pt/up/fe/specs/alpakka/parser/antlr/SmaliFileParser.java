@@ -15,7 +15,7 @@ import pt.up.fe.specs.alpakka.ast.stmt.*;
 import pt.up.fe.specs.alpakka.ast.stmt.instruction.*;
 import pt.up.fe.specs.alpakka.ast.type.ClassType;
 import pt.up.fe.specs.alpakka.ast.type.MethodPrototype;
-import pt.up.fe.specs.alpakka.ast.type.TypeDescriptor;
+import pt.up.fe.specs.alpakka.ast.type.Type;
 import pt.up.fe.specs.util.SpecsIo;
 import pt.up.fe.specs.util.exceptions.NotImplementedException;
 
@@ -301,7 +301,7 @@ public class SmaliFileParser {
         var register = (RegisterReference) convert(node.getChild(0));
 
         String name = null;
-        TypeDescriptor type = null;
+        Type type = null;
         String signature = null;
 
         if (node.getChildCount() > 1) {
@@ -361,8 +361,8 @@ public class SmaliFileParser {
     private MethodPrototype convertMethodPrototype(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
-        TypeDescriptor returnType = null;
-        var parameters = new ArrayList<TypeDescriptor>();
+        Type returnType = null;
+        var parameters = new ArrayList<Type>();
         for (int j = 0; j < node.getChildCount(); j++) {
             if (node.getChild(j).getType() == smaliParser.I_METHOD_RETURN_TYPE) {
                 // Type descriptor
@@ -463,7 +463,7 @@ public class SmaliFileParser {
         var children = new ArrayList<LabelRef>();
 
         var i = 0;
-        TypeDescriptor exceptionType = null;
+        Type exceptionType = null;
         if (node.getChild(i).getType() != smaliParser.SIMPLE_NAME) {
             // Non void type descriptor
             if (node.getChild(i).getType() == smaliParser.ARRAY_TYPE_PREFIX) {
@@ -557,7 +557,7 @@ public class SmaliFileParser {
 
         var accessOrRestrictionList = new ArrayList<Modifier>();
         String memberName = null;
-        TypeDescriptor fieldType = null;
+        Type fieldType = null;
 
         var children = new ArrayList<SmaliNode>();
 
@@ -636,12 +636,12 @@ public class SmaliFileParser {
         return array;
     }
 
-    private TypeDescriptor getType(SmaliNode node) {
+    private Type getType(SmaliNode node) {
         if (node instanceof Expression expr) {
             return expr.getType();
         }
 
-        if (node instanceof TypeDescriptor type) {
+        if (node instanceof Type type) {
             return type;
         }
 
@@ -651,16 +651,9 @@ public class SmaliFileParser {
     private SmaliNode convertEnum(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
-        var children = new ArrayList<SmaliNode>();
+        var fieldReference = convertFieldReference(node, 0);
 
-        children.add(convertFieldReference(node, 0));
-
-        var parsedEnum = factory.encodedEnum(children);
-
-        if (!children.isEmpty())
-            parsedEnum.setType(((FieldReference) children.get(0)).getFieldReferenceType());
-
-        return parsedEnum;
+        return factory.encodedEnum(fieldReference);
     }
 
     private SmaliNode convertPrimitiveLiteral(Tree node) {
@@ -668,19 +661,18 @@ public class SmaliFileParser {
 
         var value = node.getText();
 
-        var literalExpr = factory.primitiveLiteral(value);
+        var type = switch (node.getType()) {
+            case smaliParser.LONG_LITERAL -> factory.type("J");
+            case smaliParser.INTEGER_LITERAL -> factory.type("I");
+            case smaliParser.BYTE_LITERAL -> factory.type("B");
+            case smaliParser.BOOL_LITERAL -> factory.type("Z");
+            case smaliParser.SHORT_LITERAL -> factory.type("S");
+            case smaliParser.FLOAT_LITERAL -> factory.type("F");
+            case smaliParser.DOUBLE_LITERAL -> factory.type("D");
+            default -> throw new IllegalStateException("Unexpected value: " + node.getType());
+        };
 
-        switch (node.getType()) {
-            case smaliParser.LONG_LITERAL -> literalExpr.setType(factory.type("J"));
-            case smaliParser.INTEGER_LITERAL -> literalExpr.setType(factory.type("I"));
-            case smaliParser.BYTE_LITERAL -> literalExpr.setType(factory.type("B"));
-            case smaliParser.BOOL_LITERAL -> literalExpr.setType(factory.type("Z"));
-            case smaliParser.SHORT_LITERAL -> literalExpr.setType(factory.type("S"));
-            case smaliParser.FLOAT_LITERAL -> literalExpr.setType(factory.type("F"));
-            case smaliParser.DOUBLE_LITERAL -> literalExpr.setType(factory.type("D"));
-        }
-
-        return literalExpr;
+        return factory.primitiveLiteral(value, type);
     }
 
     private SmaliNode convertCharLiteral(Tree node) {
@@ -688,24 +680,18 @@ public class SmaliFileParser {
 
 
         var value = "'" + escapeString(node.getText().substring(1, node.getText().length() - 1)) + "'";
+        var type = factory.type("C");
 
-        var literalExpr = factory.primitiveLiteral(value);
-
-        literalExpr.setType(factory.type("C"));
-
-        return literalExpr;
+        return factory.primitiveLiteral(value, type);
     }
 
     private SmaliNode convertStringLiteral(Tree node) {
         var factory = context.get(SmaliContext.FACTORY);
 
         var value = "\"" + escapeString(node.getText().substring(1, node.getText().length() - 1)) + "\"";
+        var type = factory.classType("Ljava/lang/String;");
 
-        var literalExpr = factory.primitiveLiteral(value);
-
-        literalExpr.setType(factory.classType("Ljava/lang/String;"));
-
-        return literalExpr;
+        return factory.primitiveLiteral(value, type);
     }
 
     private String escapeString(String string) {
@@ -773,16 +759,16 @@ public class SmaliFileParser {
         return children;
     }
 
-    private SmaliNode convertFieldReference(Tree node, Integer position) {
+    private FieldReference convertFieldReference(Tree node, Integer position) {
         var factory = context.get(SmaliContext.FACTORY);
 
         var i = position;
 
-        TypeDescriptor baseType = null;
+        Type baseType = null;
         if (node.getChild(i).getType() != smaliParser.SIMPLE_NAME) {
             // Reference type descriptor
             if (node.getChild(i).getType() == smaliParser.CLASS_DESCRIPTOR) {
-                baseType = (TypeDescriptor) convert(node.getChild(i));
+                baseType = (Type) convert(node.getChild(i));
             } else {
                 i++;
                 baseType = factory.arrayType(node.getChild(i).getText());
@@ -794,7 +780,7 @@ public class SmaliFileParser {
         i++;
 
         // Non void type descriptor
-        TypeDescriptor fieldType = null;
+        Type fieldType = null;
         if (node.getChild(i).getType() == smaliParser.ARRAY_TYPE_PREFIX) {
             i++;
             fieldType = factory.arrayType(node.getChild(i).getText());
@@ -815,12 +801,12 @@ public class SmaliFileParser {
     private MethodReference convertMethodReference(Tree node, Integer position) {
         var factory = context.get(SmaliContext.FACTORY);
 
-        TypeDescriptor baseType = null;
+        Type baseType = null;
         int i = position;
         if (node.getChild(i).getType() != smaliParser.SIMPLE_NAME) {
             // Reference type descriptor
             if (node.getChild(i).getType() == smaliParser.CLASS_DESCRIPTOR) {
-                baseType = (TypeDescriptor) convert(node.getChild(i));
+                baseType = (Type) convert(node.getChild(i));
             } else {
                 i++;
                 baseType = factory.arrayType(node.getChild(i).getText());

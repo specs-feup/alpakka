@@ -113,6 +113,11 @@ public class SmaliAstNodesTest extends SmaliAstTester {
     }
 
     @Test
+    void testEncodedEnum1() {
+        testSmaliFile("EncodedEnum1.smali");
+    }
+
+    @Test
     void testFieldNode1() {
         testSmaliFile("FieldNode1.smali");
     }

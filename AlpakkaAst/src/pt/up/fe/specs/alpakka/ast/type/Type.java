@@ -5,9 +5,12 @@ import pt.up.fe.specs.alpakka.ast.SmaliNode;
 
 import java.util.Collection;
 
-public abstract class TypeDescriptor extends SmaliNode {
+/**
+ * Represents a type in SMALI.
+ */
+public abstract class Type extends SmaliNode {
 
-    public TypeDescriptor(DataStore data, Collection<? extends SmaliNode> children) {
+    public Type(DataStore data, Collection<? extends SmaliNode> children) {
         super(data, children);
     }
 }

@@ -40,7 +40,7 @@ public class SmaliJoinpoints {
         JOINPOINT_FACTORY.put(ClassType.class, ClassTypeJp::new);
         JOINPOINT_FACTORY.put(ArrayType.class, ArrayTypeJp::new);
         JOINPOINT_FACTORY.put(PrimitiveType.class, PrimitiveTypeJp::new);
-        JOINPOINT_FACTORY.put(TypeDescriptor.class, TypeDescriptorJp::new);
+        JOINPOINT_FACTORY.put(Type.class, TypeDescriptorJp::new);
         JOINPOINT_FACTORY.put(MethodPrototype.class, MethodPrototypeJp::new);
         JOINPOINT_FACTORY.put(PrimitiveLiteral.class, PrimitiveLiteralJp::new);
         JOINPOINT_FACTORY.put(Literal.class, LiteralJp::new);

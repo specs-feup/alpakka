@@ -2,6 +2,8 @@ package pt.up.fe.specs.alpakka.weaver.joinpoints;
 
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
 import pt.up.fe.specs.alpakka.ast.type.ClassType;
+import pt.up.fe.specs.alpakka.weaver.SmaliJoinpoints;
+import pt.up.fe.specs.alpakka.weaver.abstracts.joinpoints.AClassNode;
 import pt.up.fe.specs.alpakka.weaver.abstracts.joinpoints.AClassType;
 
 public class ClassTypeJp extends AClassType {
@@ -28,4 +30,8 @@ public class ClassTypeJp extends AClassType {
         return classType;
     }
 
+    @Override
+    public AClassNode getDeclImpl() {
+        return SmaliJoinpoints.create(classType.getDeclaration(), AClassNode.class);
+    }
 }

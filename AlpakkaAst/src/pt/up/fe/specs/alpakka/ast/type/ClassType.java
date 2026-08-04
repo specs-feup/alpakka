@@ -4,10 +4,11 @@ import org.suikasoft.jOptions.Datakey.DataKey;
 import org.suikasoft.jOptions.Datakey.KeyFactory;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
+import pt.up.fe.specs.alpakka.ast.expr.Reference;
 
 import java.util.Collection;
 
-public class ClassType extends TypeDescriptor {
+public class ClassType extends Type implements Reference {
 
     public static String TYPE_LABEL = "class";
 
@@ -41,5 +42,24 @@ public class ClassType extends TypeDescriptor {
 
         return sb.toString();
     }
+    
+    @Override
+    public void setDeclaration(SmaliNode decl) {
+        set(DECL, decl);
+    }
 
+    @Override
+    public SmaliNode getDeclaration() {
+        return get(DECL);
+    }
+
+    @Override
+    public String getName() {
+        return this.getCode();
+    }
+
+    @Override
+    public String getTypeLabel() {
+        return TYPE_LABEL;
+    }
 }

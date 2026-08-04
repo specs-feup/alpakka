@@ -21,7 +21,7 @@ public class SmaliFactory {
 
     private final SmaliContext context;
     private int idCounter;
-    private final Map<String, TypeDescriptor> typeCache;
+    private final Map<String, Type> typeCache;
 
     public SmaliFactory(SmaliContext context) {
         this.context = context;
@@ -43,7 +43,7 @@ public class SmaliFactory {
         return data;
     }
 
-    private void updateCache(String type, TypeDescriptor classType) {
+    private void updateCache(String type, Type classType) {
         if (context.get(SmaliContext.CACHE_TYPES)) {
             typeCache.put(type, classType);
         }
@@ -142,7 +142,7 @@ public class SmaliFactory {
         return new RestartLocalDirective(data, children);
     }
 
-    public CatchDirective catchDirective(TypeDescriptor exceptionType, List<? extends LabelRef> children) {
+    public CatchDirective catchDirective(Type exceptionType, List<? extends LabelRef> children) {
         var data = newDataStore(CatchDirective.class);
         data.set(CatchDirective.EXCEPTION_TYPE, Optional.ofNullable(exceptionType));
 
@@ -189,7 +189,7 @@ public class SmaliFactory {
         return new MethodNode(data, children);
     }
 
-    public FieldNode fieldNode(String memberName, TypeDescriptor fieldType, List<Modifier> modifiers, List<? extends SmaliNode> children) {
+    public FieldNode fieldNode(String memberName, Type fieldType, List<Modifier> modifiers, List<? extends SmaliNode> children) {
         var data = newDataStore(FieldNode.class)
                 .put(FieldNode.MEMBER_NAME, memberName)
                 .put(FieldNode.FIELD_TYPE, fieldType)
@@ -198,8 +198,8 @@ public class SmaliFactory {
         return new FieldNode(data, children);
     }
 
-    public MethodPrototype methodPrototype(TypeDescriptor returnType, List<TypeDescriptor> parameters) {
-        var id = "M#" + returnType.getCode() + "#" + parameters.stream().map(TypeDescriptor::getCode).collect(Collectors.joining());
+    public MethodPrototype methodPrototype(Type returnType, List<Type> parameters) {
+        var id = "M#" + returnType.getCode() + "#" + parameters.stream().map(Type::getCode).collect(Collectors.joining());
         if (typeCache.containsKey(id)) {
             return (MethodPrototype) typeCache.get(id);
         }
@@ -240,7 +240,7 @@ public class SmaliFactory {
         return arrayType(elementType);
     }
 
-    public ArrayType arrayType(TypeDescriptor type) {
+    public ArrayType arrayType(Type type) {
         Objects.requireNonNull(type);
 
         var id = "[" + type.getCode();
@@ -258,7 +258,7 @@ public class SmaliFactory {
         return arrayType;
     }
 
-    public TypeDescriptor nonVoidType(String type) {
+    public Type nonVoidType(String type) {
         if (typeCache.containsKey(type)) {
             return typeCache.get(type);
         }
@@ -270,7 +270,7 @@ public class SmaliFactory {
         return type(type);
     }
 
-    public TypeDescriptor type(String type) {
+    public Type type(String type) {
         if (typeCache.containsKey(type)) {
             return typeCache.get(type);
         }
@@ -294,6 +294,11 @@ public class SmaliFactory {
         }
 
         throw new RuntimeException("Type not implemented: " + type);
+    }
+
+    public NullType nullType() {
+        var data = newDataStore(NullType.class);
+        return new NullType(data, List.of());
     }
 
     public NopStatement nopInstructionFormat() {
@@ -343,10 +348,10 @@ public class SmaliFactory {
         return new EncodedArray(data, children);
     }
 
-    public EncodedEnum encodedEnum(List<? extends SmaliNode> children) {
+    public EncodedEnum encodedEnum(FieldReference fieldReference) {
         var data = newDataStore(EncodedEnum.class);
 
-        return new EncodedEnum(data, children);
+        return new EncodedEnum(data, List.of(fieldReference));
     }
 
     public SubannotationDirective subannotationDirective(ClassType type,
@@ -357,15 +362,17 @@ public class SmaliFactory {
         return new SubannotationDirective(data, children);
     }
 
-    public PrimitiveLiteral primitiveLiteral(String value) {
+    public PrimitiveLiteral primitiveLiteral(String value, Type type) {
         var data = newDataStore(PrimitiveLiteral.class);
         data.set(PrimitiveLiteral.VALUE, value);
+        data.set(PrimitiveLiteral.TYPE, type);
 
         return new PrimitiveLiteral(data, null);
     }
 
     public NullLiteral nullLiteral() {
         var data = newDataStore(NullLiteral.class);
+        data.set(NullLiteral.TYPE, nullType());
 
         return new NullLiteral(data, null);
     }
@@ -382,7 +389,7 @@ public class SmaliFactory {
         return new EncodedMethod(data, children);
     }
 
-    public FieldReference fieldReference(String memberName, TypeDescriptor fieldType) {
+    public FieldReference fieldReference(String memberName, Type fieldType) {
         var data = newDataStore(FieldReference.class)
                 .put(FieldReference.MEMBER_NAME, memberName)
                 .put(FieldReference.TYPE, fieldType);

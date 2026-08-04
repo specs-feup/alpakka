@@ -19,7 +19,6 @@ type PrivateMapper = {
   "Literal": typeof Literal,
   "Manifest": typeof Manifest,
   "MethodNode": typeof MethodNode,
-  "MethodPrototype": typeof MethodPrototype,
   "MethodReference": typeof MethodReference,
   "Placeholder": typeof Placeholder,
   "PrimitiveLiteral": typeof PrimitiveLiteral,
@@ -37,6 +36,7 @@ type PrivateMapper = {
   "Instruction": typeof Instruction,
   "Label": typeof Label,
   "LineDirective": typeof LineDirective,
+  "MethodPrototype": typeof MethodPrototype,
   "PackedSwitch": typeof PackedSwitch,
   "PrimitiveType": typeof PrimitiveType,
   "RegistersDirective": typeof RegistersDirective,
@@ -212,7 +212,7 @@ export class FieldReference extends Expression {
   /**
    * Label reference
    */
-export class LabelReference extends Expression {
+export class LabelReference extends Joinpoint {
   /**
    * @internal
    */
@@ -267,23 +267,9 @@ export class MethodNode extends Joinpoint {
 }
 
   /**
-   * Method prototype
-   */
-export class MethodPrototype extends Literal {
-  /**
-   * @internal
-   */
-  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
-    name: null,
-  };
-  get parameters(): TypeDescriptor[] { return wrapJoinPoint(this._javaObject.getParameters()) }
-  get returnType(): TypeDescriptor { return wrapJoinPoint(this._javaObject.getReturnType()) }
-}
-
-  /**
    * Method reference
    */
-export class MethodReference extends Expression {
+export class MethodReference extends Joinpoint {
   /**
    * @internal
    */
@@ -339,7 +325,7 @@ export class Program extends Joinpoint {
   /**
    * Register list
    */
-export class RegisterList extends Expression {
+export class RegisterList extends Joinpoint {
   /**
    * @internal
    */
@@ -351,7 +337,7 @@ export class RegisterList extends Expression {
   /**
    * Register range
    */
-export class RegisterRange extends Expression {
+export class RegisterRange extends Joinpoint {
   /**
    * @internal
    */
@@ -387,7 +373,7 @@ export class ResourceNode extends Joinpoint {
   /**
    * Sparse switch element
    */
-export class SparseSwitchElement extends Expression {
+export class SparseSwitchElement extends Joinpoint {
   /**
    * @internal
    */
@@ -415,7 +401,7 @@ export class Statement extends Joinpoint {
   /**
    * Type descriptor
    */
-export class TypeDescriptor extends Literal {
+export class TypeDescriptor extends Joinpoint {
   /**
    * @internal
    */
@@ -506,7 +492,21 @@ export class LineDirective extends Statement {
   static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
     name: null,
   };
-  get value(): Literal { return wrapJoinPoint(this._javaObject.getValue()) }
+  get value(): number { return wrapJoinPoint(this._javaObject.getValue()) }
+}
+
+  /**
+   * Method prototype
+   */
+export class MethodPrototype extends TypeDescriptor {
+  /**
+   * @internal
+   */
+  static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
+    name: null,
+  };
+  get parameters(): TypeDescriptor[] { return wrapJoinPoint(this._javaObject.getParameters()) }
+  get returnType(): TypeDescriptor { return wrapJoinPoint(this._javaObject.getReturnType()) }
 }
 
   /**
@@ -544,7 +544,7 @@ export class RegistersDirective extends Statement {
     name: null,
   };
   get type(): string { return wrapJoinPoint(this._javaObject.getType()) }
-  get value(): PrimitiveLiteral { return wrapJoinPoint(this._javaObject.getValue()) }
+  get value(): number { return wrapJoinPoint(this._javaObject.getValue()) }
 }
 
   /**
@@ -660,7 +660,6 @@ const JoinpointMapper = {
   literal: Literal,
   manifest: Manifest,
   methodNode: MethodNode,
-  methodPrototype: MethodPrototype,
   methodReference: MethodReference,
   placeholder: Placeholder,
   primitiveLiteral: PrimitiveLiteral,
@@ -678,6 +677,7 @@ const JoinpointMapper = {
   instruction: Instruction,
   label: Label,
   lineDirective: LineDirective,
+  methodPrototype: MethodPrototype,
   packedSwitch: PackedSwitch,
   primitiveType: PrimitiveType,
   registersDirective: RegistersDirective,

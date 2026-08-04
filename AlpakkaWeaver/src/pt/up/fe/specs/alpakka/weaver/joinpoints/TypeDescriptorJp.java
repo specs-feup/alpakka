@@ -1,14 +1,14 @@
 package pt.up.fe.specs.alpakka.weaver.joinpoints;
 
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
-import pt.up.fe.specs.alpakka.ast.type.TypeDescriptor;
+import pt.up.fe.specs.alpakka.ast.type.Type;
 import pt.up.fe.specs.alpakka.weaver.abstracts.joinpoints.ATypeDescriptor;
 
 public class TypeDescriptorJp extends ATypeDescriptor {
 
-    private final TypeDescriptor type;
+    private final Type type;
 
-    public TypeDescriptorJp(TypeDescriptor type) {
+    public TypeDescriptorJp(Type type) {
         this.type = type;
     }
 

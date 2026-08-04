@@ -47,3 +47,5 @@ stderr.txt
 **/decompiledApp/*
 
 **/node_modules/*
+
+*.apk
