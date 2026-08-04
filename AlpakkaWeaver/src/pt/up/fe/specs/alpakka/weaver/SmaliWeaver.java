@@ -1,5 +1,6 @@
 package pt.up.fe.specs.alpakka.weaver;
 
+import org.lara.interpreter.joptions.config.interpreter.LaraiKeys;
 import org.lara.interpreter.weaver.ast.AstMethods;
 import org.lara.interpreter.weaver.interf.AGear;
 import org.lara.interpreter.weaver.interf.JoinPoint;
@@ -7,7 +8,6 @@ import org.lara.interpreter.weaver.options.WeaverOption;
 import org.lara.language.specification.dsl.LanguageSpecification;
 import org.suikasoft.jOptions.Interfaces.DataStore;
 import pt.up.fe.specs.alpakka.ast.App;
-import pt.up.fe.specs.alpakka.ast.SmaliNode;
 import pt.up.fe.specs.alpakka.ast.context.SmaliContext;
 import pt.up.fe.specs.alpakka.ast.context.SmaliFactory;
 import pt.up.fe.specs.alpakka.parser.antlr.AlpakkaParser;
@@ -15,6 +15,8 @@ import pt.up.fe.specs.alpakka.weaver.abstracts.ASmaliWeaverJoinPoint;
 import pt.up.fe.specs.alpakka.weaver.abstracts.weaver.ASmaliWeaver;
 import pt.up.fe.specs.alpakka.weaver.options.SmaliWeaverOption;
 import pt.up.fe.specs.alpakka.weaver.options.SmaliWeaverOptions;
+import pt.up.fe.specs.util.SpecsIo;
+import pt.up.fe.specs.util.SpecsLogs;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -49,7 +51,7 @@ public class SmaliWeaver extends ASmaliWeaver {
                 () -> "smali/weaverspecs/artifacts.xml", () -> "smali/weaverspecs/actionModel.xml");
     }
 
-    private SmaliNode root;
+    private App root;
 
     public SmaliWeaver() {
         root = null;
@@ -77,7 +79,6 @@ public class SmaliWeaver extends ASmaliWeaver {
      */
     @Override
     protected boolean begin(List<File> sources, File outputDir, DataStore args) {
-
         var smaliFiles = new ArrayList<File>();
 
         sources.forEach(source -> {
@@ -124,9 +125,21 @@ public class SmaliWeaver extends ASmaliWeaver {
      */
     @Override
     protected boolean close() {
-        // Terminate weaver execution with final steps required and writing output files
-        // throw new UnsupportedOperationException("Method close for SmaliWeaver is not
-        // yet implemented");
+
+        var data = getData().orElseThrow(() -> new RuntimeException("Expected DataStore to be set"));
+
+
+        // Output files to a "woven_code" folder inside output folder
+        var outputFolder = data.get(LaraiKeys.OUTPUT_FOLDER);
+        var wovenCodeFolder = SpecsIo.mkdir(outputFolder, "woven_code");
+        SpecsLogs.info("Writing output files to folder '" + wovenCodeFolder.getAbsolutePath() + "'");
+
+        // Write all smali files to output folder
+        for (var smaliClass : root.getClasses()) {
+            var outputFile = new File(wovenCodeFolder, smaliClass.getClassDescriptor().getClassName() + ".smali");
+            SpecsIo.write(outputFile, smaliClass.getCode());
+        }
+
         return true;
     }
 
