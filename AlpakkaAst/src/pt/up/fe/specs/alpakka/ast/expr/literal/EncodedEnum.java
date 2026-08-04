@@ -39,7 +39,7 @@ public class EncodedEnum extends SmaliNode {
     }
 
 
-    public FieldReference getFieldRefernce() {
+    public FieldReference getFieldReference() {
         return getChild(FieldReference.class, 0);
     }
 
