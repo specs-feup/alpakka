@@ -1,4 +1,4 @@
-import FunctionExitNode from "@specs-feup/alpakka/api/alpakka/graphs/cfg/flow/node/instruction/FunctionExitNode.js";
+import * as FunctionExitNode from "@specs-feup/alpakka/api/alpakka/graphs/cfg/flow/node/instruction/FunctionExitNode.js";
 
 const releaseMethods = [];
 

@@ -1,16 +1,14 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
+    "noEmit": true,
     "module": "NodeNext",
     "declaration": true,
     "strict": true,
     "isolatedModules": true,
-    //"allowJs": true,
-    //"checkJs": true,
-    "moduleResolution": "NodeNext",
-    "sourceMap": true,
-    "declarationMap": true,
-    "allowSyntheticDefaultImports": true
-    //"esModuleInterop": true
+    "allowSyntheticDefaultImports": true,
+    "types": ["node", "vitest/globals"],
+    "rewriteRelativeImportExtensions": true,
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true
   }
 }

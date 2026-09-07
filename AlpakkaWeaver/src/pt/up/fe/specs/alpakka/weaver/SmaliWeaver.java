@@ -2,16 +2,17 @@ package pt.up.fe.specs.alpakka.weaver;
 
 import org.lara.interpreter.joptions.config.interpreter.LaraiKeys;
 import org.lara.interpreter.weaver.ast.AstMethods;
+import org.lara.interpreter.weaver.ast.TreeNodeAstMethods;
 import org.lara.interpreter.weaver.interf.AGear;
-import org.lara.interpreter.weaver.interf.JoinPoint;
 import org.lara.interpreter.weaver.options.WeaverOption;
-import org.lara.language.specification.dsl.LanguageSpecification;
 import org.suikasoft.jOptions.Interfaces.DataStore;
+
 import pt.up.fe.specs.alpakka.ast.App;
+import pt.up.fe.specs.alpakka.ast.SmaliNode;
 import pt.up.fe.specs.alpakka.ast.context.SmaliContext;
 import pt.up.fe.specs.alpakka.ast.context.SmaliFactory;
 import pt.up.fe.specs.alpakka.parser.antlr.AlpakkaParser;
-import pt.up.fe.specs.alpakka.weaver.abstracts.ASmaliWeaverJoinPoint;
+import pt.up.fe.specs.alpakka.weaver.abstracts.joinpoints.AJoinpoint;
 import pt.up.fe.specs.alpakka.weaver.abstracts.weaver.ASmaliWeaver;
 import pt.up.fe.specs.alpakka.weaver.options.SmaliWeaverOption;
 import pt.up.fe.specs.alpakka.weaver.options.SmaliWeaverOptions;
@@ -28,11 +29,9 @@ import java.util.Objects;
  * Weaver Implementation for SmaliWeaver<br>
  * Since the generated abstract classes are always overwritten, their implementation should be done by extending those
  * abstract classes with user-defined classes.<br>
- * The abstract class {@link ASmaliWeaverJoinPoint} can be used to add
+ * The concrete class {@link pt.up.fe.specs.alpakka.weaver.joinpoints.SmaliJoinpoint} can be used to add
  * user-defined methods and fields which the user intends to add for all join points and are not intended to be used in
  * LARA aspects.
- *
- * @author Lara Weaver Generator
  */
 public class SmaliWeaver extends ASmaliWeaver {
 
@@ -42,19 +41,14 @@ public class SmaliWeaver extends ASmaliWeaver {
         return WOVEN_CODE_FOLDERNAME;
     }
 
-
-    /**
-     * @return
-     */
-    public static LanguageSpecification buildLanguageSpecification() {
-        return LanguageSpecification.newInstance(() -> "smali/weaverspecs/joinPointModel.xml",
-                () -> "smali/weaverspecs/artifacts.xml", () -> "smali/weaverspecs/actionModel.xml");
-    }
-
     private App root;
 
     public SmaliWeaver() {
         root = null;
+    }
+
+    public App getRootNode() {
+        return root;
     }
 
     private List<File> filterSupportedFiles(File... sources) {
@@ -79,6 +73,8 @@ public class SmaliWeaver extends ASmaliWeaver {
      */
     @Override
     protected boolean begin(List<File> sources, File outputDir, DataStore args) {
+        setData(args);
+
         var smaliFiles = new ArrayList<File>();
 
         sources.forEach(source -> {
@@ -94,9 +90,7 @@ public class SmaliWeaver extends ASmaliWeaver {
 
         System.out.println("SOURCES: " + sources);
         System.out.println("ARGS: " + args);
-        // Initialize weaver with the input file/folder
-        // throw new UnsupportedOperationException("Method begin for SmaliWeaver is not
-        // yet implemented");
+
         return true;
     }
 
@@ -112,12 +106,6 @@ public class SmaliWeaver extends ASmaliWeaver {
         return options;
     }
 
-    @Override
-    public AstMethods getAstMethods() {
-        // TODO Auto-generated method stub
-        return super.getAstMethods();
-    }
-
     /**
      * Closes the weaver to the specified output directory location, if the weaver generates new file(s)
      *
@@ -126,12 +114,9 @@ public class SmaliWeaver extends ASmaliWeaver {
     @Override
     protected boolean close() {
 
-        var data = getData().orElseThrow(() -> new RuntimeException("Expected DataStore to be set"));
-
-
         // Output files to a "woven_code" folder inside output folder
-        var outputFolder = data.get(LaraiKeys.OUTPUT_FOLDER);
-        var wovenCodeFolder = SpecsIo.mkdir(outputFolder, "woven_code");
+        var outputFolder = this.dataStore.get(LaraiKeys.OUTPUT_FOLDER);
+        var wovenCodeFolder = SpecsIo.mkdir(outputFolder, WOVEN_CODE_FOLDERNAME);
         SpecsLogs.info("Writing output files to folder '" + wovenCodeFolder.getAbsolutePath() + "'");
 
         // Write all smali files to output folder
@@ -161,18 +146,18 @@ public class SmaliWeaver extends ASmaliWeaver {
     }
 
     @Override
-    protected LanguageSpecification buildLangSpecs() {
-        return buildLanguageSpecification();
-    }
-
-    @Override
     public String getName() {
         return "SmaliWeaver";
     }
 
+    @Override
+    public AJoinpoint<?> getRootJp() {
+        return SmaliJoinpoints.create(root, this);
+    }
 
     @Override
-    public JoinPoint getRootJp() {
-        return SmaliJoinpoints.create(root, this);
+    public AstMethods getAstMethods() {
+        return new TreeNodeAstMethods<>(this, SmaliNode.class, node -> SmaliJoinpoints.create(node, this),
+                SmaliJoinpoints::getJoinPointName, node -> node.getChildren());
     }
 }

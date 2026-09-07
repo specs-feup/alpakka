@@ -1,6 +1,6 @@
 import Query from "@specs-feup/lara/api/weaver/Query.js";
 import WeaverOptions from "@specs-feup/lara/api/weaver/WeaverOptions.js";
-import FlowGraph from "@specs-feup/alpakka/api/alpakka/graphs/cfg/flow/FlowGraph.js";
+import * as FlowGraph from "@specs-feup/alpakka/api/alpakka/graphs/cfg/flow/FlowGraph.js";
 // import DefaultFlowGraphDotFormatter from "@specs-feup/alpakka/api/alpakka/graphs/cfg/dot/DefaultFlowGraphDotFormatter.js";
 import LeaksDetection from "./LeaksDetection.js";
 import LeaksCorrection from "./LeaksCorrection.js";
@@ -31,7 +31,7 @@ const detector = new LeaksDetection(app, graph);
 let leaksResult = {};
 let fieldsResult = {};
 
-const componentMethods = [
+const _componentMethods = [
   "onConfigurationChanged(Landroid/content/res/Configuration;)V",
 ];
 
@@ -153,8 +153,8 @@ function getLineInfo(jp) {
   let currentJp = jp;
 
   while (currentJp !== undefined) {
-    if (currentJp.line !== undefined) {
-      line = currentJp.line.value.code;
+    if (currentJp.lineDirective !== undefined) {
+      line = currentJp.lineDirective.value;
 
       return "Line " + line + ": ";
     }
