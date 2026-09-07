@@ -2,14 +2,15 @@ package pt.up.fe.specs.alpakka.weaver.joinpoints;
 
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
 import pt.up.fe.specs.alpakka.ast.expr.RegisterReference;
+import pt.up.fe.specs.alpakka.weaver.SmaliWeaver;
 import pt.up.fe.specs.alpakka.weaver.abstracts.joinpoints.ARegisterReference;
 
 public class RegisterReferenceJp extends ARegisterReference {
 
     private final RegisterReference registerReference;
 
-    public RegisterReferenceJp(RegisterReference registerReference) {
-        super(new ExpressionJp(registerReference));
+    public RegisterReferenceJp(RegisterReference registerReference, SmaliWeaver weaver) {
+        super(new ExpressionJp(registerReference, weaver), weaver);
         this.registerReference = registerReference;
     }
 

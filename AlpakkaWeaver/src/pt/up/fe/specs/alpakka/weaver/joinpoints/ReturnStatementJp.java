@@ -2,14 +2,15 @@ package pt.up.fe.specs.alpakka.weaver.joinpoints;
 
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
 import pt.up.fe.specs.alpakka.ast.stmt.instruction.ReturnStatement;
+import pt.up.fe.specs.alpakka.weaver.SmaliWeaver;
 import pt.up.fe.specs.alpakka.weaver.abstracts.joinpoints.AReturnStatement;
 
 public class ReturnStatementJp extends AReturnStatement {
 
     private final ReturnStatement instruction;
 
-    public ReturnStatementJp(ReturnStatement instruction) {
-        super(new InstructionJp(instruction));
+    public ReturnStatementJp(ReturnStatement instruction, SmaliWeaver weaver) {
+        super(new InstructionJp(instruction, weaver), weaver);
         this.instruction = instruction;
     }
 

@@ -2,6 +2,7 @@ package pt.up.fe.specs.alpakka.weaver.joinpoints;
 
 import pt.up.fe.specs.alpakka.ast.SmaliNode;
 import pt.up.fe.specs.alpakka.ast.expr.MethodReference;
+import pt.up.fe.specs.alpakka.weaver.SmaliWeaver;
 import pt.up.fe.specs.alpakka.weaver.SmaliJoinpoints;
 import pt.up.fe.specs.alpakka.weaver.abstracts.joinpoints.AMethodPrototype;
 import pt.up.fe.specs.alpakka.weaver.abstracts.joinpoints.AMethodReference;
@@ -11,7 +12,8 @@ public class MethodReferenceJp extends AMethodReference {
 
     private final MethodReference methodReference;
 
-    public MethodReferenceJp(MethodReference methodReference) {
+    public MethodReferenceJp(MethodReference methodReference, SmaliWeaver weaver) {
+        super(weaver);
         this.methodReference = methodReference;
     }
 
@@ -22,7 +24,7 @@ public class MethodReferenceJp extends AMethodReference {
 
     @Override
     public ATypeDescriptor getParentClassDescriptorImpl() {
-        return SmaliJoinpoints.create(this.methodReference.getBaseType().orElse(null), ATypeDescriptor.class);
+        return SmaliJoinpoints.create(this.methodReference.getBaseType().orElse(null), getWeaverEngine(), ATypeDescriptor.class);
     }
 
     @Override
@@ -32,6 +34,6 @@ public class MethodReferenceJp extends AMethodReference {
 
     @Override
     public AMethodPrototype getPrototypeImpl() {
-        return SmaliJoinpoints.create(this.methodReference.getPrototype(), AMethodPrototype.class);
+        return SmaliJoinpoints.create(this.methodReference.getPrototype(), getWeaverEngine(), AMethodPrototype.class);
     }
 }
