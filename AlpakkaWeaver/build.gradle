@@ -21,24 +21,14 @@ configurations {
     weaverGeneratorRuntime
 }
 
-dependencies {
-    implementation ":SpecsUtils"
-    implementation ":jOptions"
-    
-    implementation ":LARAI"
-    implementation ":LaraUtils"
-    implementation ":WeaverInterface"
-    implementation ":LanguageSpecification"
-
-    implementation ":AlpakkaParser"
-    implementation ":AlpakkaAst"
-
-    weaverGeneratorRuntime ":WeaverGenerator"
-}
-
-
 // Project sources
 sourceSets {
+    // Spec source set: compiled independently to avoid circular dependency
+    spec {
+        java {
+            srcDir 'src-spec'
+        }
+    }
     main {
         java {
             srcDir 'src'
@@ -46,24 +36,41 @@ sourceSets {
 
         resources {
             srcDir 'resources'
-        }      
+        }
     }
 }
 
-// Weaver Generator
+dependencies {
+    implementation ":SpecsUtils"
+    implementation ":jOptions"
+    
+    implementation ":LARAI"
+    implementation ":LaraUtils"
+    implementation ":WeaverInterface"
+    implementation ":LangSpec2"
+
+    implementation ":AlpakkaParser"
+    implementation ":AlpakkaAst"
+
+    weaverGeneratorRuntime ":WeaverGen2"
+
+    // Spec source set: only needs LangSpec2 and WeaverInterface (for BaseJoinPointSpec)
+    specImplementation ":LangSpec2"
+    specImplementation ":WeaverInterface"
+}
+
+
+// Generate weaver abstracts using WeaverGen2 (Java DSL-based)
 tasks.register('generateWeaver', JavaExec) {
     group = "Execution"
-    description = "Generates the Weaver Abstracts from the Language Specification"
-    classpath = configurations.weaverGeneratorRuntime
-    mainClass = 'org.lara.interpreter.weaver.generator.commandline.WeaverGenerator'
+    description = "Generates the Weaver Abstracts using WeaverGen2"
+    classpath = configurations.weaverGeneratorRuntime + sourceSets.spec.runtimeClasspath
+    mainClass = 'org.lara.weavergen2.cli.WeaverGen2Cli'
     args = [
-            '-w', 'SmaliWeaver',
-            '-x', './resources/smali/weaverspecs',
-            '-o', './src',
-            '-p', 'pt.up.fe.specs.alpakka.weaver',
-            '-n', 'pt.up.fe.specs.alpakka.ast.SmaliNode',
-            '-j',
-            '-e'
+        "pt.up.fe.specs.alpakka.weaver.SmaliSpec",
+        "${projectDir}/src",
+        "--base", "org.lara.interpreter.weaver.interf.BaseJoinPointSpec",
+        "--node", "pt.up.fe.specs.alpakka.ast.SmaliNode"
     ]
 }
 

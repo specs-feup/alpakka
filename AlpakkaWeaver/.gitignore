@@ -1,6 +1,4 @@
-src/**/abstracts/*
-!src/**/abstracts/ASmaliWeaverJoinPoint.java
-src/**/exceptions/SmaliWeaverException.java
+src/**/abstracts/
 src/**/enums/
 *.dotty
 SmaliWeaver.json
