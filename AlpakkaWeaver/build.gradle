@@ -75,3 +75,36 @@ tasks.register('generateWeaver', JavaExec) {
 }
 
 compileJava.dependsOn generateWeaver
+
+def alpakkaWeaverInstallDir = layout.buildDirectory.dir('install/AlpakkaWeaver')
+def alpakkaJsJavaBinaries = layout.projectDirectory.dir('../Alpakka-JS/java-binaries')
+
+def syncAlpakkaJsJavaBinaries = tasks.register('syncAlpakkaJsJavaBinaries', Sync) {
+    group = 'distribution'
+    description = 'Synchronizes the AlpakkaWeaver installDist output used by Alpakka-JS.'
+    dependsOn tasks.named('installDist')
+    from alpakkaWeaverInstallDir
+    into alpakkaJsJavaBinaries
+
+    // The destination is also used by npm packaging and must not retain files
+    // that are no longer part of installDist.
+    outputs.upToDateWhen { false }
+
+    doFirst {
+        def installLib = alpakkaWeaverInstallDir.get().dir('lib').asFile
+        if (!installLib.isDirectory()) {
+            throw new GradleException("AlpakkaWeaver installDist output is missing: ${installLib}")
+        }
+
+        def destination = alpakkaJsJavaBinaries.asFile.toPath()
+        if (java.nio.file.Files.isSymbolicLink(destination)) {
+            java.nio.file.Files.delete(destination)
+        } else if (java.nio.file.Files.exists(destination) && !java.nio.file.Files.isDirectory(destination)) {
+            throw new GradleException("Alpakka-JS java-binaries is not a directory: ${destination}")
+        }
+    }
+}
+
+tasks.named('installDist') {
+    finalizedBy syncAlpakkaJsJavaBinaries
+}

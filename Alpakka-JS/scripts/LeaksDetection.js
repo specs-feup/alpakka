@@ -10,11 +10,11 @@ import {
   ReturnStatement,
   Statement,
 } from "@specs-feup/alpakka/api/Joinpoints.js";
-import FunctionExitNode from "../api/alpakka/graphs/cfg/flow/node/instruction/FunctionExitNode.js";
+import * as FunctionExitNode from "../api/alpakka/graphs/cfg/flow/node/instruction/FunctionExitNode.js";
 import Resources from "./Resources.js";
 import ResourceLeak from "./ResourceLeak.js";
-import ConditionNode from "../api/alpakka/graphs/cfg/flow/node/condition/ConditionNode.js";
-import TryCatchNode from "../api/alpakka/graphs/cfg/flow/node/condition/TryCatchNode.js";
+import * as ConditionNode from "../api/alpakka/graphs/cfg/flow/node/condition/ConditionNode.js";
+import * as TryCatchNode from "../api/alpakka/graphs/cfg/flow/node/condition/TryCatchNode.js";
 
 const resources = new Resources().getAllResources();
 
@@ -1408,7 +1408,7 @@ class LeaksDetection {
     const clone = Array.isArray(obj) ? [] : {};
 
     for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
         clone[key] = this.deepClone(obj[key]);
       }
     }

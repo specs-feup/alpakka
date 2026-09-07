@@ -1,7 +1,6 @@
-/api
-/code
 java-binaries
 java-binaries_
+woven_code/
 
 node_modules/
 package-lock.json

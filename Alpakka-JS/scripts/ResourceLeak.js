@@ -1,5 +1,5 @@
 class ResourceLeak {
-  constructor(resource, acquisitionClass, acquisitionJp = undefined) {
+  constructor(resource, acquisitionClass, acquisitionJp) {
     this.resource = resource;
     this.jpList = [];
     this.acquisitionClass = acquisitionClass;
