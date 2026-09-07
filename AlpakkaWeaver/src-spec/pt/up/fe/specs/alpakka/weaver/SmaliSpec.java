@@ -197,13 +197,15 @@ public class SmaliSpec extends WeaverSpec {
         joinPoint("statement")
                 .tooltip("Statement")
                 .attribute("nextStatement", jpRef("statement"))
-                .attribute("prevStatement", jpRef("statement"));
-                // NOTE: the old XML model had a statement attribute 'line' of type
-                // 'lineDirective'. The base join point contract (BaseJoinPointSpec)
-                // already declares a global attribute 'line' (Integer, the source
-                // line), which would clash in Java, so the base contract wins and
-                // 'line' now returns the (undefined) source line number. The
-                // 'lineDirective' join point is still reachable through 'children'.
+                .attribute("prevStatement", jpRef("statement"))
+                // The old XML model had a statement attribute 'line' of type
+                // 'lineDirective', but the base join point contract
+                // (BaseJoinPointSpec) already declares a global attribute
+                // 'line' (Integer, the source line), which would clash in
+                // Java. The directive is instead exposed under
+                // 'lineDirective' (it lives in a Statement data key, not in
+                // the AST children, so it is not reachable via 'children').
+                .attribute("lineDirective", jpRef("lineDirective"));
 
         joinPoint("lineDirective")
                 .tooltip("Line directive")

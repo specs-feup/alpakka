@@ -153,8 +153,8 @@ function getLineInfo(jp) {
   let currentJp = jp;
 
   while (currentJp !== undefined) {
-    if (currentJp.line !== undefined) {
-      line = currentJp.line.value.code;
+    if (currentJp.lineDirective !== undefined) {
+      line = currentJp.lineDirective.value;
 
       return "Line " + line + ": ";
     }

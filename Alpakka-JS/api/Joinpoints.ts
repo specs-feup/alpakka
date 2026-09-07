@@ -470,6 +470,7 @@ export class Statement extends Joinpoint {
   static readonly _defaultAttributeInfo: {readonly map?: DefaultAttributeMap, readonly name: string | null, readonly type?: PrivateMapper, readonly jpMapper?: typeof JoinpointMapper} = {
     name: null,
   };
+  get lineDirective(): LineDirective { return wrapJoinPoint(this._javaObject.lineDirective()) }
   get nextStatement(): Statement { return wrapJoinPoint(this._javaObject.nextStatement()) }
   get prevStatement(): Statement { return wrapJoinPoint(this._javaObject.prevStatement()) }
 }
